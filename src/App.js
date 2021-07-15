@@ -6,7 +6,7 @@ const App = () => {
   return (
     <Router>
       <Route path="/" exact component={Landing} />
-      <Route path="/login" component={Login} />
+      <Route path="/masuk" exact component={Login} />
     </Router>
   );
 };

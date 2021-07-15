@@ -1,12 +1,13 @@
-import React from 'react';
+import React from "react";
 
-const SectionTitle = (props) => {
+const SectionTitle = ({ heading, body }) => {
   return (
     <div>
-      <h1 className="font-bold text-4xl mb-4">{props.heading}</h1>
-      <p>{props.body}</p>
+      <h1 className="font-bold text-4xl mb-4">{heading}</h1>
+
+      {body && <p>{body}</p>}
     </div>
-  )
-}
+  );
+};
 
 export default SectionTitle;
