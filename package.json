@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.2.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -13,10 +14,10 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "start_resetcache": "react-app-rewired start --reset-cache",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
+    "start": "craco start",
+    "start_resetcache": "craco start --reset-cache",
+    "build": "craco build",
+    "test": "craco test",    
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -38,12 +39,15 @@
     ]
   },
   "devDependencies": {
+    "autoprefixer": "^9",
     "babel-plugin-module-resolver": "^4.1.0",
     "eslint": "^7.30.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-react": "^7.24.0",
+    "postcss": "^7",
     "prettier": "2.3.2",
     "react-app-rewire-alias": "^1.0.3",
-    "react-app-rewired": "^2.1.8"
+    "react-app-rewired": "^2.1.8",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat"
   }
 }
