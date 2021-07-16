@@ -17,7 +17,8 @@ const Login = () => {
           hover="hover:bg-yellow-600"
           fontColor="text-white"
           width="100%"
-          size="w-screen"
+          size="w-full"
+          borderRadius="rounded-full"
         />
       </ContentContainer>
     </div>
