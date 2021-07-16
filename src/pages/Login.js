@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { ContentContainer, InputText, SectionTitle, Button } from "@components";
-import { logregLogo } from "@assets";
+import React, { useState } from 'react';
+import { ContentContainer, InputText, SectionTitle, Button } from '@components';
+import { logregLogo } from '@assets';
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   return (
     <div className="flex flex-row justify-between items-start p-8">
