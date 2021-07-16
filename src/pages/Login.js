@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   ContentContainer,
   InputText,
@@ -7,10 +7,19 @@ import {
   Button,
 } from "@components";
 import { logregLogo } from "@assets";
+import { useForm } from "react-hook-form";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+    console.log(errors);
+  };
 
   return (
     <div className="flex flex-row justify-between items-start p-8">
@@ -20,22 +29,28 @@ const Login = () => {
           heading="Masuk"
           body="Ayo masuk ke akunmu untuk mulai belajar/mengajar"
         />
-        <InputText
-          label="Email"
-          placeholder="Contoh: handoko@gmail.com"
-          value={email}
-          onChange={setEmail}
-        />
-        <InputPassword
-          label="Kata Sandi"
-          placeholder="Masukkan kata sandi Anda"
-          value={password}
-          onChange={setPassword}
-        />
-        <Button
-          text="Masuk"
-          additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 text-white w-full rounded-full"
-        />
+
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <InputText
+            label="Email"
+            useHookRegister={register("email", {
+              required: "Email harus diisi",
+            })}
+            placeholder="Contoh: handoko@gmail.com"
+          />
+          <InputPassword
+            label="Kata Sandi"
+            useHookRegister={register("password", {
+              required: "Kata sandi harus diisi",
+            })}
+            placeholder="Masukkan kata sandi Anda"
+          />
+          <Button
+            type="submit"
+            text="Masuk"
+            additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 text-white w-full rounded-full"
+          />
+        </form>
       </ContentContainer>
     </div>
   );
