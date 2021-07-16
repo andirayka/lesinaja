@@ -5,7 +5,7 @@ const InputPassword = ({ label, placeholder, useHookRegister }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="mt-4 bg-pink-50 relative">
+    <div className="mt-4 relative">
       <p className="text-left text-base font-medium">{label}</p>
       <input
         type={showPassword ? "text" : "password"}
