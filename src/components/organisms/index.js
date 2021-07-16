@@ -1,3 +1,4 @@
-import ContentContainer from "./ContentContainer";
+import ContentContainer from './ContentContainer';
+import Sidebar from './Sidebar';
 
-export { ContentContainer };
+export { ContentContainer, Sidebar };
