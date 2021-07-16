@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { ContentContainer, InputText, SectionTitle, Button } from '@components';
+import {
+  ContentContainer,
+  InputText,
+  SectionTitle,
+  Button,
+  InputRadio,
+} from '@components';
 import { logregLogo } from '@assets';
 
 const Register = () => {
@@ -15,6 +21,12 @@ const Register = () => {
           body="Daftarkan dirimu dan nikmati pengalaman belajar/mengajar yang asyik"
         />
         <InputText label="Email" value={email} onChange={setEmail} />
+        <InputRadio
+          heading="Saya Adalah"
+          label="Tutor/Pengajar"
+          value="Tutor/Pengajar"
+        />
+        <InputRadio label="Tutor/Pengajar" value="Tutor/Pengajar" />
         <Button
           text="daftar"
           additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 text-white w-full rounded-full"
