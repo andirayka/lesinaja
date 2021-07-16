@@ -3,5 +3,6 @@ import Login from "./Login";
 import Account from "./Account";
 import Register from "./Register";
 import Home from "./Home";
+import ListTutor from "./ListTutor";
 
-export { Landing, Login, Account, Register, Home };
+export { Landing, Login, Account, Register, Home, ListTutor };

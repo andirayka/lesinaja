@@ -1,14 +1,12 @@
 import React from "react";
-import { Title } from "@components";
+import { Title, CardItem } from "@components";
 
 const Home = () => {
   return (
     <div>
-      <Title
-        text="Beranda Administrator"
-        containerClass="bg-white"
-        textClass="text-xl"
-      />
+      <Title text="Beranda Administrator" type="pageTitle" />
+
+      <CardItem title="Beranda Administrator" />
     </div>
   );
 };
