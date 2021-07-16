@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 const SectionTitle = ({ heading, body }) => {
   return (
     <div>
-      <h1 className="font-bold text-4xl mb-4 default-green">{heading}</h1>
+      <p className="text-left text-2xl font-bold">{heading}</p>
 
-      {body && <p>{body}</p>}
+      {body && <p className="text-left text-base mt-1">{body}</p>}
     </div>
   );
 };
