@@ -23,10 +23,12 @@ const Account = () => {
   };
 
   return (
-    <div>
-      <Sidebar />
+    <div className="">
+      <div className="">
+        <Sidebar />
+      </div>
 
-      <ContentContainer>
+      <ContentContainer className="">
         {/* Nama */}
         <SectionTitle heading="Akun Administrator" />
         <InputText

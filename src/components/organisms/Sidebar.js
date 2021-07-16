@@ -1,10 +1,11 @@
 import React from 'react';
 import { SidebarItem } from "@components";
 import { mainLogo } from "@assets";
+import { HomeIcon } from '@heroicons/react/solid';
 
 const Sidebar = () => {
     return (
-        <div className="bg-white m-9 rounded-md max-w-sm">
+        <div className="bg-white rounded-md max-w-sm">
             <div>
                 <img src={mainLogo} alt="" className="w-64" />
             </div>
@@ -12,15 +13,11 @@ const Sidebar = () => {
                 <SidebarItem 
                     text="Beranda"
                     additionalClassName="bg-yellow-400"
+                    icon={<HomeIcon className="w-10 inline-block" />}
                 />
                 <SidebarItem 
                     text="Beranda"
-                />
-                <SidebarItem 
-                    text="Beranda"
-                />
-                <SidebarItem 
-                    text="Beranda"
+                    icon={<HomeIcon className="w-10 inline-block" />}
                 />
             </div>
         </div>
