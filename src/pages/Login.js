@@ -7,7 +7,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row justify-between items-start p-8">
       <img src={logregLogo} className="hidden md:block m-10 w-2/4" al="" />
       <ContentContainer>
         <SectionTitle
@@ -17,12 +17,7 @@ const Login = () => {
         <InputText label="Email" value={email} onChange={setEmail} />
         <Button
           text="Masuk"
-          bgColor="bg-yellow-400"
-          hover="hover:bg-yellow-600"
-          fontColor="text-white"
-          width="100%"
-          size="w-full"
-          borderRadius="rounded-full"
+          additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 text-white w-full rounded-full"
         />
       </ContentContainer>
     </div>
