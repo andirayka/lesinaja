@@ -1,5 +1,5 @@
 import React from 'react';
-import { Landing, Login, Register } from '@pages';
+import { Landing, Login, Register, Account } from '@pages';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 const App = () => {
