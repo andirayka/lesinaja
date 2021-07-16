@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 import {
   ContentContainer,
   InputText,
   InputPassword,
   SectionTitle,
   Button,
-} from "@components";
-import { logregLogo } from "@assets";
-import { useForm } from "react-hook-form";
+} from '@components';
+import { logregLogo } from '@assets';
+import { useForm } from 'react-hook-form';
 
 const Login = () => {
   const {
@@ -33,18 +33,24 @@ const Login = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <InputText
             label="Email"
-            useHookRegister={register("email", {
-              required: "Email harus diisi",
+            useHookRegister={register('email', {
+              required: 'Email harus diisi',
             })}
             placeholder="Contoh: handoko@gmail.com"
           />
+          {errors.email && (
+            <p className="text-red-400">{errors.email.message}</p>
+          )}
           <InputPassword
             label="Kata Sandi"
-            useHookRegister={register("password", {
-              required: "Kata sandi harus diisi",
+            useHookRegister={register('password', {
+              required: 'Kata sandi harus diisi',
             })}
             placeholder="Masukkan kata sandi Anda"
           />
+          {errors.password && (
+            <p className="text-red-400">{errors.password.message}</p>
+          )}
           <Button
             type="submit"
             text="Masuk"
