@@ -1,4 +1,3 @@
-import Contoh from './Contoh';
-import ContentContainer from './ContentContainer';
+import ContentContainer from "./ContentContainer";
 
-export { Contoh, ContentContainer };
+export { ContentContainer };
