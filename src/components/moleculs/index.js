@@ -1,5 +1,5 @@
-import InputText from "./InputText";
-import InputPassword from "./InputPassword";
-import SectionTitle from "./SectionTitle";
+import InputText from './InputText';
+import SectionTitle from './SectionTitle';
+import SidebarItem from "./SidebarItem";
 
-export { InputText, InputPassword, SectionTitle };
+export { InputText, SectionTitle, SidebarItem };
