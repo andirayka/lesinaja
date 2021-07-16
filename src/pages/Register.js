@@ -1,16 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   ContentContainer,
   InputText,
+  InputRadio,
+  InputPassword,
   SectionTitle,
   Button,
-  InputRadio,
 } from '@components';
 import { logregLogo } from '@assets';
+import { useForm } from 'react-hook-form';
 
 const Register = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+    console.log(errors);
+  };
 
   return (
     <div className="flex flex-row justify-between items-start p-8">
@@ -20,17 +30,43 @@ const Register = () => {
           heading="Daftar Pengguna Baru"
           body="Daftarkan dirimu dan nikmati pengalaman belajar/mengajar yang asyik"
         />
-        <InputText label="Email" value={email} onChange={setEmail} />
-        <InputRadio
-          heading="Saya Adalah"
-          label="Tutor/Pengajar"
-          value="Tutor/Pengajar"
-        />
-        <InputRadio label="Tutor/Pengajar" value="Tutor/Pengajar" />
-        <Button
-          text="daftar"
-          additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 text-white w-full rounded-full"
-        />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <InputText
+            label="Nama"
+            useHookRegister={register('nama', {
+              required: 'Nama harus diisi',
+            })}
+            placeholder="Contoh: Handoko Wahyudi"
+          />
+          <InputText
+            label="Email"
+            useHookRegister={register('email', {
+              required: 'Email harus diisi',
+            })}
+            placeholder="Contoh: handoko@gmail.com"
+          />
+          <InputPassword
+            label="Kata Sandi"
+            useHookRegister={register('password', {
+              required: 'Kata sandi harus diisi',
+            })}
+            placeholder="Masukkan kata sandi Anda"
+          />
+          <InputPassword
+            label="Ulangi Kata Sandi"
+            useHookRegister={register('repeatedPassword', {
+              required: 'Kata sandi tidak sama dengan kata sandi sebelumnya',
+            })}
+            placeholder="Masukkan ulang kata sandi Anda"
+          />
+          <InputRadio heading="Saya Adalah" label="Tutor/Pengajar" />
+          <InputRadio label="Wali Murid" />
+          <Button
+            type="submit"
+            text="Daftar"
+            additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 text-white w-full rounded-full"
+          />
+        </form>
       </ContentContainer>
     </div>
   );

@@ -1,6 +1,8 @@
-import Landing from './Landing';
-import Login from './Login';
-import Account from './Account'
-import Register from './Register';
+import Landing from "./Landing";
+import Login from "./Login";
+import Account from "./Account";
+import Register from "./Register";
+import Home from "./Home";
+import ListTutor from "./ListTutor";
 
-export { Landing, Login, Account, Register };
+export { Landing, Login, Account, Register, Home, ListTutor };

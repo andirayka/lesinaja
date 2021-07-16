@@ -1,4 +1,5 @@
-import ContentContainer from './ContentContainer';
-import Sidebar from './Sidebar';
+import ContentContainer from "./ContentContainer";
+import Sidebar from "./Sidebar";
+import CardItem from "./CardItem";
 
-export { ContentContainer, Sidebar };
+export { ContentContainer, Sidebar, CardItem };
