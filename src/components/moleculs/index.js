@@ -1,5 +1,4 @@
-import InputText from "./InputText";
-import ContentContainer from "../organisms/ContentContainer";
-import SectionTitle from "./SectionTitle";
+import InputText from './InputText';
+import SectionTitle from './SectionTitle';
 
-export { InputText, ContentContainer, SectionTitle };
+export { InputText, SectionTitle };

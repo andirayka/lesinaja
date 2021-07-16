@@ -1,6 +1,6 @@
-import React from "react";
-import { Landing, Login } from "@pages";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React from 'react';
+import { Landing, Login } from '@pages';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 const App = () => {
   return (

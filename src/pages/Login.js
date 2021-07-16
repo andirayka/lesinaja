@@ -1,9 +1,11 @@
-import React from "react";
-import { ContentContainer, SectionTitle } from "@components";
+import React from 'react';
+import { ContentContainer, SectionTitle } from '@components';
+import { logregLogo } from '@assets';
 
 const Login = () => {
   return (
     <div className="flex flex-row">
+      <img src={logregLogo} alt="" />
       <ContentContainer>
         <SectionTitle
           heading="Masuk"
