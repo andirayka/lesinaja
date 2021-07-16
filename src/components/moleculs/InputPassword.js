@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
 
-const InputPassword = ({ label, value, placeholder, onChange }) => {
+const InputPassword = ({ label, placeholder, useHookRegister }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -9,9 +9,8 @@ const InputPassword = ({ label, value, placeholder, onChange }) => {
       <p className="text-left text-base font-medium">{label}</p>
       <input
         type={showPassword ? "text" : "password"}
-        value={value}
         placeholder={placeholder}
-        onChange={({ target }) => onChange(target.value)}
+        {...useHookRegister}
         className="border-2 rounded-lg outline-none border-gray-200 px-1 py-1.5 w-full focus:border-gray-600"
       />
       <button
