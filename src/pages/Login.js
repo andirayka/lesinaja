@@ -5,7 +5,7 @@ import { logregLogo } from '@assets';
 const Login = () => {
   return (
     <div className="flex flex-row">
-      <img src={logregLogo} alt="" />
+      <img src={logregLogo} className="hidden md:block m-10 w-2/4" al="" />
       <ContentContainer>
         <SectionTitle
           heading="Masuk"
