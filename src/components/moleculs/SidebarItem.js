@@ -2,7 +2,7 @@ import React from "react";
 
 const SidebarItem = () => {
     return (
-        <div>Percobaan Lagi</div>
+        <button>Percobaan Button Item side Bar</button>
     )
 }
 
