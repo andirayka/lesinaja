@@ -70,8 +70,13 @@ const Register = () => {
             placeholder="Masukkan ulang kata sandi Anda"
           />
 
-          <InputRadio heading="Saya Adalah" label="Tutor/Pengajar" />
-          <InputRadio label="Wali Murid" />
+          <InputRadio heading="Saya adalah" />
+          {[
+            { id: 1, role: 'Tutor/Pengajar', radioItem: 'Tutor/Pengajar' },
+            { id: 2, role: 'Wali Murid', radioItem: 'Wali Murid' },
+          ].map(({ id, radioItem, role }) => {
+            return <InputRadio key={id} id={radioItem} label={role} />;
+          })}
           <Button
             type="submit"
             text="Daftar"

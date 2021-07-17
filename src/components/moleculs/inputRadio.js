@@ -1,16 +1,24 @@
 import React from 'react';
 
-const InputRadio = ({ heading, label, useHookRegister }) => {
+const InputRadio = ({ id, heading, label, useHookRegister }) => {
   return (
-    <div>
+    <>
       {heading && (
         <p className="text-left text-base font-medium mt-4">{heading}</p>
       )}
-      <input type="radio" {...useHookRegister} className="form-radio" />
-      <label htmlFor="" className="">
-        {label}
-      </label>
-    </div>
+
+      <div className="inline-block">
+        {id && (
+          <input type="radio" id={id} {...useHookRegister} className="mr-2" />
+        )}
+
+        {label && (
+          <label htmlFor={id} className="mr-2">
+            {label}
+          </label>
+        )}
+      </div>
+    </>
   );
 };
 
