@@ -39,8 +39,9 @@ const Login = () => {
             placeholder="Contoh: handoko@gmail.com"
           />
           {errors.email && (
-            <p className="text-red-400">{errors.email.message}</p>
+            <p className="text-red-500">{errors.email.message}</p>
           )}
+
           <InputPassword
             label="Kata Sandi"
             useHookRegister={register('password', {
@@ -49,8 +50,9 @@ const Login = () => {
             placeholder="Masukkan kata sandi Anda"
           />
           {errors.password && (
-            <p className="text-red-400">{errors.password.message}</p>
+            <p className="text-red-500">{errors.password.message}</p>
           )}
+
           <Button
             type="submit"
             text="Masuk"

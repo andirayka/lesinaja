@@ -33,11 +33,13 @@ const Register = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <InputText
             label="Nama"
-            useHookRegister={register('nama', {
+            useHookRegister={register('name', {
               required: 'Nama harus diisi',
             })}
             placeholder="Contoh: Handoko Wahyudi"
           />
+          {errors.name && <p className="text-red-500">{errors.name.message}</p>}
+
           <InputText
             label="Email"
             useHookRegister={register('email', {
@@ -45,6 +47,10 @@ const Register = () => {
             })}
             placeholder="Contoh: handoko@gmail.com"
           />
+          {errors.email && (
+            <p className="text-red-500">{errors.email.message}</p>
+          )}
+
           <InputPassword
             label="Kata Sandi"
             useHookRegister={register('password', {
@@ -52,13 +58,18 @@ const Register = () => {
             })}
             placeholder="Masukkan kata sandi Anda"
           />
+          {errors.password && (
+            <p className="text-red-500">{errors.password.message}</p>
+          )}
+
           <InputPassword
             label="Ulangi Kata Sandi"
-            useHookRegister={register('repeatedPassword', {
+            useHookRegister={register('repeatPassword', {
               required: 'Kata sandi tidak sama dengan kata sandi sebelumnya',
             })}
             placeholder="Masukkan ulang kata sandi Anda"
           />
+
           <InputRadio heading="Saya Adalah" label="Tutor/Pengajar" />
           <InputRadio label="Wali Murid" />
           <Button
