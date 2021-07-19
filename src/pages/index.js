@@ -7,6 +7,7 @@ import NotFound from "./NotFound";
 import ListTutor from "./ListTutor";
 import ListMaster from "./ListMaster";
 import ListPayment from "./ListPayment";
+import ListCourse from "./ListCourse";
 
 export {
   Landing,
@@ -18,4 +19,5 @@ export {
   ListTutor,
   ListMaster,
   ListPayment,
+  ListCourse,
 };

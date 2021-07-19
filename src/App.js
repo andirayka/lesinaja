@@ -9,6 +9,7 @@ import {
   ListTutor,
   ListMaster,
   ListPayment,
+  ListCourse,
 } from "@pages";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/daftar-tutor" exact component={ListTutor} />
         <Route path="/daftar-master" exact component={ListMaster} />
         <Route path="/daftar-pembayaran" exact component={ListPayment} />
+        <Route path="/daftar-pilihanles" exact component={ListCourse} />
         <Route component={NotFound} />
       </Switch>
     </Router>
