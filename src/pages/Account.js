@@ -23,12 +23,10 @@ const Account = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row p-8">
-      <div>
-        <Sidebar />
-      </div>
+    <div className="flex flex-col items-start md:flex-row p-8">
+      <Sidebar />
 
-      <ContentContainer additionalClassName="flex-none w-8/12 bg-white rounded-lg p-6 ml-auto">
+      <ContentContainer additionalClassName="w-full flex-grow bg-white rounded-lg p-6 ml-8">
         {/* Nama */}
         <SectionTitle heading="Akun Administrator" />
         <InputText
