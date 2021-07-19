@@ -1,4 +1,5 @@
-import Button from "./Button";
-import Title from "./Title";
+import Button from './Button';
+import Title from './Title';
+import Pagination from './Pagination';
 
-export { Button, Title };
+export { Button, Title, Pagination };

@@ -1,5 +1,5 @@
-import React from "react";
-import { Title, CardItem, CardNotification } from "@components";
+import React from 'react';
+import { Title, CardItem, CardNotification, Pagination } from '@components';
 
 const Home = () => {
   return (
@@ -17,6 +17,7 @@ const Home = () => {
             />
           );
         })}
+        <Pagination />
       </CardItem>
     </div>
   );
