@@ -4,6 +4,7 @@ import SectionTitle from "./SectionTitle";
 import InputRadio from "./inputRadio";
 import SidebarItem from "./SidebarItem";
 import CardKeyValue from "./CardKeyValue";
+import CardNotification from "./CardNotification";
 
 export {
   InputText,
@@ -12,4 +13,5 @@ export {
   InputRadio,
   SidebarItem,
   CardKeyValue,
+  CardNotification,
 };

@@ -8,11 +8,7 @@ const ListTutor = () => {
 
       {[1, 1, 1, 1, 1, 1].map((item, key) => {
         return (
-          <CardItem
-            key={key}
-            title="Beranda Administrator"
-            containerClass="mt-8"
-          >
+          <CardItem key={key} title="Abdul Majid, S.Kom." containerClass="mt-8">
             <CardKeyValue keyName="Email" value="handoko@gmail.com" />
             <CardKeyValue keyName="No. WA" value="089912345678" />
             <CardKeyValue
