@@ -24,7 +24,7 @@ const Login = () => {
   return (
     <div className="flex flex-row justify-between items-start p-8">
       <img src={logregLogo} className="hidden md:block m-10 w-2/4" />
-      <ContentContainer>
+      <ContentContainer additionalClassName="flex-grow md:flex-grow-0 bg-white rounded-lg p-6">
         <SectionTitle
           heading="Masuk"
           body="Ayo masuk ke akunmu untuk mulai belajar/mengajar"
