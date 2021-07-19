@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Title,
   CardItem,
-  Pagination,
+  Paginations,
   CardNotification,
   CardTable,
 } from '@components';
@@ -24,7 +24,7 @@ const Home = () => {
             />
           );
         })}
-        <Pagination />
+        <Paginations />
       </CardItem>
 
       {/* Social Media Effectivity */}

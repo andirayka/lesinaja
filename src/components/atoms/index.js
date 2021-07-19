@@ -1,5 +1,5 @@
 import Button from './Button';
 import Title from './Title';
-import Pagination from './Pagination';
+import Paginations from './Paginations';
 
-export { Button, Title, Pagination };
+export { Button, Title, Paginations };
