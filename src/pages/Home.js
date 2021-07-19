@@ -1,5 +1,11 @@
-import React from "react";
-import { Title, CardItem, CardNotification, CardTable } from "@components";
+import React from 'react';
+import {
+  Title,
+  CardItem,
+  Pagination,
+  CardNotification,
+  CardTable,
+} from '@components';
 
 const Home = () => {
   return (
@@ -18,16 +24,17 @@ const Home = () => {
             />
           );
         })}
+        <Pagination />
       </CardItem>
 
       {/* Social Media Effectivity */}
       <CardItem title="Efektivitas Sosial Media" containerClass="mt-8">
         <CardTable
-          headerValues={["Sosial Media", "Efektivitas", "Keterangan"]}
+          headerValues={['Sosial Media', 'Efektivitas', 'Keterangan']}
           contentValues={[
-            ["Facebook", "40%", "100 wali murid tahu Lesin Aja dari Facebook"],
-            ["Tiktok", "40%", "100 wali murid tahu Lesin Aja dari Tiktok"],
-            ["Instagram", "20%", "50 wali murid tahu Lesin Aja dari Instagram"],
+            ['Facebook', '40%', '100 wali murid tahu Lesin Aja dari Facebook'],
+            ['Tiktok', '40%', '100 wali murid tahu Lesin Aja dari Tiktok'],
+            ['Instagram', '20%', '50 wali murid tahu Lesin Aja dari Instagram'],
           ]}
         />
       </CardItem>
