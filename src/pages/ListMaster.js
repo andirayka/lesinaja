@@ -1,5 +1,5 @@
 import React from "react";
-import { Title, CardItem, CardKeyValue, Button } from "@components";
+import { Title, CardItem, Button } from "@components";
 
 const ListMaster = () => {
   return (
