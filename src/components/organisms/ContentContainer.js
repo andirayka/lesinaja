@@ -1,11 +1,7 @@
 import React from 'react';
 
-const ContentContainer = ({ children }) => {
-  return (
-    <div className="flex-grow md:flex-grow-0 bg-white rounded-lg p-6">
-      {children}
-    </div>
-  );
+const ContentContainer = ({ children, additionalClassName }) => {
+  return <div className={additionalClassName}>{children}</div>;
 };
 
 export default ContentContainer;
