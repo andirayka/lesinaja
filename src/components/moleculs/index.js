@@ -6,10 +6,12 @@ import SidebarItem from "./SidebarItem";
 import CardKeyValue from "./CardKeyValue";
 import CardNotification from "./CardNotification";
 import CardTable from "./CardTable";
+import InputSearch from "./InputSearch";
 
 export {
   InputText,
   InputPassword,
+  InputSearch,
   SectionTitle,
   InputRadio,
   SidebarItem,

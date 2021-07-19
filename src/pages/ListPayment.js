@@ -1,10 +1,12 @@
 import React from "react";
-import { Title, CardItem, Button, CardKeyValue } from "@components";
+import { Title, CardItem, Button, CardKeyValue, InputSearch } from "@components";
 
 const ListPayment = () => {
   return (
     <div>
       <Title text="Daftar Data Master Aplikasi" type="pageTitle" />
+
+      <InputSearch />
 
       <CardItem title="Wali Murid Sucipto ke Lesin Aja" containerClass="mt-8">
         <CardKeyValue keyName="Waktu Pembayaran" value="12 Juli 2021, 14:45" />
