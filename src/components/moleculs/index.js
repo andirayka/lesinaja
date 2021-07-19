@@ -5,6 +5,7 @@ import InputRadio from "./inputRadio";
 import SidebarItem from "./SidebarItem";
 import CardKeyValue from "./CardKeyValue";
 import CardNotification from "./CardNotification";
+import CardTable from "./CardTable";
 
 export {
   InputText,
@@ -14,4 +15,5 @@ export {
   SidebarItem,
   CardKeyValue,
   CardNotification,
+  CardTable,
 };
