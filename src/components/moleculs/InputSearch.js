@@ -1,20 +1,29 @@
 import React, {useState} from "react";
 import DataRandom from "./data_random.json";
+import { SearchIcon, AdjustmentsIcon } from "@heroicons/react/solid";
 
 const InputSearch = () => {
     const [searchTerm, setSearchTerm] = useState("")
 
     return (
         <div>
-            <div className="mt-5 rounded-lg outline-none px-1 h-10 w-full bg-gray-700 bg-opacity-75">
-                <input
-                    type="search" 
-                    placeholder="Cari dong Om masa Enggak" 
-                    className="w-full rounded-lg outline-none bg-transparent py-2 text-white inline-block" 
-                    onChange={(event) => {
-                        setSearchTerm(event.target.value);
-                    }}
-                />
+            <div className="flex rounded-lg outline-none px-1 h-10 w-full bg-white bg-opacity-50 mt-8">
+                <div className="flex-none w-16 h-16">
+                    <SearchIcon className="w-10 ml-2 opacity-50" />
+                </div>
+                <div className="flex-grow h-16">
+                    <input
+                        type="search" 
+                        placeholder="Cari Tutor" 
+                        className="w-full rounded-lg outline-none bg-transparent py-2 placeholder-gray-600" 
+                        onChange={(event) => {
+                            setSearchTerm(event.target.value);
+                        }}
+                    />
+                </div>
+                <div className="flex-none w-16 h-16">
+                    <AdjustmentsIcon className="w-10 ml-2 opacity-50" />
+                </div>
             </div>
             <div>
                 {DataRandom.filter((val) => {
