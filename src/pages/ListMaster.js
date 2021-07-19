@@ -1,5 +1,6 @@
 import React from "react";
 import { Title, CardItem, Button } from "@components";
+import { Link } from "react-router-dom";
 
 const ListMaster = () => {
   return (
@@ -12,11 +13,18 @@ const ListMaster = () => {
           <p>TK</p>
           <p>1 SD</p>
           <div className="flex-row mt-8">
-            <Button
-              text="Lihat Lebih Banyak"
-              additionalClassName="bg-blue-300 rounded-lg font-medium"
-              onClick={() => {}}
-            />
+            <Link
+              to={{
+                pathname: "/form-master",
+                state: { title: "Jenjang Kelas" },
+              }}
+            >
+              <Button
+                text="Lihat Lebih Banyak"
+                additionalClassName="bg-blue-300 rounded-lg font-medium"
+                onClick={() => {}}
+              />
+            </Link>
           </div>
         </CardItem>
         <CardItem title="Mapel" containerClass="mt-8 w-2/5">
