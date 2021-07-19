@@ -7,7 +7,7 @@ const {
 } = require("customize-cra");
 
 module.exports = override(
-  addPostcssPlugins([require("tailwindcss")]),
+  addPostcssPlugins([require("tailwindcss"), require("autoprefixer")]),
   addWebpackAlias({
     "@pages": path.resolve(__dirname, "src/pages"),
     "@components": path.resolve(__dirname, "src/components"),
