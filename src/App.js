@@ -13,6 +13,14 @@ import {
   FormMaster,
 } from "@pages";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { MainLayout } from "@components";
+
+const layoutPages = [
+  {
+    path: "/akun",
+    component: Account,
+  },
+];
 
 const App = () => {
   return (
@@ -20,8 +28,24 @@ const App = () => {
       <Switch>
         <Route path="/" exact component={Landing} />
         <Route path="/masuk" exact component={Login} />
-        <Route path="/akun" exact component={Account} />
         <Route path="/daftar" exact component={Register} />
+
+        {layoutPages.map((item, index) => {
+          return (
+            <Route
+              key={index}
+              exact
+              path={item.path}
+              render={(props) => {
+                return (
+                  <MainLayout>
+                    <item.component {...props} />
+                  </MainLayout>
+                );
+              }}
+            />
+          );
+        })}
         <Route path="/beranda" exact component={Home} />
         <Route path="/daftar-tutor" exact component={ListTutor} />
         <Route path="/daftar-master" exact component={ListMaster} />
