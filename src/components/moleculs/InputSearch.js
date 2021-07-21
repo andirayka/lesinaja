@@ -5,8 +5,8 @@ import { faSearch, faFilter } from "@fortawesome/free-solid-svg-icons";
 const InputSearch = ({ value, onChange }) => {
   return (
     <div>
-      <div className="flex rounded-lg outline-none px-1 h-10 w-full bg-white bg-opacity-50 mt-8">
-        <div className="flex-none w-16 h-16">
+      <div className="flex rounded-lg outline-none px-1 py-0.5 h-10 w-full bg-white bg-opacity-50 mt-8">
+        <div className="w-16 h-16">
           <FontAwesomeIcon icon={faSearch} size="2x" className="ml-2" />
         </div>
         <div className="flex-grow h-16">
@@ -20,7 +20,7 @@ const InputSearch = ({ value, onChange }) => {
             }}
           />
         </div>
-        <div className="flex-none w-16 h-16">
+        <div className="w-16 h-16">
           <FontAwesomeIcon icon={faFilter} size="2x" className="ml-2" />
         </div>
       </div>

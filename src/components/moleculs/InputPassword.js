@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const InputPassword = ({ label, placeholder, useHookRegister }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,11 +18,11 @@ const InputPassword = ({ label, placeholder, useHookRegister }) => {
         className="absolute right-1 top-6 p-2"
         onClick={() => setShowPassword(!showPassword)}
       >
-        {/* {showPassword ? (
-          <EyeOffIcon className="h-5 w-5 text-gray-500" />
+        {showPassword ? (
+          <FontAwesomeIcon icon={faEye} className="text-gray-200" />
         ) : (
-          <EyeIcon className="h-5 w-5 text-gray-500" />
-        )} */}
+          <FontAwesomeIcon icon={faEyeSlash} className="text-gray-200" />
+        )}
       </button>
     </div>
   );
