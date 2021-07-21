@@ -12,9 +12,9 @@ const FormMaster = () => {
 
   return (
     <div>
-      <Title text={`Daftar ${prevData.title}`} type="pageTitle" />
+      <Title text={`Daftar ${prevData?.title}`} type="pageTitle" />
       <Button
-        text={`Tambah ${prevData.title}`}
+        text={`Tambah ${prevData?.title}`}
         additionalClassName="bg-yellow-500 rounded-lg font-medium mt-4"
         onClick={() => {}}
       />

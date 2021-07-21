@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "@components";
 import { PencilAltIcon, TrashIcon } from "@heroicons/react/outline";
 
 const CardFormMaster = ({ containerClass, data, onDelete }) => {
@@ -29,6 +30,30 @@ const CardFormMaster = ({ containerClass, data, onDelete }) => {
           </div>
         );
       })}
+
+      <div className="flex flex-row py-4">
+        <div className="w-3/4 ml-2.5 text-lg">
+          <input
+            type="text"
+            className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600"
+          />
+        </div>
+        <div className="w-1/4 flex flex-row">
+          <Button
+            text="Simpan"
+            additionalClassName="bg-green-500 rounded-lg"
+            // onClick={}
+          />
+          <Button
+            text="Batal"
+            additionalClassName="bg-green-500 rounded-lg"
+            // onClick={}
+          />
+          {/* <button className="flex-1 flex justify-center" onClick={() => {}}>
+            <PencilAltIcon className="h-8 w-8 text-gray-900" />
+          </button> */}
+        </div>
+      </div>
     </div>
   );
 };
