@@ -22,7 +22,9 @@ const Sidebar = () => {
             text="Beranda"
             additionalClassName="flex flex-row items-center"
           >
-            <FontAwesomeIcon icon={faHome} size="2x" className="mr-3" />
+            <div className="w-12">
+              <FontAwesomeIcon icon={faHome} size="2x" className="mr-3" />
+            </div>
           </SidebarItem>
         </Link>
 
@@ -31,7 +33,9 @@ const Sidebar = () => {
             text="Akun"
             additionalClassName="flex flex-row items-center"
           >
-            <FontAwesomeIcon icon={faUser} size="2x" className="mr-3" />
+            <div className="w-12">
+              <FontAwesomeIcon icon={faUser} size="2x" className="mr-3" />
+            </div>
           </SidebarItem>
         </Link>
 
@@ -40,7 +44,9 @@ const Sidebar = () => {
             text="Data Master"
             additionalClassName="flex flex-row items-center"
           >
-            <FontAwesomeIcon icon={faBriefcase} size="2x" className="mr-3" />
+            <div className="w-12">
+              <FontAwesomeIcon icon={faBriefcase} size="2x" className="mr-3" />
+            </div>
           </SidebarItem>
         </Link>
 
@@ -49,11 +55,13 @@ const Sidebar = () => {
             text="Daftar Tutor"
             additionalClassName="flex flex-row items-center"
           >
-            <FontAwesomeIcon
-              icon={faChalkboardTeacher}
-              size="2x"
-              className="mr-3"
-            />
+            <div className="w-12">
+              <FontAwesomeIcon
+                icon={faChalkboardTeacher}
+                size="2x"
+                className="mr-3"
+              />
+            </div>
           </SidebarItem>
         </Link>
 
@@ -62,11 +70,13 @@ const Sidebar = () => {
             text="Riwayat Pembayaran"
             additionalClassName="flex flex-row items-center"
           >
-            <FontAwesomeIcon
-              icon={faMoneyCheckAlt}
-              size="2x"
-              className="mr-3"
-            />
+            <div className="w-12">
+              <FontAwesomeIcon
+                icon={faMoneyCheckAlt}
+                size="2x"
+                className="mr-3"
+              />
+            </div>
           </SidebarItem>
         </Link>
 
@@ -75,7 +85,9 @@ const Sidebar = () => {
             text="Keluar"
             additionalClassName="flex flex-row items-center"
           >
-            <FontAwesomeIcon icon={faSignOutAlt} size="2x" className="mr-3" />
+            <div className="w-12">
+              <FontAwesomeIcon icon={faSignOutAlt} size="2x" className="mr-3" />
+            </div>
           </SidebarItem>
         </Link>
       </div>
