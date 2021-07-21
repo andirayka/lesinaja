@@ -1,5 +1,5 @@
-import React from 'react';
-import { Title, CardItem, CardKeyValue, Button } from '@components';
+import React from "react";
+import { Title, CardItem, CardKeyValue, Button } from "@components";
 
 const ListTutor = () => {
   return (

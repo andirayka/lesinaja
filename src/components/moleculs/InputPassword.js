@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
 
 const InputPassword = ({ label, placeholder, useHookRegister }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -17,11 +16,11 @@ const InputPassword = ({ label, placeholder, useHookRegister }) => {
         className="absolute right-1 top-6 p-2"
         onClick={() => setShowPassword(!showPassword)}
       >
-        {showPassword ? (
+        {/* {showPassword ? (
           <EyeOffIcon className="h-5 w-5 text-gray-500" />
         ) : (
           <EyeIcon className="h-5 w-5 text-gray-500" />
-        )}
+        )} */}
       </button>
     </div>
   );

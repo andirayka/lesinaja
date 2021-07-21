@@ -1,6 +1,5 @@
 import React from "react";
 import { Button } from "@components";
-import { PencilAltIcon, TrashIcon } from "@heroicons/react/outline";
 
 const CardFormMaster = ({ containerClass, data, onDelete }) => {
   return (
@@ -16,18 +15,14 @@ const CardFormMaster = ({ containerClass, data, onDelete }) => {
             <div className="w-3/4 ml-2.5 text-lg">{item.name}</div>
             <div className="w-1/4 flex flex-row">
               <div className="flex flex-1 justify-center">
-                <button onClick={() => {}}>
-                  <PencilAltIcon className="h-8 w-8 text-gray-900" />
-                </button>
+                <button onClick={() => {}}></button>
               </div>
               <div className="flex flex-1 justify-center">
                 <button
                   onClick={() => {
                     onDelete(item);
                   }}
-                >
-                  <TrashIcon className="h-8 w-8 text-gray-900" />
-                </button>
+                ></button>
               </div>
             </div>
           </div>
