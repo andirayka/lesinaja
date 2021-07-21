@@ -7,6 +7,7 @@ import CardKeyValue from "./CardKeyValue";
 import CardNotification from "./CardNotification";
 import CardTable from "./CardTable";
 import InputSearch from "./InputSearch";
+import RowMaster from "./RowMaster";
 
 export {
   InputText,
@@ -18,4 +19,5 @@ export {
   CardKeyValue,
   CardNotification,
   CardTable,
+  RowMaster,
 };
