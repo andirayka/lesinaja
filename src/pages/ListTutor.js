@@ -1,9 +1,9 @@
-import React from "react";
-import { Title, CardItem, CardKeyValue, Button } from "@components";
+import React from 'react';
+import { Title, CardItem, CardKeyValue, Button } from '@components';
 
 const ListTutor = () => {
   return (
-    <div>
+    <div className="w-full flex-grow ml-8">
       <Title text="Daftar Tutor Lesin Aja" type="pageTitle" />
 
       {[1, 1, 1, 1, 1, 1].map((item, key) => {

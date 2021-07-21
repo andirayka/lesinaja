@@ -11,7 +11,7 @@ const FormMaster = () => {
   ]);
 
   return (
-    <div>
+    <div className="w-full flex-grow ml-8">
       <Title text={`Daftar ${prevData?.title}`} type="pageTitle" />
       <Button
         text={`Tambah ${prevData?.title}`}

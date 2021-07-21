@@ -1,10 +1,10 @@
-import React from "react";
-import { Title, CardItem, Button } from "@components";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Title, CardItem, Button } from '@components';
+import { Link } from 'react-router-dom';
 
 const ListMaster = () => {
   return (
-    <div>
+    <div className="w-full flex-grow ml-8">
       <Title text="Daftar Data Master Aplikasi" type="pageTitle" />
 
       <div className="flex flex-wrap justify-between">
@@ -15,8 +15,8 @@ const ListMaster = () => {
           <div className="flex-row mt-8">
             <Link
               to={{
-                pathname: "/form-master",
-                state: { title: "Jenjang Kelas" },
+                pathname: '/form-master',
+                state: { title: 'Jenjang Kelas' },
               }}
             >
               <Button
