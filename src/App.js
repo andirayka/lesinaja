@@ -12,14 +12,51 @@ import {
   ListCourse,
   FormMaster,
   FormTutor,
+  Keuangan,
 } from "@pages";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { MainLayout } from "@components";
 
 const layoutPages = [
   {
-    path: "/akun",
+    path: ["/akun"],
     component: Account,
+  },
+  {
+    path: ["/beranda"],
+    component: Home,
+  },
+  {
+    path: ["/daftar-tutor"],
+    component: ListTutor,
+  },
+  {
+    path: ["/daftar-master"],
+    component: ListMaster,
+  },
+  {
+    path: ["/daftar-tutor"],
+    component: ListTutor,
+  },
+  {
+    path: ["/daftar-pembayaran"],
+    component: ListPayment,
+  },
+  {
+    path: ["/daftar-pilihanles"],
+    component: ListCourse,
+  },
+  {
+    path: ["/form-master"],
+    component: FormMaster,
+  },
+  {
+    path: ["/form-tutor"],
+    component: FormTutor,
+  },
+  {
+    path: ["/keuangan"],
+    component: Keuangan,
   },
 ];
 
@@ -47,13 +84,6 @@ const App = () => {
             />
           );
         })}
-        <Route path="/beranda" exact component={Home} />
-        <Route path="/daftar-tutor" exact component={ListTutor} />
-        <Route path="/daftar-master" exact component={ListMaster} />
-        <Route path="/daftar-pembayaran" exact component={ListPayment} />
-        <Route path="/daftar-pilihanles" exact component={ListCourse} />
-        <Route path="/form-master" exact component={FormMaster} />
-        <Route path="/form-tutor" exact component={FormTutor} />
         <Route component={NotFound} />
       </Switch>
     </Router>

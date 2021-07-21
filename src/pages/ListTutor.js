@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const ListTutor = () => {
   return (
-    <div>
+    <div className="w-full flex-grow md:ml-8">
       <Title text="Daftar Tutor Lesin Aja" type="pageTitle" />
 
       {[1, 1, 1, 1, 1, 1].map((item, key) => {

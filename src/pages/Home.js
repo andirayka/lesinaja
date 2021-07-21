@@ -9,7 +9,7 @@ import {
 
 const Home = () => {
   return (
-    <div>
+    <div className="w-full flex-grow md:ml-8">
       <Title text="Beranda Administrator" type="pageTitle" />
 
       {/* Notifications */}

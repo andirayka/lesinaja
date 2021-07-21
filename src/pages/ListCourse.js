@@ -1,9 +1,9 @@
-import React from "react";
-import { Title, CardItem, CardKeyValue, Button } from "@components";
+import React from 'react';
+import { Title, CardItem, CardKeyValue, Button } from '@components';
 
 const ListCourse = () => {
   return (
-    <div>
+    <div className="w-full flex-grow ml-8">
       <Title text="Daftar Pilihan Les" type="pageTitle" />
       <Button
         text="Tambah Pilihan Les"

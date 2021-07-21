@@ -10,6 +10,7 @@ import InputSearch from "./InputSearch";
 import InputSelect from "./InputSelect";
 import InputTextarea from "./InputTextarea";
 import InputFile from "./InputFile";
+import RowMaster from "./RowMaster";
 
 export {
   InputText,
@@ -24,4 +25,5 @@ export {
   CardNotification,
   CardTable,
   InputTextarea,
+  RowMaster,
 };

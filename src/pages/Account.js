@@ -22,7 +22,7 @@ const Account = () => {
   };
 
   return (
-    <ContentContainer additionalClassName="w-full flex-grow bg-white rounded-lg p-6 ml-8">
+    <ContentContainer additionalClassName="w-full flex-grow bg-white rounded-lg p-6 md:ml-8">
       {/* Nama */}
       <SectionTitle heading="Akun Administrator" />
       <InputText
@@ -35,7 +35,7 @@ const Account = () => {
       />
       <Button
         onClick={() => alert("berhasil simpan nama")}
-        text="Masuk"
+        text="Simpan"
         additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 text-white w-full rounded-full"
       />
 
@@ -65,7 +65,7 @@ const Account = () => {
         />
         <Button
           type="submit"
-          text="Masuk"
+          text="Simpan"
           additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 text-white w-full rounded-full"
         />
       </form>

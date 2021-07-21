@@ -1,10 +1,16 @@
 import React from "react";
-import { Title, CardItem, Button, CardKeyValue, InputSearch } from "@components";
+import {
+  Title,
+  CardItem,
+  Button,
+  CardKeyValue,
+  InputSearch,
+} from "@components";
 
 const ListPayment = () => {
   return (
-    <div>
-      <Title text="Daftar Data Master Aplikasi" type="pageTitle" />
+    <div className="w-full flex-grow md:ml-8">
+      <Title text="Daftar Riwayat Pembayaran" type="pageTitle" />
 
       <InputSearch />
 

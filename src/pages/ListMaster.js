@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const ListMaster = () => {
   return (
-    <div>
+    <div className="w-full flex-grow md:ml-8">
       <Title text="Daftar Data Master Aplikasi" type="pageTitle" />
 
       <div className="flex flex-wrap justify-between">

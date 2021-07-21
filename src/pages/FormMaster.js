@@ -9,21 +9,28 @@ const FormMaster = () => {
     { id: 2, name: "Bahasa Inggris" },
     { id: 3, name: "IPA" },
   ]);
+  const [formStatus, setFormStatus] = useState("viewing");
 
   return (
-    <div>
-      <Title text={`Daftar ${prevData.title}`} type="pageTitle" />
+    <div className="w-full flex-grow md:ml-8">
+      <Title text={`Daftar ${prevData?.title}`} type="pageTitle" />
       <Button
-        text={`Tambah ${prevData.title}`}
+        text={`Tambah ${prevData?.title}`}
         additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium mt-4"
-        onClick={() => {}}
+        onClick={() => {
+          setFormStatus("adding");
+        }}
       />
 
       <CardFormMaster
+        formStatus={formStatus}
         containerClass="mt-8"
         data={formData}
         onDelete={(item) => {
           setFormData((prev) => prev.filter((o) => o.id != item.id));
+        }}
+        onCancelEditing={() => {
+          setFormStatus("viewing");
         }}
       />
     </div>

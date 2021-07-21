@@ -1,7 +1,13 @@
 import React from "react";
-import { PencilAltIcon, TrashIcon } from "@heroicons/react/outline";
+import { Button } from "@components";
 
-const CardFormMaster = ({ containerClass, data, onDelete }) => {
+const CardFormMaster = ({
+  containerClass,
+  data,
+  formStatus,
+  onDelete,
+  onCancelEditing,
+}) => {
   return (
     <div className={`rounded-md bg-white ${containerClass}`}>
       <div className="rounded-md p-2.5 bg-blue-300 flex flex-row">
@@ -9,22 +15,25 @@ const CardFormMaster = ({ containerClass, data, onDelete }) => {
         <p className="font-semibold text-xl text-center w-1/4">Aksi</p>
       </div>
 
+      {formStatus == "adding" && (
+        <RowMaster type="editing" onClickRight={onCancelEditing} />
+      )}
+
       {data.map((item, key) => {
         return (
           <div key={key} className="flex flex-row py-4">
             <div className="w-3/4 ml-2.5 text-lg">{item.name}</div>
             <div className="w-1/4 flex flex-row">
-              <button className="flex-1 flex justify-center" onClick={() => {}}>
-                <PencilAltIcon className="h-8 w-8 text-gray-900" />
-              </button>
-              <button
-                className="flex-1 flex justify-center"
-                onClick={() => {
-                  onDelete(item);
-                }}
-              >
-                <TrashIcon className="h-8 w-8 text-gray-900" />
-              </button>
+              <div className="flex flex-1 justify-center">
+                <button onClick={() => {}}></button>
+              </div>
+              <div className="flex flex-1 justify-center">
+                <button
+                  onClick={() => {
+                    onDelete(item);
+                  }}
+                ></button>
+              </div>
             </div>
           </div>
         );
