@@ -1,13 +1,14 @@
-import React from 'react';
+import React from "react";
 import {
   ContentContainer,
   InputText,
   InputPassword,
   SectionTitle,
   Button,
-} from '@components';
-import { logregLogo } from '@assets';
-import { useForm } from 'react-hook-form';
+} from "@components";
+import { logregLogo } from "@assets";
+import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 
 const Login = () => {
   const {
@@ -15,10 +16,12 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const history = useHistory();
 
   const onSubmit = (data) => {
-    console.log(data);
-    console.log(errors);
+    // console.log(data);
+    // console.log(errors);
+    history.push("/beranda");
   };
 
   return (
@@ -33,8 +36,8 @@ const Login = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <InputText
             label="Email"
-            useHookRegister={register('email', {
-              required: 'Email harus diisi',
+            useHookRegister={register("email", {
+              required: "Email harus diisi",
             })}
             placeholder="Contoh: handoko@gmail.com"
           />
@@ -44,8 +47,8 @@ const Login = () => {
 
           <InputPassword
             label="Kata Sandi"
-            useHookRegister={register('password', {
-              required: 'Kata sandi harus diisi',
+            useHookRegister={register("password", {
+              required: "Kata sandi harus diisi",
             })}
             placeholder="Masukkan kata sandi Anda"
           />
