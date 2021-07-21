@@ -9,6 +9,7 @@ import ListMaster from "./ListMaster";
 import ListPayment from "./ListPayment";
 import ListCourse from "./ListCourse";
 import FormMaster from "./FormMaster";
+import FormTutor from "./FormTutor";
 
 export {
   Landing,
@@ -22,4 +23,5 @@ export {
   ListPayment,
   ListCourse,
   FormMaster,
+  FormTutor,
 };

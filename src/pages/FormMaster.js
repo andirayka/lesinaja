@@ -15,7 +15,7 @@ const FormMaster = () => {
       <Title text={`Daftar ${prevData.title}`} type="pageTitle" />
       <Button
         text={`Tambah ${prevData.title}`}
-        additionalClassName="bg-yellow-500 rounded-lg font-medium mt-4"
+        additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium mt-4"
         onClick={() => {}}
       />
 

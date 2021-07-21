@@ -11,6 +11,7 @@ import {
   ListPayment,
   ListCourse,
   FormMaster,
+  FormTutor,
 } from "@pages";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { MainLayout } from "@components";
@@ -52,6 +53,7 @@ const App = () => {
         <Route path="/daftar-pembayaran" exact component={ListPayment} />
         <Route path="/daftar-pilihanles" exact component={ListCourse} />
         <Route path="/form-master" exact component={FormMaster} />
+        <Route path="/form-tutor" exact component={FormTutor} />
         <Route component={NotFound} />
       </Switch>
     </Router>

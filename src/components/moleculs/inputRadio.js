@@ -9,7 +9,7 @@ const InputRadio = ({ id, heading, label, useHookRegister }) => {
 
       <div className="inline-block">
         {id && (
-          <input type="radio" id={id} {...useHookRegister} className="mr-2" />
+          <input type="radio" id={id} {...useHookRegister} className="mr-2" name="role" />
         )}
 
         {label && (
