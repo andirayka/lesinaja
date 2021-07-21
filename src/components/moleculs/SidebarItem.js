@@ -1,9 +1,18 @@
 import React from "react";
 
-const SidebarItem = ({ additionalClassName, text, children }) => {
+const SidebarItem = ({
+  additionalClassName,
+  text,
+  children,
+  isActive,
+  onClick,
+}) => {
   return (
     <button
-      className={`hover:bg-yellow-400 py-2 w-full text-left pl-6 ${additionalClassName}`}
+      onClick={onClick}
+      className={`hover:bg-yellow-400 py-2 w-full text-left pl-6 ${additionalClassName} ${
+        isActive && "bg-yellow-400"
+      }`}
     >
       {children}
       {text}

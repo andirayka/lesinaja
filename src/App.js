@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Landing,
   Login,
@@ -11,42 +11,47 @@ import {
   ListPayment,
   ListCourse,
   FormMaster,
-} from '@pages';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { MainLayout } from '@components';
+  Keuangan,
+} from "@pages";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { MainLayout } from "@components";
 
 const layoutPages = [
   {
-    path: ['/akun'],
+    path: ["/akun"],
     component: Account,
   },
   {
-    path: ['/beranda'],
+    path: ["/beranda"],
     component: Home,
   },
   {
-    path: ['/daftar-tutor'],
+    path: ["/daftar-tutor"],
     component: ListTutor,
   },
   {
-    path: ['/daftar-master'],
+    path: ["/daftar-master"],
     component: ListMaster,
   },
   {
-    path: ['/daftar-tutor'],
+    path: ["/daftar-tutor"],
     component: ListTutor,
   },
   {
-    path: ['/daftar-pembayaran'],
+    path: ["/daftar-pembayaran"],
     component: ListPayment,
   },
   {
-    path: ['/daftar-pilihanles'],
+    path: ["/daftar-pilihanles"],
     component: ListCourse,
   },
   {
-    path: ['/form-master'],
+    path: ["/form-master"],
     component: FormMaster,
+  },
+  {
+    path: ["/keuangan"],
+    component: Keuangan,
   },
 ];
 
