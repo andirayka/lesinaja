@@ -83,7 +83,7 @@ const Sidebar = () => {
         <Link to="/masuk">
           <SidebarItem
             text="Keluar"
-            additionalClassName="flex flex-row items-center"
+            additionalClassName="flex flex-row items-center rounded-b-md"
           >
             <div className="w-12">
               <FontAwesomeIcon icon={faSignOutAlt} size="2x" className="mr-3" />

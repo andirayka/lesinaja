@@ -3,7 +3,7 @@ import { Title, CardItem, CardKeyValue, Button } from "@components";
 
 const ListTutor = () => {
   return (
-    <div className="w-full flex-grow ml-8">
+    <div className="w-full flex-grow md:ml-8">
       <Title text="Daftar Tutor Lesin Aja" type="pageTitle" />
 
       {[1, 1, 1, 1, 1, 1].map((item, key) => {

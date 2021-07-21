@@ -9,7 +9,7 @@ import {
 
 const ListPayment = () => {
   return (
-    <div className="w-full flex-grow ml-8">
+    <div className="w-full flex-grow md:ml-8">
       <Title text="Daftar Riwayat Pembayaran" type="pageTitle" />
 
       <InputSearch />

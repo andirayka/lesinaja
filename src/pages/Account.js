@@ -22,7 +22,7 @@ const Account = () => {
   };
 
   return (
-    <ContentContainer additionalClassName="w-full flex-grow bg-white rounded-lg p-6 ml-8">
+    <ContentContainer additionalClassName="w-full flex-grow bg-white rounded-lg p-6 md:ml-8">
       {/* Nama */}
       <SectionTitle heading="Akun Administrator" />
       <InputText
