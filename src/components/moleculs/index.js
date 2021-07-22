@@ -11,6 +11,7 @@ import InputSelect from "./InputSelect";
 import InputTextarea from "./InputTextarea";
 import InputFile from "./InputFile";
 import RowMaster from "./RowMaster";
+import SectionFee from "./SectionFee";
 import NavbarItem from "./NavbarItem";
 
 export {
@@ -27,5 +28,6 @@ export {
   CardTable,
   InputTextarea,
   RowMaster,
+  SectionFee,
   NavbarItem,
 };
