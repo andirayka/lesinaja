@@ -11,6 +11,7 @@ import ListCourse from "./ListCourse";
 import FormMaster from "./FormMaster";
 import FormTutor from "./FormTutor";
 import Keuangan from "./Keuangan";
+import AddListCourse from "./AddListCourse";
 
 export {
   Landing,
@@ -26,4 +27,5 @@ export {
   FormMaster,
   FormTutor,
   Keuangan,
+  AddListCourse,
 };
