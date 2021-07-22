@@ -39,6 +39,11 @@ const AddListCourse = () => {
                 placeholder="Masukkan harga pilihan les"
             />
 
+            <InputText 
+                label="Fee Tutor"
+                placeholder="Masukkan besar Fee tutor"
+            />
+
             <Button
                 type="submit"
                 text="Simpan"
