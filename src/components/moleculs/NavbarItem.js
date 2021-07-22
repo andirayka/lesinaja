@@ -2,8 +2,10 @@ import React from "react";
 
 const NavbarItem = ({ text }) => {
   return (
-    <div className="absolute w-full top-0 bottom-0 left-0 bg-yellow-400 z-50">
-      <button>{text}</button>
+    <div className="w-full bg-yellow-400 z-50">
+      <div className="hover:bg-yellow-600">
+        <button className="text-md py-2 pl-4">{text}</button>
+      </div>
     </div>
   );
 };

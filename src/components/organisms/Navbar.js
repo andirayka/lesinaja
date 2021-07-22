@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { SidebarItem } from "@components/moleculs";
 import { sidebarList } from "@components/organisms";
+import { NavbarItem } from "@components";
 
 const Navbar = () => {
   const [isOpen, setOpen] = useState(false);
@@ -27,7 +28,7 @@ const Navbar = () => {
           sidebarList.map((item, index) => {
             return (
               <Link key={index} to={item.path}>
-                <SidebarItem text={item.text} />
+                <NavbarItem text={item.text} />
               </Link>
             );
           })}

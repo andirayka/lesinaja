@@ -1,15 +1,15 @@
-import React from 'react';
-import { Title, CardItem, CardKeyValue, Button } from '@components';
+import React from "react";
+import { Title, CardItem, CardKeyValue, Button } from "@components";
 import { Link } from "react-router-dom";
 
 const ListCourse = () => {
   return (
-    <div className="w-full flex-grow ml-8">
+    <div className="w-full flex-grow md:ml-8">
       <Title text="Daftar Pilihan Les" type="pageTitle" />
       <Link
-      to={{
-        pathname: "/tambah-pilihanles",
-      }}
+        to={{
+          pathname: "/tambah-pilihanles",
+        }}
       >
         <Button
           text="Tambah Pilihan Les"
