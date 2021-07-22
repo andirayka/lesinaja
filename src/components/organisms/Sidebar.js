@@ -78,4 +78,5 @@ const Sidebar = () => {
   );
 };
 
+export { sidebarList };
 export default Sidebar;

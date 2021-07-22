@@ -11,6 +11,7 @@ import InputSelect from "./InputSelect";
 import InputTextarea from "./InputTextarea";
 import InputFile from "./InputFile";
 import RowMaster from "./RowMaster";
+import NavbarItem from "./NavbarItem";
 
 export {
   InputText,
@@ -26,4 +27,5 @@ export {
   CardTable,
   InputTextarea,
   RowMaster,
+  NavbarItem,
 };
