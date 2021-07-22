@@ -16,7 +16,11 @@ const CardFormMaster = ({
       </div>
 
       {formStatus == "adding" && (
-        <RowMaster type="editing" onClickRight={onCancelEditing} />
+        <RowMaster
+          type="editing"
+          onClickRight={onCancelEditing}
+          onClickLeft={() => {}}
+        />
       )}
 
       {data.map((item, key) => {
