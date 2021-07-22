@@ -11,7 +11,7 @@ const Navbar = () => {
   const [isOpen, setOpen] = useState(false);
 
   const openHandler = () => {
-    setOpen(true);
+    !isOpen ? setOpen(true) : setOpen(false);
   };
 
   return (
