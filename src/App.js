@@ -11,7 +11,9 @@ import {
   ListPayment,
   ListCourse,
   FormMaster,
+  FormTutor,
   Keuangan,
+  AddListCourse,
 } from "@pages";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { MainLayout } from "@components";
@@ -47,8 +49,16 @@ const layoutPages = [
     component: ListCourse,
   },
   {
+    path: ["/tambah-pilihanles"],
+    component: AddListCourse,
+  },
+  {
     path: ["/form-master"],
     component: FormMaster,
+  },
+  {
+    path: ["/form-tutor"],
+    component: FormTutor,
   },
   {
     path: ["/keuangan"],

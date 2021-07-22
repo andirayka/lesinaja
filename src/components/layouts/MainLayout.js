@@ -1,9 +1,10 @@
-import { Sidebar } from "@components/organisms";
+import { Sidebar, Navbar } from "@components/organisms";
 import React from "react";
 
 const MainLayout = ({ children }) => {
   return (
-    <div className="flex flex-col items-start md:flex-row p-8">
+    <div className="flex flex-col items-start md:flex-row pt-24 md:pt-8 p-8 ">
+      <Navbar />
       <Sidebar />
       {children}
     </div>

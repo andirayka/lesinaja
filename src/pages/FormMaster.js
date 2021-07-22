@@ -12,11 +12,11 @@ const FormMaster = () => {
   const [formStatus, setFormStatus] = useState("viewing");
 
   return (
-    <div className="w-full flex-grow ml-8">
+    <div className="w-full flex-grow md:ml-8">
       <Title text={`Daftar ${prevData?.title}`} type="pageTitle" />
       <Button
         text={`Tambah ${prevData?.title}`}
-        additionalClassName="bg-yellow-500 rounded-lg font-medium mt-4"
+        additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium mt-4"
         onClick={() => {
           setFormStatus("adding");
         }}

@@ -1,9 +1,10 @@
 import React from "react";
 import { Title, CardItem, CardKeyValue, Button } from "@components";
+import { Link } from "react-router-dom";
 
 const ListTutor = () => {
   return (
-    <div className="w-full flex-grow ml-8">
+    <div className="w-full flex-grow md:ml-8">
       <Title text="Daftar Tutor Lesin Aja" type="pageTitle" />
 
       {[1, 1, 1, 1, 1, 1].map((item, key) => {
@@ -17,11 +18,22 @@ const ListTutor = () => {
             />
             <CardKeyValue keyName="Mata Pelajaran" value="Matematika" />
             <div className="flex-row mt-8">
-              <Button
-                text="Lihat Detail"
-                additionalClassName="bg-blue-300 rounded-lg font-medium"
-                onClick={() => {}}
-              />
+              <Link
+                to={{
+                  pathname: "/form-tutor",
+                  state: { 
+                    name: "Abdul Majid, S.Kom.",
+                    email: "handoko@gmail.com",
+                    nomor: "089912345678"
+                  },
+                }}
+              >
+                <Button
+                  text="Lihat Detail"
+                  additionalClassName="bg-blue-300 rounded-lg font-medium"
+                  onClick={() => {}}
+                />
+              </Link>
             </div>
           </CardItem>
         );
