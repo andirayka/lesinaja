@@ -29,10 +29,6 @@ const layoutPages = [
     component: Home,
   },
   {
-    path: ["/daftar-tutor"],
-    component: ListTutor,
-  },
-  {
     path: ["/daftar-master"],
     component: ListMaster,
   },
