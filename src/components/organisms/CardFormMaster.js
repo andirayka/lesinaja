@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@components";
+import { RowMaster } from "@components";
 
 const CardFormMaster = ({
   containerClass,
@@ -25,14 +25,16 @@ const CardFormMaster = ({
             <div className="w-3/4 ml-2.5 text-lg">{item.name}</div>
             <div className="w-1/4 flex flex-row">
               <div className="flex flex-1 justify-center">
-                <button onClick={() => {}}></button>
+                <button onClick={() => {}}>icon edit</button>
               </div>
               <div className="flex flex-1 justify-center">
                 <button
                   onClick={() => {
                     onDelete(item);
                   }}
-                ></button>
+                >
+                  icon delete
+                </button>
               </div>
             </div>
           </div>

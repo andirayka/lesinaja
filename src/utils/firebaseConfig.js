@@ -17,11 +17,22 @@ const firebaseConfig = {
 
 const enableFirebaseConfig = () => {
   // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+  else firebase.app();
+
   firebase.analytics();
 
   // Get a reference to the database service
   const rtDatabase = firebase.database();
+  // * Read
+  // rtDatabase.ref("parent1").on("value", (data) => {
+  //   console.log(data.val());
+  // });
+
+  // * Create
+  rtDatabase.ref("kakek/ortu").set({
+    cucu2: "cucuuu2",
+  });
 };
 
 export { enableFirebaseConfig };

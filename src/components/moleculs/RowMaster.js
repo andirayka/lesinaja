@@ -1,6 +1,6 @@
 import React from "react";
 
-const FieldMaster = ({ type, onClickLeft, onClickRight }) => {
+const RowMaster = ({ type, onClickLeft, onClickRight }) => {
   if (type == "editing") {
     return (
       <div className="flex flex-row py-4">
@@ -34,4 +34,4 @@ const FieldMaster = ({ type, onClickLeft, onClickRight }) => {
   }
 };
 
-export default FieldMaster;
+export default RowMaster;
