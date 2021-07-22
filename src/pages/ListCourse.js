@@ -1,15 +1,22 @@
 import React from 'react';
 import { Title, CardItem, CardKeyValue, Button } from '@components';
+import { Link } from "react-router-dom";
 
 const ListCourse = () => {
   return (
     <div className="w-full flex-grow ml-8">
       <Title text="Daftar Pilihan Les" type="pageTitle" />
-      <Button
-        text="Tambah Pilihan Les"
-        additionalClassName="bg-yellow-500 rounded-lg font-medium mt-4"
-        onClick={() => {}}
-      />
+      <Link
+      to={{
+        pathname: "/tambah-pilihanles",
+      }}
+      >
+        <Button
+          text="Tambah Pilihan Les"
+          additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium mt-4"
+          onClick={() => {}}
+        />
+      </Link>
 
       {[1, 1, 1, 1, 1, 1].map((item, key) => {
         return (

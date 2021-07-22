@@ -13,6 +13,7 @@ import {
   FormMaster,
   FormTutor,
   Keuangan,
+  AddListCourse,
 } from "@pages";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { MainLayout } from "@components";
@@ -45,6 +46,10 @@ const layoutPages = [
   {
     path: ["/daftar-pilihanles"],
     component: ListCourse,
+  },
+  {
+    path: ["/tambah-pilihanles"],
+    component: AddListCourse,
   },
   {
     path: ["/form-master"],
