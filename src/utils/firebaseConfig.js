@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/analytics";
+import "firebase/database";
 
 // * Project Coba RTDB coba2 punya Andi
 const firebaseConfig = {
@@ -14,13 +15,13 @@ const firebaseConfig = {
     "https://cobartdb-default-rtdb.asia-southeast1.firebasedatabase.app/",
 };
 
-// Get a reference to the database service
-const rtDatabase = firebase.database();
-
 const enableFirebaseConfig = () => {
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
+
+  // Get a reference to the database service
+  const rtDatabase = firebase.database();
 };
 
-export { enableFirebaseConfig, rtDatabase };
+export { enableFirebaseConfig };
