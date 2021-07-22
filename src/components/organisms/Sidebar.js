@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { SidebarItem } from "@components";
 import { mainLogo } from "@assets";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useHistory } from "react-router-dom";
 import {
   faHome,
   faUser,
@@ -68,6 +69,8 @@ const sidebarList = [
 const Sidebar = () => {
   const { pathname } = useLocation();
 
+  const history = useHistory();
+
   return (
     <div className="hidden md:block flex-none w-80 bg-white rounded-md overflow-hidden">
       <img src={mainLogo} alt="" className="w-64" />
@@ -76,8 +79,8 @@ const Sidebar = () => {
           return (
             <SidebarItem
               key={index}
-              onClick={() => {}}
-              isActive={item.activePaths.include(pathname)}
+              onClick={() => {history.push(item.path)}}
+              isActive={item.activePaths.includes(pathname)}
               text={item.text}
               additionalClassName="flex flex-row items-center"
             >
