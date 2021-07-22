@@ -10,6 +10,8 @@ import {
   faChalkboardTeacher,
   faMoneyCheckAlt,
   faSignOutAlt,
+  faWallet,
+  faBookReader,
 } from "@fortawesome/free-solid-svg-icons";
 
 const sidebarList = [
@@ -34,9 +36,19 @@ const sidebarList = [
     icon: faChalkboardTeacher,
   },
   {
+    path: "/daftar-pilihanles",
+    text: "Pilihan Les",
+    icon: faBookReader,
+  },
+  {
     path: "/daftar-pembayaran",
     text: "Riwayat Pembayaran",
     icon: faMoneyCheckAlt,
+  },
+  {
+    path: "/keuangan",
+    text: "Keuangan",
+    icon: faWallet,
   },
   {
     path: "/masuk",
@@ -78,4 +90,5 @@ const Sidebar = () => {
   );
 };
 
+export { sidebarList };
 export default Sidebar;

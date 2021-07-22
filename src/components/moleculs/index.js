@@ -12,6 +12,7 @@ import InputTextarea from "./InputTextarea";
 import InputFile from "./InputFile";
 import RowMaster from "./RowMaster";
 import SectionFee from "./SectionFee";
+import NavbarItem from "./NavbarItem";
 
 export {
   InputText,
@@ -28,4 +29,5 @@ export {
   InputTextarea,
   RowMaster,
   SectionFee,
+  NavbarItem,
 };
