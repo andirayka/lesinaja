@@ -34,8 +34,18 @@ const sidebarList = [
     icon: faChalkboardTeacher,
   },
   {
+    path: "/daftar-pilihanles",
+    text: "Pilihan Les",
+    icon: faChalkboardTeacher,
+  },
+  {
     path: "/daftar-pembayaran",
     text: "Riwayat Pembayaran",
+    icon: faMoneyCheckAlt,
+  },
+  {
+    path: "/keuangan",
+    text: "Keuangan",
     icon: faMoneyCheckAlt,
   },
   {
