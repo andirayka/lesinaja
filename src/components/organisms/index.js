@@ -1,7 +1,14 @@
 import ContentContainer from "./ContentContainer";
-import Sidebar from "./Sidebar";
+import Sidebar, { sidebarList } from "./Sidebar";
 import CardItem from "./CardItem";
 import CardFormMaster from "./CardFormMaster";
 import Navbar from "./Navbar";
 
-export { ContentContainer, Sidebar, CardItem, CardFormMaster, Navbar };
+export {
+  ContentContainer,
+  Sidebar,
+  sidebarList,
+  CardItem,
+  CardFormMaster,
+  Navbar,
+};
