@@ -20,12 +20,12 @@ const ListPayment = () => {
         <div className="flex-row mt-8">
           <Button
             text="Unduh Bukti Pembayaran"
-            additionalClassName="bg-blue-300 rounded-lg font-medium"
+            additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
             onClick={() => {}}
           />
           <Button
             text="Konfirmasi Uang Sudah Masuk"
-            additionalClassName="bg-yellow-500 rounded-lg font-medium ml-5"
+            additionalClassName="bg-yellow-600 hover:bg-yellow-300 rounded-lg font-medium ml-5"
             onClick={() => {}}
           />
         </div>
@@ -36,7 +36,7 @@ const ListPayment = () => {
         <div className="flex-row mt-8">
           <Button
             text="Tandai Sudah Transfer"
-            additionalClassName="bg-yellow-500 rounded-lg font-medium"
+            additionalClassName="bg-yellow-600 hover:bg-yellow-300 rounded-lg font-medium"
             onClick={() => {}}
           />
         </div>

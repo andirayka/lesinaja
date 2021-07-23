@@ -10,7 +10,7 @@ const CardFormMaster = ({
 }) => {
   return (
     <div className={`rounded-md bg-white ${containerClass}`}>
-      <div className="rounded-md p-2.5 bg-blue-300 flex flex-row">
+      <div className="rounded-md p-2.5 bg-yellow-400 flex flex-row">
         <p className="font-semibold text-xl w-3/4">Nama</p>
         <p className="font-semibold text-xl text-center w-1/4">Aksi</p>
       </div>

@@ -80,7 +80,7 @@ const Register = () => {
           <Button
             type="submit"
             text="Daftar"
-            additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 text-white w-full rounded-full"
+            additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 font-medium w-full rounded-full"
           />
         </form>
       </ContentContainer>

@@ -1,10 +1,5 @@
 body {
-  background-color: #feed77;
-}
-
-.bg-image {
   background-image: url(./assets/images/bg.jpg);
   background-size: 100%;
-  background-repeat: repeat;
   background-attachment: fixed;
 }
