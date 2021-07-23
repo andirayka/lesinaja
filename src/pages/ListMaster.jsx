@@ -7,8 +7,9 @@ const ListMaster = () => {
     <div className="w-full flex-grow md:ml-8">
       <Title text="Daftar Data Master Aplikasi" type="pageTitle" />
 
-      <div className="flex flex-wrap justify-between">
-        <CardItem title="Jenjang Kelas" containerClass="mt-8 w-2/5">
+      {/* Row 1 */}
+      <div className="flex">
+        <CardItem title="Jenjang Kelas" containerClass="mt-8 flex-1">
           <p>PAUD</p>
           <p>TK</p>
           <p>1 SD</p>
@@ -27,7 +28,8 @@ const ListMaster = () => {
             </Link>
           </div>
         </CardItem>
-        <CardItem title="Mapel" containerClass="mt-8 w-2/5">
+        <div className="mx-5"></div>
+        <CardItem title="Mapel" containerClass="mt-8 flex-1">
           <p>Matematika</p>
           <p>Fisika</p>
           <p>Biologi</p>
@@ -39,7 +41,11 @@ const ListMaster = () => {
             />
           </div>
         </CardItem>
-        <CardItem title="Paket" containerClass="mt-8 w-2/5">
+      </div>
+
+      {/* Row 2 */}
+      <div className="flex">
+        <CardItem title="Paket" containerClass="mt-8 flex-1">
           <p>1 (4 pertemuan)</p>
           <p>2 (8 pertemuan)</p>
           <p>3 (12 pertemuan)</p>
@@ -51,7 +57,8 @@ const ListMaster = () => {
             />
           </div>
         </CardItem>
-        <CardItem title="Wilayah" containerClass="mt-8 w-2/5">
+        <div className="mx-5"></div>
+        <CardItem title="Wilayah" containerClass="mt-8 flex-1">
           <p>Jawa Timur</p>
           <p>Jawa Tengah</p>
           <p>Jawa Barat</p>
