@@ -30,7 +30,7 @@ const ListTutor = () => {
               >
                 <Button
                   text="Lihat Detail"
-                  additionalClassName="bg-blue-300 rounded-lg font-medium"
+                  additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
                   onClick={() => {}}
                 />
               </Link>

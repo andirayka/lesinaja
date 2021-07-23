@@ -13,7 +13,7 @@ const ListCourse = () => {
       >
         <Button
           text="Tambah Pilihan Les"
-          additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium mt-4"
+          additionalClassName="bg-yellow-400 hover:bg-white hover:shadow-lg rounded-lg font-medium mt-4"
           onClick={() => {}}
         />
       </Link>
@@ -31,12 +31,12 @@ const ListCourse = () => {
             <div className="flex flex-row mt-8 justify-end">
               <Button
                 text="Ubah Pilihan Les"
-                additionalClassName="bg-blue-300 rounded-lg font-medium mr-4"
+                additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium mr-4"
                 onClick={() => {}}
               />
               <Button
                 text="Hapus Pilihan Les"
-                additionalClassName="bg-red-500 rounded-lg font-medium"
+                additionalClassName="bg-yellow-600 hover:bg-red-500 rounded-lg font-medium"
                 onClick={() => {}}
               />
             </div>

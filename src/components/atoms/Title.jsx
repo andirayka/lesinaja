@@ -10,7 +10,7 @@ const Title = ({ text, type }) => {
   }
   if (type == "cardItem") {
     return (
-      <div className={`rounded-md p-2.5 bg-blue-300`}>
+      <div className={`rounded-md p-2.5 bg-yellow-400`}>
         <p className={`font-semibold text-xl`}>{text}</p>
       </div>
     );

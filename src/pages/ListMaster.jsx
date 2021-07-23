@@ -22,7 +22,7 @@ const ListMaster = () => {
             >
               <Button
                 text="Lihat Lebih Banyak"
-                additionalClassName="bg-blue-300 rounded-lg font-medium"
+                additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
                 onClick={() => {}}
               />
             </Link>
@@ -36,7 +36,7 @@ const ListMaster = () => {
           <div className="flex-row mt-8">
             <Button
               text="Lihat Lebih Banyak"
-              additionalClassName="bg-blue-300 rounded-lg font-medium"
+              additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
               onClick={() => {}}
             />
           </div>
@@ -52,7 +52,7 @@ const ListMaster = () => {
           <div className="flex-row mt-8">
             <Button
               text="Lihat Lebih Banyak"
-              additionalClassName="bg-blue-300 rounded-lg font-medium"
+              additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
               onClick={() => {}}
             />
           </div>
@@ -65,7 +65,7 @@ const ListMaster = () => {
           <div className="flex-row mt-8">
             <Button
               text="Lihat Lebih Banyak"
-              additionalClassName="bg-blue-300 rounded-lg font-medium"
+              additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
               onClick={() => {}}
             />
           </div>
