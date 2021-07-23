@@ -1,7 +1,10 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-
 body {
-  @apply bg-green-500;
+  background-color: #feed77;
+}
+
+.bg-image {
+  background-image: url(./assets/images/bg.jpg);
+  background-size: 100%;
+  background-repeat: repeat;
+  background-attachment: fixed;
 }
