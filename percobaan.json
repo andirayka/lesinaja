@@ -1,0 +1,34 @@
+{
+  "user": [
+    {
+      "id": "12",
+      "role": {
+        "walmur": {
+          "data": "blablabla"
+        },
+        "tutor": {
+            "data": "blablabla"
+        }
+      },
+      "alamat": {
+        "id_desa": "35150855",
+        "rumah": "blablabla"
+      }
+    },
+    {
+      "id": "13",
+      "role": {
+        "walmur": {
+          "data": "blablabla"
+        },
+        "tutor": {
+            "data": "blablabla"
+        }
+      },
+      "alamat": {
+        "id_desa": "35150855",
+        "rumah": "blablabla"
+      }
+    }
+  ]
+}
