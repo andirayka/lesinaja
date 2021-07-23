@@ -4,15 +4,23 @@ import "firebase/database";
 
 // * Project Coba RTDB coba2 punya Andi
 const firebaseConfig = {
-  apiKey: "AIzaSyDzitqGAIf5ZZL7sIq_jrZ4avgxoSoL2Z0",
-  authDomain: "cobartdb.firebaseapp.com",
-  projectId: "cobartdb",
-  storageBucket: "cobartdb.appspot.com",
-  messagingSenderId: "76531160",
-  appId: "1:76531160:web:d6017d6e0a09f6d0fd1ead",
-  measurementId: "G-PL3529W8EH",
-  databaseURL:
-    "https://cobartdb-default-rtdb.asia-southeast1.firebasedatabase.app/",
+  // apiKey: "AIzaSyDzitqGAIf5ZZL7sIq_jrZ4avgxoSoL2Z0",
+  // authDomain: "cobartdb.firebaseapp.com",
+  // projectId: "cobartdb",
+  // storageBucket: "cobartdb.appspot.com",
+  // messagingSenderId: "76531160",
+  // appId: "1:76531160:web:d6017d6e0a09f6d0fd1ead",
+  // measurementId: "G-PL3529W8EH",
+  // databaseURL:
+  //   "https://cobartdb-default-rtdb.asia-southeast1.firebasedatabase.app/",
+
+  apiKey: "AIzaSyA9xbqzTZeuYTz-CSqdhmf4ppFHYDicXlM",
+  authDomain: "lesinaja-b6947.firebaseapp.com",
+  databaseURL: "https://lesinaja-b6947-default-rtdb.firebaseio.com",
+  projectId: "lesinaja-b6947",
+  storageBucket: "lesinaja-b6947.appspot.com",
+  messagingSenderId: "373394832954",
+  appId: "1:373394832954:web:5a20d2e6737c126a1dff03",
 };
 
 const enableFirebaseConfig = () => {
