@@ -79,7 +79,9 @@ const Sidebar = () => {
           return (
             <SidebarItem
               key={index}
-              onClick={() => {history.push(item.path)}}
+              onClick={() => {
+                history.push(item.path);
+              }}
               isActive={item.activePaths.includes(pathname)}
               text={item.text}
               additionalClassName="flex flex-row items-center"

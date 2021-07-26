@@ -1,8 +1,16 @@
 import { defineConfig } from "vite";
 import reactRefresh from "@vitejs/plugin-react-refresh";
-import { ViteAliases } from "vite-aliases";
+// import { ViteAliases } from "vite-aliases";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [reactRefresh(), ViteAliases()],
+  plugins: [reactRefresh()],
+  resolve: {
+    alias: [
+      { find: "@components", replacement: "/src/components" },
+      { find: "@pages", replacement: "/src/pages" },
+      { find: "@utils", replacement: "/src/utils" },
+      { find: "@assets", replacement: "/src/assets" },
+    ],
+  },
 });

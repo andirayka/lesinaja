@@ -1,9 +1,15 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./src",
+    "jsx": "react",
     "paths": {
-      "@*": ["src/*"]
+      "@assets": ["assets/index"],
+      "@pages": ["pages/index"],
+      "@utils": ["utils/index"],
+      "@components": ["components/index"],
+      "@atoms": ["components/atoms/index"],
+      "@molecules": ["components/molecules/index"],
+      "@organisms": ["components/organisms/index"]
     }
-  },
-  "exclude": ["node_modules", "**/node_modules/*"]
+  }
 }

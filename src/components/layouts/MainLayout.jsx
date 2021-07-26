@@ -1,4 +1,4 @@
-import { Sidebar, Navbar } from "@components/organisms";
+import { Sidebar, Navbar } from "@components";
 import React from "react";
 
 const MainLayout = ({ children }) => {
