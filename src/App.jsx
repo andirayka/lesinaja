@@ -15,6 +15,7 @@ import {
   Keuangan,
   AddListCourse,
 } from "@pages";
+import ProviderApp from "@context";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { MainLayout } from "@components";
 import { enableFirebaseConfig } from "@utils";
@@ -65,31 +66,33 @@ const layoutPages = [
 
 const App = () => {
   return (
-    <Router>
-      <Switch>
-        <Route path="/" exact component={Landing} />
-        <Route path="/masuk" exact component={Login} />
-        <Route path="/daftar" exact component={Register} />
+    <ProviderApp>
+      <Router>
+        <Switch>
+          <Route path="/" exact component={Landing} />
+          <Route path="/masuk" exact component={Login} />
+          <Route path="/daftar" exact component={Register} />
 
-        {layoutPages.map((item, index) => {
-          return (
-            <Route
-              key={index}
-              exact
-              path={item.path}
-              render={(props) => {
-                return (
-                  <MainLayout>
-                    <item.component {...props} />
-                  </MainLayout>
-                );
-              }}
-            />
-          );
-        })}
-        <Route component={NotFound} />
-      </Switch>
-    </Router>
+          {layoutPages.map((item, index) => {
+            return (
+              <Route
+                key={index}
+                exact
+                path={item.path}
+                render={(props) => {
+                  return (
+                    <MainLayout>
+                      <item.component {...props} />
+                    </MainLayout>
+                  );
+                }}
+              />
+            );
+          })}
+          <Route component={NotFound} />
+        </Switch>
+      </Router>
+    </ProviderApp>
   );
 };
 
