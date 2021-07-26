@@ -1,7 +1,8 @@
 import React from "react";
-import { ProviderLoading } from "./ContextLoading";
-import { ProviderMaster } from "./ContextMaster";
+import { ProviderLoading, ContextLoading } from "./ContextLoading";
+import { ProviderMaster, ContextMaster } from "./ContextMaster";
 
+// * Combine all providers
 const providers = [ProviderLoading, ProviderMaster];
 const ProviderApp = ({ children }) => {
   return providers.reduceRight((acc, Comp) => {
@@ -10,3 +11,4 @@ const ProviderApp = ({ children }) => {
 };
 
 export default ProviderApp;
+export { ContextMaster, ContextLoading };
