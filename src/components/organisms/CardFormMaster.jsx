@@ -25,17 +25,18 @@ const CardFormMaster = ({
         />
       )}
 
-      {data.map((item, key) => {
-        return (
-          <RowMaster
-            key={key}
-            type="viewing"
-            value={item}
-            onClickRight={onDelete}
-            onClickLeft={() => {}}
-          />
-        );
-      })}
+      {data &&
+        Object.entries(data).map(([key, value], index) => {
+          return (
+            <RowMaster
+              key={index}
+              type="list"
+              value={value}
+              onClickRight={onDelete}
+              onClickLeft={() => {}}
+            />
+          );
+        })}
     </div>
   );
 };

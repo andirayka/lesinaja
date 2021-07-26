@@ -35,7 +35,7 @@ const RowMaster = ({ type, value, onClickLeft, onClickRight }) => {
     );
   }
 
-  if (type == "viewing") {
+  if (type == "list") {
     return (
       <div className="flex flex-row py-4">
         <div className="w-3/4 ml-2.5 text-lg">{value.nama}</div>

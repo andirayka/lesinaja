@@ -23,8 +23,6 @@ const firebaseConfig = {
   messagingSenderId: "373394832954",
   appId: "1:373394832954:web:5a20d2e6737c126a1dff03",
 };
-// Get a reference to the database service
-let rtDatabase;
 
 // * Enbale intial config of firebase in appliaction
 const enableFirebaseConfig = () => {
@@ -32,7 +30,6 @@ const enableFirebaseConfig = () => {
   if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
   else firebase.app();
 
-  rtDatabase = firebase.database();
   firebase.analytics();
 };
 
@@ -42,9 +39,19 @@ const getFirebaseData = ({ ref, onGetData }) => {
     const data = Object.values(snapshot.val());
     onGetData(data);
   });
-};
+
+// const getFirebaseData = ({ ref }) => {
+//   const rtDatabase = firebase.database();
+
+//   // .on untuk ambil berkali - kali
+//   return rtDatabase
+//     .ref(ref)
+//     .once("value", (snapshot) => snapshot)
+//     .then((value) => value.val());
+// };
 
 const addFirebaseData = ({ ref }) => {
+  const rtDatabase = firebase.database();
   rtDatabase.ref("master_jenjangkelas").set({
     // id: firebase.database(),
   });

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Title, CardItem, Button } from "@components";
 import { Link } from "react-router-dom";
-import { getFirebaseData } from "@utils";
 
 const ListMaster = () => {
   const [listMaster, setListMaster] = useState({
