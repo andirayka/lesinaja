@@ -5,6 +5,7 @@ const CardFormMaster = ({
   containerClass,
   data,
   formStatus,
+  onAdd,
   onDelete,
   onCancelEditing,
 }) => {
@@ -15,35 +16,28 @@ const CardFormMaster = ({
         <p className="font-semibold text-xl text-center w-1/4">Aksi</p>
       </div>
 
+      {/* Table Row when user is adding new data */}
       {formStatus == "adding" && (
         <RowMaster
           type="editing"
           onClickRight={onCancelEditing}
-          onClickLeft={() => {}}
+          onClickLeft={onAdd}
         />
       )}
 
-      {data.map((item, key) => {
-        return (
-          <div key={key} className="flex flex-row py-4">
-            <div className="w-3/4 ml-2.5 text-lg">{item.nama}</div>
-            <div className="w-1/4 flex flex-row">
-              <div className="flex flex-1 justify-center">
-                <button onClick={() => {}}>icon edit</button>
-              </div>
-              <div className="flex flex-1 justify-center">
-                <button
-                  onClick={() => {
-                    onDelete(item);
-                  }}
-                >
-                  icon delete
-                </button>
-              </div>
-            </div>
-          </div>
-        );
-      })}
+      {/* Table Row when user is viewing all data */}
+      {formStatus == "viewing" &&
+        data.map((item, key) => {
+          return (
+            <RowMaster
+              key={key}
+              type="viewing"
+              value={item}
+              onClickRight={onDelete}
+              onClickLeft={() => {}}
+            />
+          );
+        })}
     </div>
   );
 };

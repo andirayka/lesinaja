@@ -18,6 +18,7 @@ import {
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { MainLayout } from "@components";
 
+enableFirebaseConfig();
 const layoutPages = [
   {
     path: ["/akun"],
@@ -62,10 +63,6 @@ const layoutPages = [
 ];
 
 const App = () => {
-  // useEffect(() => {
-  //   enableFirebaseConfig();
-  // }, []);
-
   return (
     <Router>
       <Switch>
