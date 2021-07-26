@@ -1,24 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Title, CardItem, Button } from "@components";
 import { Link } from "react-router-dom";
-import firebase from "@utils";
+import { getFirebaseData } from "@utils";
 
 const ListMaster = () => {
   const [jenjangKelas, setJenjangKelas] = useState();
 
   useEffect(() => {
-    const jenjangKelasRef = firebase.database().ref("master_jenjangkelas");
-
-    jenjangKelasRef.on("value", (snapshot) => {
-      const jenjangKelas = [];
-      snapshot.forEach((item) => {
-        const rawData = item.val();
-        const keyData = item.key;
-        jenjangKelas.push({ keyData, ...rawData });
-      });
-
-      setJenjangKelas(jenjangKelas);
-    });
+    // const jenjangKelasRef = firebase.database().ref("master_jenjangkelas");
+    // jenjangKelasRef.on("value", (snapshot) => {
+    //   const jenjangKelas = [];
+    //   snapshot.forEach((item) => {
+    //     const rawData = item.val();
+    //     const keyData = item.key;
+    //     jenjangKelas.push({ keyData, ...rawData });
+    //   });
+    //   setJenjangKelas(jenjangKelas);
+    // });
   }, []);
 
   return (
@@ -29,13 +27,13 @@ const ListMaster = () => {
       {/* jenjangKelas */}
       <div className="flex">
         <CardItem title="Jenjang Kelas" containerClass="mt-8 flex-1">
-          {jenjangKelas ? (
+          {/* {jenjangKelas ? (
             jenjangKelas.map((data, index) => {
               return <p key={index}>{data.nama}</p>;
             })
           ) : (
             <p>Loading...</p>
-          )}
+          )} */}
           <div className="flex-row mt-8">
             <Link
               to={{
