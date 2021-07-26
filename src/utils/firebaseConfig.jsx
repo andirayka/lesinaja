@@ -34,11 +34,6 @@ const enableFirebaseConfig = () => {
 
   rtDatabase = firebase.database();
   firebase.analytics();
-
-  // * Create
-  // rtDatabase.ref("kakek/ortu").set({
-  //   cucu2: "cucuuu2",
-  // });
 };
 
 // * Get data
@@ -46,6 +41,12 @@ const getFirebaseData = ({ ref, onGetData }) => {
   rtDatabase.ref(ref).on("value", (snapshot) => {
     const data = snapshot.val();
     onGetData(data);
+  });
+};
+
+const addFirebaseData = ({ ref }) => {
+  rtDatabase.ref("master_jenjangkelas").set({
+    // id: firebase.database(),
   });
 };
 

@@ -5,7 +5,10 @@ import { useLocation } from "react-router-dom";
 
 const FormMaster = () => {
   const { state: prevData } = useLocation();
-  const [formData, setFormData] = useState(null);
+  const [formData, setFormData] = useState([
+    { nama: "nama" },
+    { nama: "nama2" },
+  ]);
   const [formStatus, setFormStatus] = useState("loading");
 
   useEffect(() => {
@@ -13,12 +16,13 @@ const FormMaster = () => {
       ref: "master_jenjangkelas",
       onGetData: (data) => {
         if (data) {
-          setFormData(data);
-          setFormStatus("viewing");
+          console.log(data);
+          // setFormData(data);
+          // setFormStatus("viewing");
         } else setFormStatus("empty");
       },
     };
-    getFirebaseData(fbParams);
+    // getFirebaseData(fbParams);
     return () => {};
   }, []);
 
@@ -38,10 +42,10 @@ const FormMaster = () => {
         containerClass="mt-8"
         data={formData}
         onAdd={(item) => {
-          setFormData((prev) => [...prev, item]);
+          setFormData((prev) => [...prev, ...item]);
         }}
         onDelete={(item) => {
-          setFormData((prev) => prev.filter((o) => o.name != item.name));
+          setFormData((prev) => prev.filter((o) => o.nama != item.nama));
         }}
         onCancelEditing={() => {
           setFormStatus("viewing");
