@@ -14,6 +14,9 @@ import {
   FormTutor,
   Keuangan,
   AddListCourse,
+  AccountTutor,
+  ListLowongan,
+  ListCourseTutor,
 } from "@pages";
 import ProviderApp from "@context";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -25,6 +28,18 @@ const layoutPages = [
   {
     path: ["/akun"],
     component: Account,
+  },
+  {
+    path: ["/akun-tutor"],
+    component: AccountTutor,
+  },
+  {
+    path: ["/list-lowongan"],
+    component: ListLowongan,
+  },
+  {
+    path: ["/list-les"],
+    component: ListCourseTutor,
   },
   {
     path: ["/beranda"],

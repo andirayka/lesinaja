@@ -12,8 +12,13 @@ import FormMaster from "./FormMaster";
 import FormTutor from "./FormTutor";
 import Keuangan from "./Keuangan";
 import AddListCourse from "./AddListCourse";
+import AccountTutor from "./AccountTutor";
+import ListLowongan from "./ListLowongan";
+import ListCourseTutor from "./ListCourseTutor";
 
 export {
+  AccountTutor,
+  ListCourseTutor,
   Landing,
   Login,
   Account,
@@ -28,4 +33,5 @@ export {
   FormTutor,
   Keuangan,
   AddListCourse,
+  ListLowongan,
 };
