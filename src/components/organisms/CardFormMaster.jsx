@@ -25,19 +25,17 @@ const CardFormMaster = ({
         />
       )}
 
-      {/* Table Row when user is viewing all data */}
-      {formStatus == "viewing" &&
-        data.map((item, key) => {
-          return (
-            <RowMaster
-              key={key}
-              type="viewing"
-              value={item}
-              onClickRight={onDelete}
-              onClickLeft={() => {}}
-            />
-          );
-        })}
+      {data.map((item, key) => {
+        return (
+          <RowMaster
+            key={key}
+            type="viewing"
+            value={item}
+            onClickRight={onDelete}
+            onClickLeft={() => {}}
+          />
+        );
+      })}
     </div>
   );
 };
