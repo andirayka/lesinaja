@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { SidebarItem } from "@components/moleculs";
-import { sidebarList } from "@components/organisms";
+import { SidebarItem } from "@components";
+import { sidebarList } from "@components";
 import { NavbarItem } from "@components";
 
 const Navbar = () => {
