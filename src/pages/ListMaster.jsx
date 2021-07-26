@@ -1,23 +1,46 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Title, CardItem, Button } from "@components";
 import { Link } from "react-router-dom";
+import firebase from "@utils";
 
 const ListMaster = () => {
+  const [jenjangKelas, setJenjangKelas] = useState();
+
+  useEffect(() => {
+    const jenjangKelasRef = firebase.database().ref("master_jenjangkelas");
+
+    jenjangKelasRef.on("value", (snapshot) => {
+      const jenjangKelas = [];
+      snapshot.forEach((item) => {
+        const rawData = item.val();
+        const keyData = item.key;
+        jenjangKelas.push({ keyData, ...rawData });
+      });
+
+      setJenjangKelas(jenjangKelas);
+    });
+  }, []);
+
   return (
     <div className="w-full flex-grow md:ml-8">
       <Title text="Daftar Data Master Aplikasi" type="pageTitle" />
 
       {/* Row 1 */}
+      {/* jenjangKelas */}
       <div className="flex">
         <CardItem title="Jenjang Kelas" containerClass="mt-8 flex-1">
-          <p>PAUD</p>
-          <p>TK</p>
-          <p>1 SD</p>
+          {jenjangKelas ? (
+            jenjangKelas.map((data, index) => {
+              return <p key={index}>{data.nama}</p>;
+            })
+          ) : (
+            <p>Loading...</p>
+          )}
           <div className="flex-row mt-8">
             <Link
               to={{
                 pathname: "/form-master",
-                state: { title: "Jenjang Kelas" },
+                state: { title: "Jenjang Kelas", data: jenjangKelas },
               }}
             >
               <Button

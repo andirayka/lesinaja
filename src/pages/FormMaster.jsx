@@ -10,7 +10,7 @@ const FormMaster = () => {
     { id: 3, name: "IPA" },
   ]);
   const [formStatus, setFormStatus] = useState("viewing");
-
+  console.log(prevData.data);
   return (
     <div className="w-full flex-grow md:ml-8">
       <Title text={`Daftar ${prevData?.title}`} type="pageTitle" />
@@ -25,7 +25,7 @@ const FormMaster = () => {
       <CardFormMaster
         formStatus={formStatus}
         containerClass="mt-8"
-        data={formData}
+        data={prevData.data}
         onDelete={(item) => {
           setFormData((prev) => prev.filter((o) => o.id != item.id));
         }}

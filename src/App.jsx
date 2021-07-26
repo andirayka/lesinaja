@@ -17,7 +17,6 @@ import {
 } from "@pages";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { MainLayout } from "@components";
-import { enableFirebaseConfig } from "@utils";
 
 const layoutPages = [
   {
@@ -63,9 +62,9 @@ const layoutPages = [
 ];
 
 const App = () => {
-  useEffect(() => {
-    enableFirebaseConfig();
-  }, []);
+  // useEffect(() => {
+  //   enableFirebaseConfig();
+  // }, []);
 
   return (
     <Router>

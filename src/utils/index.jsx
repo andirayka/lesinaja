@@ -1,3 +1,4 @@
-import { enableFirebaseConfig } from "./firebaseConfig";
+// import { enableFirebaseConfig } from "./firebaseConfig";
+import firebase from "./firebase";
 
-export { enableFirebaseConfig };
+export default firebase;

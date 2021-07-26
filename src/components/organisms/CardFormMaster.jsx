@@ -26,7 +26,7 @@ const CardFormMaster = ({
       {data.map((item, key) => {
         return (
           <div key={key} className="flex flex-row py-4">
-            <div className="w-3/4 ml-2.5 text-lg">{item.name}</div>
+            <div className="w-3/4 ml-2.5 text-lg">{item.nama}</div>
             <div className="w-1/4 flex flex-row">
               <div className="flex flex-1 justify-center">
                 <button onClick={() => {}}>icon edit</button>
