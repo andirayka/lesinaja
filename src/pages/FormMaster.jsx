@@ -1,15 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Title, Button, CardFormMaster } from "@components";
+import { getFirebaseData } from "@utils";
 import { useLocation } from "react-router-dom";
 
 const FormMaster = () => {
   const { state: prevData } = useLocation();
-  const [formData, setFormData] = useState([
-    { id: 1, name: "Matematika" },
-    { id: 2, name: "Bahasa Inggris" },
-    { id: 3, name: "IPA" },
-  ]);
-  const [formStatus, setFormStatus] = useState("viewing");
+  const [formData, setFormData] = useState(null);
+  const [formStatus, setFormStatus] = useState("loading");
+
+  useEffect(() => {
+    const fbParams = {
+      ref: "master_jenjangkelas",
+      onGetData: (data) => {
+        if (data) {
+          setFormData(data);
+          setFormStatus("viewing");
+        } else setFormStatus("empty");
+      },
+    };
+    getFirebaseData(fbParams);
+    return () => {};
+  }, []);
 
   return (
     <div className="w-full flex-grow md:ml-8">
@@ -26,8 +37,11 @@ const FormMaster = () => {
         formStatus={formStatus}
         containerClass="mt-8"
         data={formData}
+        onAdd={(item) => {
+          setFormData((prev) => [...prev, item]);
+        }}
         onDelete={(item) => {
-          setFormData((prev) => prev.filter((o) => o.id != item.id));
+          setFormData((prev) => prev.filter((o) => o.name != item.name));
         }}
         onCancelEditing={() => {
           setFormStatus("viewing");
