@@ -39,7 +39,7 @@ const enableFirebaseConfig = () => {
 // * Get data
 const getFirebaseData = ({ ref, onGetData }) => {
   rtDatabase.ref(ref).on("value", (snapshot) => {
-    const data = snapshot.val();
+    const data = Object.values(snapshot.val());
     onGetData(data);
   });
 };

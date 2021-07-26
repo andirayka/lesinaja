@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 import { getFirebaseData } from "@utils";
 
 const ListMaster = () => {
-  const [jenjangKelas, setJenjangKelas] = useState();
+  const [listMaster, setListMaster] = useState({
+    jenjangKelas: "",
+  });
 
   useEffect(() => {
     // const jenjangKelasRef = firebase.database().ref("master_jenjangkelas");
@@ -17,6 +19,17 @@ const ListMaster = () => {
     //   });
     //   setJenjangKelas(jenjangKelas);
     // });
+    const fbJenjangKelasParams = {
+      ref: "master_jenjangkelas",
+      onGetData: (data) => {
+        if (data) {
+          setListMaster({
+            jenjangKelas: data,
+          });
+        }
+      },
+    };
+    getFirebaseData(fbJenjangKelasParams);
   }, []);
 
   return (
@@ -27,18 +40,15 @@ const ListMaster = () => {
       {/* jenjangKelas */}
       <div className="flex">
         <CardItem title="Jenjang Kelas" containerClass="mt-8 flex-1">
-          {/* {jenjangKelas ? (
-            jenjangKelas.map((data, index) => {
-              return <p key={index}>{data.nama}</p>;
-            })
-          ) : (
-            <p>Loading...</p>
-          )} */}
+          {listMaster.jenjangKelas.map((data, index) => {
+            return <p key={index}>{data.nama}</p>;
+          })}
+
           <div className="flex-row mt-8">
             <Link
               to={{
                 pathname: "/form-master",
-                state: { title: "Jenjang Kelas", data: jenjangKelas },
+                state: { title: "Jenjang Kelas" },
               }}
             >
               <Button
