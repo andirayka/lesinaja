@@ -15,10 +15,16 @@ import AddListCourse from "./AddListCourse";
 import AccountTutor from "./AccountTutor";
 import ListLowongan from "./ListLowongan";
 import ListCourseTutor from "./ListCourseTutor";
+import PresensiLesTutor from "./PresensiLesTutor";
+import PresensiLesWalmur from "./PresensiLesWalmur";
+import AccountWalmur from "./AccountWalmur";
 
 export {
+  AccountWalmur,
+  PresensiLesWalmur,
   AccountTutor,
   ListCourseTutor,
+  PresensiLesTutor,
   Landing,
   Login,
   Account,
