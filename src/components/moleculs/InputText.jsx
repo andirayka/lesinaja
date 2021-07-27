@@ -10,7 +10,7 @@ const InputText = ({ label, placeholder, useHookRegister, value, disabled }) => 
         value={value}
         placeholder={placeholder}
         {...useHookRegister}
-        className="border-2 rounded-lg outline-none border-gray-200 px-1 py-1.5 w-full focus:border-gray-600"
+        className="border-2 rounded-lg outline-none border-gray-200 px-1 py-1.5 w-full focus:border-gray-600 bg-white"
       />
     </div>
   );
