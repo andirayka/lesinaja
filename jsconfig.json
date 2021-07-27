@@ -7,9 +7,7 @@
       "@pages": ["pages/index"],
       "@utils": ["utils/index"],
       "@components": ["components/index"],
-      "@atoms": ["components/atoms/index"],
-      "@molecules": ["components/molecules/index"],
-      "@organisms": ["components/organisms/index"]
+      "@context": ["context/index"],
     }
   }
 }

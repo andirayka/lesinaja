@@ -1,14 +1,7 @@
 import React from "react";
 import { RowMaster } from "@components";
 
-const CardFormMaster = ({
-  containerClass,
-  data,
-  formStatus,
-  onAdd,
-  onDelete,
-  onCancelEditing,
-}) => {
+const CardFormMaster = ({ containerClass, data, formStatus }) => {
   return (
     <div className={`rounded-md bg-white ${containerClass}`}>
       <div className="rounded-md p-2.5 bg-yellow-400 flex flex-row">
@@ -17,24 +10,12 @@ const CardFormMaster = ({
       </div>
 
       {/* Table Row when user is adding new data */}
-      {formStatus == "adding" && (
-        <RowMaster
-          type="editing"
-          onClickRight={onCancelEditing}
-          onClickLeft={onAdd}
-        />
-      )}
+      {formStatus == "adding" && <RowMaster type="editing" />}
 
       {data &&
         Object.entries(data).map(([key, value], index) => {
           return (
-            <RowMaster
-              key={index}
-              type="list"
-              value={value}
-              onClickRight={onDelete}
-              onClickLeft={() => {}}
-            />
+            <RowMaster key={index} type="list" item={{ ...value, id: key }} />
           );
         })}
     </div>
