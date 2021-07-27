@@ -1,34 +1,57 @@
 import React, { useState, useEffect } from "react";
 import { Title, CardItem, Button } from "@components";
 import { Link } from "react-router-dom";
+import { getFirebaseMasterData } from "@utils";
 
 const ListMaster = () => {
-  const [listMaster, setListMaster] = useState({
-    jenjangKelas: "",
-  });
+  const [listMaster, setListMaster] = useState({});
 
   useEffect(() => {
-    // const jenjangKelasRef = firebase.database().ref("master_jenjangkelas");
-    // jenjangKelasRef.on("value", (snapshot) => {
-    //   const jenjangKelas = [];
-    //   snapshot.forEach((item) => {
-    //     const rawData = item.val();
-    //     const keyData = item.key;
-    //     jenjangKelas.push({ keyData, ...rawData });
-    //   });
-    //   setJenjangKelas(jenjangKelas);
-    // });
-    const fbJenjangKelasParams = {
-      ref: "master_jenjangkelas",
-      onGetData: (data) => {
-        if (data) {
+    const fbParams = {
+      jenjangKelasParams: {
+        ref: "master_jenjangkelas",
+        onGetData: (data) => {
+          const jenjangKelasData = Object.values(data);
           setListMaster({
-            jenjangKelas: data,
+            jenjangKelas: jenjangKelasData,
           });
-        }
+        },
+      },
+      mapelParams: {
+        ref: "master_mapel",
+        onGetData: (data) => {
+          const mapelKelasData = Object.values(data);
+          setListMaster((prev) => ({
+            ...prev,
+            mapel: mapelKelasData,
+          }));
+        },
+      },
+      paketParams: {
+        ref: "master_paket",
+        onGetData: (data) => {
+          const paketData = Object.values(data);
+          setListMaster((prev) => ({
+            ...prev,
+            paket: paketData,
+          }));
+        },
+      },
+      wilayahParams: {
+        ref: "master_wilayah",
+        onGetData: (data) => {
+          const wilayahData = Object.values(data);
+          setListMaster((prev) => ({
+            ...prev,
+            wilayah: wilayahData,
+          }));
+        },
       },
     };
-    getFirebaseData(fbJenjangKelasParams);
+    getFirebaseMasterData(fbParams.jenjangKelasParams);
+    getFirebaseMasterData(fbParams.mapelParams);
+    getFirebaseMasterData(fbParams.paketParams);
+    getFirebaseMasterData(fbParams.wilayahParams);
   }, []);
 
   return (
@@ -39,9 +62,13 @@ const ListMaster = () => {
       {/* jenjangKelas */}
       <div className="flex">
         <CardItem title="Jenjang Kelas" containerClass="mt-8 flex-1">
-          {listMaster.jenjangKelas.map((data, index) => {
-            return <p key={index}>{data.nama}</p>;
-          })}
+          {listMaster.jenjangKelas ? (
+            listMaster.jenjangKelas.map((data, index) => {
+              return <p key={index}>{data.nama}</p>;
+            })
+          ) : (
+            <p className="text-6xl text-center">...</p>
+          )}
 
           <div className="flex-row mt-8">
             <Link
@@ -58,11 +85,17 @@ const ListMaster = () => {
             </Link>
           </div>
         </CardItem>
+
+        {/* mapel */}
         <div className="mx-5"></div>
         <CardItem title="Mapel" containerClass="mt-8 flex-1">
-          <p>Matematika</p>
-          <p>Fisika</p>
-          <p>Biologi</p>
+          {listMaster.mapel ? (
+            listMaster.mapel.map((data, index) => {
+              return <p key={index}>{data.nama}</p>;
+            })
+          ) : (
+            <p>loading</p>
+          )}
           <div className="flex-row mt-8">
             <Button
               text="Lihat Lebih Banyak"
@@ -74,11 +107,20 @@ const ListMaster = () => {
       </div>
 
       {/* Row 2 */}
+      {/* paket */}
       <div className="flex">
         <CardItem title="Paket" containerClass="mt-8 flex-1">
-          <p>1 (4 pertemuan)</p>
-          <p>2 (8 pertemuan)</p>
-          <p>3 (12 pertemuan)</p>
+          {listMaster.paket ? (
+            listMaster.paket.map((data, index) => {
+              return (
+                <div key={index}>
+                  <p>{`${data.nama} (${data.jumlah_pertemuan} pertemuan)`}</p>
+                </div>
+              );
+            })
+          ) : (
+            <p>loading</p>
+          )}
           <div className="flex-row mt-8">
             <Button
               text="Lihat Lebih Banyak"
@@ -87,11 +129,21 @@ const ListMaster = () => {
             />
           </div>
         </CardItem>
+
+        {/* wilayah */}
         <div className="mx-5"></div>
         <CardItem title="Wilayah" containerClass="mt-8 flex-1">
-          <p>Jawa Timur</p>
-          <p>Jawa Tengah</p>
-          <p>Jawa Barat</p>
+          {listMaster.wilayah ? (
+            listMaster.wilayah.map((data, index) => {
+              return (
+                <div key={index}>
+                  <p>{data.nama}</p>
+                </div>
+              );
+            })
+          ) : (
+            <p>loading</p>
+          )}
           <div className="flex-row mt-8">
             <Button
               text="Lihat Lebih Banyak"

@@ -34,21 +34,17 @@ const enableFirebaseConfig = () => {
 };
 
 // * Get data
-const getFirebaseData = ({ ref, onGetData }) => {
-  rtDatabase.ref(ref).on("value", (snapshot) => {
-    const data = Object.values(snapshot.val());
-    onGetData(data);
-  });
+const getFirebaseMasterData = ({ onGetData, ref }) => {
+  const mainRef = firebase.database().ref();
 
-// const getFirebaseData = ({ ref }) => {
-//   const rtDatabase = firebase.database();
-
-//   // .on untuk ambil berkali - kali
-//   return rtDatabase
-//     .ref(ref)
-//     .once("value", (snapshot) => snapshot)
-//     .then((value) => value.val());
-// };
+  mainRef
+    .child(ref)
+    .once("value")
+    .then((snapshot) => {
+      const rawData = snapshot.val();
+      onGetData(rawData);
+    });
+};
 
 const addFirebaseData = ({ ref }) => {
   const rtDatabase = firebase.database();
@@ -57,4 +53,4 @@ const addFirebaseData = ({ ref }) => {
   });
 };
 
-export { enableFirebaseConfig, getFirebaseData };
+export { enableFirebaseConfig, getFirebaseMasterData };

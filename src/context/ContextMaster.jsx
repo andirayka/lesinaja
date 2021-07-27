@@ -1,4 +1,3 @@
-import { getFirebaseData } from "@utils";
 import React, { createContext, useReducer } from "react";
 
 // * initial Value
