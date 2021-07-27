@@ -39,6 +39,7 @@ const getFirebaseData = ({ ref, onGetData }) => {
     const data = Object.values(snapshot.val());
     onGetData(data);
   });
+};
 
 // const getFirebaseData = ({ ref }) => {
 //   const rtDatabase = firebase.database();
@@ -57,4 +58,4 @@ const addFirebaseData = ({ ref }) => {
   });
 };
 
-export { enableFirebaseConfig, getFirebaseData };
+export { enableFirebaseConfig, getFirebaseData }
