@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Title, CardItem, Button } from "@components";
+import { Title, CardItem, Button, Skeleton } from "@components";
 import { Link } from "react-router-dom";
 import { getFirebaseMasterData } from "@utils";
 
@@ -63,46 +63,56 @@ const ListMaster = () => {
       <div className="flex">
         <CardItem title="Jenjang Kelas" containerClass="mt-8 flex-1">
           {listMaster.jenjangKelas ? (
-            listMaster.jenjangKelas.map((data, index) => {
-              return <p key={index}>{data.nama}</p>;
-            })
+            <>
+              {listMaster.jenjangKelas.map((item, index) => {
+                return <p key={index}>{item.nama}</p>;
+              })}
+              <div className="flex-row mt-8">
+                <Link
+                  to={{
+                    pathname: "/form-master",
+                    state: { title: "Jenjang Kelas" },
+                  }}
+                >
+                  <Button
+                    text="Lihat Lebih Banyak"
+                    additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
+                    onClick={() => {}}
+                  />
+                </Link>
+              </div>
+            </>
           ) : (
-            <p className="text-6xl text-center">...</p>
+            <Skeleton mainCount={[1, 2, 3]} subCount={[1]} />
           )}
-
-          <div className="flex-row mt-8">
-            <Link
-              to={{
-                pathname: "/form-master",
-                state: { title: "Jenjang Kelas" },
-              }}
-            >
-              <Button
-                text="Lihat Lebih Banyak"
-                additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-                onClick={() => {}}
-              />
-            </Link>
-          </div>
         </CardItem>
 
         {/* mapel */}
         <div className="mx-5"></div>
         <CardItem title="Mapel" containerClass="mt-8 flex-1">
-          {listMaster.mapel ? (
-            listMaster.mapel.map((data, index) => {
-              return <p key={index}>{data.nama}</p>;
-            })
+          {listMaster.jenjangKelas ? (
+            <>
+              {listMaster.jenjangKelas.map((item, index) => {
+                return <p key={index}>{item.nama}</p>;
+              })}
+              <div className="flex-row mt-8">
+                <Link
+                  to={{
+                    pathname: "/form-master",
+                    state: { title: "Jenjang Kelas" },
+                  }}
+                >
+                  <Button
+                    text="Lihat Lebih Banyak"
+                    additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
+                    onClick={() => {}}
+                  />
+                </Link>
+              </div>
+            </>
           ) : (
-            <p>loading</p>
+            <Skeleton mainCount={[1, 2, 3]} subCount={[1]} />
           )}
-          <div className="flex-row mt-8">
-            <Button
-              text="Lihat Lebih Banyak"
-              additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-              onClick={() => {}}
-            />
-          </div>
         </CardItem>
       </div>
 
@@ -110,47 +120,57 @@ const ListMaster = () => {
       {/* paket */}
       <div className="flex">
         <CardItem title="Paket" containerClass="mt-8 flex-1">
-          {listMaster.paket ? (
-            listMaster.paket.map((data, index) => {
-              return (
-                <div key={index}>
-                  <p>{`${data.nama} (${data.jumlah_pertemuan} pertemuan)`}</p>
-                </div>
-              );
-            })
+          {listMaster.jenjangKelas ? (
+            <>
+              {listMaster.jenjangKelas.map((item, index) => {
+                return <p key={index}>{item.nama}</p>;
+              })}
+              <div className="flex-row mt-8">
+                <Link
+                  to={{
+                    pathname: "/form-master",
+                    state: { title: "Jenjang Kelas" },
+                  }}
+                >
+                  <Button
+                    text="Lihat Lebih Banyak"
+                    additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
+                    onClick={() => {}}
+                  />
+                </Link>
+              </div>
+            </>
           ) : (
-            <p>loading</p>
+            <Skeleton mainCount={[1, 2, 3]} subCount={[1]} />
           )}
-          <div className="flex-row mt-8">
-            <Button
-              text="Lihat Lebih Banyak"
-              additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-              onClick={() => {}}
-            />
-          </div>
         </CardItem>
 
         {/* wilayah */}
         <div className="mx-5"></div>
         <CardItem title="Wilayah" containerClass="mt-8 flex-1">
-          {listMaster.wilayah ? (
-            listMaster.wilayah.map((data, index) => {
-              return (
-                <div key={index}>
-                  <p>{data.nama}</p>
-                </div>
-              );
-            })
+          {listMaster.jenjangKelas ? (
+            <>
+              {listMaster.jenjangKelas.map((item, index) => {
+                return <p key={index}>{item.nama}</p>;
+              })}
+              <div className="flex-row mt-8">
+                <Link
+                  to={{
+                    pathname: "/form-master",
+                    state: { title: "Jenjang Kelas" },
+                  }}
+                >
+                  <Button
+                    text="Lihat Lebih Banyak"
+                    additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
+                    onClick={() => {}}
+                  />
+                </Link>
+              </div>
+            </>
           ) : (
-            <p>loading</p>
+            <Skeleton mainCount={[1, 2, 3]} subCount={[1]} />
           )}
-          <div className="flex-row mt-8">
-            <Button
-              text="Lihat Lebih Banyak"
-              additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-              onClick={() => {}}
-            />
-          </div>
         </CardItem>
       </div>
     </div>
