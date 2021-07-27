@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { Title, Button, CardFormMaster } from "@components";
 import { ContextMaster } from "@context";
 import { useLocation } from "react-router-dom";
@@ -8,6 +8,7 @@ const FormMaster = () => {
   const {
     state: { formData, formStatus },
     getFormData,
+    setFormStatus,
   } = useContext(ContextMaster);
 
   useEffect(() => {
@@ -22,22 +23,13 @@ const FormMaster = () => {
             text={`Tambah ${prevData?.title}`}
             additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium mt-4"
             onClick={() => {
-              // setFormStatus("adding");
+              setFormStatus("adding");
             }}
           />
           <CardFormMaster
             formStatus={formStatus}
             containerClass="mt-8"
             data={formData}
-            onAdd={(item) => {
-              // setFormData((prev) => [...prev, ...item]);
-            }}
-            onDelete={(item) => {
-              // setFormData((prev) => prev.filter((o) => o.nama != item.nama));
-            }}
-            onCancelEditing={() => {
-              // setFormStatus("viewing");
-            }}
           />
         </>
       );

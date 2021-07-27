@@ -41,21 +41,50 @@ const getFirebaseData = ({ ref, onGetData }) => {
   });
 };
 
-// const getFirebaseData = ({ ref }) => {
-//   const rtDatabase = firebase.database();
-
-//   // .on untuk ambil berkali - kali
-//   return rtDatabase
-//     .ref(ref)
-//     .once("value", (snapshot) => snapshot)
-//     .then((value) => value.val());
-// };
-
-const addFirebaseData = ({ ref }) => {
+const getFirebaseDataOnce = ({ ref }) => {
   const rtDatabase = firebase.database();
-  rtDatabase.ref("master_jenjangkelas").set({
-    // id: firebase.database(),
+
+  // .on untuk ambil berkali - kali
+  return rtDatabase
+    .ref(ref)
+    .once("value", (snapshot) => snapshot)
+    .then((value) => value.val());
+};
+
+const addFirebaseData = ({ ref, payload }) => {
+  const rtDatabase = firebase.database();
+  const newKey = firebase.database().ref(ref).push().key;
+
+  rtDatabase.ref(`${ref}/${newKey}`).set(payload, (error) => {
+    if (error) {
+      console.log("Data could not be added." + error);
+    } else {
+      console.log("Data added successfully.");
+    }
   });
 };
 
-export { enableFirebaseConfig, getFirebaseData }
+const updateFirebaseData = ({ ref, payload }) => {
+  const rtDatabase = firebase.database();
+  rtDatabase.ref(ref).update(payload, (error) => {
+    if (error) {
+      console.log("Data could not be updated." + error);
+    } else {
+      console.log("Data updated successfully.");
+    }
+  });
+};
+
+const deleteFirebaseData = ({ ref }) => {
+  const rtDatabase = firebase.database();
+  rtDatabase.ref(ref).remove();
+};
+
+export {
+  enableFirebaseConfig,
+  getFirebaseData,
+  getFirebaseDataOnce,
+  addFirebaseData,
+  updateFirebaseData,
+  deleteFirebaseData,
+};
