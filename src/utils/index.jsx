@@ -1,6 +1,6 @@
 import {
   enableFirebaseConfig,
-  getFirebaseData,
+  getFirebaseMasterData,
   getFirebaseDataOnce,
   addFirebaseData,
   updateFirebaseData,
@@ -9,7 +9,7 @@ import {
 
 export {
   enableFirebaseConfig,
-  getFirebaseData,
+  getFirebaseMasterData,
   getFirebaseDataOnce,
   addFirebaseData,
   updateFirebaseData,

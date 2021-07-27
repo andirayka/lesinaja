@@ -17,6 +17,9 @@ import {
   AccountTutor,
   ListLowongan,
   ListCourseTutor,
+  PresensiLesTutor,
+  PresensiLesWalmur,
+  AccountWalmur,
 } from "@pages";
 import ProviderApp from "@context";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -34,12 +37,24 @@ const layoutPages = [
     component: AccountTutor,
   },
   {
+    path: ["/akun-walmur"],
+    component: AccountWalmur,
+  },
+  {
     path: ["/list-lowongan"],
     component: ListLowongan,
   },
   {
     path: ["/list-les"],
     component: ListCourseTutor,
+  },
+  {
+    path: ["/presensi-les-tutor"],
+    component: PresensiLesTutor,
+  },
+  {
+    path: ["/presensi-les-walmur"],
+    component: PresensiLesWalmur,
   },
   {
     path: ["/beranda"],

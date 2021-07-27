@@ -34,11 +34,16 @@ const enableFirebaseConfig = () => {
 };
 
 // * Get data
-const getFirebaseData = ({ ref, onGetData }) => {
-  rtDatabase.ref(ref).on("value", (snapshot) => {
-    const data = Object.values(snapshot.val());
-    onGetData(data);
-  });
+const getFirebaseMasterData = ({ onGetData, ref }) => {
+  const mainRef = firebase.database().ref();
+
+  mainRef
+    .child(ref)
+    .once("value")
+    .then((snapshot) => {
+      const rawData = snapshot.val();
+      onGetData(rawData);
+    });
 };
 
 const getFirebaseDataOnce = ({ ref }) => {
@@ -82,7 +87,7 @@ const deleteFirebaseData = ({ ref }) => {
 
 export {
   enableFirebaseConfig,
-  getFirebaseData,
+  getFirebaseMasterData,
   getFirebaseDataOnce,
   addFirebaseData,
   updateFirebaseData,

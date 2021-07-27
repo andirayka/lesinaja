@@ -13,8 +13,10 @@ import InputFile from "./InputFile";
 import RowMaster from "./RowMaster";
 import SectionFee from "./SectionFee";
 import NavbarItem from "./NavbarItem";
+import SectionContent from "./SectionContent";
 
 export {
+  SectionContent,
   InputText,
   InputPassword,
   InputSearch,
