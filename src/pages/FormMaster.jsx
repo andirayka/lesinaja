@@ -2,6 +2,8 @@ import React, { useEffect, useContext } from "react";
 import { Title, Button, CardFormMaster, Skeleton } from "@components";
 import { ContextMaster } from "@context";
 import { useLocation } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSyncAlt } from "@fortawesome/free-solid-svg-icons";
 
 const FormMaster = () => {
   const { state: prevData } = useLocation();
@@ -16,28 +18,37 @@ const FormMaster = () => {
   }, []);
 
   const renderForm = () => {
-    if (["viewing", "adding", "editing"].includes(formStatus) && formData) {
-      return (
-        <>
-          <Button
-            text={`Tambah ${prevData?.title}`}
-            additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium mt-4"
-            onClick={() => {
-              setFormStatus("adding");
-            }}
-          />
+    if (formStatus == "loading") {
+      return <p className="text-7xl text-red-700">ANIMASI LOADING</p>;
+    }
 
-          <CardFormMaster
-            formStatus={formStatus}
-            containerClass="mt-8"
-            data={formData}
-          />
-        </>
-      );
-    }
-    if (formStatus == "empty") {
-      return <p className="text-7xl text-red-700">HALAMAN KOSONG</p>;
-    }
+    return (
+      <>
+        <Button
+          text={`Tambah ${prevData?.title}`}
+          additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium mt-4"
+          onClick={() => {
+            setFormStatus("adding");
+          }}
+        />
+
+        {/* Sementara */}
+        {formStatus == "refreshing" && (
+          <div>
+            <FontAwesomeIcon
+              icon={faSyncAlt}
+              className="text-2xl text-green-700 mt-7"
+              spin
+            />
+          </div>
+        )}
+        <CardFormMaster
+          formStatus={formStatus}
+          containerClass="mt-8"
+          data={formData}
+        />
+      </>
+    );
   };
 
   return (
