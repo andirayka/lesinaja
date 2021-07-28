@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   ContentContainer,
   InputText,
@@ -6,9 +6,9 @@ import {
   InputPassword,
   SectionTitle,
   Button,
-} from '@components';
-import { logregLogo } from '@assets';
-import { useForm } from 'react-hook-form';
+} from "@components";
+import { logregLogo } from "@assets";
+import { useForm } from "react-hook-form";
 import { handleRegister } from "@utils";
 
 const Register = () => {
@@ -35,8 +35,8 @@ const Register = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <InputText
             label="Nama"
-            useHookRegister={register('name', {
-              required: 'Nama harus diisi',
+            useHookRegister={register("name", {
+              required: "Nama harus diisi",
             })}
             placeholder="Contoh: Handoko Wahyudi"
           />
@@ -44,8 +44,8 @@ const Register = () => {
 
           <InputText
             label="Email"
-            useHookRegister={register('email', {
-              required: 'Email harus diisi',
+            useHookRegister={register("email", {
+              required: "Email harus diisi",
             })}
             placeholder="Contoh: handoko@gmail.com"
           />
@@ -55,8 +55,8 @@ const Register = () => {
 
           <InputPassword
             label="Kata Sandi"
-            useHookRegister={register('password', {
-              required: 'Kata sandi harus diisi',
+            useHookRegister={register("password", {
+              required: "Kata sandi harus diisi",
             })}
             placeholder="Masukkan kata sandi Anda"
           />
@@ -66,19 +66,14 @@ const Register = () => {
 
           <InputPassword
             label="Ulangi Kata Sandi"
-            useHookRegister={register('repeatPassword', {
-              required: 'Kata sandi tidak sama dengan kata sandi sebelumnya',
+            useHookRegister={register("repeatPassword", {
+              required: "Kata sandi tidak sama dengan kata sandi sebelumnya",
             })}
             placeholder="Masukkan ulang kata sandi Anda"
           />
 
           <InputRadio heading="Saya adalah" />
-          {[
-            { id: 1, role: 'Tutor/Pengajar', radioItem: 'Tutor/Pengajar' },
-            { id: 2, role: 'Wali Murid', radioItem: 'Wali Murid' },
-          ].map(({ id, radioItem, role }) => {
-            return <InputRadio key={id} id={radioItem} label={role} />;
-          })}
+          <InputRadio />
           <Button
             type="submit"
             text="Daftar"
