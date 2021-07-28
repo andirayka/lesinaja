@@ -88,7 +88,22 @@ const Register = () => {
           )}
 
           <InputRadio heading="Saya adalah" />
-          <InputRadio />
+          <InputRadio
+            id="walimurid"
+            label="Wali Murid"
+            value="walmur"
+            useHookRegister={register("role", {
+              required: "pilih salah satu",
+            })}
+          />
+          <InputRadio
+            id="tutorpengajar"
+            label="Tutor/Pengajar"
+            value="tutor"
+            useHookRegister={register("role", {
+              required: "pilih salah satu",
+            })}
+          />
           <Button
             type="submit"
             text="Daftar"

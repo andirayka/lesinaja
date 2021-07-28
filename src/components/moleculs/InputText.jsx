@@ -1,6 +1,12 @@
 import React from "react";
 
-const InputText = ({ label, placeholder, useHookRegister, value, disabled }) => {
+const InputText = ({
+  label,
+  placeholder,
+  useHookRegister,
+  value,
+  disabled,
+}) => {
   return (
     <div className="mt-4">
       <p className="text-left text-base font-medium">{label}</p>
