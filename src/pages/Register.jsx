@@ -10,6 +10,7 @@ import {
 import { logregLogo } from "@assets";
 import { useForm } from "react-hook-form";
 import { handleRegister } from "@utils";
+import { useHistory } from "react-router-dom";
 
 const Register = () => {
   const {
@@ -18,10 +19,21 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    handleRegister(data.email, data.password);
+  const history = useHistory();
+
+  const onSubmit = async (data) => {
+    if (data.password == data.repeatPassword) {
+      const { success } = await handleRegister(data.email, data.password);
+
+      if (success) {
+        history.push("/akun");
+      } else {
+        alert("Data yang ada masukkan salah");
+      }
+    } else {
+      alert("Kata sandi tidak sama dengan kata sandi sebelumnya");
+    }
     console.log(data);
-    console.log(errors);
   };
 
   return (
@@ -71,6 +83,9 @@ const Register = () => {
             })}
             placeholder="Masukkan ulang kata sandi Anda"
           />
+          {errors.repeatPassword && (
+            <p className="text-red-500">{errors.repeatPassword.message}</p>
+          )}
 
           <InputRadio heading="Saya adalah" />
           <InputRadio />

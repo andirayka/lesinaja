@@ -86,21 +86,40 @@ const deleteFirebaseData = ({ ref }) => {
   return rtDatabase.ref(ref).remove();
 };
 
-const handleRegister = (email,password) => {
-  firebase.auth().createUserWithEmailAndPassword(email, password)
-  .then((userCredential) => {
-    // Signed in
+const handleRegister = async (email, password) => {
+  try {
+    const userCredential = await firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password);
     var user = userCredential.user;
     console.log(user);
-  })
-  .catch((error) => {
+    return { success: true };
+  } catch (error) {
     var errorCode = error.code;
     var errorMessage = error.message;
     console.log(errorCode, errorMessage);
-  });
-}
+    return { success: false };
+  }
+};
+
+const handleLogin = async (email, password) => {
+  try {
+    const userCredential = await firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password);
+    var user = userCredential.user;
+    console.log(user);
+    return { success: true };
+  } catch (error) {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    console.log(errorCode, errorMessage);
+    return { success: false };
+  }
+};
 
 export {
+  handleLogin,
   handleRegister,
   enableFirebaseConfig,
   getFirebaseMasterData,
