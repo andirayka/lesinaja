@@ -14,8 +14,10 @@ import RowMaster from "./RowMaster";
 import SectionFee from "./SectionFee";
 import NavbarItem from "./NavbarItem";
 import SectionContent from "./SectionContent";
+import InputEmail from "./InputEmail";
 
 export {
+  InputEmail,
   SectionContent,
   InputText,
   InputPassword,

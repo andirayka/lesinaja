@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
-const InputPassword = ({ label, placeholder, useHookRegister }) => {
+const InputPassword = ({ label, placeholder, useHookRegister, name }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -10,6 +10,7 @@ const InputPassword = ({ label, placeholder, useHookRegister }) => {
       <p className="text-left text-base font-medium">{label}</p>
       <input
         type={showPassword ? "text" : "password"}
+        name={name}
         placeholder={placeholder}
         {...useHookRegister}
         className="border-2 rounded-lg outline-none border-gray-200 px-1 py-1.5 w-full focus:border-gray-600"

@@ -1,6 +1,6 @@
 import React from "react";
 
-const InputText = ({
+const InputEmail = ({
   label,
   placeholder,
   useHookRegister,
@@ -12,7 +12,7 @@ const InputText = ({
     <div className="mt-4">
       <p className="text-left text-base font-medium">{label}</p>
       <input
-        type="text"
+        type="email"
         name={name}
         disabled={disabled}
         value={value}
@@ -24,4 +24,4 @@ const InputText = ({
   );
 };
 
-export default InputText;
+export default InputEmail;

@@ -19,6 +19,16 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
+  const validationEmail = () => {
+    let type = document.forms["validation"]["email"].value;
+    let atpos = type.indexOf("@");
+    let dotpos = type.lastIndexOf(".");
+    if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= type.length) {
+      alert("Format Email yang Anda masukkan salah");
+      return true;
+    }
+  };
+
   const history = useHistory();
 
   const onSubmit = async (data) => {
@@ -28,7 +38,11 @@ const Register = () => {
       if (success) {
         history.push("/akun");
       } else {
-        alert("Data yang ada masukkan salah");
+        if (validationEmail()) {
+          return false;
+        } else {
+          alert("Data yang ada masukkan sudah ada");
+        }
       }
     } else {
       alert("Kata sandi tidak sama dengan kata sandi sebelumnya");
@@ -44,7 +58,7 @@ const Register = () => {
           heading="Daftar Pengguna Baru"
           body="Daftarkan dirimu dan nikmati pengalaman belajar/mengajar yang asyik"
         />
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} name="validation">
           <InputText
             label="Nama"
             useHookRegister={register("name", {
@@ -55,6 +69,7 @@ const Register = () => {
           {errors.name && <p className="text-red-500">{errors.name.message}</p>}
 
           <InputText
+            name="email"
             label="Email"
             useHookRegister={register("email", {
               required: "Email harus diisi",
