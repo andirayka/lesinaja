@@ -3,8 +3,8 @@ import {
   Title,
   Button,
   CardFormMaster,
-  Skeleton,
   RefreshIcon,
+  Skeleton,
 } from "@components";
 import { ContextMaster } from "@context";
 import { useLocation } from "react-router-dom";
@@ -22,26 +22,35 @@ const FormMaster = () => {
   }, []);
 
   const renderForm = () => {
-    if (formStatus == "loading") {
-      return <p className="text-7xl text-red-700">ANIMASI LOADING</p>;
-    }
-
     return (
       <>
         <Button
           text={`Tambah ${prevData?.title}`}
-          additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium mt-4"
+          additionalClassName={
+            formStatus == "loading"
+              ? "bg-gray-400 hover:bg-white rounded-lg font-medium mt-4"
+              : "bg-yellow-400 hover:bg-white rounded-lg font-medium mt-4"
+          }
           onClick={() => {
             setFormStatus("adding");
           }}
         />
-        <div className="relative">
+        <div className="relative spa">
           {formStatus == "refreshing" && <RefreshIcon />}
-          <CardFormMaster
-            formStatus={formStatus}
-            containerClass="mt-8"
-            data={formData}
-          />
+          {formStatus == "loading" ? (
+            <CardFormMaster formStatus={formStatus} containerClass="mt-8">
+              <Skeleton
+                mainCount={[1, 2, 3, 4, 5, 6]}
+                containerClassName="space-y-3 px-4 py-2"
+              />
+            </CardFormMaster>
+          ) : (
+            <CardFormMaster
+              formStatus={formStatus}
+              containerClass="mt-8"
+              data={formData}
+            />
+          )}
         </div>
       </>
     );

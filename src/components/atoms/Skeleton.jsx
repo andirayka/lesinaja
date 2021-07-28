@@ -1,9 +1,13 @@
 import React from "react";
 
-const Skeleton = ({ mainCount, subCount }) => {
+const Skeleton = ({
+  mainCount,
+  subCount,
+  containerClassName = "space-y-3",
+}) => {
   return (
     <div className="animate-pulse">
-      <div className="space-y-3">
+      <div className={containerClassName}>
         {mainCount.map((index) => {
           return <div key={index} className="h-3 bg-gray-200 rounded" />;
         })}

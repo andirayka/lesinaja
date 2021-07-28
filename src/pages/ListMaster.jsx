@@ -23,7 +23,7 @@ const ListMaster = () => {
         <CardItem title="Jenjang Kelas" containerClass="mt-8 flex-1">
           <>
             {formStatus == "loading" && (
-              <Skeleton mainCount={[1, 2, 3]} subCount={[1]} />
+              <Skeleton mainCount={[1, 2, 3]} subCount={[1, 2]} />
             )}
 
             {formStatus == "empty" && <EmptyIcon />}
