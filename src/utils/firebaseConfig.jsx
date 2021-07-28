@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/analytics";
 import "firebase/database";
+import "firebase/auth";
 
 const firebaseConfig = {
   // * Project Coba RTDB coba2 punya Andi
@@ -85,7 +86,22 @@ const deleteFirebaseData = ({ ref }) => {
   return rtDatabase.ref(ref).remove();
 };
 
+const handleRegister = (email,password) => {
+  firebase.auth().createUserWithEmailAndPassword(email, password)
+  .then((userCredential) => {
+    // Signed in
+    var user = userCredential.user;
+    console.log(user);
+  })
+  .catch((error) => {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    console.log(errorCode, errorMessage);
+  });
+}
+
 export {
+  handleRegister,
   enableFirebaseConfig,
   getFirebaseMasterData,
   getFirebaseDataOnce,
