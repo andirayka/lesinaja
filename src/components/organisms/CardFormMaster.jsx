@@ -18,6 +18,10 @@ const CardFormMaster = ({ containerClass, data, formStatus }) => {
             <RowMaster key={index} type="list" item={{ ...value, id: key }} />
           );
         })}
+
+      {formStatus == "empty" && (
+        <p className="text-center text-3xl my-4">Tidak ada data</p>
+      )}
     </div>
   );
 };

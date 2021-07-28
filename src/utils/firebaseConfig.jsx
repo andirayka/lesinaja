@@ -60,7 +60,7 @@ const addFirebaseData = ({ ref, payload }) => {
   const rtDatabase = firebase.database();
   const newKey = firebase.database().ref(ref).push().key;
 
-  rtDatabase.ref(`${ref}/${newKey}`).set(payload, (error) => {
+  return rtDatabase.ref(`${ref}/${newKey}`).set(payload, (error) => {
     if (error) {
       console.log("Data could not be added." + error);
     } else {
@@ -71,7 +71,7 @@ const addFirebaseData = ({ ref, payload }) => {
 
 const updateFirebaseData = ({ ref, payload }) => {
   const rtDatabase = firebase.database();
-  rtDatabase.ref(ref).update(payload, (error) => {
+  return rtDatabase.ref(ref).update(payload, (error) => {
     if (error) {
       console.log("Data could not be updated." + error);
     } else {
@@ -82,7 +82,7 @@ const updateFirebaseData = ({ ref, payload }) => {
 
 const deleteFirebaseData = ({ ref }) => {
   const rtDatabase = firebase.database();
-  rtDatabase.ref(ref).remove();
+  return rtDatabase.ref(ref).remove();
 };
 
 export {

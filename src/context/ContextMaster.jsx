@@ -47,7 +47,7 @@ const ProviderMaster = ({ children }) => {
     dispatch({ type: "SET_FORM_STATUS", status });
   };
 
-  const saveFormData = (data) => {
+  const saveFormData = async (data) => {
     let fbParams = {
       payload: { nama: data.nama },
     };
@@ -55,19 +55,29 @@ const ProviderMaster = ({ children }) => {
     if (data.id) {
       // Update
       fbParams.ref = `master_jenjangkelas/${data.id}`;
-      updateFirebaseData(fbParams);
+      await updateFirebaseData(fbParams);
     } else {
       // Add new
       fbParams.ref = `master_jenjangkelas`;
-      addFirebaseData(fbParams);
+      await addFirebaseData(fbParams);
     }
+
+    refreshFormData();
   };
 
-  const deleteFormData = (dataId) => {
+  const deleteFormData = async (dataId) => {
     let fbParams = {
       ref: `master_jenjangkelas/${dataId}`,
     };
-    deleteFirebaseData(fbParams);
+    await deleteFirebaseData(fbParams);
+
+    refreshFormData();
+  };
+
+  const refreshFormData = async () => {
+    setFormStatus("refreshing");
+    await getFormData();
+    setFormStatus("viewing");
   };
 
   return (
@@ -78,6 +88,7 @@ const ProviderMaster = ({ children }) => {
         setFormStatus,
         saveFormData,
         deleteFormData,
+        refreshFormData,
       }}
     >
       {children}
