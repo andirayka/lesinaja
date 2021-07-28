@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   ContentContainer,
   InputText,
@@ -6,10 +6,11 @@ import {
   InputPassword,
   SectionTitle,
   Button,
-} from '@components';
-import { logregLogo } from '@assets';
-import { useForm } from 'react-hook-form';
+} from "@components";
+import { logregLogo } from "@assets";
+import { useForm } from "react-hook-form";
 import { handleRegister } from "@utils";
+import { useHistory } from "react-router-dom";
 
 const Register = () => {
   const {
@@ -18,10 +19,21 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    handleRegister(data.email, data.password);
+  const history = useHistory();
+
+  const onSubmit = async (data) => {
+    if (data.password == data.repeatPassword) {
+      const { success } = await handleRegister(data.email, data.password);
+
+      if (success) {
+        history.push("/akun");
+      } else {
+        alert("Data yang ada masukkan salah");
+      }
+    } else {
+      alert("Kata sandi tidak sama dengan kata sandi sebelumnya");
+    }
     console.log(data);
-    console.log(errors);
   };
 
   return (
@@ -35,8 +47,8 @@ const Register = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <InputText
             label="Nama"
-            useHookRegister={register('name', {
-              required: 'Nama harus diisi',
+            useHookRegister={register("name", {
+              required: "Nama harus diisi",
             })}
             placeholder="Contoh: Handoko Wahyudi"
           />
@@ -44,8 +56,8 @@ const Register = () => {
 
           <InputText
             label="Email"
-            useHookRegister={register('email', {
-              required: 'Email harus diisi',
+            useHookRegister={register("email", {
+              required: "Email harus diisi",
             })}
             placeholder="Contoh: handoko@gmail.com"
           />
@@ -55,8 +67,8 @@ const Register = () => {
 
           <InputPassword
             label="Kata Sandi"
-            useHookRegister={register('password', {
-              required: 'Kata sandi harus diisi',
+            useHookRegister={register("password", {
+              required: "Kata sandi harus diisi",
             })}
             placeholder="Masukkan kata sandi Anda"
           />
@@ -66,19 +78,32 @@ const Register = () => {
 
           <InputPassword
             label="Ulangi Kata Sandi"
-            useHookRegister={register('repeatPassword', {
-              required: 'Kata sandi tidak sama dengan kata sandi sebelumnya',
+            useHookRegister={register("repeatPassword", {
+              required: "Kata sandi tidak sama dengan kata sandi sebelumnya",
             })}
             placeholder="Masukkan ulang kata sandi Anda"
           />
+          {errors.repeatPassword && (
+            <p className="text-red-500">{errors.repeatPassword.message}</p>
+          )}
 
           <InputRadio heading="Saya adalah" />
           {[
-            { id: 1, role: 'Tutor/Pengajar', radioItem: 'Tutor/Pengajar' },
-            { id: 2, role: 'Wali Murid', radioItem: 'Wali Murid' },
+            { id: 1, role: "Tutor/Pengajar", radioItem: "tutor" },
+            { id: 2, role: "Wali Murid", radioItem: "walmur" },
           ].map(({ id, radioItem, role }) => {
-            return <InputRadio key={id} id={radioItem} label={role} />;
+            return (
+              <InputRadio
+                key={id}
+                id={radioItem}
+                label={role}
+                useHookRegister={register("role", {
+                  required: "Pilih salah satu role",
+                })}
+              />
+            );
           })}
+
           <Button
             type="submit"
             text="Daftar"

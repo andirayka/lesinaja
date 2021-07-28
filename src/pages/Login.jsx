@@ -9,6 +9,8 @@ import {
 import { logregLogo } from "@assets";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
+import { handleLogin } from "@utils";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const {
@@ -18,10 +20,17 @@ const Login = () => {
   } = useForm();
   const history = useHistory();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    const { success } = await handleLogin(data.email, data.password);
+
+    if (success) {
+      history.push("/beranda");
+    } else {
+      alert("Data yang ada masukkan salah");
+    }
     // console.log(data);
     // console.log(errors);
-    history.push("/beranda");
+    // history.push("/beranda");
   };
 
   return (
@@ -61,6 +70,13 @@ const Login = () => {
             text="Masuk"
             additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 font-medium w-full rounded-full"
           />
+
+          <p className="text-center mt-4">
+            Belum punya akun?{" "}
+            <Link className="text-blue-600" to={{ pathname: "/daftar" }}>
+              Daftar di sini
+            </Link>
+          </p>
         </form>
       </ContentContainer>
     </div>

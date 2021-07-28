@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const InputRadio = ({ id, heading, label, useHookRegister }) => {
   return (
@@ -9,7 +9,13 @@ const InputRadio = ({ id, heading, label, useHookRegister }) => {
 
       <div className="inline-block">
         {id && (
-          <input type="radio" id={id} {...useHookRegister} className="mr-2" name="role" />
+          <input
+            type="radio"
+            id={id}
+            {...useHookRegister}
+            className="mr-2"
+            name="role"
+          />
         )}
 
         {label && (
