@@ -29,7 +29,7 @@ const ListMaster = () => {
             {formStatus == "empty" && <EmptyIcon />}
 
             {listData &&
-              Object.values(listData).map((item, index) => {
+              Object.values(listData.jenjangkelas).map((item, index) => {
                 return <p key={index}>{item.nama}</p>;
               })}
 
@@ -61,7 +61,7 @@ const ListMaster = () => {
             {formStatus == "empty" && <EmptyIcon />}
 
             {listData &&
-              Object.values(listData).map((item, index) => {
+              Object.values(listData.mapel).map((item, index) => {
                 return <p key={index}>{item.nama}</p>;
               })}
 
@@ -95,8 +95,12 @@ const ListMaster = () => {
             {formStatus == "empty" && <EmptyIcon />}
 
             {listData &&
-              Object.values(listData).map((item, index) => {
-                return <p key={index}>{item.nama}</p>;
+              Object.values(listData.paket).map((item, index) => {
+                return (
+                  <p
+                    key={index}
+                  >{`${item.nama} (${item.jumlah_pertemuan} pertemuan)`}</p>
+                );
               })}
             <div className="flex-row mt-8">
               <Link
@@ -126,7 +130,7 @@ const ListMaster = () => {
             {formStatus == "empty" && <EmptyIcon />}
 
             {listData &&
-              Object.values(listData).map((item, index) => {
+              Object.values(listData.wilayah).map((item, index) => {
                 return <p key={index}>{item.nama}</p>;
               })}
             <div className="flex-row mt-8">

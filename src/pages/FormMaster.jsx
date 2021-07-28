@@ -1,9 +1,13 @@
 import React, { useEffect, useContext } from "react";
-import { Title, Button, CardFormMaster, Skeleton } from "@components";
+import {
+  Title,
+  Button,
+  CardFormMaster,
+  Skeleton,
+  RefreshIcon,
+} from "@components";
 import { ContextMaster } from "@context";
 import { useLocation } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSyncAlt } from "@fortawesome/free-solid-svg-icons";
 
 const FormMaster = () => {
   const { state: prevData } = useLocation();
@@ -31,22 +35,14 @@ const FormMaster = () => {
             setFormStatus("adding");
           }}
         />
-
-        {/* Sementara */}
-        {formStatus == "refreshing" && (
-          <div>
-            <FontAwesomeIcon
-              icon={faSyncAlt}
-              className="text-2xl text-green-700 mt-7"
-              spin
-            />
-          </div>
-        )}
-        <CardFormMaster
-          formStatus={formStatus}
-          containerClass="mt-8"
-          data={formData}
-        />
+        <div className="relative">
+          {formStatus == "refreshing" && <RefreshIcon />}
+          <CardFormMaster
+            formStatus={formStatus}
+            containerClass="mt-8"
+            data={formData}
+          />
+        </div>
       </>
     );
   };
