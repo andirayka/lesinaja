@@ -9,12 +9,15 @@ import React, { createContext, useReducer } from "react";
 // * initial Value
 const initialState = {
   formData: null,
+  listData: null,
   formStatus: "loading",
 };
 
 // * Reducer
 const reducer = (state, action) => {
   switch (action.type) {
+    case "GET_LIST_DATA":
+      return { ...state, listData: action.data };
     case "GET_FORM_DATA":
       return { ...state, formData: action.data };
     case "SET_FORM_STATUS":
@@ -28,6 +31,16 @@ const reducer = (state, action) => {
 const ContextMaster = createContext(initialState);
 const ProviderMaster = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const getListData = async () => {
+    const data = await getFirebaseDataOnce({ ref: "master_jenjangkelas" });
+    if (data) {
+      setFormStatus("viewing");
+      dispatch({ type: "GET_LIST_DATA", data });
+    } else {
+      setFormStatus("empty");
+    }
+  };
 
   const getFormData = async () => {
     const fbParams = {
@@ -85,6 +98,7 @@ const ProviderMaster = ({ children }) => {
       value={{
         state,
         getFormData,
+        getListData,
         setFormStatus,
         saveFormData,
         deleteFormData,

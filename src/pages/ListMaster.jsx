@@ -1,60 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { Title, CardItem, Button, Skeleton } from "@components";
+import React, { useContext, useEffect } from "react";
+import { Title, CardItem, Button, Skeleton, EmptyIcon } from "@components";
 import { Link } from "react-router-dom";
-import { getFirebaseMasterData } from "@utils";
+import { ContextMaster } from "@context";
 
 const ListMaster = () => {
-  const [listMaster, setListMaster] = useState({});
+  const {
+    state: { listData, formStatus },
+    getListData,
+  } = useContext(ContextMaster);
 
   useEffect(() => {
-    const fbParams = {
-      jenjangKelasParams: {
-        ref: "master_jenjangkelas",
-        onGetData: (data) => {
-          if (data) {
-            const jenjangKelasData = Object.values(data);
-            setListMaster({
-              jenjangKelas: jenjangKelasData,
-            });
-          }
-        },
-      },
-      mapelParams: {
-        ref: "master_mapel",
-        onGetData: (data) => {
-          const mapelKelasData = Object.values(data);
-          setListMaster((prev) => ({
-            ...prev,
-            mapel: mapelKelasData,
-          }));
-        },
-      },
-      paketParams: {
-        ref: "master_paket",
-        onGetData: (data) => {
-          const paketData = Object.values(data);
-          setListMaster((prev) => ({
-            ...prev,
-            paket: paketData,
-          }));
-        },
-      },
-      wilayahParams: {
-        ref: "master_wilayah",
-        onGetData: (data) => {
-          const wilayahData = Object.values(data);
-          setListMaster((prev) => ({
-            ...prev,
-            wilayah: wilayahData,
-          }));
-        },
-      },
-    };
-    getFirebaseMasterData(fbParams.jenjangKelasParams);
-    getFirebaseMasterData(fbParams.mapelParams);
-    getFirebaseMasterData(fbParams.paketParams);
-    getFirebaseMasterData(fbParams.wilayahParams);
-    console.log(listMaster.jenjangKelas);
+    getListData();
   }, []);
 
   return (
@@ -65,57 +21,65 @@ const ListMaster = () => {
       {/* jenjangKelas */}
       <div className="flex">
         <CardItem title="Jenjang Kelas" containerClass="mt-8 flex-1">
-          {listMaster.jenjangKelas ? (
-            <>
-              {listMaster.jenjangKelas.map((item, index) => {
+          <>
+            {formStatus == "loading" && (
+              <Skeleton mainCount={[1, 2, 3]} subCount={[1]} />
+            )}
+
+            {formStatus == "empty" && <EmptyIcon />}
+
+            {listData &&
+              Object.values(listData).map((item, index) => {
                 return <p key={index}>{item.nama}</p>;
               })}
-              <div className="flex-row mt-8">
-                <Link
-                  to={{
-                    pathname: "/form-master",
-                    state: { title: "Jenjang Kelas" },
-                  }}
-                >
-                  <Button
-                    text="Lihat Lebih Banyak"
-                    additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-                    onClick={() => {}}
-                  />
-                </Link>
-              </div>
-            </>
-          ) : (
-            <Skeleton mainCount={[1, 2]} subCount={[1, 2]} />
-          )}
+
+            <div className="flex-row mt-8">
+              <Link
+                to={{
+                  pathname: "/form-master",
+                  state: { title: "Jenjang Kelas" },
+                }}
+              >
+                <Button
+                  text="Kelola"
+                  additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
+                  onClick={() => {}}
+                />
+              </Link>
+            </div>
+          </>
         </CardItem>
 
         {/* mapel */}
         <div className="mx-5"></div>
         <CardItem title="Mapel" containerClass="mt-8 flex-1">
-          {listMaster.mapel ? (
-            <>
-              {listMaster.mapel.map((item, index) => {
+          <>
+            {formStatus == "loading" && (
+              <Skeleton mainCount={[1, 2, 3]} subCount={[1]} />
+            )}
+
+            {formStatus == "empty" && <EmptyIcon />}
+
+            {listData &&
+              Object.values(listData).map((item, index) => {
                 return <p key={index}>{item.nama}</p>;
               })}
-              <div className="flex-row mt-8">
-                <Link
-                  to={{
-                    pathname: "/form-master",
-                    state: { title: "Jenjang Kelas" },
-                  }}
-                >
-                  <Button
-                    text="Lihat Lebih Banyak"
-                    additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-                    onClick={() => {}}
-                  />
-                </Link>
-              </div>
-            </>
-          ) : (
-            <Skeleton mainCount={[1, 2, 3]} subCount={[1]} />
-          )}
+
+            <div className="flex-row mt-8">
+              <Link
+                to={{
+                  pathname: "/form-master",
+                  state: { title: "Jenjang Kelas" },
+                }}
+              >
+                <Button
+                  text="Kelola"
+                  additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
+                  onClick={() => {}}
+                />
+              </Link>
+            </div>
+          </>
         </CardItem>
       </div>
 
@@ -123,61 +87,63 @@ const ListMaster = () => {
       {/* paket */}
       <div className="flex">
         <CardItem title="Paket" containerClass="mt-8 flex-1">
-          {listMaster.paket ? (
-            <>
-              {listMaster.paket.map((item, index) => {
-                return (
-                  <p
-                    key={index}
-                  >{`${item.nama} (${item.jumlah_pertemuan} pertemuan)`}</p>
-                );
+          <>
+            {formStatus == "loading" && (
+              <Skeleton mainCount={[1, 2, 3]} subCount={[1]} />
+            )}
+
+            {formStatus == "empty" && <EmptyIcon />}
+
+            {listData &&
+              Object.values(listData).map((item, index) => {
+                return <p key={index}>{item.nama}</p>;
               })}
-              <div className="flex-row mt-8">
-                <Link
-                  to={{
-                    pathname: "/form-master",
-                    state: { title: "Jenjang Kelas" },
-                  }}
-                >
-                  <Button
-                    text="Lihat Lebih Banyak"
-                    additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-                    onClick={() => {}}
-                  />
-                </Link>
-              </div>
-            </>
-          ) : (
-            <Skeleton mainCount={[1, 2, 3]} subCount={[1]} />
-          )}
+            <div className="flex-row mt-8">
+              <Link
+                to={{
+                  pathname: "/form-master",
+                  state: { title: "Jenjang Kelas" },
+                }}
+              >
+                <Button
+                  text="Kelola"
+                  additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
+                  onClick={() => {}}
+                />
+              </Link>
+            </div>
+          </>
         </CardItem>
 
         {/* wilayah */}
         <div className="mx-5"></div>
         <CardItem title="Wilayah" containerClass="mt-8 flex-1">
-          {listMaster.wilayah ? (
-            <>
-              {listMaster.wilayah.map((item, index) => {
+          <>
+            {formStatus == "loading" && (
+              <Skeleton mainCount={[1, 2, 3]} subCount={[1]} />
+            )}
+
+            {formStatus == "empty" && <EmptyIcon />}
+
+            {listData &&
+              Object.values(listData).map((item, index) => {
                 return <p key={index}>{item.nama}</p>;
               })}
-              <div className="flex-row mt-8">
-                <Link
-                  to={{
-                    pathname: "/form-master",
-                    state: { title: "Jenjang Kelas" },
-                  }}
-                >
-                  <Button
-                    text="Lihat Lebih Banyak"
-                    additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-                    onClick={() => {}}
-                  />
-                </Link>
-              </div>
-            </>
-          ) : (
-            <Skeleton mainCount={[1, 2, 3]} subCount={[1]} />
-          )}
+            <div className="flex-row mt-8">
+              <Link
+                to={{
+                  pathname: "/form-master",
+                  state: { title: "Jenjang Kelas" },
+                }}
+              >
+                <Button
+                  text="Kelola"
+                  additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
+                  onClick={() => {}}
+                />
+              </Link>
+            </div>
+          </>
         </CardItem>
       </div>
     </div>
