@@ -9,6 +9,7 @@ import {
 } from '@components';
 import { logregLogo } from '@assets';
 import { useForm } from 'react-hook-form';
+import {  } from "";
 
 const Register = () => {
   const {

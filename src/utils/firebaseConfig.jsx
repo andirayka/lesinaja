@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/analytics";
 import "firebase/database";
+import "firebase/auth";
 
 const firebaseConfig = {
   // * Project Coba RTDB coba2 punya Andi
