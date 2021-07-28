@@ -9,7 +9,7 @@ import {
 } from '@components';
 import { logregLogo } from '@assets';
 import { useForm } from 'react-hook-form';
-import {  } from "";
+import { handleRegister } from "@utils";
 
 const Register = () => {
   const {
@@ -19,6 +19,7 @@ const Register = () => {
   } = useForm();
 
   const onSubmit = (data) => {
+    handleRegister(data.email, data.password);
     console.log(data);
     console.log(errors);
   };
