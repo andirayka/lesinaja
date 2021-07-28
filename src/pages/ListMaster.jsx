@@ -11,10 +11,12 @@ const ListMaster = () => {
       jenjangKelasParams: {
         ref: "master_jenjangkelas",
         onGetData: (data) => {
-          const jenjangKelasData = Object.values(data);
-          setListMaster({
-            jenjangKelas: jenjangKelasData,
-          });
+          if (data) {
+            const jenjangKelasData = Object.values(data);
+            setListMaster({
+              jenjangKelas: jenjangKelasData,
+            });
+          }
         },
       },
       mapelParams: {
@@ -52,6 +54,7 @@ const ListMaster = () => {
     getFirebaseMasterData(fbParams.mapelParams);
     getFirebaseMasterData(fbParams.paketParams);
     getFirebaseMasterData(fbParams.wilayahParams);
+    console.log(listMaster.jenjangKelas);
   }, []);
 
   return (
@@ -83,16 +86,16 @@ const ListMaster = () => {
               </div>
             </>
           ) : (
-            <Skeleton mainCount={[1, 2, 3]} subCount={[1]} />
+            <Skeleton mainCount={[1, 2]} subCount={[1, 2]} />
           )}
         </CardItem>
 
         {/* mapel */}
         <div className="mx-5"></div>
         <CardItem title="Mapel" containerClass="mt-8 flex-1">
-          {listMaster.jenjangKelas ? (
+          {listMaster.mapel ? (
             <>
-              {listMaster.jenjangKelas.map((item, index) => {
+              {listMaster.mapel.map((item, index) => {
                 return <p key={index}>{item.nama}</p>;
               })}
               <div className="flex-row mt-8">
@@ -120,10 +123,14 @@ const ListMaster = () => {
       {/* paket */}
       <div className="flex">
         <CardItem title="Paket" containerClass="mt-8 flex-1">
-          {listMaster.jenjangKelas ? (
+          {listMaster.paket ? (
             <>
-              {listMaster.jenjangKelas.map((item, index) => {
-                return <p key={index}>{item.nama}</p>;
+              {listMaster.paket.map((item, index) => {
+                return (
+                  <p
+                    key={index}
+                  >{`${item.nama} (${item.jumlah_pertemuan} pertemuan)`}</p>
+                );
               })}
               <div className="flex-row mt-8">
                 <Link
@@ -148,9 +155,9 @@ const ListMaster = () => {
         {/* wilayah */}
         <div className="mx-5"></div>
         <CardItem title="Wilayah" containerClass="mt-8 flex-1">
-          {listMaster.jenjangKelas ? (
+          {listMaster.wilayah ? (
             <>
-              {listMaster.jenjangKelas.map((item, index) => {
+              {listMaster.wilayah.map((item, index) => {
                 return <p key={index}>{item.nama}</p>;
               })}
               <div className="flex-row mt-8">

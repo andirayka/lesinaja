@@ -7,7 +7,7 @@
       "@pages": ["pages/index"],
       "@utils": ["utils/index"],
       "@components": ["components/index"],
-      "@context": ["context/index"],
+      "@context": ["context/index"]
     }
   }
 }

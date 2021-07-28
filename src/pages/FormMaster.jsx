@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import { Title, Button, CardFormMaster } from "@components";
+import { Title, Button, CardFormMaster, Skeleton } from "@components";
 import { ContextMaster } from "@context";
 import { useLocation } from "react-router-dom";
 
@@ -26,6 +26,7 @@ const FormMaster = () => {
               setFormStatus("adding");
             }}
           />
+
           <CardFormMaster
             formStatus={formStatus}
             containerClass="mt-8"
@@ -37,8 +38,6 @@ const FormMaster = () => {
     if (formStatus == "empty") {
       return <p className="text-7xl text-red-700">HALAMAN KOSONG</p>;
     }
-
-    return <p className="text-7xl text-red-700">ANIMASI LOADING</p>;
   };
 
   return (
