@@ -16,7 +16,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="md:hidden fixed top-0 right-0 left-0 bg-yellow-400">
+    <div className="md:hidden fixed top-0 right-0 left-0 bg-yellow-400 z-50">
       <div className="flex flex-row justify-between items-center">
         <img src={mainLogo} alt="" className="w-36" />
         <button onClick={openHandler}>
