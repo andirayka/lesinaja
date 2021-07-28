@@ -33,13 +33,22 @@ const ProviderMaster = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const getListData = async () => {
-    const data = await getFirebaseDataOnce({ ref: "master_jenjangkelas" });
-    if (data) {
-      setFormStatus("viewing");
-      dispatch({ type: "GET_LIST_DATA", data });
-    } else {
-      setFormStatus("empty");
-    }
+    const data_jenjangkelas = await getFirebaseDataOnce({
+      ref: "master_jenjangkelas",
+    });
+    const data_mapel = await getFirebaseDataOnce({ ref: "master_mapel" });
+    const data_paket = await getFirebaseDataOnce({ ref: "master_paket" });
+    const data_wilayah = await getFirebaseDataOnce({ ref: "master_wilayah" });
+
+    const data = {
+      jenjangkelas: data_jenjangkelas,
+      mapel: data_mapel,
+      paket: data_paket,
+      wilayah: data_wilayah,
+    };
+
+    setFormStatus("viewing");
+    dispatch({ type: "GET_LIST_DATA", data });
   };
 
   const getFormData = async () => {
