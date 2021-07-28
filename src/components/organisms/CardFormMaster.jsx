@@ -1,7 +1,7 @@
 import React from "react";
-import { RowMaster } from "@components";
+import { RowMaster, Skeleton } from "@components";
 
-const CardFormMaster = ({ containerClass, data, formStatus }) => {
+const CardFormMaster = ({ containerClass, data, formStatus, children }) => {
   return (
     <div className={`rounded-md bg-white ${containerClass}`}>
       <div className="rounded-md p-2.5 bg-yellow-400 flex flex-row">
@@ -11,6 +11,7 @@ const CardFormMaster = ({ containerClass, data, formStatus }) => {
 
       {/* Table Row when user is adding new data */}
       {formStatus == "adding" && <RowMaster type="editing" />}
+      {/* {formStatus == "loading" && <RowMaster type="editing" />} */}
 
       {data &&
         Object.entries(data).map(([key, value], index) => {
@@ -22,6 +23,7 @@ const CardFormMaster = ({ containerClass, data, formStatus }) => {
       {formStatus == "empty" && (
         <p className="text-center text-3xl my-4">Tidak ada data</p>
       )}
+      {children}
     </div>
   );
 };
