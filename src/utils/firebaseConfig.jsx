@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/analytics";
 import "firebase/database";
 import "firebase/auth";
+import { Swal } from "@components";
 
 const firebaseConfig = {
   // * Project Coba RTDB coba2 punya Andi
