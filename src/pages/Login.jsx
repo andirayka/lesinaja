@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   ContentContainer,
   InputText,
   InputPassword,
   SectionTitle,
   Button,
+  LoadIcon,
+  Swal,
 } from "@components";
 import { logregLogo } from "@assets";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { handleLogin } from "@utils";
 import { Link } from "react-router-dom";
+import { ContextMaster } from "@context";
 
 const Login = () => {
   const {
@@ -18,16 +21,28 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const {
+    state: { formStatus },
+    setFormStatus,
+  } = useContext(ContextMaster);
+
   const history = useHistory();
 
   const onSubmit = async (data) => {
     const { success } = await handleLogin(data.email, data.password);
 
     if (success) {
+      setFormStatus();
       history.push("/beranda");
     } else {
-      alert("Data yang ada masukkan salah");
+      Swal.fire({
+        icon: "error",
+        text: "Data yang anda masukkan salah",
+        confirmButtonColor: "#FBBF24",
+      });
     }
+
     // console.log(data);
     // console.log(errors);
     // history.push("/beranda");
@@ -68,6 +83,8 @@ const Login = () => {
           <Button
             type="submit"
             text="Masuk"
+            onClick={() => setFormStatus("refreshing")}
+            load={formStatus == "refreshing" && <LoadIcon />}
             additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 font-medium w-full rounded-full"
           />
 

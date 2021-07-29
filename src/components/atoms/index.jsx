@@ -5,5 +5,15 @@ import Rating from "./Rating";
 import Skeleton from "./Skeleton";
 import EmptyIcon from "./EmptyIcon";
 import RefreshIcon from "./RefreshIcon";
+import LoadIcon from "./LoadIcon";
 
-export { Button, Title, Paginations, Rating, Skeleton, EmptyIcon, RefreshIcon };
+export {
+  Button,
+  Title,
+  Paginations,
+  Rating,
+  Skeleton,
+  EmptyIcon,
+  RefreshIcon,
+  LoadIcon,
+};
