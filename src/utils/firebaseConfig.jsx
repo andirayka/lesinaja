@@ -66,7 +66,7 @@ const addFirebaseData = ({ ref, payload }) => {
     if (error) {
       Swal.fire({
         icon: "error",
-        text: "input data gagal",
+        text: "Input data gagal",
         confirmButtonColor: "#FBBF24",
       });
     }
@@ -79,7 +79,7 @@ const updateFirebaseData = ({ ref, payload }) => {
     if (error) {
       Swal.fire({
         icon: "error",
-        text: "update data gagal",
+        text: "Update data gagal",
         confirmButtonColor: "#FBBF24",
       });
     }

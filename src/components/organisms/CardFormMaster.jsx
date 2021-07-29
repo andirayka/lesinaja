@@ -1,5 +1,5 @@
 import React from "react";
-import { RowMaster } from "@components";
+import { RowMaster, EmptyIcon } from "@components";
 
 const CardFormMaster = ({ containerClass, data, formStatus, children }) => {
   return (
@@ -19,9 +19,7 @@ const CardFormMaster = ({ containerClass, data, formStatus, children }) => {
           );
         })}
 
-      {formStatus == "empty" && (
-        <p className="text-center text-3xl my-4">Tidak ada data</p>
-      )}
+      {formStatus == "empty" && <EmptyIcon />}
       {children}
     </div>
   );
