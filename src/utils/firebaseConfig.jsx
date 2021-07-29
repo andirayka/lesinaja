@@ -35,19 +35,6 @@ const enableFirebaseConfig = () => {
   firebase.analytics();
 };
 
-// * Get data
-const getFirebaseMasterData = ({ onGetData, ref }) => {
-  const mainRef = firebase.database().ref();
-
-  mainRef
-    .child(ref)
-    .once("value")
-    .then((snapshot) => {
-      const rawData = snapshot.val();
-      onGetData(rawData);
-    });
-};
-
 const getFirebaseDataOnce = ({ ref }) => {
   const rtDatabase = firebase.database();
 
@@ -127,7 +114,6 @@ export {
   handleLogin,
   handleRegister,
   enableFirebaseConfig,
-  getFirebaseMasterData,
   getFirebaseDataOnce,
   addFirebaseData,
   updateFirebaseData,

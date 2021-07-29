@@ -1,6 +1,5 @@
 import {
   enableFirebaseConfig,
-  getFirebaseMasterData,
   getFirebaseDataOnce,
   addFirebaseData,
   updateFirebaseData,
@@ -13,7 +12,6 @@ export {
   handleLogin,
   handleRegister,
   enableFirebaseConfig,
-  getFirebaseMasterData,
   getFirebaseDataOnce,
   addFirebaseData,
   updateFirebaseData,
