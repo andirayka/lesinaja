@@ -35,19 +35,6 @@ const enableFirebaseConfig = () => {
   firebase.analytics();
 };
 
-// * Get data
-const getFirebaseMasterData = ({ onGetData, ref }) => {
-  const mainRef = firebase.database().ref();
-
-  mainRef
-    .child(ref)
-    .once("value")
-    .then((snapshot) => {
-      const rawData = snapshot.val();
-      onGetData(rawData);
-    });
-};
-
 const getFirebaseDataOnce = ({ ref }) => {
   const rtDatabase = firebase.database();
 
@@ -66,7 +53,7 @@ const addFirebaseData = ({ ref, payload }) => {
     if (error) {
       Swal.fire({
         icon: "error",
-        text: "input data gagal",
+        text: "Input data gagal",
         confirmButtonColor: "#FBBF24",
       });
     }
@@ -79,7 +66,7 @@ const updateFirebaseData = ({ ref, payload }) => {
     if (error) {
       Swal.fire({
         icon: "error",
-        text: "update data gagal",
+        text: "Update data gagal",
         confirmButtonColor: "#FBBF24",
       });
     }
@@ -127,7 +114,6 @@ export {
   handleLogin,
   handleRegister,
   enableFirebaseConfig,
-  getFirebaseMasterData,
   getFirebaseDataOnce,
   addFirebaseData,
   updateFirebaseData,

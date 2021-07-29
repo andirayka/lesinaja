@@ -85,7 +85,18 @@ const RowMaster = ({ item, type: defaultType }) => {
           <div className="flex flex-1 justify-center">
             <button
               onClick={() => {
-                deleteFormData(item.id);
+                Swal.fire({
+                  text: "Konfirmasi",
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#FBBF24",
+                  cancelButtonColor: "#d33",
+                  cancelButtonText: "Batal",
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    deleteFormData(item.id);
+                  }
+                });
               }}
             >
               <FontAwesomeIcon icon={faTrashAlt} className="text-2xl" />
