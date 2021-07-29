@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   ContentContainer,
   InputText,
@@ -16,18 +16,13 @@ const Register = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
 
-  const validationEmail = () => {
-    let type = document.forms["validation"]["email"].value;
-    let atpos = type.indexOf("@");
-    let dotpos = type.lastIndexOf(".");
-    if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= type.length) {
-      alert("Format Email yang Anda masukkan salah");
-      return true;
-    }
-  };
+  const password = useRef({});
+
+  password.current = watch("password", "");
 
   const history = useHistory();
 
@@ -38,16 +33,11 @@ const Register = () => {
       if (success) {
         history.push("/akun");
       } else {
-        if (validationEmail()) {
-          return false;
-        } else {
-          alert("Data yang ada masukkan sudah ada");
-        }
+        alert("Data yang ada masukkan sudah ada");
       }
     } else {
       alert("Kata sandi tidak sama dengan kata sandi sebelumnya");
     }
-    console.log(data);
   };
 
   return (
@@ -73,17 +63,27 @@ const Register = () => {
             label="Email"
             useHookRegister={register("email", {
               required: "Email harus diisi",
+              pattern: {
+                value: /\S+@\S+\.\S+/,
+                message: "Format email yang Anda masukkan salah",
+              },
             })}
             placeholder="Contoh: handoko@gmail.com"
           />
           {errors.email && (
             <p className="text-red-500">{errors.email.message}</p>
           )}
+          {/* {validEmail && <p className="text-red-500">Format email salah</p>} */}
 
           <InputPassword
             label="Kata Sandi"
             useHookRegister={register("password", {
               required: "Kata sandi harus diisi",
+              minLength: {
+                value: 8,
+                message:
+                  "Kata sandi yang anda masukkan harus minimal 8 karakter",
+              },
             })}
             placeholder="Masukkan kata sandi Anda"
           />
@@ -94,7 +94,8 @@ const Register = () => {
           <InputPassword
             label="Ulangi Kata Sandi"
             useHookRegister={register("repeatPassword", {
-              required: "Kata sandi tidak sama dengan kata sandi sebelumnya",
+              validate: (value) =>
+                value === password.current || "password beda",
             })}
             placeholder="Masukkan ulang kata sandi Anda"
           />
@@ -119,6 +120,8 @@ const Register = () => {
               required: "pilih salah satu",
             })}
           />
+          {errors.role && <p className="text-red-500">{errors.role.message}</p>}
+
           <Button
             type="submit"
             text="Daftar"
