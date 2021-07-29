@@ -2,13 +2,20 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
-const InputPassword = ({ label, placeholder, useHookRegister, name }) => {
+const InputPassword = ({
+  label,
+  placeholder,
+  useHookRegister,
+  name,
+  onClick,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="mt-4 relative">
       <p className="text-left text-base font-medium">{label}</p>
       <input
+        onClick={onClick}
         type={showPassword ? "text" : "password"}
         name={name}
         placeholder={placeholder}

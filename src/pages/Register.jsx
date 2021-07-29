@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import {
   ContentContainer,
   InputText,
@@ -6,11 +6,14 @@ import {
   InputPassword,
   SectionTitle,
   Button,
+  Swal,
+  LoadIcon,
 } from "@components";
 import { logregLogo } from "@assets";
 import { useForm } from "react-hook-form";
 import { handleRegister } from "@utils";
 import { useHistory } from "react-router-dom";
+import { ContextMaster } from "@context";
 
 const Register = () => {
   const {
@@ -20,6 +23,11 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
+  const {
+    state: { formStatus },
+    setFormStatus,
+  } = useContext(ContextMaster);
+
   const password = useRef({});
 
   password.current = watch("password", "");
@@ -27,16 +35,18 @@ const Register = () => {
   const history = useHistory();
 
   const onSubmit = async (data) => {
-    if (data.password == data.repeatPassword) {
-      const { success } = await handleRegister(data.email, data.password);
+    const { success } = await handleRegister(data.email, data.password);
 
-      if (success) {
-        history.push("/akun");
-      } else {
-        alert("Data yang ada masukkan sudah ada");
-      }
+    if (success) {
+      setFormStatus();
+      history.push("/akun");
     } else {
-      alert("Kata sandi tidak sama dengan kata sandi sebelumnya");
+      setFormStatus();
+      Swal.fire({
+        icon: "error",
+        text: "Email yang Anda masukkan sudah ada",
+        confirmButtonColor: "#FBBF24",
+      });
     }
   };
 
@@ -51,6 +61,7 @@ const Register = () => {
         <form onSubmit={handleSubmit(onSubmit)} name="validation">
           <InputText
             label="Nama"
+            onClick={() => setFormStatus()}
             useHookRegister={register("name", {
               required: "Nama harus diisi",
             })}
@@ -61,6 +72,7 @@ const Register = () => {
           <InputText
             name="email"
             label="Email"
+            onClick={() => setFormStatus()}
             useHookRegister={register("email", {
               required: "Email harus diisi",
               pattern: {
@@ -77,6 +89,7 @@ const Register = () => {
 
           <InputPassword
             label="Kata Sandi"
+            onClick={() => setFormStatus()}
             useHookRegister={register("password", {
               required: "Kata sandi harus diisi",
               minLength: {
@@ -93,6 +106,7 @@ const Register = () => {
 
           <InputPassword
             label="Ulangi Kata Sandi"
+            onClick={() => setFormStatus()}
             useHookRegister={register("repeatPassword", {
               validate: (value) =>
                 value === password.current || "password beda",
@@ -107,6 +121,7 @@ const Register = () => {
           <InputRadio
             id="walimurid"
             label="Wali Murid"
+            onClick={() => setFormStatus()}
             value="walmur"
             useHookRegister={register("role", {
               required: "pilih salah satu",
@@ -115,6 +130,7 @@ const Register = () => {
           <InputRadio
             id="tutorpengajar"
             label="Tutor/Pengajar"
+            onClick={() => setFormStatus()}
             value="tutor"
             useHookRegister={register("role", {
               required: "pilih salah satu",
@@ -125,6 +141,8 @@ const Register = () => {
           <Button
             type="submit"
             text="Daftar"
+            onClick={() => setFormStatus("refreshing")}
+            loading={formStatus == "refreshing" && <LoadIcon />}
             additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 font-medium w-full rounded-full"
           />
         </form>

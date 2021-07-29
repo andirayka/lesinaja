@@ -7,11 +7,13 @@ const InputText = ({
   value,
   disabled,
   name,
+  onClick,
 }) => {
   return (
     <div className="mt-4">
       <p className="text-left text-base font-medium">{label}</p>
       <input
+        onClick={onClick}
         type="text"
         name={name}
         disabled={disabled}

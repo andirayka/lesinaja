@@ -36,6 +36,7 @@ const Login = () => {
       setFormStatus();
       history.push("/beranda");
     } else {
+      setFormStatus();
       Swal.fire({
         icon: "error",
         text: "Data yang anda masukkan salah",
@@ -84,7 +85,7 @@ const Login = () => {
             type="submit"
             text="Masuk"
             onClick={() => setFormStatus("refreshing")}
-            load={formStatus == "refreshing" && <LoadIcon />}
+            loading={formStatus == "refreshing" && <LoadIcon />}
             additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 font-medium w-full rounded-full"
           />
 
