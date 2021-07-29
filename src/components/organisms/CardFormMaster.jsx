@@ -1,5 +1,5 @@
 import React from "react";
-import { RowMaster, Skeleton } from "@components";
+import { RowMaster } from "@components";
 
 const CardFormMaster = ({ containerClass, data, formStatus, children }) => {
   return (
@@ -11,7 +11,6 @@ const CardFormMaster = ({ containerClass, data, formStatus, children }) => {
 
       {/* Table Row when user is adding new data */}
       {formStatus == "adding" && <RowMaster type="editing" />}
-      {/* {formStatus == "loading" && <RowMaster type="editing" />} */}
 
       {data &&
         Object.entries(data).map(([key, value], index) => {

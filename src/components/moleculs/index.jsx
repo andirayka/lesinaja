@@ -15,6 +15,7 @@ import SectionFee from "./SectionFee";
 import NavbarItem from "./NavbarItem";
 import SectionContent from "./SectionContent";
 import InputEmail from "./InputEmail";
+import { Swal } from "./AlertPopup";
 
 export {
   InputEmail,
@@ -34,4 +35,5 @@ export {
   RowMaster,
   SectionFee,
   NavbarItem,
+  Swal,
 };

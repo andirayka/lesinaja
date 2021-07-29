@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { ContextMaster } from "@context";
+import { Swal } from "@components";
 
 const RowMaster = ({ item, type: defaultType }) => {
   const [inputValue, setInputValue] = useState("");
@@ -27,11 +28,12 @@ const RowMaster = ({ item, type: defaultType }) => {
             <button
               onClick={() => {
                 if (!inputValue) {
-                  alert("Data tidak boleh kosong");
+                  Swal.fire("Data tidak boleh kosong");
                 } else {
                   if (item) {
                     saveFormData({ ...item, nama: inputValue });
                     setType("list");
+                    Swal.fire("Data ");
                   } else {
                     saveFormData({ nama: inputValue });
                     setFormStatus("viewing");
