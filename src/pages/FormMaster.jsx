@@ -24,18 +24,22 @@ const FormMaster = () => {
   const renderForm = () => {
     return (
       <>
-        <Button
-          text={`Tambah ${prevData?.title}`}
-          additionalClassName={
-            formStatus == "loading"
-              ? "bg-gray-400 hover:bg-white rounded-lg font-medium mt-4"
-              : "bg-yellow-400 hover:bg-white rounded-lg font-medium mt-4"
-          }
-          onClick={() => {
-            setFormStatus("adding");
-          }}
-        />
-        <div className="relative spa">
+        {formStatus == "loading" ? (
+          <Skeleton
+            mainCount={[1]}
+            elementClassName="h-10 w-52"
+            containerClassName="mt-4"
+          />
+        ) : (
+          <Button
+            text={`Tambah ${prevData?.title}`}
+            additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium mt-4"
+            onClick={() => {
+              setFormStatus("adding");
+            }}
+          />
+        )}
+        <div className="relative">
           {formStatus == "refreshing" && <RefreshIcon />}
           {formStatus == "loading" ? (
             <CardFormMaster formStatus={formStatus} containerClass="mt-8">

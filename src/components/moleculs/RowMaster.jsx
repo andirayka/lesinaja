@@ -28,12 +28,15 @@ const RowMaster = ({ item, type: defaultType }) => {
             <button
               onClick={() => {
                 if (!inputValue) {
-                  Swal.fire("Data tidak boleh kosong");
+                  Swal.fire({
+                    icon: "error",
+                    text: "data tidak boleh kosong",
+                    confirmButtonColor: "#FBBF24",
+                  });
                 } else {
                   if (item) {
                     saveFormData({ ...item, nama: inputValue });
                     setType("list");
-                    Swal.fire("Data ");
                   } else {
                     saveFormData({ nama: inputValue });
                     setFormStatus("viewing");

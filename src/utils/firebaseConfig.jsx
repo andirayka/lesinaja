@@ -64,9 +64,11 @@ const addFirebaseData = ({ ref, payload }) => {
 
   return rtDatabase.ref(`${ref}/${newKey}`).set(payload, (error) => {
     if (error) {
-      console.log("Data could not be added." + error);
-    } else {
-      console.log("Data added successfully.");
+      Swal.fire({
+        icon: "error",
+        text: "input data gagal",
+        confirmButtonColor: "#FBBF24",
+      });
     }
   });
 };
@@ -75,9 +77,11 @@ const updateFirebaseData = ({ ref, payload }) => {
   const rtDatabase = firebase.database();
   return rtDatabase.ref(ref).update(payload, (error) => {
     if (error) {
-      console.log("Data could not be updated." + error);
-    } else {
-      console.log("Data updated successfully.");
+      Swal.fire({
+        icon: "error",
+        text: "update data gagal",
+        confirmButtonColor: "#FBBF24",
+      });
     }
   });
 };
