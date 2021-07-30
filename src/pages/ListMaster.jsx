@@ -5,8 +5,9 @@ import { ContextMaster } from "@context";
 
 const ListMaster = () => {
   const {
-    state: { listData, formStatus },
+    state: { listData, listStatus },
     getListData,
+    setFormStatus,
   } = useContext(ContextMaster);
 
   useEffect(() => {
@@ -22,11 +23,11 @@ const ListMaster = () => {
       <div className="flex">
         <CardItem title="Jenjang Kelas" containerClass="mt-8 flex-1">
           <>
-            {formStatus == "loading" && (
+            {listStatus == "loading" && (
               <Skeleton mainCount={[1, 2, 3]} subCount={[1, 2]} />
             )}
 
-            {formStatus == "empty" && <EmptyIcon />}
+            {listStatus == "empty" && <EmptyIcon />}
 
             {listData &&
               Object.values(listData.jenjangkelas).map((item, index) => {
@@ -37,13 +38,18 @@ const ListMaster = () => {
               <Link
                 to={{
                   pathname: "/form-master",
-                  state: { title: "Jenjang Kelas" },
+                  state: {
+                    title: "Jenjang Kelas",
+                    refName: "master_jenjangkelas",
+                  },
                 }}
               >
                 <Button
                   text="Kelola"
                   additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-                  onClick={() => {}}
+                  onClick={() => {
+                    setFormStatus("loading");
+                  }}
                 />
               </Link>
             </div>
@@ -54,11 +60,11 @@ const ListMaster = () => {
         <div className="mx-5"></div>
         <CardItem title="Mapel" containerClass="mt-8 flex-1">
           <>
-            {formStatus == "loading" && (
+            {listStatus == "loading" && (
               <Skeleton mainCount={[1, 2, 3]} subCount={[1]} />
             )}
 
-            {formStatus == "empty" && <EmptyIcon />}
+            {listStatus == "empty" && <EmptyIcon />}
 
             {listData &&
               Object.values(listData.mapel).map((item, index) => {
@@ -69,13 +75,15 @@ const ListMaster = () => {
               <Link
                 to={{
                   pathname: "/form-master",
-                  state: { title: "Jenjang Kelas" },
+                  state: { title: "Mapel", refName: "master_mapel" },
                 }}
               >
                 <Button
                   text="Kelola"
                   additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-                  onClick={() => {}}
+                  onClick={() => {
+                    setFormStatus("loading");
+                  }}
                 />
               </Link>
             </div>
@@ -88,11 +96,11 @@ const ListMaster = () => {
       <div className="flex">
         <CardItem title="Paket" containerClass="mt-8 flex-1">
           <>
-            {formStatus == "loading" && (
+            {listStatus == "loading" && (
               <Skeleton mainCount={[1, 2, 3]} subCount={[1]} />
             )}
 
-            {formStatus == "empty" && <EmptyIcon />}
+            {listStatus == "empty" && <EmptyIcon />}
 
             {listData &&
               Object.values(listData.paket).map((item, index) => {
@@ -106,13 +114,15 @@ const ListMaster = () => {
               <Link
                 to={{
                   pathname: "/form-master",
-                  state: { title: "Jenjang Kelas" },
+                  state: { title: "Paket", refName: "master_paket" },
                 }}
               >
                 <Button
                   text="Kelola"
                   additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-                  onClick={() => {}}
+                  onClick={() => {
+                    setFormStatus("loading");
+                  }}
                 />
               </Link>
             </div>
@@ -123,11 +133,11 @@ const ListMaster = () => {
         <div className="mx-5"></div>
         <CardItem title="Wilayah" containerClass="mt-8 flex-1">
           <>
-            {formStatus == "loading" && (
+            {listStatus == "loading" && (
               <Skeleton mainCount={[1, 2, 3]} subCount={[1]} />
             )}
 
-            {formStatus == "empty" && <EmptyIcon />}
+            {listStatus == "empty" && <EmptyIcon />}
 
             {listData &&
               Object.values(listData.wilayah).map((item, index) => {
@@ -137,13 +147,15 @@ const ListMaster = () => {
               <Link
                 to={{
                   pathname: "/form-master",
-                  state: { title: "Jenjang Kelas" },
+                  state: { title: "Wilayah", refName: "master_wilayah" },
                 }}
               >
                 <Button
                   text="Kelola"
                   additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-                  onClick={() => {}}
+                  onClick={() => {
+                    setFormStatus("loading");
+                  }}
                 />
               </Link>
             </div>

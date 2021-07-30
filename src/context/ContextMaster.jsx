@@ -11,6 +11,7 @@ const initialState = {
   formData: null,
   listData: null,
   formStatus: "loading",
+  listStatus: "loading",
 };
 
 // * Reducer
@@ -22,6 +23,8 @@ const reducer = (state, action) => {
       return { ...state, formData: action.data };
     case "SET_FORM_STATUS":
       return { ...state, formStatus: action.status };
+    case "SET_LIST_STATUS":
+      return { ...state, listStatus: action.status };
 
     default:
       return state;
@@ -47,19 +50,20 @@ const ProviderMaster = ({ children }) => {
       wilayah: data_wilayah,
     };
 
-    setFormStatus("viewing");
+    setListStatus("viewing");
     dispatch({ type: "GET_LIST_DATA", data });
   };
 
-  const getFormData = async () => {
+  const getFormData = async (refName) => {
     const fbParams = {
-      ref: "master_jenjangkelas",
+      ref: `${refName}`,
     };
 
     const data = await getFirebaseDataOnce(fbParams);
     if (data) {
       setFormStatus("viewing");
       dispatch({ type: "GET_FORM_DATA", data });
+      console.log(data);
     } else {
       setFormStatus("empty");
     }
@@ -69,29 +73,42 @@ const ProviderMaster = ({ children }) => {
     dispatch({ type: "SET_FORM_STATUS", status });
   };
 
-  const saveFormData = async (data) => {
-    let fbParams = {
-      payload: { nama: data.nama },
-    };
-
-    if (data.id) {
-      // Update
-      fbParams.ref = `master_jenjangkelas/${data.id}`;
-      await updateFirebaseData(fbParams);
-    } else {
-      // Add new
-      fbParams.ref = `master_jenjangkelas`;
-      await addFirebaseData(fbParams);
-    }
-
-    refreshFormData();
+  const setListStatus = (status) => {
+    dispatch({ type: "SET_LIST_STATUS", status });
   };
 
+  // const saveFormData = async (data) => {
+  //   let fbParams = {
+  //     payload: { nama: data.nama },
+  //   };
+
+  //   if (data.id) {
+  //     // Update
+  //     fbParams.ref = `master_jenjangkelas/${data.id}`;
+  //     await updateFirebaseData(fbParams);
+  //   } else {
+  //     // Add new
+  //     fbParams.ref = `master_jenjangkelas`;
+  //     await addFirebaseData(fbParams);
+  //   }
+
+  //   refreshFormData();
+  // };
+
   const deleteFormData = async (dataId) => {
+    // let fbParams = {
+    //   ref: `master_jenjangkelas/${dataId}`,
+    // };
     let fbParams = {
-      ref: `master_jenjangkelas/${dataId}`,
+      masterJenjangkelas: {
+        ref: `master_jenjangkelas/${dataId}`,
+      },
+      masterMapel: { ref: `master_mapel/${dataId}` },
+      masterPaket: { ref: `master_paket/${dataId}` },
+      masterWilayah: { ref: `master_wilayah/${dataId}` },
     };
-    await deleteFirebaseData(fbParams);
+
+    await deleteFirebaseData(fbParams.masterJenjangkelas);
 
     refreshFormData();
   };
@@ -109,7 +126,7 @@ const ProviderMaster = ({ children }) => {
         getFormData,
         getListData,
         setFormStatus,
-        saveFormData,
+        // saveFormData,
         deleteFormData,
         refreshFormData,
       }}

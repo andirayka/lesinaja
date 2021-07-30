@@ -18,7 +18,7 @@ const FormMaster = () => {
   } = useContext(ContextMaster);
 
   useEffect(() => {
-    getFormData();
+    getFormData(`${prevData?.refName}`);
   }, []);
 
   const renderForm = () => {
