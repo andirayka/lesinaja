@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Title,
   CardItem,
@@ -6,8 +6,13 @@ import {
   CardKeyValue,
   InputSearch,
 } from "@components";
+import { getFirebaseDataOnce } from "@utils";
 
 const ListPayment = () => {
+  useEffect(() => {
+    return () => {};
+  }, []);
+
   return (
     <div className="w-full flex-grow md:ml-8">
       <Title text="Daftar Riwayat Pembayaran" type="pageTitle" />
@@ -17,7 +22,7 @@ const ListPayment = () => {
       <CardItem title="Wali Murid Sucipto ke Lesin Aja" containerClass="mt-8">
         <CardKeyValue keyName="Waktu Pembayaran" value="12 Juli 2021, 14:45" />
         <CardKeyValue keyName="Nominal" value="Rp 200.000" />
-        <div className="flex-row mt-8">
+        <div className="flex flex-row mt-8">
           <Button
             text="Unduh Bukti Pembayaran"
             additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
