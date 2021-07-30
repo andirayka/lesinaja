@@ -103,16 +103,10 @@ const ProviderMaster = ({ children }) => {
   };
 
   const deleteFormData = async (dataId) => {
-    // let fbParams = {
-    //   ref: `master_jenjangkelas/${dataId}`,
-    // };
     let fbParams = {
       masterJenjangkelas: {
-        ref: `master_jenjangkelas/${dataId}`,
+        ref: `${state.formName}/${dataId}`,
       },
-      masterMapel: { ref: `master_mapel/${dataId}` },
-      masterPaket: { ref: `master_paket/${dataId}` },
-      masterWilayah: { ref: `master_wilayah/${dataId}` },
     };
 
     await deleteFirebaseData(fbParams.masterJenjangkelas);
