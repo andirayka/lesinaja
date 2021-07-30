@@ -8,11 +8,11 @@ import React, { createContext, useReducer } from "react";
 
 // * initial Value
 const initialState = {
-  formData: null,
   listData: null,
+  listStatus: "loading",
+  formData: null,
   formStatus: "loading",
   formName: "",
-  listStatus: "loading",
 };
 
 // * Reducer
