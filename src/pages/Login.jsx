@@ -30,11 +30,18 @@ const Login = () => {
   const history = useHistory();
 
   const onSubmit = async (data) => {
-    const { success } = await handleLogin(data.email, data.password);
+    const { success, role } = await handleLogin(data.email, data.password);
 
     if (success) {
+      if (role && role.admin) {
+        alert("Berhasil login sebagai admin");
+        history.push("/beranda");
+      } else if (role && role.tutor) {
+        alert("Berhasil login sebagai tutor");
+      } else if (role && role.walimurid) {
+        alert("Berhasil login sebagai wali murid");
+      }
       setFormStatus();
-      history.push("/beranda");
     } else {
       setFormStatus();
       Swal.fire({

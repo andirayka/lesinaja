@@ -12,7 +12,6 @@ import {
 import { logregLogo } from "@assets";
 import { useForm } from "react-hook-form";
 import { handleRegister } from "@utils";
-import { useHistory } from "react-router-dom";
 import { ContextMaster } from "@context";
 
 const Register = () => {
@@ -32,14 +31,20 @@ const Register = () => {
 
   password.current = watch("password", "");
 
-  const history = useHistory();
-
   const onSubmit = async (data) => {
-    const { success } = await handleRegister(data.email, data.password);
-
+    const { success, role } = await handleRegister(
+      data.email,
+      data.password,
+      data.role
+    );
+    console.log(role);
     if (success) {
       setFormStatus();
-      history.push("/akun");
+      if (role.tutor) {
+        alert("berhasil mendaftar sebagai tutor");
+      } else {
+        alert("Berhasil mendaftar sebagai walimurid");
+      }
     } else {
       setFormStatus();
       Swal.fire({
@@ -122,7 +127,7 @@ const Register = () => {
             id="walimurid"
             label="Wali Murid"
             onClick={() => setFormStatus()}
-            value="walmur"
+            value="walimurid"
             useHookRegister={register("role", {
               required: "pilih salah satu",
             })}
@@ -130,7 +135,7 @@ const Register = () => {
           <InputRadio
             id="tutorpengajar"
             label="Tutor/Pengajar"
-            onClick={() => setFormStatus()}
+            onClick={setFormStatus}
             value="tutor"
             useHookRegister={register("role", {
               required: "pilih salah satu",

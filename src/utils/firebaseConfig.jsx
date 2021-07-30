@@ -45,8 +45,20 @@ const getFirebaseDataOnce = ({ ref }) => {
     .then((value) => value.val());
 };
 
-const addFirebaseData = ({ ref, payload }) => {
+const addFirebaseData = ({ ref, payload, isNoKey }) => {
   const rtDatabase = firebase.database();
+
+  if (isNoKey) {
+    return rtDatabase.ref(`${ref}`).set(payload, (error) => {
+      if (error) {
+        Swal.fire({
+          icon: "error",
+          text: "Input data gagal",
+          confirmButtonColor: "#FBBF24",
+        });
+      }
+    });
+  }
   const newKey = firebase.database().ref(ref).push().key;
 
   return rtDatabase.ref(`${ref}/${newKey}`).set(payload, (error) => {
@@ -78,14 +90,23 @@ const deleteFirebaseData = ({ ref }) => {
   return rtDatabase.ref(ref).remove();
 };
 
-const handleRegister = async (email, password) => {
+const handleRegister = async (email, password, role) => {
   try {
     const userCredential = await firebase
       .auth()
       .createUserWithEmailAndPassword(email, password);
     var user = userCredential.user;
-    console.log(user);
-    return { success: true };
+
+    addFirebaseData({
+      ref: `user/${user.uid}/roles`,
+      payload: { [role]: true },
+      isNoKey: true,
+    });
+
+    const getData = await getFirebaseDataOnce({
+      ref: `user/${user.uid}/roles`,
+    });
+    return { success: true, role: getData };
   } catch (error) {
     var errorCode = error.code;
     var errorMessage = error.message;
@@ -100,8 +121,11 @@ const handleLogin = async (email, password) => {
       .auth()
       .signInWithEmailAndPassword(email, password);
     var user = userCredential.user;
-    console.log(user);
-    return { success: true };
+    const getData = await getFirebaseDataOnce({
+      ref: `user/${user.uid}/roles`,
+    });
+    console.log(getData);
+    return { success: true, role: getData };
   } catch (error) {
     var errorCode = error.code;
     var errorMessage = error.message;
