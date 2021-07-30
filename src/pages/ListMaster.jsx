@@ -8,6 +8,7 @@ const ListMaster = () => {
     state: { listData, listStatus },
     getListData,
     setFormStatus,
+    setFormName,
   } = useContext(ContextMaster);
 
   useEffect(() => {
@@ -49,6 +50,7 @@ const ListMaster = () => {
                   additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
                   onClick={() => {
                     setFormStatus("loading");
+                    setFormName("master_jenjangkelas");
                   }}
                 />
               </Link>
@@ -83,6 +85,7 @@ const ListMaster = () => {
                   additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
                   onClick={() => {
                     setFormStatus("loading");
+                    setFormName("master_mapel");
                   }}
                 />
               </Link>
@@ -122,6 +125,7 @@ const ListMaster = () => {
                   additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
                   onClick={() => {
                     setFormStatus("loading");
+                    setFormName("master_paket");
                   }}
                 />
               </Link>
@@ -155,6 +159,7 @@ const ListMaster = () => {
                   additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
                   onClick={() => {
                     setFormStatus("loading");
+                    setFormName("master_wilayah");
                   }}
                 />
               </Link>

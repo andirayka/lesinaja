@@ -1,4 +1,11 @@
-import { Button, CardItem, Title, CardKeyValue, Paginations, SectionFee } from "@components";
+import {
+  Button,
+  CardItem,
+  Title,
+  CardKeyValue,
+  Paginations,
+  SectionFee,
+} from "@components";
 import React from "react";
 
 const Keuangan = () => {
@@ -7,7 +14,10 @@ const Keuangan = () => {
       <Title text={`Keuangan Bulan Juli 2021`} type="pageTitle" />
 
       <div className="mt-8">
-        <Button text="Input Pengeluaran" additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium" />
+        <Button
+          text="Input Pengeluaran"
+          additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
+        />
       </div>
 
       <CardItem title="Rangkuman" containerClass="mt-8">
@@ -20,7 +30,7 @@ const Keuangan = () => {
         <CardKeyValue keyName="Sadaqah" value="Rp 20.000" />
 
         <CardKeyValue keyName="Pengeluaran" value="Rp 50.000" />
-        
+
         <SectionFee heading="Laba Bersih" value="Rp 400.000" />
       </CardItem>
 
