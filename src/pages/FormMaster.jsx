@@ -15,10 +15,12 @@ const FormMaster = () => {
     state: { formData, formStatus },
     getFormData,
     setFormStatus,
+    setFormName,
   } = useContext(ContextMaster);
 
   useEffect(() => {
     getFormData(`${prevData?.refName}`);
+    setFormName(`${prevData?.refName}`);
   }, []);
 
   const renderForm = () => {

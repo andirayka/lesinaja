@@ -11,6 +11,7 @@ const initialState = {
   formData: null,
   listData: null,
   formStatus: "loading",
+  formName: "",
   listStatus: "loading",
 };
 
@@ -25,6 +26,8 @@ const reducer = (state, action) => {
       return { ...state, formStatus: action.status };
     case "SET_LIST_STATUS":
       return { ...state, listStatus: action.status };
+    case "SET_FORM_NAME":
+      return { ...state, formName: action.name };
 
     default:
       return state;
@@ -58,12 +61,12 @@ const ProviderMaster = ({ children }) => {
     const fbParams = {
       ref: `${refName}`,
     };
+    console.log(state.formName);
 
     const data = await getFirebaseDataOnce(fbParams);
     if (data) {
       setFormStatus("viewing");
       dispatch({ type: "GET_FORM_DATA", data });
-      console.log(data);
     } else {
       setFormStatus("empty");
     }
@@ -73,27 +76,31 @@ const ProviderMaster = ({ children }) => {
     dispatch({ type: "SET_FORM_STATUS", status });
   };
 
+  const setFormName = (name) => {
+    dispatch({ type: "SET_FORM_NAME", name });
+  };
+
   const setListStatus = (status) => {
     dispatch({ type: "SET_LIST_STATUS", status });
   };
 
-  // const saveFormData = async (data) => {
-  //   let fbParams = {
-  //     payload: { nama: data.nama },
-  //   };
+  const saveFormData = async (data) => {
+    let fbParams = {
+      payload: { nama: data.nama },
+    };
 
-  //   if (data.id) {
-  //     // Update
-  //     fbParams.ref = `master_jenjangkelas/${data.id}`;
-  //     await updateFirebaseData(fbParams);
-  //   } else {
-  //     // Add new
-  //     fbParams.ref = `master_jenjangkelas`;
-  //     await addFirebaseData(fbParams);
-  //   }
+    if (data.id) {
+      // Update
+      fbParams.ref = `${state.formName}/${data.id}`;
+      await updateFirebaseData(fbParams);
+    } else {
+      // Add new
+      fbParams.ref = `${state.formName}`;
+      await addFirebaseData(fbParams);
+    }
 
-  //   refreshFormData();
-  // };
+    refreshFormData();
+  };
 
   const deleteFormData = async (dataId) => {
     // let fbParams = {
@@ -126,9 +133,10 @@ const ProviderMaster = ({ children }) => {
         getFormData,
         getListData,
         setFormStatus,
-        // saveFormData,
+        saveFormData,
         deleteFormData,
         refreshFormData,
+        setFormName,
       }}
     >
       {children}
