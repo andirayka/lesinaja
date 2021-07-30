@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Landing,
   Login,
@@ -28,70 +28,22 @@ import { enableFirebaseConfig } from "@utils";
 
 enableFirebaseConfig();
 const layoutPages = [
-  {
-    path: ["/akun"],
-    component: Account,
-  },
-  {
-    path: ["/akun-tutor"],
-    component: AccountTutor,
-  },
-  {
-    path: ["/akun-walmur"],
-    component: AccountWalmur,
-  },
-  {
-    path: ["/list-lowongan"],
-    component: ListLowongan,
-  },
-  {
-    path: ["/list-les"],
-    component: ListCourseTutor,
-  },
-  {
-    path: ["/presensi-les-tutor"],
-    component: PresensiLesTutor,
-  },
-  {
-    path: ["/presensi-les-walmur"],
-    component: PresensiLesWalmur,
-  },
-  {
-    path: ["/beranda"],
-    component: Home,
-  },
-  {
-    path: ["/daftar-master"],
-    component: ListMaster,
-  },
-  {
-    path: ["/daftar-tutor"],
-    component: ListTutor,
-  },
-  {
-    path: ["/daftar-pembayaran"],
-    component: ListPayment,
-  },
-  {
-    path: ["/daftar-pilihanles"],
-    component: ListCourse,
-  },
-  {
-    path: ["/tambah-pilihanles"],
-    component: AddListCourse,
-  },
-  {
-    path: ["/form-master"],
-    component: FormMaster,
-  },
-  {
-    path: ["/form-tutor"],
-    component: FormTutor,
-  },
-  {
-    path: ["/keuangan"],
-    component: Keuangan,
-  },
+  { path: ["/akun"], component: Account },
+  { path: ["/akun-tutor"], component: AccountTutor },
+  { path: ["/akun-walmur"], component: AccountWalmur },
+  { path: ["/list-lowongan"], component: ListLowongan },
+  { path: ["/list-les"], component: ListCourseTutor },
+  { path: ["/presensi-les-tutor"], component: PresensiLesTutor },
+  { path: ["/presensi-les-walmur"], component: PresensiLesWalmur },
+  { path: ["/beranda"], component: Home },
+  { path: ["/daftar-master"], component: ListMaster },
+  { path: ["/daftar-tutor"], component: ListTutor },
+  { path: ["/daftar-pembayaran"], component: ListPayment },
+  { path: ["/daftar-pilihanles"], component: ListCourse },
+  { path: ["/tambah-pilihanles"], component: AddListCourse },
+  { path: ["/form-master"], component: FormMaster },
+  { path: ["/form-tutor"], component: FormTutor },
+  { path: ["/keuangan"], component: Keuangan },
 ];
 
 const App = () => {
