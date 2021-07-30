@@ -1,48 +1,17 @@
-import React, { useContext } from "react";
-import {
-  Title,
-  CardItem,
-  CardKeyValue,
-  Button,
-  Skeleton,
-  CardFormMaster,
-} from "@components";
-import { ContextMaster } from "@context";
+import React from "react";
+import { Title, CardItem, CardKeyValue, Button } from "@components";
 import { Link } from "react-router-dom";
+import { getFirebaseDataOnce } from "@utils";
 
 const ListTutor = () => {
-  const {
-    state: { formData, formStatus },
-  } = useContext(ContextMaster);
-
-  const renderForm = () => {
-    return (
-      <>
-        <div className="relative">
-          {formStatus == "loading" ? (
-            <CardFormMaster formStatus={formStatus} containerClass="mt-8">
-              <Skeleton
-                mainCount={[1, 2, 3, 4, 5, 6]}
-                containerClassName="space-y-3 px-4 py-2"
-              />
-            </CardFormMaster>
-          ) : (
-            <CardFormMaster
-              formStatus={formStatus}
-              containerClass="mt-8"
-              data={formData}
-            />
-          )}
-        </div>
-      </>
-    );
+  const getDataOm = () => {
+    getFirebaseDataOnce({ ref });
+    console.log(getFirebaseDataOnce);
   };
 
   return (
     <div className="w-full flex-grow md:ml-8">
       <Title text="Daftar Tutor Lesin Aja" type="pageTitle" />
-
-      {renderForm()}
 
       {[1, 1, 1, 1, 1, 1].map((item, key) => {
         return (
@@ -54,6 +23,7 @@ const ListTutor = () => {
               value="Perum Graha Kuncara Blok H No.29 Kemiri , Sidoarjo, Jawa Timur, Kemiri, Kec. Sidoarjo, Kabupaten Sidoarjo, Jawa Timur 61234"
             />
             <CardKeyValue keyName="Mata Pelajaran" value="Matematika" />
+            <button onClick={getDataOm}>Percobaan</button>
             <div className="flex-row mt-8">
               <Link
                 to={{

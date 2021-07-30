@@ -124,7 +124,7 @@ const handleLogin = async (email, password) => {
     const getData = await getFirebaseDataOnce({
       ref: `user/${user.uid}/roles`,
     });
-    console.log(getData);
+    // console.log(getData);
     return { success: true, role: getData };
   } catch (error) {
     var errorCode = error.code;
