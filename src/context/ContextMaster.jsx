@@ -11,6 +11,8 @@ const initialState = {
   formData: null,
   listData: null,
   formStatus: "loading",
+  formName: "",
+  listStatus: "loading",
 };
 
 // * Reducer
@@ -22,6 +24,10 @@ const reducer = (state, action) => {
       return { ...state, formData: action.data };
     case "SET_FORM_STATUS":
       return { ...state, formStatus: action.status };
+    case "SET_LIST_STATUS":
+      return { ...state, listStatus: action.status };
+    case "SET_FORM_NAME":
+      return { ...state, formName: action.name };
 
     default:
       return state;
@@ -47,14 +53,15 @@ const ProviderMaster = ({ children }) => {
       wilayah: data_wilayah,
     };
 
-    setFormStatus("viewing");
+    setListStatus("viewing");
     dispatch({ type: "GET_LIST_DATA", data });
   };
 
-  const getFormData = async () => {
+  const getFormData = async (refName) => {
     const fbParams = {
-      ref: "master_jenjangkelas",
+      ref: `${refName}`,
     };
+    console.log(state.formName);
 
     const data = await getFirebaseDataOnce(fbParams);
     if (data) {
@@ -69,6 +76,14 @@ const ProviderMaster = ({ children }) => {
     dispatch({ type: "SET_FORM_STATUS", status });
   };
 
+  const setFormName = (name) => {
+    dispatch({ type: "SET_FORM_NAME", name });
+  };
+
+  const setListStatus = (status) => {
+    dispatch({ type: "SET_LIST_STATUS", status });
+  };
+
   const saveFormData = async (data) => {
     let fbParams = {
       payload: { nama: data.nama },
@@ -76,11 +91,11 @@ const ProviderMaster = ({ children }) => {
 
     if (data.id) {
       // Update
-      fbParams.ref = `master_jenjangkelas/${data.id}`;
+      fbParams.ref = `${state.formName}/${data.id}`;
       await updateFirebaseData(fbParams);
     } else {
       // Add new
-      fbParams.ref = `master_jenjangkelas`;
+      fbParams.ref = `${state.formName}`;
       await addFirebaseData(fbParams);
     }
 
@@ -89,9 +104,12 @@ const ProviderMaster = ({ children }) => {
 
   const deleteFormData = async (dataId) => {
     let fbParams = {
-      ref: `master_jenjangkelas/${dataId}`,
+      masterJenjangkelas: {
+        ref: `${state.formName}/${dataId}`,
+      },
     };
-    await deleteFirebaseData(fbParams);
+
+    await deleteFirebaseData(fbParams.masterJenjangkelas);
 
     refreshFormData();
   };
@@ -112,6 +130,7 @@ const ProviderMaster = ({ children }) => {
         saveFormData,
         deleteFormData,
         refreshFormData,
+        setFormName,
       }}
     >
       {children}
