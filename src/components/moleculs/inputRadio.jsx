@@ -7,6 +7,8 @@ const InputRadio = ({
   value,
   useHookRegister,
   onClick,
+  checked,
+  name,
 }) => {
   return (
     <>
@@ -16,6 +18,8 @@ const InputRadio = ({
         <input
           onClick={onClick}
           type="radio"
+          name={name}
+          checked={checked}
           id={id}
           value={value}
           {...useHookRegister}
