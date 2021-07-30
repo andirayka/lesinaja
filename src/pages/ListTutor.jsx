@@ -1,11 +1,48 @@
-import React from "react";
-import { Title, CardItem, CardKeyValue, Button } from "@components";
+import React, { useContext } from "react";
+import {
+  Title,
+  CardItem,
+  CardKeyValue,
+  Button,
+  Skeleton,
+  CardFormMaster,
+} from "@components";
+import { ContextMaster } from "@context";
 import { Link } from "react-router-dom";
 
 const ListTutor = () => {
+  const {
+    state: { formData, formStatus },
+  } = useContext(ContextMaster);
+
+  const renderForm = () => {
+    return (
+      <>
+        <div className="relative">
+          {formStatus == "loading" ? (
+            <CardFormMaster formStatus={formStatus} containerClass="mt-8">
+              <Skeleton
+                mainCount={[1, 2, 3, 4, 5, 6]}
+                containerClassName="space-y-3 px-4 py-2"
+              />
+            </CardFormMaster>
+          ) : (
+            <CardFormMaster
+              formStatus={formStatus}
+              containerClass="mt-8"
+              data={formData}
+            />
+          )}
+        </div>
+      </>
+    );
+  };
+
   return (
     <div className="w-full flex-grow md:ml-8">
       <Title text="Daftar Tutor Lesin Aja" type="pageTitle" />
+
+      {renderForm()}
 
       {[1, 1, 1, 1, 1, 1].map((item, key) => {
         return (
@@ -21,10 +58,10 @@ const ListTutor = () => {
               <Link
                 to={{
                   pathname: "/form-tutor",
-                  state: { 
+                  state: {
                     name: "Abdul Majid, S.Kom.",
                     email: "handoko@gmail.com",
-                    nomor: "089912345678"
+                    nomor: "089912345678",
                   },
                 }}
               >
