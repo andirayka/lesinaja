@@ -57,12 +57,11 @@ const ProviderMaster = ({ children }) => {
     dispatch({ type: "GET_LIST_DATA", data });
   };
 
-  const getFormData = async (refName) => {
+  const getFormData = async () => {
     const fbParams = {
-      ref: `${refName}`,
+      ref: `${state.formName}`,
     };
     console.log(state.formName);
-
     const data = await getFirebaseDataOnce(fbParams);
     if (data) {
       setFormStatus("viewing");
