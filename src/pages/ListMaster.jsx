@@ -15,26 +15,31 @@ const ListMaster = () => {
     getListData();
   }, []);
 
+  const CardContent = ({ type }) => {
+    if (listStatus == "loading") {
+      return <Skeleton mainCount={[1, 2, 3]} subCount={[1, 2]} />;
+    }
+
+    // Jika ada isinya
+    if (listData[type]) {
+      return Object.values(listData[type]).map((item, index) => {
+        return <p key={index}>{item.nama}</p>;
+      });
+    }
+
+    // Jika kosong
+    return <EmptyIcon />;
+  };
+
   return (
     <div className="w-full flex-grow md:ml-8">
       <Title text="Daftar Data Master Aplikasi" type="pageTitle" />
-
       {/* Row 1 */}
-      {/* jenjangKelas */}
       <div className="flex">
+        {/* Jenjang Kelas */}
         <CardItem title="Jenjang Kelas" containerClass="mt-8 flex-1">
           <>
-            {listStatus == "loading" && (
-              <Skeleton mainCount={[1, 2, 3]} subCount={[1, 2]} />
-            )}
-
-            {listStatus == "empty" && <EmptyIcon />}
-
-            {listData &&
-              Object.values(listData.jenjangkelas).map((item, index) => {
-                return <p key={index}>{item.nama}</p>;
-              })}
-
+            <CardContent type="jenjangkelas" />
             <div className="flex-row mt-8">
               <Link
                 to={{
@@ -60,18 +65,10 @@ const ListMaster = () => {
 
         {/* mapel */}
         <div className="mx-5"></div>
+
         <CardItem title="Mapel" containerClass="mt-8 flex-1">
           <>
-            {listStatus == "loading" && (
-              <Skeleton mainCount={[1, 2, 3]} subCount={[1]} />
-            )}
-
-            {listStatus == "empty" && <EmptyIcon />}
-
-            {listData &&
-              Object.values(listData.mapel).map((item, index) => {
-                return <p key={index}>{item.nama}</p>;
-              })}
+            <CardContent type="mapel" />
 
             <div className="flex-row mt-8">
               <Link
@@ -95,24 +92,12 @@ const ListMaster = () => {
       </div>
 
       {/* Row 2 */}
-      {/* paket */}
       <div className="flex">
+        {/* paket */}
         <CardItem title="Paket" containerClass="mt-8 flex-1">
           <>
-            {listStatus == "loading" && (
-              <Skeleton mainCount={[1, 2, 3]} subCount={[1]} />
-            )}
+            <CardContent type="paket" />
 
-            {listStatus == "empty" && <EmptyIcon />}
-
-            {listData &&
-              Object.values(listData.paket).map((item, index) => {
-                return (
-                  <p
-                    key={index}
-                  >{`${item.nama} (${item.jumlah_pertemuan} pertemuan)`}</p>
-                );
-              })}
             <div className="flex-row mt-8">
               <Link
                 to={{
@@ -133,20 +118,13 @@ const ListMaster = () => {
           </>
         </CardItem>
 
-        {/* wilayah */}
         <div className="mx-5"></div>
+
+        {/* wilayah */}
         <CardItem title="Wilayah" containerClass="mt-8 flex-1">
           <>
-            {listStatus == "loading" && (
-              <Skeleton mainCount={[1, 2, 3]} subCount={[1]} />
-            )}
+            <CardContent type="wilayah" />
 
-            {listStatus == "empty" && <EmptyIcon />}
-
-            {listData &&
-              Object.values(listData.wilayah).map((item, index) => {
-                return <p key={index}>{item.nama}</p>;
-              })}
             <div className="flex-row mt-8">
               <Link
                 to={{
