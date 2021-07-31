@@ -35,15 +35,19 @@ const enableFirebaseConfig = () => {
   firebase.analytics();
 };
 
-const getFirebaseDataOnce = async ({ ref }) => {
+const getFirebaseDataOnce = async ({ ref, limit }) => {
   const rtDatabase = firebase.database();
 
   // .on untuk ambil berkali - kali
-  return rtDatabase
-    .ref(ref)
-    .once("value", (snapshot) => snapshot)
-    .then((value) => value.val())
-    .catch(console.error);
+  return (
+    rtDatabase
+      // Jika ref yang dicari tidak ada, return nya adalah null
+      .ref(ref)
+      .limitToFirst(limit)
+      .once("value", (snapshot) => snapshot)
+      .then((value) => value.val())
+      .catch(console.error)
+  );
 };
 
 const addFirebaseData = ({ ref, payload, isNoKey }) => {

@@ -7,8 +7,17 @@ import {
 import React, { createContext, useReducer } from "react";
 
 // * initial Value
+// Status:
+// loading = load data awal
+// viewing = melihat data
+// refreshing = refresh data setelah interaksi dengan databsae
 const initialState = {
-  listData: null,
+  listData: {
+    jenjangkelas: undefined,
+    mapel: undefined,
+    paket: undefined,
+    wilayah: undefined,
+  },
   listStatus: "loading",
   formData: null,
   formStatus: "loading",
@@ -39,18 +48,14 @@ const ProviderMaster = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const getListData = async () => {
-    const data_jenjangkelas = await getFirebaseDataOnce({
-      ref: "master_jenjangkelas",
-    });
-    const data_mapel = await getFirebaseDataOnce({ ref: "master_mapel" });
-    const data_paket = await getFirebaseDataOnce({ ref: "master_paket" });
-    const data_wilayah = await getFirebaseDataOnce({ ref: "master_wilayah" });
-
     const data = {
-      jenjangkelas: data_jenjangkelas,
-      mapel: data_mapel,
-      paket: data_paket,
-      wilayah: data_wilayah,
+      jenjangkelas: await getFirebaseDataOnce({
+        ref: "master_jenjangkelas",
+        limit: 3,
+      }),
+      mapel: await getFirebaseDataOnce({ ref: "master_mapel", limit: 3 }),
+      paket: await getFirebaseDataOnce({ ref: "master_paket", limit: 3 }),
+      wilayah: await getFirebaseDataOnce({ ref: "master_wilayah", limit: 3 }),
     };
 
     setListStatus("viewing");
