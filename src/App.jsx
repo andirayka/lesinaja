@@ -20,6 +20,8 @@ import {
   PresensiLesTutor,
   PresensiLesWalmur,
   AccountWalmur,
+  ListWalmur,
+  FormWalmur,
 } from "@pages";
 import ProviderApp from "@context";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -44,6 +46,8 @@ const layoutPages = [
   { path: ["/form-master"], component: FormMaster },
   { path: ["/form-tutor"], component: FormTutor },
   { path: ["/keuangan"], component: Keuangan },
+  { path: ["/daftar-walimurid"], component: ListWalmur },
+  { path: ["/form-walimurid"], component: FormWalmur },
 ];
 
 const App = () => {

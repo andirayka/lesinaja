@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 import {
   faHome,
   faUser,
+  faUsers,
   faBriefcase,
   faChalkboardTeacher,
   faMoneyCheckAlt,
@@ -39,6 +40,12 @@ const sidebarList = [
     text: "Daftar Tutor",
     icon: faChalkboardTeacher,
     activePaths: ["/daftar-tutor", "/form-tutor"],
+  },
+  {
+    path: "/daftar-walimurid",
+    text: "Daftar Wali Murid",
+    icon: faUsers,
+    activePaths: ["/daftar-walimurid", "/form-walimurid"],
   },
   {
     path: "/daftar-pilihanles",
