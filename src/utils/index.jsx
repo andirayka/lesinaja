@@ -6,9 +6,11 @@ import {
   deleteFirebaseData,
   handleRegister,
   handleLogin,
+  handleResetPassword,
 } from "./firebaseConfig";
 
 export {
+  handleResetPassword,
   handleLogin,
   handleRegister,
   enableFirebaseConfig,
