@@ -8,8 +8,12 @@ const RowMaster = ({ item, type: defaultType }) => {
   const [inputValue, setInputValue] = useState("");
   const [type, setType] = useState(defaultType);
 
-  const { saveFormData, deleteFormData, setFormStatus } =
-    useContext(ContextMaster);
+  const {
+    state: { formName },
+    saveFormData,
+    deleteFormData,
+    setFormStatus,
+  } = useContext(ContextMaster);
 
   if (type == "editing") {
     return (
@@ -70,7 +74,11 @@ const RowMaster = ({ item, type: defaultType }) => {
   if (type == "list") {
     return (
       <div className="flex flex-row py-4">
-        <div className="w-3/4 ml-2.5 text-lg">{item.nama}</div>
+        {formName == "master_paket" ? (
+          <div className="w-3/4 ml-2.5 text-lg">{`${item.nama} (${item.jumlah_pertemuan} pertemuan)`}</div>
+        ) : (
+          <div className="w-3/4 ml-2.5 text-lg">{item.nama}</div>
+        )}
         <div className="w-1/4 flex flex-row">
           <div className="flex flex-1 justify-center">
             <button

@@ -15,10 +15,12 @@ const FormMaster = () => {
     state: { formData, formStatus },
     getFormData,
     setFormStatus,
+    setListStatus,
   } = useContext(ContextMaster);
 
   useEffect(() => {
     getFormData();
+    setListStatus("loading");
   }, []);
 
   const renderForm = () => {

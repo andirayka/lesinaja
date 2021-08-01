@@ -66,7 +66,7 @@ const ProviderMaster = ({ children }) => {
     const fbParams = {
       ref: `${state.formName}`,
     };
-    console.log(state.formName);
+
     const data = await getFirebaseDataOnce(fbParams);
     if (data) {
       setFormStatus("viewing");
@@ -135,6 +135,7 @@ const ProviderMaster = ({ children }) => {
         deleteFormData,
         refreshFormData,
         setFormName,
+        setListStatus,
       }}
     >
       {children}
