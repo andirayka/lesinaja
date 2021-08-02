@@ -63,11 +63,12 @@ const addFirebaseData = ({ ref, payload, isNoKey }) => {
   if (isNoKey) {
     return rtDatabase.ref(`${ref}`).set(payload, (error) => {
       if (error) {
-        Swal.fire({
-          icon: "error",
-          text: "Input data gagal",
-          confirmButtonColor: "#FBBF24",
-        });
+        // Swal.fire({
+        //   icon: "error",
+        //   text: "Input data gagal",
+        //   confirmButtonColor: "#FBBF24",
+        // });
+        console.log("gagal");
       }
     });
   }
@@ -75,12 +76,14 @@ const addFirebaseData = ({ ref, payload, isNoKey }) => {
 
   return rtDatabase.ref(`${ref}/${newKey}`).set(payload, (error) => {
     if (error) {
-      Swal.fire({
-        icon: "error",
-        text: "Input data gagal",
-        confirmButtonColor: "#FBBF24",
-      });
+      // Swal.fire({
+      //   icon: "error",
+      //   text: "Input data gagal",
+      //   confirmButtonColor: "#FBBF24",
+      // });
+      console.log("gagal");
     }
+    console.log(payload);
   });
 };
 

@@ -89,6 +89,22 @@ const ProviderMaster = ({ children }) => {
   };
 
   const saveFormData = async (data) => {
+    if (state.formName == "master_paket") {
+      let fbParams = {
+        payload: { nama: data.nama, jumlah_pertemuan: data.jumlah_pertemuan },
+      };
+
+      if (data.id) {
+        // Update
+        fbParams.ref = `${state.formName}/${data.id}`;
+        await updateFirebaseData(fbParams);
+      } else {
+        // Add new
+        fbParams.ref = `${state.formName}`;
+        await addFirebaseData(fbParams);
+      }
+    }
+
     let fbParams = {
       payload: { nama: data.nama },
     };
@@ -102,6 +118,7 @@ const ProviderMaster = ({ children }) => {
       fbParams.ref = `${state.formName}`;
       await addFirebaseData(fbParams);
     }
+    console.log(state.formName);
 
     refreshFormData();
   };
