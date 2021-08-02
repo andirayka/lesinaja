@@ -1,8 +1,9 @@
 import {
   addFirebaseData,
   deleteFirebaseData,
-  getFirebaseDataOnce,
   updateFirebaseData,
+  firebase,
+  DBKEY,
 } from "@utils";
 import React, { createContext, useReducer } from "react";
 
@@ -47,32 +48,46 @@ const ContextMaster = createContext(initialState);
 const ProviderMaster = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  // Instance firebase database
+  const rtDatabase = firebase.database();
+
+  // Get 4 list master datas
   const getListData = async () => {
+    const getData = async (ref) => {
+      try {
+        const value = await rtDatabase
+          .ref(ref)
+          .limitToFirst(3)
+          .once("value", (snapshot) => snapshot);
+        return value.val();
+      } catch (message) {
+        return console.error(message);
+      }
+    };
+
     const data = {
-      jenjangkelas: await getFirebaseDataOnce({
-        ref: "master_jenjangkelas",
-        limit: 3,
-      }),
-      mapel: await getFirebaseDataOnce({ ref: "master_mapel", limit: 3 }),
-      paket: await getFirebaseDataOnce({ ref: "master_paket", limit: 3 }),
-      wilayah: await getFirebaseDataOnce({ ref: "master_wilayah", limit: 3 }),
+      jenjangkelas: await getData(DBKEY.masterJenjangKelas),
+      mapel: await getData(DBKEY.masterMapel),
+      paket: await getData(DBKEY.masterPaket),
+      wilayah: await getData(DBKEY.masterWilayah),
     };
 
     setListStatus("viewing");
     dispatch({ type: "GET_LIST_DATA", data });
   };
 
-  const getFormData = async () => {
-    const fbParams = {
-      ref: `${state.formName}`,
-    };
+  // Dipanggil ketika pertama kali buka form
+  const getFormData = async (ref) => {
+    try {
+      const value = await rtDatabase
+        .ref(ref)
+        .once("value", (snapshot) => snapshot);
+      const data = value.val();
 
-    const data = await getFirebaseDataOnce(fbParams);
-    if (data) {
       setFormStatus("viewing");
       dispatch({ type: "GET_FORM_DATA", data });
-    } else {
-      setFormStatus("empty");
+    } catch (message) {
+      console.error(message);
     }
   };
 
@@ -124,22 +139,25 @@ const ProviderMaster = ({ children }) => {
   };
 
   const deleteFormData = async (dataId) => {
-    let fbParams = {
-      masterJenjangkelas: {
-        ref: `${state.formName}/${dataId}`,
-      },
-    };
+    let fbParams = { ref: `${state.formName}/${dataId}` };
 
-    await deleteFirebaseData(fbParams.masterJenjangkelas);
+    await deleteFirebaseData(fbParams);
 
-    refreshFormData();
+    refreshData();
   };
 
-  const refreshFormData = async () => {
+  const refreshData = async () => {
+    // Refresh form
     setFormStatus("refreshing");
-    await getFormData();
+    await getFormData(state.formName);
     setFormStatus("viewing");
+
+    // list
+    setListStatus("loading");
+    await getListData();
+    setListStatus("viewing");
   };
+  const refreshFormData = async () => {};
 
   return (
     <ContextMaster.Provider
@@ -150,7 +168,6 @@ const ProviderMaster = ({ children }) => {
         setFormStatus,
         saveFormData,
         deleteFormData,
-        refreshFormData,
         setFormName,
         setListStatus,
       }}

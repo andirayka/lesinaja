@@ -26,9 +26,7 @@ const firebaseConfig = {
   appId: "1:373394832954:web:5a20d2e6737c126a1dff03",
 };
 
-const rtDatabase = firebase.apps.length && firebase.database();
-
-// * Enbale intial config of firebase in appliaction
+// * Enbale initial config of firebase in appliaction
 const enableFirebaseConfig = () => {
   // Initialize Firebase
   if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
@@ -102,9 +100,13 @@ const updateFirebaseData = ({ ref, payload }) => {
   });
 };
 
-const deleteFirebaseData = ({ ref }) => {
+const deleteFirebaseData = async ({ ref }) => {
   const rtDatabase = firebase.database();
-  return rtDatabase.ref(ref).remove();
+  try {
+    return rtDatabase.ref(ref).remove();
+  } catch (message) {
+    return console.error(message);
+  }
 };
 
 const handleRegister = async (email, password, role) => {
@@ -127,7 +129,7 @@ const handleRegister = async (email, password, role) => {
   } catch (error) {
     var errorCode = error.code;
     var errorMessage = error.message;
-    console.log(errorCode, errorMessage);
+    // console.log(errorCode, errorMessage);
     return { success: false };
   }
 };
@@ -166,7 +168,7 @@ const handleResetPassword = async (email) => {
 };
 
 export {
-  rtDatabase,
+  firebase,
   handleResetPassword,
   handleLogin,
   handleRegister,

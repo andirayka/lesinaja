@@ -7,11 +7,13 @@ import {
   handleRegister,
   handleLogin,
   handleResetPassword,
-  rtDatabase,
+  firebase,
 } from "./firebaseConfig";
+import { DBKEY } from "./variables";
 
 export {
-  rtDatabase,
+  DBKEY,
+  firebase,
   handleResetPassword,
   handleLogin,
   handleRegister,

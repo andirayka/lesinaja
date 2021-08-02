@@ -2,13 +2,13 @@ import React, { useContext, useEffect } from "react";
 import { Title, CardItem, Button, Skeleton, EmptyIcon } from "@components";
 import { Link } from "react-router-dom";
 import { ContextMaster } from "@context";
+import { DBKEY } from "@utils";
 
 const ListMaster = () => {
   const {
     state: { listData, listStatus },
     getListData,
     setFormStatus,
-    setFormName,
   } = useContext(ContextMaster);
 
   useEffect(() => {
@@ -56,7 +56,7 @@ const ListMaster = () => {
                   pathname: "/form-master",
                   state: {
                     title: "Jenjang Kelas",
-                    refName: "master_jenjangkelas",
+                    refName: DBKEY.masterJenjangKelas,
                   },
                 }}
               >
@@ -65,7 +65,6 @@ const ListMaster = () => {
                   additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
                   onClick={() => {
                     setFormStatus("loading");
-                    setFormName("master_jenjangkelas");
                   }}
                 />
               </Link>
@@ -84,7 +83,7 @@ const ListMaster = () => {
               <Link
                 to={{
                   pathname: "/form-master",
-                  state: { title: "Mapel", refName: "master_mapel" },
+                  state: { title: "Mapel", refName: DBKEY.masterMapel },
                 }}
               >
                 <Button
@@ -92,7 +91,6 @@ const ListMaster = () => {
                   additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
                   onClick={() => {
                     setFormStatus("loading");
-                    setFormName("master_mapel");
                   }}
                 />
               </Link>
@@ -112,7 +110,7 @@ const ListMaster = () => {
               <Link
                 to={{
                   pathname: "/form-master",
-                  state: { title: "Paket", refName: "master_paket" },
+                  state: { title: "Paket", refName: DBKEY.masterPaket },
                 }}
               >
                 <Button
@@ -120,7 +118,6 @@ const ListMaster = () => {
                   additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
                   onClick={() => {
                     setFormStatus("loading");
-                    setFormName("master_paket");
                   }}
                 />
               </Link>
@@ -139,7 +136,7 @@ const ListMaster = () => {
               <Link
                 to={{
                   pathname: "/form-master",
-                  state: { title: "Wilayah", refName: "master_wilayah" },
+                  state: { title: "Wilayah", refName: DBKEY.masterPaket },
                 }}
               >
                 <Button
@@ -147,7 +144,6 @@ const ListMaster = () => {
                   additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
                   onClick={() => {
                     setFormStatus("loading");
-                    setFormName("master_wilayah");
                   }}
                 />
               </Link>
