@@ -26,6 +26,8 @@ const firebaseConfig = {
   appId: "1:373394832954:web:5a20d2e6737c126a1dff03",
 };
 
+const rtDatabase = firebase.apps.length && firebase.database();
+
 // * Enbale intial config of firebase in appliaction
 const enableFirebaseConfig = () => {
   // Initialize Firebase
@@ -63,11 +65,12 @@ const addFirebaseData = ({ ref, payload, isNoKey }) => {
   if (isNoKey) {
     return rtDatabase.ref(`${ref}`).set(payload, (error) => {
       if (error) {
-        Swal.fire({
-          icon: "error",
-          text: "Input data gagal",
-          confirmButtonColor: "#FBBF24",
-        });
+        // Swal.fire({
+        //   icon: "error",
+        //   text: "Input data gagal",
+        //   confirmButtonColor: "#FBBF24",
+        // });
+        console.log("gagal");
       }
     });
   }
@@ -75,12 +78,14 @@ const addFirebaseData = ({ ref, payload, isNoKey }) => {
 
   return rtDatabase.ref(`${ref}/${newKey}`).set(payload, (error) => {
     if (error) {
-      Swal.fire({
-        icon: "error",
-        text: "Input data gagal",
-        confirmButtonColor: "#FBBF24",
-      });
+      // Swal.fire({
+      //   icon: "error",
+      //   text: "Input data gagal",
+      //   confirmButtonColor: "#FBBF24",
+      // });
+      console.log("gagal");
     }
+    console.log(payload);
   });
 };
 
@@ -161,6 +166,7 @@ const handleResetPassword = async (email) => {
 };
 
 export {
+  rtDatabase,
   handleResetPassword,
   handleLogin,
   handleRegister,

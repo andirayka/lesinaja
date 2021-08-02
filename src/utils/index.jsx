@@ -7,9 +7,11 @@ import {
   handleRegister,
   handleLogin,
   handleResetPassword,
+  rtDatabase,
 } from "./firebaseConfig";
 
 export {
+  rtDatabase,
   handleResetPassword,
   handleLogin,
   handleRegister,

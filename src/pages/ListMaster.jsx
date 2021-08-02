@@ -22,6 +22,16 @@ const ListMaster = () => {
 
     // Jika ada isinya
     if (listData[type]) {
+      if (type == "paket") {
+        return Object.values(listData["paket"]).map((item, index) => {
+          return (
+            <p
+              key={index}
+            >{`${item.nama} (${item.jumlah_pertemuan} pertemuan)`}</p>
+          );
+        });
+      }
+
       return Object.values(listData[type]).map((item, index) => {
         return <p key={index}>{item.nama}</p>;
       });
