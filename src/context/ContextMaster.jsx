@@ -118,22 +118,21 @@ const ProviderMaster = ({ children }) => {
         fbParams.ref = `${state.formName}`;
         await addFirebaseData(fbParams);
       }
-    }
-
-    let fbParams = {
-      payload: { nama: data.nama },
-    };
-
-    if (data.id) {
-      // Update
-      fbParams.ref = `${state.formName}/${data.id}`;
-      await updateFirebaseData(fbParams);
     } else {
-      // Add new
-      fbParams.ref = `${state.formName}`;
-      await addFirebaseData(fbParams);
-    }
+      let fbParams = {
+        payload: { nama: data.nama },
+      };
 
+      if (data.id) {
+        // Update
+        fbParams.ref = `${state.formName}/${data.id}`;
+        await updateFirebaseData(fbParams);
+      } else {
+        // Add new
+        fbParams.ref = `${state.formName}`;
+        await addFirebaseData(fbParams);
+      }
+    }
     refreshData();
   };
 
