@@ -118,7 +118,7 @@ const FormTutor = () => {
 
           <InputText disabled label="Rekening" value={data.rekening} />
 
-          <SectionTitle heading="Reset Kata Sandi" containerClass="mt-10" />
+          {/* <SectionTitle heading="Reset Kata Sandi" containerClass="mt-10" />
 
           <InputPassword
             label="Kata Sandi"
@@ -134,7 +134,7 @@ const FormTutor = () => {
             text="Simpan"
             additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 text-white w-full rounded-full"
             onClick={() => {}}
-          />
+          /> */}
         </div>
       )}
     </ContentContainer>
