@@ -13,9 +13,7 @@ import { getFirebaseDataOnce, handleResetPassword } from "@utils";
 import { ContextMaster } from "@context";
 
 const FormWalmur = () => {
-  const [value, setValue] = useState({
-    email: "",
-  });
+  const [email, setEmail] = useState();
 
   const {
     state: { listData, listStatus },
@@ -35,14 +33,14 @@ const FormWalmur = () => {
   };
 
   const handlePasswordChange = (event) => {
-    let emailNew = { ...value };
-    emailNew[event.target.name] = event.target.value;
-    setValue(emailNew);
+    let emailNew = { ...email };
+    emailNew = event.target.value;
+    setEmail(emailNew);
+    // console.log(email);
   };
 
   const handleSubmitReset = async () => {
-    setValue(data.email);
-    const { success } = await handleResetPassword(value.email || data.email);
+    const { success } = await handleResetPassword(email || data.email);
 
     if (success) {
       alert("Lihat di email anda");
