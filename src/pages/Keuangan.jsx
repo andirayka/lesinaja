@@ -6,34 +6,73 @@ import {
   Paginations,
   SectionFee,
 } from "@components";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getFirebaseDataOnce } from "@utils";
 
 const Keuangan = () => {
+  const [data, setData] = useState({});
+
+  const getDataFirebase = async () => {
+    const getData = await getFirebaseDataOnce({ ref: `keuangan` });
+    setData(getData);
+    // setLoading(false);
+  };
+
+  useEffect(() => {
+    getDataFirebase();
+  }, []);
+
   return (
     <div className="w-full flex-grow md:ml-8">
-      <Title text={`Keuangan Bulan Juli 2021`} type="pageTitle" />
+      {Object.entries(data).map((item, index) => {
+        const [key, value] = item;
+        console.log(key);
+        let labaBersih =
+          value.pemasukan -
+          (value.pembayaran_tutor +
+            value.laba_kotor +
+            value.sadaqah +
+            value.pengeluaran);
 
-      <div className="mt-8">
-        <Button
-          text="Input Pengeluaran"
-          additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-        />
-      </div>
+        return (
+          <div key={index} className="mb-8">
+            <Title text={`Keuangan Bulan ${value.bulan}`} type="pageTitle" />
 
-      <CardItem title="Rangkuman" containerClass="mt-8">
-        <CardKeyValue keyName="Pemasukan Biaya Les" value="Rp 500.000" />
+            <div className="mt-8">
+              <Button
+                text="Input Pengeluaran"
+                additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
+              />
+            </div>
 
-        <CardKeyValue keyName="Pembayaran Tutor" value="Rp 400.000" />
+            <CardItem title="Rangkuman" containerClass="mt-8">
+              <CardKeyValue
+                keyName="Pemasukan Biaya Les"
+                value={`Rp ${value.pemasukan}`}
+              />
 
-        <CardKeyValue keyName="Laba Kotor" value="Rp 100.000" />
+              <CardKeyValue
+                keyName="Pembayaran Tutor"
+                value={`Rp ${value.pembayaran_tutor}`}
+              />
 
-        <CardKeyValue keyName="Sadaqah" value="Rp 20.000" />
+              <CardKeyValue
+                keyName="Laba Kotor"
+                value={`Rp ${value.laba_kotor}`}
+              />
 
-        <CardKeyValue keyName="Pengeluaran" value="Rp 50.000" />
+              <CardKeyValue keyName="Sadaqah" value={`Rp ${value.sadaqah}`} />
 
-        <SectionFee heading="Laba Bersih" value="Rp 400.000" />
-      </CardItem>
+              <CardKeyValue
+                keyName="Pengeluaran"
+                value={`Rp ${value.pengeluaran}`}
+              />
 
+              <SectionFee heading="Laba Bersih" value={labaBersih} />
+            </CardItem>
+          </div>
+        );
+      })}
       <Paginations />
     </div>
   );
