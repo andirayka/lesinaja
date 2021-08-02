@@ -1,10 +1,10 @@
 import React from "react";
 
-const InputFile = ({ image, useHookRegister, disabled, onChange }) => {
+const InputFile = ({ image, useHookRegister, disabled, onChange, id }) => {
   return (
     <div className="mt-4 flex flex-col md:flex-row md:items-end">
       <div className="md:w-1/4 flex-none">
-        <img src={image} alt="" {...useHookRegister} />
+        <img src={image} id={id} alt="" {...useHookRegister} />
       </div>
       <div className="flex-grow">
         <input

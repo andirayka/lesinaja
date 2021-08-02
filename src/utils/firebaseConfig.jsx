@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/analytics";
 import "firebase/database";
 import "firebase/auth";
+import "firebase/storage";
 import { Swal } from "@components";
 
 const firebaseConfig = {
@@ -170,7 +171,33 @@ const handleResetPassword = async (email) => {
   }
 };
 
+// Upload File
+const handleUploadFile = (files, fileNew) => {
+  var storageRef = firebase.storage().ref();
+  return storageRef
+    .child(fileNew)
+    .put(files)
+    .then(() => {
+      console.log("Proses Upload Berhasil Om");
+      alert("Proses Upload File Berhasil");
+    });
+};
+
+// Show file
+const handleShowFile = (fileNew, id) => {
+  var storageRef = firebase.storage().ref();
+  return storageRef
+    .child(fileNew)
+    .getDownloadURL()
+    .then((url) => {
+      console.log(url);
+      document.getElementById(id).src = url;
+    });
+};
+
 export {
+  handleShowFile,
+  handleUploadFile,
   firebase,
   handleResetPassword,
   handleLogin,
