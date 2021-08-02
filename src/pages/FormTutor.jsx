@@ -7,6 +7,7 @@ import {
   InputTextarea,
   InputFile,
   Skeleton,
+  Button,
 } from "@components";
 import { useLocation } from "react-router-dom";
 import { getFirebaseDataOnce } from "@utils";
@@ -17,6 +18,18 @@ const FormTutor = () => {
   const { state: prevData } = useLocation();
 
   const [data, setData] = useState({});
+
+  const [file, setFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    setFile(event.target.value);
+  };
+
+  const handleSubmit = () => {
+    console.log("Pecobaan submit file");
+    let fileNew = `fiqri_${file}`;
+    console.log(fileNew);
+  };
 
   const getDataFirebase = async () => {
     const getData = await getFirebaseDataOnce({
@@ -43,10 +56,16 @@ const FormTutor = () => {
         <SectionTitle heading="Detail Tutor/Pengajar" />
 
         <InputFile
-          disabled
+          onChange={handleFileChange}
           image={
             "https://img.okezone.com/content/2021/01/23/194/2349461/potret-cantik-menantu-bule-bambang-trihatmodjo-pakai-kebaya-netizen-kayak-barbie-26ytjfjCXz.jpg"
           }
+        />
+
+        <Button
+          text="Simpan Gambar"
+          additionalClassName="bg-yellow-500"
+          onClick={handleSubmit}
         />
 
         <InputText disabled label="Nama" value={data.nama} />
