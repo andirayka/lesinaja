@@ -133,9 +133,8 @@ const ProviderMaster = ({ children }) => {
       fbParams.ref = `${state.formName}`;
       await addFirebaseData(fbParams);
     }
-    console.log(state.formName);
 
-    refreshFormData();
+    refreshData();
   };
 
   const deleteFormData = async (dataId) => {
@@ -157,7 +156,6 @@ const ProviderMaster = ({ children }) => {
     await getListData();
     setListStatus("viewing");
   };
-  const refreshFormData = async () => {};
 
   return (
     <ContextMaster.Provider

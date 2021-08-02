@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import {
   Title,
   Button,
@@ -17,6 +17,7 @@ const FormMaster = () => {
     setFormStatus,
     setFormName,
   } = useContext(ContextMaster);
+  const [isAdding, setIsAdding] = useState(false);
 
   useEffect(() => {
     setFormName(prevData.refName);
@@ -38,7 +39,7 @@ const FormMaster = () => {
             text={`Tambah ${prevData?.title}`}
             additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium mt-4"
             onClick={() => {
-              setFormStatus("adding");
+              setIsAdding(true);
             }}
           />
         )}
@@ -50,6 +51,8 @@ const FormMaster = () => {
 
           {/* List & Form Master */}
           <CardFormMaster
+            isAdding={isAdding}
+            setIsAdding={setIsAdding}
             formStatus={formStatus}
             containerClass="mt-8"
             data={formData}

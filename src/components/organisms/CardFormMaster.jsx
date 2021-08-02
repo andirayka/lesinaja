@@ -1,9 +1,19 @@
 import React, { useState } from "react";
 import { RowMaster, EmptyIcon, Skeleton } from "@components";
 
-const CardFormMaster = ({ containerClass, data, formStatus }) => {
+const CardFormMaster = ({
+  containerClass,
+  data,
+  formStatus,
+  isAdding,
+  setIsAdding,
+}) => {
   // Diisi integer urutan row yang sedang edit
   const [editingRow, setEditingRow] = useState(undefined);
+  const [inputValue, setInputValue] = useState({
+    nama: "",
+    jumlah_pertemuan: "",
+  });
 
   const renderList = () => {
     if (formStatus == "loading") {
@@ -23,6 +33,18 @@ const CardFormMaster = ({ containerClass, data, formStatus }) => {
       return (
         <RowMaster
           key={index}
+          inputValue={inputValue}
+          onClickEdit={(value) => {
+            setInputValue(value);
+            setEditingRow(index);
+          }}
+          onClickSave={() => {
+            setEditingRow(undefined);
+          }}
+          onClickCancel={() => {
+            setEditingRow(undefined);
+          }}
+          setInputValue={setInputValue}
           isEditing={index === editingRow}
           item={{ ...value, id: key }}
         />
@@ -39,7 +61,19 @@ const CardFormMaster = ({ containerClass, data, formStatus }) => {
       </div>
 
       {/* Table Row when user is adding new data */}
-      {/* {formStatus == "adding" && <RowMaster type="editing" />} */}
+      {isAdding && (
+        <RowMaster
+          inputValue={inputValue}
+          onClickSave={() => {
+            setIsAdding(false);
+          }}
+          onClickCancel={() => {
+            setIsAdding(false);
+          }}
+          setInputValue={setInputValue}
+          isEditing
+        />
+      )}
 
       {renderList()}
     </div>

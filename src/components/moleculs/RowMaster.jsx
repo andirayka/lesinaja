@@ -1,20 +1,22 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { ContextMaster } from "@context";
 import { Swal } from "@components";
 
-const RowMaster = ({ item, isEditing }) => {
-  const [inputValue, setInputValue] = useState({
-    nama: "",
-    jumlah_pertemuan: "",
-  });
-
+const RowMaster = ({
+  item,
+  isEditing,
+  onClickEdit,
+  onClickSave,
+  onClickCancel,
+  inputValue,
+  setInputValue,
+}) => {
   const {
     state: { formName },
     saveFormData,
     deleteFormData,
-    setFormStatus,
   } = useContext(ContextMaster);
 
   if (isEditing) {
@@ -26,19 +28,21 @@ const RowMaster = ({ item, isEditing }) => {
               <input
                 autoFocus
                 value={inputValue.nama}
-                onChange={(e) => setInputValue({ nama: e.target.value })}
+                onChange={(e) => {
+                  setInputValue((prev) => ({ ...prev, nama: e.target.value }));
+                }}
                 type="text"
                 placeholder="nama paket"
                 className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600"
               />
               <input
                 value={inputValue.jumlah_pertemuan}
-                onChange={(e) =>
+                onChange={(e) => {
                   setInputValue((prev) => ({
                     ...prev,
                     jumlah_pertemuan: e.target.value,
-                  }))
-                }
+                  }));
+                }}
                 type="text"
                 placeholder="jumlah pertemuan"
                 className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600"
@@ -48,7 +52,9 @@ const RowMaster = ({ item, isEditing }) => {
             <input
               autoFocus
               value={inputValue.nama}
-              onChange={(e) => setInputValue({ nama: e.target.value })}
+              onChange={(e) => {
+                setInputValue({ nama: e.target.value });
+              }}
               type="text"
               className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600"
             />
@@ -58,29 +64,46 @@ const RowMaster = ({ item, isEditing }) => {
           <div className="flex flex-1 justify-center">
             <button
               onClick={() => {
-                if (!inputValue) {
-                  Swal.fire({
-                    icon: "error",
-                    text: "data tidak boleh kosong",
-                    confirmButtonColor: "#FBBF24",
-                  });
-                } else {
-                  if (item) {
-                    if (formName == "master_paket") {
+                if (formName == "master_paket") {
+                  // Jika data belum lengkap
+                  if (!inputValue.nama || !inputValue.jumlah_pertemuan) {
+                    Swal.fire({
+                      icon: "error",
+                      text: "data tidak boleh kosong",
+                      confirmButtonColor: "#FBBF24",
+                    });
+                  } else {
+                    if (item) {
+                      // Edit
                       saveFormData({
                         ...item,
                         nama: inputValue.nama,
                         jumlah_pertemuan: inputValue.jumlah_pertemuan,
                       });
+                    } else {
+                      // Buat baru
+                      saveFormData({ nama: inputValue.nama });
                     }
-
-                    saveFormData({ ...item, nama: inputValue.nama });
-                    // setType("list");
-                  } else {
-                    saveFormData({ nama: inputValue.nama });
-                    setFormStatus("viewing");
+                    onClickSave();
                   }
-                  console.log(inputValue);
+                } else {
+                  // Jika data belum lengkap
+                  if (!inputValue.nama) {
+                    Swal.fire({
+                      icon: "error",
+                      text: "data tidak boleh kosong",
+                      confirmButtonColor: "#FBBF24",
+                    });
+                  } else {
+                    if (item) {
+                      // Edit
+                      saveFormData({ ...item, nama: inputValue.nama });
+                    } else {
+                      // Buat baru
+                      saveFormData({ nama: inputValue.nama });
+                    }
+                    onClickSave();
+                  }
                 }
               }}
               className="self-center bg-green-500 rounded-lg w-20 py-1.5"
@@ -91,11 +114,7 @@ const RowMaster = ({ item, isEditing }) => {
           <div className="flex flex-1 justify-center">
             <button
               onClick={() => {
-                if (item) {
-                  // setType("list");
-                } else {
-                  setFormStatus("viewing");
-                }
+                onClickCancel();
               }}
               className="self-center bg-red-500 rounded-lg w-20 py-1.5"
             >
@@ -118,8 +137,7 @@ const RowMaster = ({ item, isEditing }) => {
         <div className="flex flex-1 justify-center">
           <button
             onClick={() => {
-              // setType("editing");
-              setInputValue(item.nama);
+              onClickEdit({ nama: item.nama });
             }}
           >
             <FontAwesomeIcon icon={faPencilAlt} className="text-2xl" />
