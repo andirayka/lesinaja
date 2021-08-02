@@ -15,17 +15,18 @@ const FormMaster = () => {
     state: { formData, formStatus },
     getFormData,
     setFormStatus,
-    setListStatus,
+    setFormName,
   } = useContext(ContextMaster);
 
   useEffect(() => {
-    getFormData();
-    setListStatus("loading");
-  }, []);
+    setFormName(prevData.refName);
+    getFormData(prevData.refName);
+  }, [prevData]);
 
   const renderForm = () => {
     return (
       <>
+        {/* Add Button */}
         {formStatus == "loading" ? (
           <Skeleton
             mainCount={[1]}
@@ -41,22 +42,18 @@ const FormMaster = () => {
             }}
           />
         )}
+
+        {/* Form */}
         <div className="relative">
+          {/* Refresh Icon */}
           {formStatus == "refreshing" && <RefreshIcon />}
-          {formStatus == "loading" ? (
-            <CardFormMaster formStatus={formStatus} containerClass="mt-8">
-              <Skeleton
-                mainCount={[1, 2, 3, 4, 5, 6]}
-                containerClassName="space-y-3 px-4 py-2"
-              />
-            </CardFormMaster>
-          ) : (
-            <CardFormMaster
-              formStatus={formStatus}
-              containerClass="mt-8"
-              data={formData}
-            />
-          )}
+
+          {/* List & Form Master */}
+          <CardFormMaster
+            formStatus={formStatus}
+            containerClass="mt-8"
+            data={formData}
+          />
         </div>
       </>
     );

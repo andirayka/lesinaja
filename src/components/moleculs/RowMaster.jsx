@@ -4,12 +4,11 @@ import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { ContextMaster } from "@context";
 import { Swal } from "@components";
 
-const RowMaster = ({ item, type: defaultType }) => {
+const RowMaster = ({ item, isEditing }) => {
   const [inputValue, setInputValue] = useState({
     nama: "",
     jumlah_pertemuan: "",
   });
-  const [type, setType] = useState(defaultType);
 
   const {
     state: { formName },
@@ -18,7 +17,7 @@ const RowMaster = ({ item, type: defaultType }) => {
     setFormStatus,
   } = useContext(ContextMaster);
 
-  if (type == "editing") {
+  if (isEditing) {
     return (
       <div className="flex flex-row py-4">
         <div className="w-3/4 ml-2.5 text-lg">
@@ -76,7 +75,7 @@ const RowMaster = ({ item, type: defaultType }) => {
                     }
 
                     saveFormData({ ...item, nama: inputValue.nama });
-                    setType("list");
+                    // setType("list");
                   } else {
                     saveFormData({ nama: inputValue.nama });
                     setFormStatus("viewing");
@@ -93,7 +92,7 @@ const RowMaster = ({ item, type: defaultType }) => {
             <button
               onClick={() => {
                 if (item) {
-                  setType("list");
+                  // setType("list");
                 } else {
                   setFormStatus("viewing");
                 }
@@ -108,49 +107,48 @@ const RowMaster = ({ item, type: defaultType }) => {
     );
   }
 
-  if (type == "list") {
-    return (
-      <div className="flex flex-row py-4">
-        {formName == "master_paket" ? (
-          <div className="w-3/4 ml-2.5 text-lg">{`${item.nama} (${item.jumlah_pertemuan} pertemuan)`}</div>
-        ) : (
-          <div className="w-3/4 ml-2.5 text-lg">{item.nama}</div>
-        )}
-        <div className="w-1/4 flex flex-row">
-          <div className="flex flex-1 justify-center">
-            <button
-              onClick={() => {
-                setType("editing");
-                setInputValue(item.nama);
-              }}
-            >
-              <FontAwesomeIcon icon={faPencilAlt} className="text-2xl" />
-            </button>
-          </div>
-          <div className="flex flex-1 justify-center">
-            <button
-              onClick={() => {
-                Swal.fire({
-                  text: "Konfirmasi",
-                  icon: "warning",
-                  showCancelButton: true,
-                  confirmButtonColor: "#FBBF24",
-                  cancelButtonColor: "#d33",
-                  cancelButtonText: "Batal",
-                }).then((result) => {
-                  if (result.isConfirmed) {
-                    deleteFormData(item.id);
-                  }
-                });
-              }}
-            >
-              <FontAwesomeIcon icon={faTrashAlt} className="text-2xl" />
-            </button>
-          </div>
+  return (
+    <div className="flex flex-row py-4">
+      {formName == "master_paket" ? (
+        <div className="w-3/4 ml-2.5 text-lg">{`${item.nama} (${item.jumlah_pertemuan} pertemuan)`}</div>
+      ) : (
+        <div className="w-3/4 ml-2.5 text-lg">{item.nama}</div>
+      )}
+      <div className="w-1/4 flex flex-row">
+        <div className="flex flex-1 justify-center">
+          <button
+            onClick={() => {
+              // setType("editing");
+              setInputValue(item.nama);
+            }}
+          >
+            <FontAwesomeIcon icon={faPencilAlt} className="text-2xl" />
+          </button>
+        </div>
+        <div className="flex flex-1 justify-center">
+          <button
+            onClick={() => {
+              Swal.fire({
+                text: `Apakah Anda yakin akan menghapus ${item.nama}?`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#FBBF24",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Hapus",
+                cancelButtonText: "Batal",
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  deleteFormData(item.id);
+                }
+              });
+            }}
+          >
+            <FontAwesomeIcon icon={faTrashAlt} className="text-2xl" />
+          </button>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 };
 
 export default RowMaster;
