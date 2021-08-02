@@ -29,7 +29,10 @@ const RowMaster = ({
                 autoFocus
                 value={inputValue.nama}
                 onChange={(e) => {
-                  setInputValue((prev) => ({ ...prev, nama: e.target.value }));
+                  setInputValue({
+                    ...inputValue,
+                    nama: e.target.value,
+                  });
                 }}
                 type="text"
                 placeholder="nama paket"
@@ -38,10 +41,10 @@ const RowMaster = ({
               <input
                 value={inputValue.jumlah_pertemuan}
                 onChange={(e) => {
-                  setInputValue((prev) => ({
-                    ...prev,
+                  setInputValue({
+                    ...inputValue,
                     jumlah_pertemuan: e.target.value,
-                  }));
+                  });
                 }}
                 type="text"
                 placeholder="jumlah pertemuan"
@@ -82,7 +85,10 @@ const RowMaster = ({
                       });
                     } else {
                       // Buat baru
-                      saveFormData({ nama: inputValue.nama });
+                      saveFormData({
+                        nama: inputValue.nama,
+                        jumlah_pertemuan: inputValue.jumlah_pertemuan,
+                      });
                     }
                     onClickSave();
                   }
