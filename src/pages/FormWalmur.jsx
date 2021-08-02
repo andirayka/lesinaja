@@ -56,51 +56,53 @@ const FormWalmur = () => {
   }, []);
 
   return (
-    <ContentContainer additionalClassName="w-full flex-grow bg-white rounded-lg p-6 md:ml-8">
-      <SectionTitle heading="Detail Wali Murid" />
+    <>
+      <ContentContainer additionalClassName="w-full flex-grow bg-white rounded-lg p-6 md:ml-8">
+        <SectionTitle heading="Detail Wali Murid" />
 
-      {listStatus == "loading" && (
-        <Skeleton mainCount={[1, 2, 3, 4, 5, 6]} subCount={[1, 2]} />
-      )}
+        {listStatus == "loading" && (
+          <Skeleton mainCount={[1, 2, 3, 4, 5, 6]} subCount={[1, 2]} />
+        )}
 
-      {listData && (
-        <div>
-          <InputText disabled label="Nama" value={data.nama} />
+        {listData && (
+          <div>
+            <InputText disabled label="Nama" value={data.nama} />
 
-          <InputText disabled label="Email" value={data.email} />
+            <InputText disabled label="Email" value={data.email} />
 
-          <InputText disabled label="Nomor WA" value={data.nomor} />
+            <InputText disabled label="Nomor WA" value={data.nomor} />
 
-          <InputText disabled label="Pekerjaan" value={data.pekerjaan} />
+            <InputText disabled label="Pekerjaan" value={data.pekerjaan} />
 
-          <InputText disabled label="Provinsi" value={data.provinsi} />
+            <InputText disabled label="Provinsi" value={data.provinsi} />
 
-          <InputText disabled label="Kabupaten/kota" value={data.kabupaten} />
+            <InputText disabled label="Kabupaten/kota" value={data.kabupaten} />
 
-          <InputText disabled label="Kecamatan" value={data.kecamatan} />
+            <InputText disabled label="Kecamatan" value={data.kecamatan} />
 
-          <InputText disabled label="Desa" value={data.desa} />
+            <InputText disabled label="Desa" value={data.desa} />
 
-          <InputTextarea disabled heading="Alamat" value={data.alamat} />
+            <InputTextarea disabled heading="Alamat" value={data.alamat} />
 
-          <SectionTitle heading="Reset Kata Sandi" containerClass="mt-10" />
+            <SectionTitle heading="Reset Kata Sandi" containerClass="mt-10" />
 
-          <InputText
-            label="Email"
-            name="email"
-            value={data.email}
-            onChange={handlePasswordChange}
-            placeholder="Masukkan kata sandi baru Anda"
-          />
+            <InputText
+              label="Email"
+              name="email"
+              value={data.email}
+              onChange={handlePasswordChange}
+              placeholder="Masukkan kata sandi baru Anda"
+            />
 
-          <Button
-            text="Simpan"
-            additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 text-white w-full rounded-full"
-            onClick={handleSubmitReset}
-          />
-        </div>
-      )}
-    </ContentContainer>
+            <Button
+              text="Simpan"
+              additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 text-white w-full rounded-full"
+              onClick={handleSubmitReset}
+            />
+          </div>
+        )}
+      </ContentContainer>
+    </>
   );
 };
 
