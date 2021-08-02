@@ -1,24 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ContentContainer,
   InputText,
-  // InputPassword,
   SectionTitle,
-  Button,
   InputTextarea,
   Skeleton,
 } from "@components";
 import { useLocation } from "react-router-dom";
-import { getFirebaseDataOnce, handleResetPassword } from "@utils";
-import { ContextMaster } from "@context";
+import { getFirebaseDataOnce } from "@utils";
 
 const FormWalmur = () => {
-  const [email, setEmail] = useState();
-
-  const {
-    state: { listData, listStatus },
-    getListData,
-  } = useContext(ContextMaster);
+  const [loading, setLoading] = useState(true);
 
   const { state: prevData } = useLocation();
 
@@ -28,82 +20,46 @@ const FormWalmur = () => {
     const getData = await getFirebaseDataOnce({
       ref: `user_role/wali_murid/${prevData.id}`,
     });
-    // console.log(data);
     setData(getData);
-  };
-
-  const handlePasswordChange = (event) => {
-    let emailNew = { ...email };
-    emailNew = event.target.value;
-    setEmail(emailNew);
-    // console.log(email);
-  };
-
-  const handleSubmitReset = async () => {
-    const { success } = await handleResetPassword(email || data.email);
-
-    if (success) {
-      alert("Lihat di email anda");
-    } else {
-      alert("proses gaga");
-    }
-    // console.log(value.email);
+    setLoading(false);
   };
 
   useEffect(() => {
-    getListData();
     getDataFirebase();
   }, []);
 
-  return (
-    <>
+  if (loading) {
+    return (
+      <ContentContainer additionalClassName="w-full flex-grow bg-white rounded-lg p-6 md:ml-8">
+        <SectionTitle heading="Loading..." />
+        <Skeleton mainCount={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} />
+      </ContentContainer>
+    );
+  } else {
+    return (
       <ContentContainer additionalClassName="w-full flex-grow bg-white rounded-lg p-6 md:ml-8">
         <SectionTitle heading="Detail Wali Murid" />
 
-        {listStatus == "loading" && (
-          <Skeleton mainCount={[1, 2, 3, 4, 5, 6]} subCount={[1, 2]} />
-        )}
+        <InputText disabled label="Nama" value={data.nama} />
 
-        {listData && (
-          <div>
-            <InputText disabled label="Nama" value={data.nama} />
+        <InputText disabled label="Email" value={data.email} />
 
-            <InputText disabled label="Email" value={data.email} />
+        <InputText disabled label="Nomor WA" value={data.nomor} />
 
-            <InputText disabled label="Nomor WA" value={data.nomor} />
+        <InputText disabled label="Pekerjaan" value={data.pekerjaan} />
 
-            <InputText disabled label="Pekerjaan" value={data.pekerjaan} />
+        <InputText disabled label="Provinsi" value={data.provinsi} />
 
-            <InputText disabled label="Provinsi" value={data.provinsi} />
+        <InputText disabled label="Kabupaten/kota" value={data.kabupaten} />
 
-            <InputText disabled label="Kabupaten/kota" value={data.kabupaten} />
+        <InputText disabled label="Kecamatan" value={data.kecamatan} />
 
-            <InputText disabled label="Kecamatan" value={data.kecamatan} />
+        <InputText disabled label="Desa" value={data.desa} />
 
-            <InputText disabled label="Desa" value={data.desa} />
-
-            <InputTextarea disabled heading="Alamat" value={data.alamat} />
-
-            <SectionTitle heading="Reset Kata Sandi" containerClass="mt-10" />
-
-            <InputText
-              label="Email"
-              name="email"
-              value={data.email}
-              onChange={handlePasswordChange}
-              placeholder="Masukkan kata sandi baru Anda"
-            />
-
-            <Button
-              text="Simpan"
-              additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 text-white w-full rounded-full"
-              onClick={handleSubmitReset}
-            />
-          </div>
-        )}
+        <InputTextarea disabled heading="Alamat" value={data.alamat} />
       </ContentContainer>
-    </>
-  );
+    );
+  }
 };
 
 export default FormWalmur;

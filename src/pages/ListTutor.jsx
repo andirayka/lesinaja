@@ -1,40 +1,38 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { Title, CardItem, CardKeyValue, Button, Skeleton } from "@components";
 import { Link } from "react-router-dom";
 import { getFirebaseDataOnce } from "@utils";
-import { ContextMaster } from "@context";
 
 const ListTutor = () => {
-  const {
-    state: { listData, listStatus },
-    getListData,
-  } = useContext(ContextMaster);
+  const [loading, setLoading] = useState(true);
 
   const [data, setData] = useState({});
 
   const getDataFirebase = async () => {
     const getData = await getFirebaseDataOnce({ ref: `user_role/tutor` });
-    // console.log(getData);
     setData(getData);
+    setLoading(false);
   };
 
   useEffect(() => {
-    getListData();
     getDataFirebase();
   }, []);
 
-  return (
-    <div className="w-full flex-grow md:ml-8">
-      <Title text="Daftar Tutor Lesin Aja" type="pageTitle" />
-
-      {listStatus == "loading" && (
+  if (loading) {
+    return (
+      <div className="w-full flex-grow md:ml-8">
+        <Title text="Daftar Tutor Lesin Aja" type="pageTitle" />
         <CardItem title="Loading..." containerClass="mt-8">
-          <Skeleton mainCount={[1, 2, 3, 4, 5, 6]} subCount={[1, 2]} />
+          <Skeleton mainCount={[1, 2, 3, 4, 5, 6]} />
         </CardItem>
-      )}
+      </div>
+    );
+  } else {
+    return (
+      <div className="w-full flex-grow md:ml-8">
+        <Title text="Daftar Tutor Lesin Aja" type="pageTitle" />
 
-      {listData &&
-        Object.entries(data).map((item, index) => {
+        {Object.entries(data).map((item, index) => {
           const [key, value] = item;
           // console.log(key);
           return (
@@ -62,8 +60,9 @@ const ListTutor = () => {
             </CardItem>
           );
         })}
-    </div>
-  );
+      </div>
+    );
+  }
 };
 
 export default ListTutor;

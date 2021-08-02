@@ -109,6 +109,7 @@ const deleteFirebaseData = async ({ ref }) => {
   }
 };
 
+//register firebase
 const handleRegister = async (email, password, role) => {
   try {
     const userCredential = await firebase
@@ -129,11 +130,12 @@ const handleRegister = async (email, password, role) => {
   } catch (error) {
     var errorCode = error.code;
     var errorMessage = error.message;
-    // console.log(errorCode, errorMessage);
+    console.log(errorCode, errorMessage);
     return { success: false };
   }
 };
 
+// login firebase
 const handleLogin = async (email, password) => {
   try {
     const userCredential = await firebase
@@ -153,6 +155,7 @@ const handleLogin = async (email, password) => {
   }
 };
 
+// Lupa password
 const handleResetPassword = async (email) => {
   try {
     const userCredential = await firebase.auth().sendPasswordResetEmail(email);
