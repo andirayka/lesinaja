@@ -8,6 +8,7 @@ const InputText = ({
   disabled,
   name,
   onClick,
+  onChange,
 }) => {
   return (
     <div className="mt-4">
@@ -15,6 +16,7 @@ const InputText = ({
       <input
         onClick={onClick}
         type="text"
+        onChange={onChange}
         name={name}
         disabled={disabled}
         value={value}

@@ -2,17 +2,21 @@ import React, { useState, useEffect, useContext } from "react";
 import {
   ContentContainer,
   InputText,
-  InputPassword,
+  // InputPassword,
   SectionTitle,
   Button,
   InputTextarea,
   Skeleton,
 } from "@components";
 import { useLocation } from "react-router-dom";
-import { getFirebaseDataOnce } from "@utils";
+import { getFirebaseDataOnce, handleResetPassword } from "@utils";
 import { ContextMaster } from "@context";
 
 const FormWalmur = () => {
+  const [value, setValue] = useState({
+    email: "",
+  });
+
   const {
     state: { listData, listStatus },
     getListData,
@@ -28,6 +32,24 @@ const FormWalmur = () => {
     });
     // console.log(data);
     setData(getData);
+  };
+
+  const handlePasswordChange = (event) => {
+    let emailNew = { ...value };
+    emailNew[event.target.name] = event.target.value;
+    setValue(emailNew);
+  };
+
+  const handleSubmitReset = async () => {
+    setValue(data.email);
+    const { success } = await handleResetPassword(value.email || data.email);
+
+    if (success) {
+      alert("Lihat di email anda");
+    } else {
+      alert("proses gaga");
+    }
+    // console.log(value.email);
   };
 
   useEffect(() => {
@@ -65,20 +87,18 @@ const FormWalmur = () => {
 
           <SectionTitle heading="Reset Kata Sandi" containerClass="mt-10" />
 
-          <InputPassword
-            label="Kata Sandi"
+          <InputText
+            label="Email"
+            name="email"
+            value={data.email}
+            onChange={handlePasswordChange}
             placeholder="Masukkan kata sandi baru Anda"
-          />
-
-          <InputPassword
-            label="Kata Sandi"
-            placeholder="Masukkan kembali kata sandi baru Anda"
           />
 
           <Button
             text="Simpan"
             additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 text-white w-full rounded-full"
-            onClick={() => {}}
+            onClick={handleSubmitReset}
           />
         </div>
       )}

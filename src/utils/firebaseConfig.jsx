@@ -149,7 +149,22 @@ const handleLogin = async (email, password) => {
   }
 };
 
+const handleResetPassword = async (email) => {
+  try {
+    const userCredential = await firebase.auth().sendPasswordResetEmail(email);
+    var user = userCredential;
+    console.log(user);
+    return { success: true };
+  } catch (error) {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    console.log(errorCode, errorMessage);
+    return { success: false };
+  }
+};
+
 export {
+  handleResetPassword,
   handleLogin,
   handleRegister,
   enableFirebaseConfig,
