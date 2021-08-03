@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
+import { ContextMaster } from "@context";
 
 // * Untuk message di bawah field jika ada error
 const FieldError = ({ message }) => {
+  const {
+    state: { formStatus },
+    setFormStatus,
+  } = useContext(ContextMaster);
+
+  useEffect(() => {
+    console.log("percobaan om");
+    setFormStatus();
+  });
   return <p className="text-red-500">{message}</p>;
 };
 
