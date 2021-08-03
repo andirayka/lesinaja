@@ -42,7 +42,7 @@ const RowMaster = ({
                 }}
                 type="text"
                 placeholder="nama paket"
-                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600"
+                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600 mb-2"
               />
               <input
                 value={inputValue.jumlah_pertemuan}
@@ -54,7 +54,7 @@ const RowMaster = ({
                 }}
                 type="text"
                 placeholder="jumlah pertemuan"
-                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600"
+                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600 mb-2"
               />
             </>
           )}
@@ -73,7 +73,7 @@ const RowMaster = ({
                 }}
                 type="text"
                 placeholder="nama wilayah"
-                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600"
+                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600 mb-2"
               />
               <input
                 value={inputValue.biaya_daftar}
@@ -85,7 +85,7 @@ const RowMaster = ({
                 }}
                 type="text"
                 placeholder="biaya daftar"
-                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600"
+                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600 mb-2"
               />
               <InputSelect
                 data={dropdownData}
@@ -116,6 +116,7 @@ const RowMaster = ({
           )}
         </div>
 
+        {/* button aksi */}
         <div className="w-1/4 flex flex-row justify-center">
           <div className="flex flex-1 justify-center">
             <button
@@ -230,18 +231,21 @@ const RowMaster = ({
       <div className="w-1/4 flex flex-row">
         <div className="flex flex-1 justify-center">
           <button
+            // button edit master paket
             onClick={() => {
               if (formName == "master_paket") {
                 onClickEdit({
                   nama: item.nama,
                   jumlah_pertemuan: item.jumlah_pertemuan,
                 });
+                // button edit master wilayah
               } else if (formName == "master_wilayah") {
                 onClickEdit({
                   nama: item.nama,
                   biaya_daftar: item.biaya_daftar,
                   provinsi: item.provinsi,
                 });
+                //button edit master jenjangkelas dan mapel
               } else {
                 onClickEdit({
                   nama: item.nama,
