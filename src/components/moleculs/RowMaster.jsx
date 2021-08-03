@@ -42,7 +42,7 @@ const RowMaster = ({
                 }}
                 type="text"
                 placeholder="nama paket"
-                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600"
+                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600 mb-2"
               />
               <input
                 value={inputValue.jumlah_pertemuan}
@@ -54,7 +54,7 @@ const RowMaster = ({
                 }}
                 type="text"
                 placeholder="jumlah pertemuan"
-                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600"
+                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600 mb-2"
               />
             </>
           )}
@@ -73,7 +73,7 @@ const RowMaster = ({
                 }}
                 type="text"
                 placeholder="nama wilayah"
-                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600"
+                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600 mb-2"
               />
               <input
                 value={inputValue.biaya_daftar}
@@ -85,7 +85,7 @@ const RowMaster = ({
                 }}
                 type="text"
                 placeholder="biaya daftar"
-                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600"
+                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600 mb-2"
               />
               <InputSelect
                 data={dropdownData}

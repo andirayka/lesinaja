@@ -9,7 +9,7 @@ const InputSelect = ({ data, prompt, value, onChange }) => {
     <div className="cursor-pointer">
       {/* aksi ketika klik dropdown */}
       <div
-        className="relative"
+        className="relative w-4/5 mt-4 border-2 rounded-lg p-1"
         onClick={() => {
           setOpen((prev) => !prev);
         }}
@@ -24,12 +24,12 @@ const InputSelect = ({ data, prompt, value, onChange }) => {
           </div>
         )}
       </div>
-      <div className="max-h-40 w-full bg-gray-200 overflow-y-auto">
+      <div className="max-h-40 w-4/5 bg-gray-300 overflow-y-auto px-2">
         {/* text input untuk filter */}
         {open && (
           <input
             type="text"
-            className="w-full bg-gray-200"
+            className="w-full bg-gray-300"
             placeholder="cari data"
             autoFocus
             onChange={(e) => {
