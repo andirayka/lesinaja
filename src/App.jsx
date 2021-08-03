@@ -68,6 +68,7 @@ const App = () => {
   // Undefined = belum tahu, true = sudah login, false, tidak login
   const [isLoggedIn, setIsLoggedIn] = useState(undefined);
 
+  // Cek apakah user sudah login
   useEffect(() => {
     const user = firebase.auth().currentUser;
     if (user) {
