@@ -1,6 +1,17 @@
-import React from "react";
+import React, { ChangeEvent, FC, MouseEventHandler } from "react";
 
-const InputText = ({
+interface Props {
+  label: string;
+  placeholder: string;
+  value?: string;
+  disabled?: boolean;
+  name?: string;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+  onChange?: ChangeEvent<HTMLInputElement>;
+  useHookRegister: any;
+}
+
+const InputText: FC<Props> = ({
   label,
   placeholder,
   useHookRegister,
