@@ -123,7 +123,11 @@ const RowMaster = ({
                 // untuk button simpan master wilayah
                 if (formName == "master_wilayah") {
                   // Jika data belum lengkap
-                  if (!inputValue.nama || !inputValue.biaya_daftar) {
+                  if (
+                    !inputValue.nama ||
+                    !inputValue.biaya_daftar ||
+                    !inputValue.provinsi
+                  ) {
                     Swal.fire({
                       icon: "error",
                       text: "data tidak boleh kosong",
@@ -227,7 +231,22 @@ const RowMaster = ({
         <div className="flex flex-1 justify-center">
           <button
             onClick={() => {
-              onClickEdit({ nama: item.nama });
+              if (formName == "master_paket") {
+                onClickEdit({
+                  nama: item.nama,
+                  jumlah_pertemuan: item.jumlah_pertemuan,
+                });
+              } else if (formName == "master_wilayah") {
+                onClickEdit({
+                  nama: item.nama,
+                  biaya_daftar: item.biaya_daftar,
+                  provinsi: item.provinsi,
+                });
+              } else {
+                onClickEdit({
+                  nama: item.nama,
+                });
+              }
             }}
           >
             <FontAwesomeIcon icon={faPencilAlt} className="text-2xl" />
