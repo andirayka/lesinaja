@@ -1,6 +1,20 @@
-import React from "react";
+import React, { FC, MouseEventHandler } from "react";
 
-const Button = ({ type, text, additionalClassName, onClick, loading }) => {
+interface Props {
+  type?: "submit" | "reset" | "button";
+  text: string;
+  additionalClassName: string;
+  onClick: MouseEventHandler<HTMLButtonElement>;
+  loading?: FC;
+}
+
+const Button: FC<Props> = ({
+  type,
+  text,
+  additionalClassName,
+  onClick,
+  loading,
+}) => {
   if (loading) {
     return (
       <button

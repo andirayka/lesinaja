@@ -23,7 +23,7 @@ const Account = () => {
     return () => {};
   }, []);
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: Object) => {
     console.log(data);
   };
 

@@ -1,6 +1,12 @@
-import React from "react";
+import React, { FC } from "react";
 
-const SectionTitle = ({ heading, body, containerClass }) => {
+interface Props {
+  heading: string;
+  body?: string;
+  containerClass?: string;
+}
+
+const SectionTitle: FC<Props> = ({ heading, body, containerClass }) => {
   return (
     <div className={containerClass}>
       <p className="text-2xl font-bold">{heading}</p>
