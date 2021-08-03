@@ -3,7 +3,6 @@ import Login from "./Login";
 import Account from "./Account";
 import Register from "./Register";
 import Home from "./Home";
-import NotFound from "./NotFound";
 import ListTutor from "./ListTutor";
 import ListWalmur from "./ListWalmur";
 import ListMaster from "./ListMaster";
@@ -34,7 +33,6 @@ export {
   Account,
   Register,
   Home,
-  NotFound,
   ListTutor,
   ListMaster,
   ListPayment,
