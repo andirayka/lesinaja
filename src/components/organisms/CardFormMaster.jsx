@@ -13,6 +13,8 @@ const CardFormMaster = ({
   const [inputValue, setInputValue] = useState({
     nama: "",
     jumlah_pertemuan: "",
+    biaya_daftar: "",
+    provinsi: "",
   });
 
   const renderList = () => {

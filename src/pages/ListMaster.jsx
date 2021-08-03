@@ -136,7 +136,7 @@ const ListMaster = () => {
               <Link
                 to={{
                   pathname: "/form-master",
-                  state: { title: "Wilayah", refName: DBKEY.masterPaket },
+                  state: { title: "Wilayah", refName: DBKEY.masterWilayah },
                 }}
               >
                 <Button
