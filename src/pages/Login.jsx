@@ -7,6 +7,7 @@ import {
   Button,
   LoadIcon,
   Swal,
+  FieldError,
 } from "@components";
 import { logregLogo } from "@assets";
 import { useForm } from "react-hook-form";
@@ -73,9 +74,7 @@ const Login = () => {
             })}
             placeholder="Contoh: handoko@gmail.com"
           />
-          {errors.email && (
-            <p className="text-red-500">{errors.email.message}</p>
-          )}
+          {errors.email && <FieldError message={errors.email.message} />}
 
           <InputPassword
             label="Kata Sandi"
@@ -84,9 +83,7 @@ const Login = () => {
             })}
             placeholder="Masukkan kata sandi Anda"
           />
-          {errors.password && (
-            <p className="text-red-500">{errors.password.message}</p>
-          )}
+          {errors.password && <FieldError message={errors.password.message} />}
 
           <Button
             type="submit"

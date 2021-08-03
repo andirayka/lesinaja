@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ContentContainer,
   InputText,
-  InputPassword,
   SectionTitle,
   Button,
+  FieldError,
 } from "@components";
+import { firebase } from "@utils";
 import { useForm } from "react-hook-form";
 
 const Account = () => {
@@ -14,57 +15,35 @@ const Account = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [name, setName] = useState("");
+
+  useEffect(() => {
+    // Menunggu firebase login
+    const user = firebase.auth().currentUser;
+
+    return () => {};
+  }, []);
 
   const onSubmit = (data) => {
     console.log(data);
-    console.log(errors);
   };
 
   return (
     <ContentContainer additionalClassName="w-full flex-grow bg-white rounded-lg p-6 md:ml-8">
       {/* Nama */}
       <SectionTitle heading="Akun Administrator" />
-      <InputText
-        label="Nama"
-        useHookRegister={{
-          value: name,
-          onChange: (e) => setName(e.target.value),
-        }}
-        placeholder="Contoh: Admin Abdullah"
-      />
-      <Button
-        onClick={() => alert("berhasil simpan nama")}
-        text="Simpan"
-        additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 font-medium w-full rounded-full"
-      />
+      <form onSubmit={handleSubmit(onSubmit)} name="validation">
+        <InputText
+          label="Nama"
+          useHookRegister={register("name", {
+            required: "Nama tidak boleh kosong",
+          })}
+          placeholder="Contoh: Admin Abdullah"
+        />
+        {errors.name && <FieldError message={errors.name.message} />}
 
-      {/* Password */}
-      <SectionTitle heading="Ganti Kata Sandi" containerClass="mt-16" />
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <InputPassword
-          label="Kata Sandi"
-          useHookRegister={register("oldPassword", {
-            required: "Kata sandi lama harus diisi",
-          })}
-          placeholder="Masukkan kata lama sandi Anda"
-        />
-        <InputPassword
-          label="Kata Sandi"
-          useHookRegister={register("newPassword", {
-            required: "Kata sandi baru harus diisi",
-          })}
-          placeholder="Masukkan kata sandi baru Anda"
-        />
-        <InputPassword
-          label="Kata Sandi"
-          useHookRegister={register("repeatPassword", {
-            required: "Ulangi katasandi lama harus diisi",
-          })}
-          placeholder="Masukkan kembali kata sandi baru Anda"
-        />
         <Button
           type="submit"
+          // onClick={() => alert("berhasil simpan nama")}
           text="Simpan"
           additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 font-medium w-full rounded-full"
         />

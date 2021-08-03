@@ -28,7 +28,17 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { MainLayout } from "@components";
 import { enableFirebaseConfig } from "@utils";
 
+// Global Settings
+import "dayjs/locale/id";
+import dayjs from "dayjs";
+
+// Buat dayjs agar bahasa indonesia dan gunakan plugin
+dayjs.locale("id");
+
+// Inisialisasi agar fitur firebase bisa digunakan
 enableFirebaseConfig();
+
+// List url halaman dan component yang digunakan
 const layoutPages = [
   { path: ["/akun"], component: Account },
   { path: ["/akun-tutor"], component: AccountTutor },
