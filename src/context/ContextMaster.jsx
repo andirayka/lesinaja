@@ -23,6 +23,7 @@ const initialState = {
   formData: null,
   formStatus: "loading",
   formName: "",
+  dropdownData: "",
 };
 
 // * Reducer
@@ -32,6 +33,8 @@ const reducer = (state, action) => {
       return { ...state, listData: action.data };
     case "GET_FORM_DATA":
       return { ...state, formData: action.data };
+    case "GET_DROPDOWN_DATA":
+      return { ...state, dropdownData: action.data };
     case "SET_FORM_STATUS":
       return { ...state, formStatus: action.status };
     case "SET_LIST_STATUS":
@@ -91,6 +94,20 @@ const ProviderMaster = ({ children }) => {
     }
   };
 
+  // query untuk dropdown
+  const getDropdownData = async (ref) => {
+    try {
+      const value = await rtDatabase
+        .ref(ref)
+        .once("value", (snapshot) => snapshot);
+      const data = value.val();
+
+      dispatch({ type: "GET_DROPDOWN_DATA", data });
+    } catch (message) {
+      console.error(message);
+    }
+  };
+
   const setFormStatus = (status) => {
     dispatch({ type: "SET_FORM_STATUS", status });
   };
@@ -104,6 +121,7 @@ const ProviderMaster = ({ children }) => {
   };
 
   const saveFormData = async (data) => {
+    // untuk master paket
     if (state.formName == "master_paket") {
       let fbParams = {
         payload: { nama: data.nama, jumlah_pertemuan: data.jumlah_pertemuan },
@@ -118,6 +136,27 @@ const ProviderMaster = ({ children }) => {
         fbParams.ref = `${state.formName}`;
         await addFirebaseData(fbParams);
       }
+      // untuk master wilyah
+    } else if (state.formName == "master_wilayah") {
+      let fbParams = {
+        payload: {
+          nama: data.nama,
+          biaya_daftar: data.biaya_daftar,
+          provinsi: data.provinsi,
+        },
+      };
+
+      if (data.id) {
+        // Update
+        fbParams.ref = `${state.formName}/${data.id}`;
+        await updateFirebaseData(fbParams);
+      } else {
+        // Add new
+        fbParams.ref = `${state.formName}`;
+        await addFirebaseData(fbParams);
+      }
+
+      // untuk master jenjangkelas dan mapel
     } else {
       let fbParams = {
         payload: { nama: data.nama },
@@ -167,6 +206,7 @@ const ProviderMaster = ({ children }) => {
         deleteFormData,
         setFormName,
         setListStatus,
+        getDropdownData,
       }}
     >
       {children}

@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { ContextMaster } from "@context";
-import { Swal } from "@components";
+import { Swal, InputSelect } from "@components";
 
 const RowMaster = ({
   item,
@@ -14,16 +14,22 @@ const RowMaster = ({
   setInputValue,
 }) => {
   const {
-    state: { formName },
+    state: { formName, dropdownData },
     saveFormData,
     deleteFormData,
+    getDropdownData,
   } = useContext(ContextMaster);
+
+  useEffect(() => {
+    getDropdownData("wilayah_provinsi");
+  }, []);
 
   if (isEditing) {
     return (
       <div className="flex flex-row py-4">
         <div className="w-3/4 ml-2.5 text-lg">
-          {formName == "master_paket" ? (
+          {/* untuk form master paket */}
+          {formName == "master_paket" && (
             <>
               <input
                 autoFocus
@@ -51,7 +57,53 @@ const RowMaster = ({
                 className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600"
               />
             </>
-          ) : (
+          )}
+
+          {/* untuk form master wilayah */}
+          {formName == "master_wilayah" && (
+            <>
+              <input
+                autoFocus
+                value={inputValue.nama}
+                onChange={(e) => {
+                  setInputValue({
+                    ...inputValue,
+                    nama: e.target.value,
+                  });
+                }}
+                type="text"
+                placeholder="nama wilayah"
+                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600"
+              />
+              <input
+                value={inputValue.biaya_daftar}
+                onChange={(e) => {
+                  setInputValue({
+                    ...inputValue,
+                    biaya_daftar: e.target.value,
+                  });
+                }}
+                type="text"
+                placeholder="biaya daftar"
+                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600"
+              />
+              <InputSelect
+                data={dropdownData}
+                prompt="Pilih Provinsi..."
+                value={inputValue.provinsi.nama}
+                onChange={(val) => {
+                  setInputValue({
+                    ...inputValue,
+                    provinsi: val,
+                  });
+                }}
+              />
+            </>
+          )}
+
+          {/* untuk form master jenjangkelas dan mapel */}
+          {(formName == "master_jenjangkelas" ||
+            formName == "master_mapel") && (
             <input
               autoFocus
               value={inputValue.nama}
@@ -63,11 +115,42 @@ const RowMaster = ({
             />
           )}
         </div>
+
         <div className="w-1/4 flex flex-row justify-center">
           <div className="flex flex-1 justify-center">
             <button
               onClick={() => {
-                if (formName == "master_paket") {
+                // untuk button simpan master wilayah
+                if (formName == "master_wilayah") {
+                  // Jika data belum lengkap
+                  if (!inputValue.nama || !inputValue.biaya_daftar) {
+                    Swal.fire({
+                      icon: "error",
+                      text: "data tidak boleh kosong",
+                      confirmButtonColor: "#FBBF24",
+                    });
+                  } else {
+                    if (item) {
+                      // Edit
+                      saveFormData({
+                        ...item,
+                        nama: inputValue.nama,
+                        biaya_daftar: inputValue.biaya_daftar,
+                        provinsi: inputValue.provinsi,
+                      });
+                    } else {
+                      // Buat baru
+                      saveFormData({
+                        nama: inputValue.nama,
+                        biaya_daftar: inputValue.biaya_daftar,
+                        provinsi: inputValue.provinsi,
+                      });
+                    }
+                    onClickSave();
+                  }
+
+                  // untuk button simpan master paket
+                } else if (formName == "master_paket") {
                   // Jika data belum lengkap
                   if (!inputValue.nama || !inputValue.jumlah_pertemuan) {
                     Swal.fire({
@@ -92,6 +175,7 @@ const RowMaster = ({
                     }
                     onClickSave();
                   }
+                  // untuk button simpan master jenjangkelas dan mapel
                 } else {
                   // Jika data belum lengkap
                   if (!inputValue.nama) {

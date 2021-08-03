@@ -14,7 +14,6 @@ const FormMaster = () => {
   const {
     state: { formData, formStatus },
     getFormData,
-    setFormStatus,
     setFormName,
   } = useContext(ContextMaster);
   const [isAdding, setIsAdding] = useState(false);
