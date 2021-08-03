@@ -8,6 +8,7 @@ import {
 } from "@components";
 import { firebase } from "@utils";
 import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 
 const Account = () => {
   const {
@@ -16,9 +17,17 @@ const Account = () => {
     formState: { errors },
   } = useForm();
 
+  const history = useHistory();
+
   useEffect(() => {
     // Menunggu firebase login
     const user = firebase.auth().currentUser;
+    if (user) {
+      var uid = user.uid;
+      console.log(uid);
+    } else {
+      history.push("/masuk");
+    }
 
     return () => {};
   }, []);

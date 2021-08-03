@@ -156,6 +156,18 @@ const handleLogin = async (email, password) => {
   }
 };
 
+// status autentikasi
+const handleStatusAutentikasi = () => {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      var uid = user.uid;
+      console.log(uid);
+    } else {
+      console.log("anda masih belum login");
+    }
+  });
+};
+
 // Lupa password
 const handleResetPassword = async (email) => {
   try {
@@ -196,6 +208,7 @@ const handleShowFile = (fileNew, id) => {
 };
 
 export {
+  handleStatusAutentikasi,
   handleShowFile,
   handleUploadFile,
   firebase,
