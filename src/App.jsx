@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Landing,
   Login,
   Register,
   Account,
   Home,
-  NotFound,
   ListTutor,
   ListMaster,
   ListPayment,
@@ -24,9 +23,14 @@ import {
   FormWalmur,
 } from "@pages";
 import ProviderApp from "@context";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 import { MainLayout } from "@components";
-import { enableFirebaseConfig } from "@utils";
+import { enableFirebaseConfig, firebase } from "@utils";
 
 // Global Settings
 import "dayjs/locale/id";
@@ -61,6 +65,23 @@ const layoutPages = [
 ];
 
 const App = () => {
+  // Undefined = belum tahu, true = sudah login, false, tidak login
+  const [isLoggedIn, setIsLoggedIn] = useState(undefined);
+
+  useEffect(() => {
+    const user = firebase.auth().currentUser;
+    if (user) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
+
+  if (isLoggedIn === undefined) {
+    // Tampilan sementara loading, halaman kosong
+    return <div></div>;
+  }
+
   return (
     <ProviderApp>
       <Router>
@@ -69,23 +90,24 @@ const App = () => {
           <Route path="/masuk" exact component={Login} />
           <Route path="/daftar" exact component={Register} />
 
-          {layoutPages.map((item, index) => {
-            return (
-              <Route
-                key={index}
-                exact
-                path={item.path}
-                render={(props) => {
-                  return (
-                    <MainLayout>
-                      <item.component {...props} />
-                    </MainLayout>
-                  );
-                }}
-              />
-            );
-          })}
-          <Route component={NotFound} />
+          {isLoggedIn &&
+            layoutPages.map((item, index) => {
+              return (
+                <Route
+                  key={index}
+                  exact
+                  path={item.path}
+                  render={(props) => {
+                    return (
+                      <MainLayout>
+                        <item.component {...props} />
+                      </MainLayout>
+                    );
+                  }}
+                />
+              );
+            })}
+          <Redirect to="/masuk" />
         </Switch>
       </Router>
     </ProviderApp>
