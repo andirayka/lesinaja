@@ -9,7 +9,6 @@ const FieldError = ({ message }) => {
   } = useContext(ContextMaster);
 
   useEffect(() => {
-    console.log("percobaan om");
     setFormStatus();
   });
   return <p className="text-red-500">{message}</p>;

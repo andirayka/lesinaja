@@ -84,6 +84,7 @@ const InitialChecker = () => {
     const user = firebase.auth().currentUser;
     if (user) {
       setIsLoggedIn(true);
+      // console.log(user);
     } else {
       setIsLoggedIn(false);
     }

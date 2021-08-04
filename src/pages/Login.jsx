@@ -12,7 +12,7 @@ import {
 import { logregLogo } from "@assets";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { handleLogin } from "@utils";
+import { handleLogin, firebase } from "@utils";
 import { Link } from "react-router-dom";
 import { ContextAuth, ContextMaster } from "@context";
 
@@ -36,6 +36,8 @@ const Login = () => {
     if (authState.isLoggedIn) {
       history.push("/beranda");
     }
+    const user = firebase.auth().currentUser;
+    console.log(user);
   }, [authState.isLoggedIn]);
 
   const onSubmit = async (data) => {
@@ -96,7 +98,11 @@ const Login = () => {
             type="submit"
             text="Masuk"
             onClick={() => setFormStatus("refreshing")}
-            loading={formStatus == "refreshing" && <LoadIcon />}
+            loading={
+              formStatus == "refreshing" && (
+                <LoadIcon additionalClassName="text-2xl" />
+              )
+            }
             additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 font-medium w-full rounded-full"
           />
 
@@ -106,6 +112,11 @@ const Login = () => {
               Daftar di sini
             </Link>
           </p>
+          {/* <input
+            type="button"
+            value="Percobaan Om"
+            className="bg-blue-300 hover:bg-blue-500"
+          /> */}
         </form>
       </ContentContainer>
     </div>

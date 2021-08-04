@@ -19,6 +19,7 @@ const Account = () => {
   useEffect(() => {
     // Menunggu firebase login
     // const user = firebase.auth().currentUser;
+    // console.log(user);
 
     return () => {};
   }, []);

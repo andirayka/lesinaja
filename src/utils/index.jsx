@@ -11,12 +11,14 @@ import {
   handleUploadFile,
   handleShowFile,
   handleStatusAutentikasi,
+  handleLogout,
 } from "./firebaseConfig";
 import { DBKEY } from "./variables";
 
 export {
   DBKEY,
   firebase,
+  handleLogout,
   handleStatusAutentikasi,
   handleShowFile,
   handleUploadFile,

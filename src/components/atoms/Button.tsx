@@ -18,9 +18,9 @@ const Button: FC<Props> = ({
   if (loading) {
     return (
       <button
-        // disabled
-        onClick={onClick}
-        type={type}
+        // disabled={true}
+        // onClick={onClick}
+        // type={type}
         className={`px-4 py-3 flex justify-center bg-yellow-600 ${additionalClassName}`}
       >
         {loading}
@@ -34,7 +34,6 @@ const Button: FC<Props> = ({
       type={type}
       className={`px-4 py-3 flex justify-center ${additionalClassName}`}
     >
-      {loading}
       {text}
     </button>
   );

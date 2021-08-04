@@ -155,6 +155,12 @@ const handleLogin = async (email, password) => {
   }
 };
 
+const handleLogout = async () => {
+  return firebase.auth().signOut();
+  // const user = firebase.auth().currentUser;
+  // console.log(user);
+};
+
 // status autentikasi
 const handleStatusAutentikasi = () => {
   firebase.auth().onAuthStateChanged((user) => {
@@ -195,18 +201,13 @@ const handleUploadFile = (files, fileNew) => {
 };
 
 // Show file
-const handleShowFile = (fileNew, id) => {
+const handleShowFile = (fileNew) => {
   var storageRef = firebase.storage().ref();
-  return storageRef
-    .child(fileNew)
-    .getDownloadURL()
-    .then((url) => {
-      console.log(url);
-      document.getElementById(id).src = url;
-    });
+  return storageRef.child(fileNew).getDownloadURL();
 };
 
 export {
+  handleLogout,
   handleStatusAutentikasi,
   handleShowFile,
   handleUploadFile,
