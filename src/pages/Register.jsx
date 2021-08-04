@@ -8,6 +8,7 @@ import {
   Button,
   Swal,
   LoadIcon,
+  FieldError,
 } from "@components";
 import { logregLogo } from "@assets";
 import { useForm } from "react-hook-form";
@@ -72,7 +73,7 @@ const Register = () => {
             })}
             placeholder="Contoh: Handoko Wahyudi"
           />
-          {errors.name && <p className="text-red-500">{errors.name.message}</p>}
+          {errors.name && <FieldError message={errors.name.message} />}
 
           <InputText
             name="email"
@@ -87,14 +88,10 @@ const Register = () => {
             })}
             placeholder="Contoh: handoko@gmail.com"
           />
-          {errors.email && (
-            <p className="text-red-500">{errors.email.message}</p>
-          )}
-          {/* {validEmail && <p className="text-red-500">Format email salah</p>} */}
+          {errors.email && <FieldError message={errors.email.message} />}
 
           <InputPassword
             label="Kata Sandi"
-            onClick={() => setFormStatus()}
             useHookRegister={register("password", {
               required: "Kata sandi harus diisi",
               minLength: {
@@ -105,13 +102,10 @@ const Register = () => {
             })}
             placeholder="Masukkan kata sandi Anda"
           />
-          {errors.password && (
-            <p className="text-red-500">{errors.password.message}</p>
-          )}
+          {errors.password && <FieldError message={errors.password.message} />}
 
           <InputPassword
             label="Ulangi Kata Sandi"
-            onClick={() => setFormStatus()}
             useHookRegister={register("repeatPassword", {
               validate: (value) =>
                 value === password.current || "password beda",
@@ -119,14 +113,13 @@ const Register = () => {
             placeholder="Masukkan ulang kata sandi Anda"
           />
           {errors.repeatPassword && (
-            <p className="text-red-500">{errors.repeatPassword.message}</p>
+            <FieldError message={errors.repeatPassword.message} />
           )}
 
           <InputRadio heading="Saya adalah" />
           <InputRadio
             id="walimurid"
             label="Wali Murid"
-            onClick={() => setFormStatus()}
             value="walimurid"
             useHookRegister={register("role", {
               required: "pilih salah satu",
@@ -135,13 +128,12 @@ const Register = () => {
           <InputRadio
             id="tutorpengajar"
             label="Tutor/Pengajar"
-            onClick={setFormStatus}
             value="tutor"
             useHookRegister={register("role", {
               required: "pilih salah satu",
             })}
           />
-          {errors.role && <p className="text-red-500">{errors.role.message}</p>}
+          {errors.role && <FieldError message={errors.role.message} />}
 
           <Button
             type="submit"

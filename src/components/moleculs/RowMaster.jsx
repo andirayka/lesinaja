@@ -42,7 +42,7 @@ const RowMaster = ({
                 }}
                 type="text"
                 placeholder="nama paket"
-                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600"
+                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600 mb-2"
               />
               <input
                 value={inputValue.jumlah_pertemuan}
@@ -54,7 +54,7 @@ const RowMaster = ({
                 }}
                 type="text"
                 placeholder="jumlah pertemuan"
-                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600"
+                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600 mb-2"
               />
             </>
           )}
@@ -73,7 +73,7 @@ const RowMaster = ({
                 }}
                 type="text"
                 placeholder="nama wilayah"
-                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600"
+                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600 mb-2"
               />
               <input
                 value={inputValue.biaya_daftar}
@@ -85,7 +85,7 @@ const RowMaster = ({
                 }}
                 type="text"
                 placeholder="biaya daftar"
-                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600"
+                className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600 mb-2"
               />
               <InputSelect
                 data={dropdownData}
@@ -116,6 +116,7 @@ const RowMaster = ({
           )}
         </div>
 
+        {/* button aksi */}
         <div className="w-1/4 flex flex-row justify-center">
           <div className="flex flex-1 justify-center">
             <button
@@ -123,7 +124,11 @@ const RowMaster = ({
                 // untuk button simpan master wilayah
                 if (formName == "master_wilayah") {
                   // Jika data belum lengkap
-                  if (!inputValue.nama || !inputValue.biaya_daftar) {
+                  if (
+                    !inputValue.nama ||
+                    !inputValue.biaya_daftar ||
+                    !inputValue.provinsi
+                  ) {
                     Swal.fire({
                       icon: "error",
                       text: "data tidak boleh kosong",
@@ -216,24 +221,64 @@ const RowMaster = ({
     );
   }
 
+  const conditionalRowRender = () => {
+    if (formName == "master_paket") {
+      return (
+        <div className="w-3/4 ml-2.5 text-lg">{`${item.nama} (${item.jumlah_pertemuan} pertemuan)`}</div>
+      );
+    }
+
+    if (formName == "master_wilayah") {
+      return (
+        <>
+          <div className="w-3/4 ml-2.5 text-lg">{item.nama}</div>
+          <div className="w-3/4 ml-2.5 text-lg">
+            biaya daftar: {item.biaya_daftar}
+          </div>
+          <div className="w-3/4 ml-2.5 text-lg">{item.provinsi.nama}</div>
+        </>
+      );
+    }
+  };
+
   return (
     <div className="flex flex-row py-4">
-      {formName == "master_paket" ? (
-        <div className="w-3/4 ml-2.5 text-lg">{`${item.nama} (${item.jumlah_pertemuan} pertemuan)`}</div>
-      ) : (
+      {formName == "master_jenjangkelas" || formName == "master_mapel" ? (
         <div className="w-3/4 ml-2.5 text-lg">{item.nama}</div>
+      ) : (
+        conditionalRowRender()
       )}
+
       <div className="w-1/4 flex flex-row">
         <div className="flex flex-1 justify-center">
           <button
+            // button edit master paket
             onClick={() => {
-              onClickEdit({ nama: item.nama });
+              if (formName == "master_paket") {
+                onClickEdit({
+                  nama: item.nama,
+                  jumlah_pertemuan: item.jumlah_pertemuan,
+                });
+                // button edit master wilayah
+              } else if (formName == "master_wilayah") {
+                onClickEdit({
+                  nama: item.nama,
+                  biaya_daftar: item.biaya_daftar,
+                  provinsi: item.provinsi,
+                });
+                //button edit master jenjangkelas dan mapel
+              } else {
+                onClickEdit({
+                  nama: item.nama,
+                });
+              }
             }}
           >
             <FontAwesomeIcon icon={faPencilAlt} className="text-2xl" />
           </button>
         </div>
         <div className="flex flex-1 justify-center">
+          {/* button delete */}
           <button
             onClick={() => {
               Swal.fire({

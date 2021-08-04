@@ -6,25 +6,30 @@ const InputSelect = ({ data, prompt, value, onChange }) => {
   const [query, setQuery] = useState("");
 
   return (
-    <div className="dropdown-container cursor-pointer">
+    <div className="cursor-pointer">
+      {/* aksi ketika klik dropdown */}
       <div
-        className="relative"
+        className="relative w-4/5 mt-4 border-2 rounded-lg p-1"
         onClick={() => {
           setOpen((prev) => !prev);
         }}
       >
+        {/* tampilan data awal pada dropdown 
+        dan tampilan data yang dipilih */}
         <div>{value ? value : prompt}</div>
         {!open && (
           <div className="absolute inset-y-0 right-0 flex items-center px-2">
+            {/* ikon panah dropdown */}
             <DropdownArrow />
           </div>
         )}
       </div>
-      <div className="max-h-40 w-full bg-gray-200 overflow-y-auto">
+      <div className="max-h-40 w-4/5 bg-gray-300 overflow-y-auto px-2">
+        {/* text input untuk filter */}
         {open && (
           <input
             type="text"
-            className="w-full bg-gray-200"
+            className="w-full bg-gray-300"
             placeholder="cari data"
             autoFocus
             onChange={(e) => {
@@ -33,11 +38,13 @@ const InputSelect = ({ data, prompt, value, onChange }) => {
           />
         )}
 
+        {/* data dropdown yang akan difilter */}
         {open &&
           data &&
           Object.values(data)
             .filter((item) => {
               // i artinya tidak case sensitive
+              // filter data berdasarkan query dari onChange select
               const matchKeyword = RegExp(query, "i");
 
               // return data yang sesuai dengan pencarian
