@@ -42,7 +42,6 @@ const CardFormMaster = ({
           onClickEdit={(value) => {
             setInputValue(value);
             setEditingRow(index);
-            console.log(value);
           }}
           onClickSave={() => {
             setEditingRow(undefined);

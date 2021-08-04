@@ -35,17 +35,6 @@ const ListPayment = () => {
           />
         </div>
       </CardItem>
-      <CardItem title="Lesin Aja ke Tutor Mulyani" containerClass="mt-8">
-        <CardKeyValue keyName="Waktu Pembayaran" value="12 Juli 2021, 14:45" />
-        <CardKeyValue keyName="Nominal" value="Rp 200.000" />
-        <div className="flex-row mt-8">
-          <Button
-            text="Tandai Sudah Transfer"
-            additionalClassName="bg-yellow-600 hover:bg-yellow-300 rounded-lg font-medium"
-            onClick={() => {}}
-          />
-        </div>
-      </CardItem>
     </div>
   );
 };

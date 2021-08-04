@@ -93,8 +93,22 @@ const RowMaster = ({
                 data={dropdownData}
                 prompt={
                   multipleItem.length !== 0
-                    ? multipleItem.map((item) => {
-                        return `${item.nama} `;
+                    ? multipleItem.map((item, index) => {
+                        return (
+                          <div
+                            key={index}
+                            className="inline-block bg-gray-300 rounded-md m-1 p-1"
+                            onClick={() => {
+                              const helper = multipleItem.filter(
+                                (i) => i.nama !== item.nama
+                              );
+                              setMultipleItem(helper);
+                              console.log(item);
+                            }}
+                          >
+                            {`${item.nama} `} &#10006;
+                          </div>
+                        );
                       })
                     : "Pilih Provinsi..."
                 }
@@ -236,12 +250,19 @@ const RowMaster = ({
 
     if (formName == "master_wilayah") {
       return (
-        // <>
-        //   <div className="w-3/4 ml-2.5 text-lg">{item.nama}</div>
-        //   <div className="w-3/4 ml-2.5 text-lg">{item.biaya_daftar}</div>
-        //   <div className="w-3/4 ml-2.5 text-lg">{item.provinsi.nama}</div>
-        // </>
-        <div></div>
+        <>
+          <div className="w-3/4 ml-2.5 text-lg">{item.nama}</div>
+          <div className="w-3/4 ml-2.5 text-lg">{item.biaya_daftar}</div>
+          <div className="w-3/4 ml-2.5 text-lg">
+            {item.provinsi.map((item, index) => {
+              return (
+                <div key={index} className="bg-gray-300 rounded-md m-1 p-1">
+                  {item.nama}
+                </div>
+              );
+            })}
+          </div>
+        </>
       );
     }
   };
