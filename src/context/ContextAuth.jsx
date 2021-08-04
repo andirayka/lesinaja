@@ -1,4 +1,5 @@
 import React, { createContext, useReducer } from "react";
+import { firebase } from "@utils";
 
 // * initial Value
 const initialState = {
@@ -19,6 +20,7 @@ const reducer = (state, action) => {
 const ContextAuth = createContext(initialState);
 const ProviderAuth = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const userLogin = firebase.auth().currentUser;
 
   // * Set ke reducer apakah sudah login atau belum
   const setIsLoggedIn = (value) => {
@@ -33,6 +35,7 @@ const ProviderAuth = ({ children }) => {
     <ContextAuth.Provider
       value={{
         state,
+        userLogin,
         setIsLoggedIn,
         logout,
       }}

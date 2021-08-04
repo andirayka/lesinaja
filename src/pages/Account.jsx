@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import {
   ContentContainer,
   InputText,
@@ -6,8 +6,9 @@ import {
   Button,
   FieldError,
 } from "@components";
-// import { firebase } from "@utils";
+import { firebase } from "@utils";
 import { useForm } from "react-hook-form";
+import { ContextAuth } from "@context";
 
 const Account = () => {
   const {
@@ -16,10 +17,12 @@ const Account = () => {
     formState: { errors },
   } = useForm();
 
+  const { state: userLogin} = useContext(ContextAuth);
+
   useEffect(() => {
     // Menunggu firebase login
     // const user = firebase.auth().currentUser;
-    // console.log(user);
+    console.log(userLogin);
 
     return () => {};
   }, []);

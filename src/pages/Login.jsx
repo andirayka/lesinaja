@@ -33,11 +33,11 @@ const Login = () => {
   } = useContext(ContextMaster);
 
   useEffect(() => {
+    const user = firebase.auth().currentUser;
     if (authState.isLoggedIn) {
       history.push("/beranda");
     }
-    const user = firebase.auth().currentUser;
-    console.log(user);
+    console.log("ini halaman Utamanya om =", user);
   }, [authState.isLoggedIn]);
 
   const onSubmit = async (data) => {
