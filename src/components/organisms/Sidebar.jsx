@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { SidebarItem } from "@components";
 import { mainLogo } from "@assets";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useHistory } from "react-router-dom";
+import { handleLogout, firebase } from "@utils";
+import { ContextAuth } from "@context";
 import {
   faHome,
   faUser,
@@ -78,6 +80,14 @@ const Sidebar = () => {
 
   const history = useHistory();
 
+  const { state: authState, setIsLoggedIn } = useContext(ContextAuth);
+
+  useEffect(() => {
+    if (authState.isLoggedIn === false) {
+      history.push("/masuk");
+    }
+  }, [authState.isLoggedIn]);
+
   return (
     <div className="hidden md:block flex-none w-80 bg-white rounded-md overflow-hidden">
       <img src={mainLogo} alt="" className="w-64" />
@@ -86,8 +96,19 @@ const Sidebar = () => {
           return (
             <SidebarItem
               key={index}
-              onClick={() => {
-                history.push(item.path);
+              onClick={async () => {
+                if (item.text == "Keluar") {
+                  alert("tes Om");
+                  await handleLogout();
+                  const user = firebase.auth().currentUser;
+                  if (user === null) {
+                    setIsLoggedIn(false);
+                  } else {
+                    setIsLoggedIn(true);
+                  }
+                } else {
+                  history.push(item.path);
+                }
               }}
               isActive={item.activePaths.includes(pathname)}
               text={item.text}

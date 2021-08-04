@@ -156,6 +156,12 @@ const handleLogin = async (email, password) => {
   }
 };
 
+const handleLogout = async () => {
+  return firebase.auth().signOut();
+  // const user = firebase.auth().currentUser;
+  // console.log(user);
+};
+
 // status autentikasi
 const handleStatusAutentikasi = () => {
   firebase.auth().onAuthStateChanged((user) => {
@@ -208,6 +214,7 @@ const handleShowFile = (fileNew, id) => {
 };
 
 export {
+  handleLogout,
   handleStatusAutentikasi,
   handleShowFile,
   handleUploadFile,
