@@ -9,12 +9,15 @@ const CardFormMaster = ({
   setIsAdding,
 }) => {
   // Diisi integer urutan row yang sedang edit
-  const [editingRow, setEditingRow] = useState(undefined);
-  const [inputValue, setInputValue] = useState({
+  const intialValue = {
     nama: "",
     jumlah_pertemuan: "",
     biaya_daftar: "",
     provinsi: "",
+  };
+  const [editingRow, setEditingRow] = useState(undefined);
+  const [inputValue, setInputValue] = useState({
+    ...intialValue,
   });
 
   const renderList = () => {
@@ -43,6 +46,7 @@ const CardFormMaster = ({
           }}
           onClickSave={() => {
             setEditingRow(undefined);
+            setInputValue({ ...intialValue });
           }}
           onClickCancel={() => {
             setEditingRow(undefined);
@@ -69,6 +73,7 @@ const CardFormMaster = ({
           inputValue={inputValue}
           onClickSave={() => {
             setIsAdding(false);
+            setInputValue({ ...intialValue });
           }}
           onClickCancel={() => {
             setIsAdding(false);
@@ -78,6 +83,7 @@ const CardFormMaster = ({
         />
       )}
 
+      {/* Table Row when user is update data */}
       {renderList()}
     </div>
   );

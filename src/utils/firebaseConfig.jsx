@@ -84,7 +84,6 @@ const addFirebaseData = ({ ref, payload, isNoKey }) => {
       // });
       console.log("gagal");
     }
-    console.log(payload);
   });
 };
 

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { ContextMaster } from "@context";
@@ -19,6 +19,8 @@ const RowMaster = ({
     deleteFormData,
     getDropdownData,
   } = useContext(ContextMaster);
+
+  const [multipleItem, setMultipleItem] = useState([]);
 
   useEffect(() => {
     getDropdownData("wilayah_provinsi");
@@ -89,13 +91,16 @@ const RowMaster = ({
               />
               <InputSelect
                 data={dropdownData}
-                prompt="Pilih Provinsi..."
-                value={inputValue.provinsi.nama}
+                prompt={
+                  multipleItem.length !== 0
+                    ? multipleItem.map((item) => {
+                        return `${item.nama} `;
+                      })
+                    : "Pilih Provinsi..."
+                }
+                value={inputValue.provinsi}
                 onChange={(val) => {
-                  setInputValue({
-                    ...inputValue,
-                    provinsi: val,
-                  });
+                  setMultipleItem([...multipleItem, val]);
                 }}
               />
             </>
@@ -127,7 +132,7 @@ const RowMaster = ({
                   if (
                     !inputValue.nama ||
                     !inputValue.biaya_daftar ||
-                    !inputValue.provinsi
+                    !multipleItem.length !== 0
                   ) {
                     Swal.fire({
                       icon: "error",
@@ -141,14 +146,14 @@ const RowMaster = ({
                         ...item,
                         nama: inputValue.nama,
                         biaya_daftar: inputValue.biaya_daftar,
-                        provinsi: inputValue.provinsi,
+                        provinsi: multipleItem,
                       });
                     } else {
                       // Buat baru
                       saveFormData({
                         nama: inputValue.nama,
                         biaya_daftar: inputValue.biaya_daftar,
-                        provinsi: inputValue.provinsi,
+                        provinsi: multipleItem,
                       });
                     }
                     onClickSave();
@@ -180,6 +185,7 @@ const RowMaster = ({
                     }
                     onClickSave();
                   }
+
                   // untuk button simpan master jenjangkelas dan mapel
                 } else {
                   // Jika data belum lengkap
@@ -230,13 +236,12 @@ const RowMaster = ({
 
     if (formName == "master_wilayah") {
       return (
-        <>
-          <div className="w-3/4 ml-2.5 text-lg">{item.nama}</div>
-          <div className="w-3/4 ml-2.5 text-lg">
-            biaya daftar: {item.biaya_daftar}
-          </div>
-          <div className="w-3/4 ml-2.5 text-lg">{item.provinsi.nama}</div>
-        </>
+        // <>
+        //   <div className="w-3/4 ml-2.5 text-lg">{item.nama}</div>
+        //   <div className="w-3/4 ml-2.5 text-lg">{item.biaya_daftar}</div>
+        //   <div className="w-3/4 ml-2.5 text-lg">{item.provinsi.nama}</div>
+        // </>
+        <div></div>
       );
     }
   };

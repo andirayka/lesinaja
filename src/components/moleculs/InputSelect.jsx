@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { DropdownArrow } from "@assets";
 
-const InputSelect = ({ data, prompt, value, onChange }) => {
+const InputSelect = ({ data, prompt, onChange }) => {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
 
@@ -16,7 +16,7 @@ const InputSelect = ({ data, prompt, value, onChange }) => {
       >
         {/* tampilan data awal pada dropdown 
         dan tampilan data yang dipilih */}
-        <div>{value ? value : prompt}</div>
+        <div>{prompt}</div>
         {!open && (
           <div className="absolute inset-y-0 right-0 flex items-center px-2">
             {/* ikon panah dropdown */}
@@ -29,7 +29,7 @@ const InputSelect = ({ data, prompt, value, onChange }) => {
         {open && (
           <input
             type="text"
-            className="w-full bg-gray-300"
+            className="w-full bg-gray-300 outline-none"
             placeholder="cari data"
             autoFocus
             onChange={(e) => {
