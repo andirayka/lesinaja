@@ -113,23 +113,22 @@ const InitialChecker = () => {
       <Route path="/daftar" exact component={Register} />
 
       {/* Untuk mengecek data-data awal ketika buk aplikasi */}
-      {authState.setIsLoggedIn &&
-        layoutPages.map((item, index) => {
-          return (
-            <Route
-              key={index}
-              exact
-              path={item.path}
-              render={(props) => {
-                return (
-                  <MainLayout>
-                    <item.component {...props} />
-                  </MainLayout>
-                );
-              }}
-            />
-          );
-        })}
+      {layoutPages.map((item, index) => {
+        return (
+          <Route
+            key={index}
+            exact
+            path={item.path}
+            render={(props) => {
+              return (
+                <MainLayout>
+                  <item.component {...props} />
+                </MainLayout>
+              );
+            }}
+          />
+        );
+      })}
       <Redirect to="/masuk" />
     </Switch>
   );

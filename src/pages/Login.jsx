@@ -32,12 +32,11 @@ const Login = () => {
     setFormStatus,
   } = useContext(ContextMaster);
 
-  // useEffect(() => {
-  //   console.log(authState.isLoggedIn);
-  //   if (authState.isLoggedIn) {
-  //     history.push("/beranda");
-  //   }
-  // }, [authState.isLoggedIn]);
+  useEffect(() => {
+    if (authState.isLoggedIn) {
+      history.push("/beranda");
+    }
+  }, [authState.isLoggedIn]);
 
   const onSubmit = async (data) => {
     const { success, role } = await handleLogin(data.email, data.password);
