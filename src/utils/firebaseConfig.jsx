@@ -201,14 +201,14 @@ const handleUploadFile = (files, fileNew) => {
 };
 
 // Show file
-const handleShowFile = (fileNew, id) => {
+const handleShowFile = (fileNew) => {
   var storageRef = firebase.storage().ref();
-  return storageRef
+  storageRef
     .child(fileNew)
     .getDownloadURL()
     .then((url) => {
-      console.log(url);
-      document.getElementById(id).src = url;
+      // console.log(url);
+      return url;
     });
 };
 
