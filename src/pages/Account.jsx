@@ -6,7 +6,7 @@ import {
   Button,
   FieldError,
 } from "@components";
-import { firebase } from "@utils";
+// import { firebase } from "@utils";
 import { useForm } from "react-hook-form";
 
 const Account = () => {
@@ -18,8 +18,8 @@ const Account = () => {
 
   useEffect(() => {
     // Menunggu firebase login
-    const user = firebase.auth().currentUser;
-    console.log(user);
+    // const user = firebase.auth().currentUser;
+    // console.log(user);
 
     return () => {};
   }, []);

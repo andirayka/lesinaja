@@ -98,7 +98,11 @@ const Login = () => {
             type="submit"
             text="Masuk"
             onClick={() => setFormStatus("refreshing")}
-            loading={formStatus == "refreshing" && <LoadIcon />}
+            loading={
+              formStatus == "refreshing" && (
+                <LoadIcon additionalClassName="text-2xl" />
+              )
+            }
             additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 font-medium w-full rounded-full"
           />
 

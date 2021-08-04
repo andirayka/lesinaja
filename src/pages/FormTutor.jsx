@@ -7,36 +7,26 @@ import {
   InputTextarea,
   InputFile,
   Skeleton,
-  Button,
+  LoadIcon,
 } from "@components";
 import { useLocation } from "react-router-dom";
-import { getFirebaseDataOnce, handleUploadFile, handleShowFile } from "@utils";
+import { getFirebaseDataOnce, handleShowFile } from "@utils";
 
 const FormTutor = () => {
   const [loading, setLoading] = useState(true);
+
+  const [loadImg, setLoadImg] = useState(true);
 
   const { state: prevData } = useLocation();
 
   const [data, setData] = useState({});
 
-  const [files, setFiles] = useState(null);
-
-  const handleFileChange = (event) => {
-    setFiles(event.target.files[0]);
-  };
-
-  const handleSubmit = () => {
-    let fileNew = `foto_tutor/profil_${prevData.id}.jpg`;
-    handleUploadFile(files, fileNew);
-  };
-
   const showImage = () => {
     let fileNew = `foto_tutor/profil_${prevData.id}.jpg`;
     let id = "image";
     handleShowFile(fileNew, id);
+    setLoadImg(false);
   };
-
-  // const handleShowImage = () => {};
 
   const getDataFirebase = async () => {
     const getData = await getFirebaseDataOnce({
@@ -63,24 +53,11 @@ const FormTutor = () => {
       <ContentContainer additionalClassName="w-full flex-grow bg-white rounded-lg p-6 md:ml-8">
         <SectionTitle heading="Detail Tutor/Pengajar" />
 
-        <InputFile
-          onChange={handleFileChange}
-          id="image"
-          img="gs://lesinaja-b6947.appspot.com/foto_tutor/profil_aidinFiqri.jpg"
-        />
-
-        <Button
-          text="Simpan Gambar"
-          additionalClassName="bg-yellow-400 hover:bg-yellow-600"
-          onClick={handleSubmit}
-        />
-
-        {/* <Button
-          text="Lihat Gambar"
-          additionalClassName="bg-yellow-400 hover:bg-yellow-600"
-          onClick={handleShowImage}
-        /> */}
-
+        {loadImg ? (
+          <LoadIcon additionalClassName="text-8xl" />
+        ) : (
+          <InputFile id="image" />
+        )}
         <InputText disabled label="Nama" value={data.nama} />
 
         <InputText disabled label="Email" value={data.email} />

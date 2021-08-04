@@ -98,7 +98,6 @@ const Sidebar = () => {
               key={index}
               onClick={async () => {
                 if (item.text == "Keluar") {
-                  alert("tes Om");
                   await handleLogout();
                   const user = firebase.auth().currentUser;
                   if (user === null) {
