@@ -98,7 +98,13 @@ const RowMaster = ({
                           <div
                             key={index}
                             className="inline-block bg-gray-300 rounded-md m-1 p-1"
-                            onClick={() => console.log("d")}
+                            onClick={() => {
+                              const helper = multipleItem.filter(
+                                (i) => i.nama !== item.nama
+                              );
+                              setMultipleItem(helper);
+                              console.log(item);
+                            }}
                           >
                             {`${item.nama} `} &#10006;
                           </div>
