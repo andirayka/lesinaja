@@ -12,7 +12,7 @@ import {
 import { logregLogo } from "@assets";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { handleLogin, firebase } from "@utils";
+import { handleLogin } from "@utils";
 import { Link } from "react-router-dom";
 import { ContextAuth, ContextMaster } from "@context";
 
@@ -33,11 +33,9 @@ const Login = () => {
   } = useContext(ContextMaster);
 
   useEffect(() => {
-    const user = firebase.auth().currentUser;
     if (authState.isLoggedIn) {
       history.push("/beranda");
     }
-    console.log("ini halaman Utamanya om =", user);
   }, [authState.isLoggedIn]);
 
   const onSubmit = async (data) => {

@@ -76,22 +76,19 @@ const App = () => {
 
 const InitialChecker = () => {
   // Undefined = belum tahu, true = sudah login, false = tidak login
-  const {
-    state: authState,
-    userLogin,
-    setIsLoggedIn,
-  } = useContext(ContextAuth);
+  const { state: authState, setIsLoggedIn } = useContext(ContextAuth);
   const { isLoggedIn } = authState;
 
-  // // Cek apakah user sudah login
-  // useEffect(() => {
-  //   if (userLogin) {
-  //     setIsLoggedIn(true);
-  //     // console.log(user);
-  //   } else {
-  //     setIsLoggedIn(false);
-  //   }
-  // }, [userLogin]);
+  // Cek apakah user sudah login
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    });
+  }, []);
 
   // // Tampilan sementara loading, halaman kosong
   // if (isLoggedIn === undefined) {
