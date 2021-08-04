@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   ContentContainer,
   InputText,
@@ -14,29 +14,37 @@ import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { handleLogin } from "@utils";
 import { Link } from "react-router-dom";
-import { ContextMaster } from "@context";
+import { ContextAuth, ContextMaster } from "@context";
 
 const Login = () => {
+  const { state: authState, setIsLoggedIn } = useContext(ContextAuth);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  const history = useHistory();
+
   const {
     state: { formStatus },
     setFormStatus,
   } = useContext(ContextMaster);
 
-  const history = useHistory();
+  // useEffect(() => {
+  //   console.log(authState.isLoggedIn);
+  //   if (authState.isLoggedIn) {
+  //     history.push("/beranda");
+  //   }
+  // }, [authState.isLoggedIn]);
 
   const onSubmit = async (data) => {
     const { success, role } = await handleLogin(data.email, data.password);
 
     if (success) {
       if (role && role.admin) {
-        alert("Berhasil login sebagai admin");
-        history.push("/beranda");
+        setIsLoggedIn(true);
       } else if (role && role.tutor) {
         alert("Berhasil login sebagai tutor");
       } else if (role && role.walimurid) {

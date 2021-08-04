@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Landing,
   Login,
@@ -22,7 +22,7 @@ import {
   ListWalmur,
   FormWalmur,
 } from "@pages";
-import ProviderApp from "@context";
+import ProviderApp, { ContextAuth } from "@context";
 import {
   BrowserRouter as Router,
   Redirect,
@@ -65,8 +65,19 @@ const layoutPages = [
 ];
 
 const App = () => {
-  // Undefined = belum tahu, true = sudah login, false, tidak login
-  const [isLoggedIn, setIsLoggedIn] = useState(undefined);
+  return (
+    <ProviderApp>
+      <Router>
+        <InitialChecker />
+      </Router>
+    </ProviderApp>
+  );
+};
+
+const InitialChecker = () => {
+  // Undefined = belum tahu, true = sudah login, false = tidak login
+  const { state: authState, setIsLoggedIn } = useContext(ContextAuth);
+  const { isLoggedIn } = authState;
 
   // Cek apakah user sudah login
   useEffect(() => {
@@ -78,40 +89,49 @@ const App = () => {
     }
   }, []);
 
+  // Tampilan sementara loading, halaman kosong
   if (isLoggedIn === undefined) {
-    // Tampilan sementara loading, halaman kosong
     return <div></div>;
   }
 
-  return (
-    <ProviderApp>
-      <Router>
-        <Switch>
-          <Route path="/" exact component={Landing} />
-          <Route path="/masuk" exact component={Login} />
-          <Route path="/daftar" exact component={Register} />
+  if (isLoggedIn === false) {
+    return (
+      <Switch>
+        <Route path="/" exact component={Landing} />
+        <Route path="/masuk" exact component={Login} />
+        <Route path="/daftar" exact component={Register} />
 
-          {isLoggedIn &&
-            layoutPages.map((item, index) => {
-              return (
-                <Route
-                  key={index}
-                  exact
-                  path={item.path}
-                  render={(props) => {
-                    return (
-                      <MainLayout>
-                        <item.component {...props} />
-                      </MainLayout>
-                    );
-                  }}
-                />
-              );
-            })}
-          <Redirect to="/masuk" />
-        </Switch>
-      </Router>
-    </ProviderApp>
+        <Redirect to="/masuk" />
+      </Switch>
+    );
+  }
+
+  return (
+    <Switch>
+      <Route path="/" exact component={Landing} />
+      <Route path="/masuk" exact component={Login} />
+      <Route path="/daftar" exact component={Register} />
+
+      {/* Untuk mengecek data-data awal ketika buk aplikasi */}
+      {authState.setIsLoggedIn &&
+        layoutPages.map((item, index) => {
+          return (
+            <Route
+              key={index}
+              exact
+              path={item.path}
+              render={(props) => {
+                return (
+                  <MainLayout>
+                    <item.component {...props} />
+                  </MainLayout>
+                );
+              }}
+            />
+          );
+        })}
+      <Redirect to="/masuk" />
+    </Switch>
   );
 };
 
