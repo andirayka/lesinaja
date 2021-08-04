@@ -201,15 +201,9 @@ const handleUploadFile = (files, fileNew) => {
 };
 
 // Show file
-const handleShowFile = (fileNew, id) => {
+const handleShowFile = (fileNew) => {
   var storageRef = firebase.storage().ref();
-  return storageRef
-    .child(fileNew)
-    .getDownloadURL()
-    .then((url) => {
-      console.log(url);
-      document.getElementById(id).src = url;
-    });
+  return storageRef.child(fileNew).getDownloadURL();
 };
 
 export {

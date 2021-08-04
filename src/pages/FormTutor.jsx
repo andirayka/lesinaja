@@ -14,8 +14,7 @@ import { getFirebaseDataOnce, handleShowFile } from "@utils";
 
 const FormTutor = () => {
   const [loading, setLoading] = useState(true);
-
-  const [loadImg, setLoadImg] = useState(true);
+  const [profileSrc, setProfileSrc] = useState("");
 
   const { state: prevData } = useLocation();
 
@@ -24,8 +23,9 @@ const FormTutor = () => {
   const showImage = () => {
     let fileNew = `foto_tutor/profil_${prevData.id}.jpg`;
     let id = "image";
-    handleShowFile(fileNew, id);
-    setLoadImg(false);
+    handleShowFile(fileNew, id).then((url) => {
+      setProfileSrc(url);
+    });
   };
 
   const getDataFirebase = async () => {
@@ -53,10 +53,10 @@ const FormTutor = () => {
       <ContentContainer additionalClassName="w-full flex-grow bg-white rounded-lg p-6 md:ml-8">
         <SectionTitle heading="Detail Tutor/Pengajar" />
 
-        {loadImg ? (
+        {!profileSrc ? (
           <LoadIcon additionalClassName="text-8xl" />
         ) : (
-          <InputFile id="image" />
+          <InputFile image={profileSrc} />
         )}
         <InputText disabled label="Nama" value={data.nama} />
 
