@@ -26,6 +26,42 @@ const RowMaster = ({
     getDropdownData("wilayah_provinsi");
   }, []);
 
+  const conditionalPromptRender = () => {
+    if (inputValue.provinsi.length !== 0) {
+      return inputValue.provinsi.map((item, index) => {
+        return (
+          <div
+            key={index}
+            className="inline-block bg-gray-300 rounded-md m-1 p-1"
+            onClick={() => {
+              setMultipleItem(
+                inputValue.provinsi.filter((i) => i.nama !== item.nama)
+              );
+            }}
+          >
+            {`${item.nama} `} &#10006;
+          </div>
+        );
+      });
+    } else if (multipleItem.length !== 0) {
+      return multipleItem.map((item, index) => {
+        return (
+          <div
+            key={index}
+            className="inline-block bg-gray-300 rounded-md m-1 p-1"
+            onClick={() => {
+              setMultipleItem(multipleItem.filter((i) => i.nama !== item.nama));
+            }}
+          >
+            {`${item.nama} `} &#10006;
+          </div>
+        );
+      });
+    } else {
+      return <div>Pilih Provinsi</div>;
+    }
+  };
+
   if (isEditing) {
     return (
       <div className="flex flex-row py-4">
@@ -91,27 +127,7 @@ const RowMaster = ({
               />
               <InputSelect
                 data={dropdownData}
-                prompt={
-                  multipleItem.length !== 0
-                    ? multipleItem.map((item, index) => {
-                        return (
-                          <div
-                            key={index}
-                            className="inline-block bg-gray-300 rounded-md m-1 p-1"
-                            onClick={() => {
-                              const helper = multipleItem.filter(
-                                (i) => i.nama !== item.nama
-                              );
-                              setMultipleItem(helper);
-                              console.log(item);
-                            }}
-                          >
-                            {`${item.nama} `} &#10006;
-                          </div>
-                        );
-                      })
-                    : "Pilih Provinsi..."
-                }
+                prompt={conditionalPromptRender()}
                 value={inputValue.provinsi}
                 onChange={(val) => {
                   setMultipleItem([...multipleItem, val]);
@@ -140,13 +156,13 @@ const RowMaster = ({
           <div className="flex flex-1 justify-center">
             <button
               onClick={() => {
-                // untuk button simpan master wilayah
+                // untuk button simpan dan update master wilayah
                 if (formName == "master_wilayah") {
                   // Jika data belum lengkap
                   if (
                     !inputValue.nama ||
                     !inputValue.biaya_daftar ||
-                    !multipleItem.length !== 0
+                    !multipleItem.length === 0
                   ) {
                     Swal.fire({
                       icon: "error",
@@ -173,7 +189,7 @@ const RowMaster = ({
                     onClickSave();
                   }
 
-                  // untuk button simpan master paket
+                  // untuk button simpan dan update master paket
                 } else if (formName == "master_paket") {
                   // Jika data belum lengkap
                   if (!inputValue.nama || !inputValue.jumlah_pertemuan) {
@@ -200,7 +216,7 @@ const RowMaster = ({
                     onClickSave();
                   }
 
-                  // untuk button simpan master jenjangkelas dan mapel
+                  // untuk button simpan dan update master jenjangkelas dan mapel
                 } else {
                   // Jika data belum lengkap
                   if (!inputValue.nama) {

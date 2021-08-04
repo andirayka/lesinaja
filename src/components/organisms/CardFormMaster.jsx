@@ -49,6 +49,7 @@ const CardFormMaster = ({
           }}
           onClickCancel={() => {
             setEditingRow(undefined);
+            setInputValue({ ...intialValue });
           }}
           setInputValue={setInputValue}
           isEditing={index === editingRow}
@@ -76,6 +77,7 @@ const CardFormMaster = ({
           }}
           onClickCancel={() => {
             setIsAdding(false);
+            setInputValue({ ...intialValue });
           }}
           setInputValue={setInputValue}
           isEditing
