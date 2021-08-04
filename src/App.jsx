@@ -84,8 +84,10 @@ const InitialChecker = () => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         setIsLoggedIn(true);
+        console.log(user);
       } else {
         setIsLoggedIn(false);
+        console.log("anda belum login");
       }
     });
   }, []);
