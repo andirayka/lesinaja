@@ -83,20 +83,20 @@ const InitialChecker = () => {
   } = useContext(ContextAuth);
   const { isLoggedIn } = authState;
 
-  // Cek apakah user sudah login
-  useEffect(() => {
-    if (userLogin) {
-      setIsLoggedIn(true);
-      // console.log(user);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, [userLogin]);
+  // // Cek apakah user sudah login
+  // useEffect(() => {
+  //   if (userLogin) {
+  //     setIsLoggedIn(true);
+  //     // console.log(user);
+  //   } else {
+  //     setIsLoggedIn(false);
+  //   }
+  // }, [userLogin]);
 
-  // Tampilan sementara loading, halaman kosong
-  if (isLoggedIn === undefined) {
-    return <div></div>;
-  }
+  // // Tampilan sementara loading, halaman kosong
+  // if (isLoggedIn === undefined) {
+  //   return <div></div>;
+  // }
 
   if (isLoggedIn === false) {
     return (
