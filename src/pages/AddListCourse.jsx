@@ -3,30 +3,64 @@ import {
   SectionTitle,
   InputSelect,
   InputText,
-  InputRadio,
+  Skeleton,
   Button,
 } from "@components";
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { ContextMaster } from "@context";
 
 const AddListCourse = () => {
+  const {
+    state: { multipleDropdownData },
+    getMultipleDropdownData,
+  } = useContext(ContextMaster);
+
+  useEffect(() => {
+    getMultipleDropdownData();
+  }, []);
+
+  const conditionalPromptRender = () => {
+    return <div>Pilih</div>;
+  };
+
+  const ConditionalDropdownRender = (type, heading) => {
+    if (multipleDropdownData[type] === undefined) {
+      return <Skeleton mainCount={[1, 2]} elementClassName="w-4/5 h-3 mt-4" />;
+    } else if (multipleDropdownData[type] === null) {
+      return (
+        <>
+          <p className="mt-4 text-red-500">{`Data ${heading} Kosong`}</p>
+          <p className="text-red-500">
+            Silahkan tambahkan melalui menu data master
+          </p>
+        </>
+      );
+    } else {
+      return (
+        multipleDropdownData[type] && (
+          <InputSelect
+            heading={heading}
+            containerClassName="mt-0 w-full"
+            prompt={conditionalPromptRender()}
+            data={multipleDropdownData[type]}
+          />
+        )
+      );
+    }
+  };
+
   return (
     <ContentContainer additionalClassName="w-full flex-grow bg-white rounded-lg p-6 md:ml-8">
       <SectionTitle heading="Tambah Les" />
 
-      <InputSelect heading="Mapel" />
+      {/* <ConditionalDropdownRender type="mapel" heading="Mapel" /> */}
+      {ConditionalDropdownRender("mapel", "Mapel")}
 
-      <InputSelect heading="Jenjang Kelas" />
+      {ConditionalDropdownRender("jenjangkelas", "Jenjang Kelas")}
 
-      <InputSelect heading="Wilayah" />
+      {ConditionalDropdownRender("paket", "Paket")}
 
-      <InputRadio heading="Jenis Kelamin" />
-      {[
-        { id: 1, role: "Paket 1 (4 Pertemuan)", radioItem: "paket 1" },
-        { id: 2, role: "Paket 2 (8 Pertemuan)", radioItem: "paket 2" },
-        { id: 2, role: "Paket 3 (12 Pertemuan)", radioItem: "paket 3" },
-      ].map(({ id, radioItem, role }) => {
-        return <InputRadio key={id} id={radioItem} label={role} />;
-      })}
+      {ConditionalDropdownRender("wilayah", "Wilayah")}
 
       <InputText label="Harga" placeholder="Masukkan harga pilihan les" />
 

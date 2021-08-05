@@ -281,13 +281,17 @@ const RowMaster = ({
           <div className="w-3/4 ml-2.5 text-lg">{item.nama}</div>
           <div className="w-3/4 ml-2.5 text-lg">{item.biaya_daftar}</div>
           <div className="w-3/4 ml-2.5 text-lg">
-            {item.provinsi.map((item, index) => {
-              return (
-                <div key={index} className="bg-gray-300 rounded-md m-1 p-1">
-                  {item.nama}
-                </div>
-              );
-            })}
+            {item.provinsi ? (
+              item.provinsi.map((item, index) => {
+                return (
+                  <div key={index} className="bg-gray-300 rounded-md m-1 p-1">
+                    {item.nama}
+                  </div>
+                );
+              })
+            ) : (
+              <p>Memuat...</p>
+            )}
           </div>
         </>
       );
