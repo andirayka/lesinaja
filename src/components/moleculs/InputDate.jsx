@@ -1,6 +1,6 @@
 import React from "react";
 
-const InputNumber = ({
+const InputDate = ({
   useHookRegister,
   disabled,
   onChange,
@@ -16,7 +16,7 @@ const InputNumber = ({
       <p className="text-left text-base font-medium">{label}</p>
       <input
         onClick={onClick}
-        type="number"
+        type="Date"
         onChange={onChange}
         name={name}
         disabled={disabled}
@@ -29,4 +29,4 @@ const InputNumber = ({
   );
 };
 
-export default InputNumber;
+export default InputDate;

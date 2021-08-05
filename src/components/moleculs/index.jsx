@@ -16,9 +16,11 @@ import NavbarItem from "./NavbarItem";
 import SectionContent from "./SectionContent";
 import InputEmail from "./InputEmail";
 import InputNumber from "./InputNumber";
+import InputDate from "./InputDate";
 import { Swal } from "./AlertPopup";
 
 export {
+  InputDate,
   InputNumber,
   InputEmail,
   SectionContent,

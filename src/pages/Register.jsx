@@ -67,7 +67,6 @@ const Register = () => {
         <form onSubmit={handleSubmit(onSubmit)} name="validation">
           <InputText
             label="Nama"
-            onClick={() => setFormStatus()}
             useHookRegister={register("name", {
               required: "Nama harus diisi",
             })}
@@ -78,7 +77,6 @@ const Register = () => {
           <InputText
             name="email"
             label="Email"
-            onClick={() => setFormStatus()}
             useHookRegister={register("email", {
               required: "Email harus diisi",
               pattern: {
