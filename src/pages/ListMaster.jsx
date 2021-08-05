@@ -11,6 +11,7 @@ const ListMaster = () => {
     setFormStatus,
   } = useContext(ContextMaster);
 
+  console.log(listData["paket"]);
   useEffect(() => {
     getListData();
   }, []);

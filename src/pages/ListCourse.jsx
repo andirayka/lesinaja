@@ -1,8 +1,22 @@
-import React from "react";
-import { Title, CardItem, CardKeyValue, Button } from "@components";
+import React, { useContext, useEffect } from "react";
+import { Title, CardItem, CardKeyValue, Button, EmptyIcon } from "@components";
 import { Link } from "react-router-dom";
+import { ContextMaster } from "@context";
 
 const ListCourse = () => {
+  const {
+    state: { formData },
+    getFormData,
+  } = useContext(ContextMaster);
+
+  useEffect(() => {
+    getFormData("master_les");
+  }, []);
+
+  if (!formData) {
+    return <EmptyIcon />;
+  }
+
   return (
     <div className="w-full flex-grow md:ml-8">
       <Title text="Daftar Pilihan Les" type="pageTitle" />
@@ -18,16 +32,12 @@ const ListCourse = () => {
         />
       </Link>
 
-      {[1, 1, 1, 1, 1, 1].map((item, key) => {
+      {Object.entries(formData).map(([key, value], index) => {
         return (
-          <CardItem
-            key={key}
-            title="Bhs. Inggris Kelas 3 SD"
-            containerClass="mt-8"
-          >
-            <CardKeyValue keyName="Paket" value="1 (4 pertemuan)" />
-            <CardKeyValue keyName="Wilayah" value="Semua wilayah" />
-            <CardKeyValue keyName="Harga" value="Rp 300.000" />
+          <CardItem key={index} title={value.id_mapel} containerClass="mt-8">
+            <CardKeyValue keyName="Paket" value={value.id_paket} />
+            <CardKeyValue keyName="Wilayah" value={value.id_wilayah} />
+            <CardKeyValue keyName="Harga" value={value.biaya} />
             <div className="flex flex-row mt-8 justify-end">
               <Button
                 text="Ubah Pilihan Les"

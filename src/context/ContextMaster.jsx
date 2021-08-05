@@ -24,6 +24,12 @@ const initialState = {
   formStatus: "loading",
   formName: "",
   dropdownData: "",
+  multipleDropdownData: {
+    jenjangkelas: undefined,
+    mapel: undefined,
+    paket: undefined,
+    wilayah: undefined,
+  },
 };
 
 // * Reducer
@@ -35,6 +41,8 @@ const reducer = (state, action) => {
       return { ...state, formData: action.data };
     case "GET_DROPDOWN_DATA":
       return { ...state, dropdownData: action.data };
+    case "GET_MULTIPLE_DROPDOWN_DATA":
+      return { ...state, multipleDropdownData: action.data };
     case "SET_FORM_STATUS":
       return { ...state, formStatus: action.status };
     case "SET_LIST_STATUS":
@@ -106,6 +114,28 @@ const ProviderMaster = ({ children }) => {
     } catch (message) {
       console.error(message);
     }
+  };
+
+  const getMultipleDropdownData = async () => {
+    const getData = async (ref) => {
+      try {
+        const value = await rtDatabase
+          .ref(ref)
+          .once("value", (snapshot) => snapshot);
+        return value.val();
+      } catch (message) {
+        return console.error(message);
+      }
+    };
+
+    const data = {
+      jenjangkelas: await getData(DBKEY.masterJenjangKelas),
+      mapel: await getData(DBKEY.masterMapel),
+      paket: await getData(DBKEY.masterPaket),
+      wilayah: await getData(DBKEY.masterWilayah),
+    };
+
+    dispatch({ type: "GET_MULTIPLE_DROPDOWN_DATA", data });
   };
 
   const setFormStatus = (status) => {
@@ -207,6 +237,7 @@ const ProviderMaster = ({ children }) => {
         setFormName,
         setListStatus,
         getDropdownData,
+        getMultipleDropdownData,
       }}
     >
       {children}
