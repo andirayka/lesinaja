@@ -1,4 +1,5 @@
 import React, { createContext, useReducer } from "react";
+import { firebase } from "@utils";
 
 // * initial Value
 const initialState = {
@@ -30,13 +31,7 @@ const ProviderAuth = ({ children }) => {
   const logout = async () => {};
 
   return (
-    <ContextAuth.Provider
-      value={{
-        state,
-        setIsLoggedIn,
-        logout,
-      }}
-    >
+    <ContextAuth.Provider value={{ state, setIsLoggedIn, logout }}>
       {children}
     </ContextAuth.Provider>
   );

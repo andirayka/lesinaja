@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import {
   ContentContainer,
   InputText,
@@ -12,12 +12,12 @@ import {
 import { logregLogo } from "@assets";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { handleLogin, firebase } from "@utils";
+import { handleLogin } from "@utils";
 import { Link } from "react-router-dom";
 import { ContextAuth, ContextMaster } from "@context";
 
 const Login = () => {
-  const { state: authState, setIsLoggedIn } = useContext(ContextAuth);
+  const { setIsLoggedIn } = useContext(ContextAuth);
 
   const {
     register,
@@ -32,20 +32,14 @@ const Login = () => {
     setFormStatus,
   } = useContext(ContextMaster);
 
-  useEffect(() => {
-    if (authState.isLoggedIn) {
-      history.push("/beranda");
-    }
-    const user = firebase.auth().currentUser;
-    console.log(user);
-  }, [authState.isLoggedIn]);
-
   const onSubmit = async (data) => {
     const { success, role } = await handleLogin(data.email, data.password);
 
+    console.log(role);
     if (success) {
+      setIsLoggedIn(true);
       if (role && role.admin) {
-        setIsLoggedIn(true);
+        history.push("/beranda");
       } else if (role && role.tutor) {
         alert("Berhasil login sebagai tutor");
       } else if (role && role.walimurid) {

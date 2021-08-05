@@ -6,6 +6,7 @@ import {
   Paginations,
   SectionFee,
   Skeleton,
+  InputNumber,
 } from "@components";
 import React, { useEffect, useState } from "react";
 import { getFirebaseDataOnce } from "@utils";
@@ -52,13 +53,6 @@ const Keuangan = () => {
             <div key={index} className="mb-8">
               <Title text={`Keuangan Bulan ${value.bulan}`} type="pageTitle" />
 
-              <div className="mt-8">
-                <Button
-                  text="Input Pengeluaran"
-                  additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-                />
-              </div>
-
               <CardItem title="Rangkuman" containerClass="mt-8">
                 <CardKeyValue
                   keyName="Pemasukan Biaya Les"
@@ -83,6 +77,20 @@ const Keuangan = () => {
                 />
 
                 <SectionFee heading="Laba Bersih" value={labaBersih} />
+              </CardItem>
+
+              <div className="mt-8">
+                <Button
+                  text="Input Pengeluaran"
+                  additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium"
+                />
+              </div>
+
+              <CardItem
+                title="Input Keuangan Selama Satu Bulan"
+                containerClass="mt-8"
+              >
+                <InputNumber />
               </CardItem>
             </div>
           );

@@ -15,9 +15,11 @@ import SectionFee from "./SectionFee";
 import NavbarItem from "./NavbarItem";
 import SectionContent from "./SectionContent";
 import InputEmail from "./InputEmail";
+import InputNumber from "./InputNumber";
 import { Swal } from "./AlertPopup";
 
 export {
+  InputNumber,
   InputEmail,
   SectionContent,
   InputText,
