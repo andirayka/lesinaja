@@ -34,9 +34,13 @@ const RowMaster = ({
             key={index}
             className="inline-block bg-gray-300 rounded-md m-1 p-1"
             onClick={() => {
-              setMultipleItem(
-                inputValue.provinsi.filter((i) => i.nama !== item.nama)
+              const helper = inputValue.provinsi.filter(
+                (i) => i.nama !== item.nama
               );
+              setInputValue({
+                ...inputValue,
+                provinsi: helper,
+              });
             }}
           >
             {`${item.nama} `} &#10006;
@@ -130,7 +134,14 @@ const RowMaster = ({
                 prompt={conditionalPromptRender()}
                 value={inputValue.provinsi}
                 onChange={(val) => {
-                  setMultipleItem([...multipleItem, val]);
+                  if (inputValue.provinsi.length !== 0) {
+                    setInputValue({
+                      ...inputValue,
+                      provinsi: [...inputValue.provinsi, val],
+                    });
+                  } else {
+                    setMultipleItem([...multipleItem, val]);
+                  }
                 }}
               />
             </>
@@ -176,7 +187,7 @@ const RowMaster = ({
                         ...item,
                         nama: inputValue.nama,
                         biaya_daftar: inputValue.biaya_daftar,
-                        provinsi: multipleItem,
+                        provinsi: inputValue.provinsi,
                       });
                     } else {
                       // Buat baru
