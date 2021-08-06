@@ -166,6 +166,7 @@ const ProviderMaster = ({ children }) => {
         fbParams.ref = `${state.formName}`;
         await addFirebaseData(fbParams);
       }
+
       // untuk master wilyah
     } else if (state.formName == "master_wilayah") {
       let fbParams = {
@@ -173,6 +174,29 @@ const ProviderMaster = ({ children }) => {
           nama: data.nama,
           biaya_daftar: data.biaya_daftar,
           provinsi: data.provinsi,
+        },
+      };
+
+      if (data.id) {
+        // Update
+        fbParams.ref = `${state.formName}/${data.id}`;
+        await updateFirebaseData(fbParams);
+      } else {
+        // Add new
+        fbParams.ref = `${state.formName}`;
+        await addFirebaseData(fbParams);
+      }
+
+      //untuk master les
+    } else if (state.formName == "master_les") {
+      let fbParams = {
+        payload: {
+          mapel: data.mapel,
+          jenjangkelas: data.jenjangkelas,
+          paket: data.paket,
+          wilayah: data.wilayah,
+          biaya: parseInt(data.biaya),
+          gaji_tutor: parseInt(data.gaji_tutor),
         },
       };
 
