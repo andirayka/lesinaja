@@ -44,20 +44,7 @@ const Keuangan = () => {
 
   const [isPengeluaran, setIsPengeluaran] = useState();
 
-  let labaBersih =
-    data.pemasukan - (data.pembayaran_tutor + data.sadaqah + isPengeluaran);
-
-  const handlePengeluaran = (data) => {
-    let total = 0;
-    if (data.pengeluaran) {
-      const semuaNominal = Object.values(data.pengeluaran);
-      for (let i = 0; i < semuaNominal.length; i++) {
-        const element = semuaNominal[i];
-        total += element.nominal;
-      }
-    }
-    setIsPengeluaran(total);
-  };
+  const [labaBersih, setLabaBersih] = useState();
 
   const getDataFirebase = async () => {
     const getData = await getFirebaseDataOnce({ ref: `keuangan` });
@@ -66,8 +53,24 @@ const Keuangan = () => {
     setData(dataBulanTerpilih);
     setLoading(false);
     handlePengeluaran(dataBulanTerpilih);
-    // const dataNew = [Object.keys(getData)];
-    // console.log(dataNew);
+  };
+
+  const handlePengeluaran = (data) => {
+    let totalPengeluaran = 0;
+    if (data.pengeluaran) {
+      const semuaNominal = Object.values(data.pengeluaran);
+      for (let i = 0; i < semuaNominal.length; i++) {
+        const element = semuaNominal[i];
+        totalPengeluaran += element.nominal;
+      }
+    }
+
+    let labaNew =
+      data.pemasukan -
+      (data.pembayaran_tutor + data.sadaqah + totalPengeluaran);
+
+    setIsPengeluaran(totalPengeluaran);
+    setLabaBersih(labaNew);
   };
 
   const handleDeleteData = (id) => {
