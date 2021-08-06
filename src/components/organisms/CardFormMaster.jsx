@@ -15,7 +15,9 @@ const CardFormMaster = ({
     biaya_daftar: "",
     provinsi: "",
   };
+
   const [editingRow, setEditingRow] = useState(undefined);
+
   const [inputValue, setInputValue] = useState({
     ...intialValue,
   });
