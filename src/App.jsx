@@ -84,18 +84,12 @@ const InitialChecker = () => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         setIsLoggedIn(true);
-        console.log(user);
       } else {
         setIsLoggedIn(false);
         console.log("anda belum login");
       }
     });
   }, []);
-
-  // // Tampilan sementara loading, halaman kosong
-  // if (isLoggedIn === undefined) {
-  //   return <div></div>;
-  // }
 
   if (isLoggedIn === false) {
     return (
