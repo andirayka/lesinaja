@@ -12,13 +12,20 @@ import {
   FieldError,
 } from "@components";
 import React, { useEffect, useState } from "react";
-import { getFirebaseDataOnce, addFirebaseData } from "@utils";
+import {
+  getFirebaseDataOnce,
+  addFirebaseData,
+  deleteFirebaseData,
+  updateFirebaseData,
+} from "@utils";
 import { useForm } from "react-hook-form";
 
 const Keuangan = () => {
   const {
     register,
     handleSubmit,
+    reset,
+    setValue,
     formState: { errors },
   } = useForm();
 
@@ -28,28 +35,84 @@ const Keuangan = () => {
 
   const [loadForm, setLoadForm] = useState(false);
 
-  let labaBersih = data.pemasukan - (data.pembayaran_tutor + data.sadaqah);
+  const [isUpdate, setIsUpdate] = useState(false);
+
+  const [isId, setId] = useState();
+
+  const [isPengeluaran, setIsPengeluaran] = useState();
+
+  let labaBersih =
+    data.pemasukan - (data.pembayaran_tutor + data.sadaqah + isPengeluaran);
+
+  const handlePengeluaran = (data) => {
+    let total = 0;
+    const semuaNominal = Object.values(data.pengeluaran);
+    for (let i = 0; i < semuaNominal.length; i++) {
+      const element = semuaNominal[i];
+      total += element.nominal;
+    }
+    setIsPengeluaran(total);
+    console.log(total);
+  };
 
   const getDataFirebase = async () => {
     const getData = await getFirebaseDataOnce({ ref: `keuangan` });
     const namaBulan = "perBulanNya"; //sementara
     const dataBulanTerpilih = getData[namaBulan];
     setData(dataBulanTerpilih);
-    // console.log(dataBulanTerpilih);
     setLoading(false);
+    handlePengeluaran(dataBulanTerpilih);
   };
 
-  const onSubmit = (data) => {
-    console.log(data.nominal);
-    addFirebaseData({
-      ref: `keuangan/perBulanNya/pengeluaran`,
-      payload: {
-        tanggal: data.tanggal,
-        transaksi: data.transaksi,
-        nominal: data.nominal,
-      },
-    });
+  const handleDeleteData = (id) => {
+    deleteFirebaseData({ ref: `keuangan/perBulanNya/pengeluaran/${id}` });
     getDataFirebase();
+  };
+
+  const handleUpdateData = (id) => {
+    setLoadForm(true);
+    const oldData = data.pengeluaran[id];
+    setValue("tanggal", oldData.tanggal);
+    setValue("transaksi", oldData.transaksi);
+    setValue("nominal", oldData.nominal);
+
+    setId(id);
+    setIsUpdate(true);
+  };
+
+  const onSubmit = (event) => {
+    // const oldData = data.pengeluaran[id];
+    if (isUpdate) {
+      let nominalNew = parseInt(event.nominal);
+      updateFirebaseData({
+        ref: `keuangan/perBulanNya/pengeluaran/${isId}`, //sementara
+        payload: {
+          tanggal: event.tanggal,
+          transaksi: event.transaksi,
+          nominal: nominalNew,
+        },
+      });
+    } else {
+      let nominalNew = parseInt(event.nominal);
+      addFirebaseData({
+        ref: `keuangan/perBulanNya/pengeluaran`, //sementara
+        payload: {
+          tanggal: event.tanggal,
+          transaksi: event.transaksi,
+          nominal: nominalNew,
+        },
+      });
+    }
+
+    reset({ nominal: 0, tanggal: "", transaksi: "" });
+    setLoadForm(false);
+    // console.log(nominalNew);
+    getDataFirebase();
+  };
+
+  const handleBatal = () => {
+    setLoadForm(false);
+    reset({ nominal: 0, tanggal: "", transaksi: "" });
   };
 
   useEffect(() => {
@@ -89,7 +152,7 @@ const Keuangan = () => {
 
             <CardKeyValue keyName="Sadaqah" value={`Rp ${data.sadaqah}`} />
 
-            <CardKeyValue keyName="Pengeluaran" value={`Rp Pengembangan`} />
+            <CardKeyValue keyName="Pengeluaran" value={`Rp ${isPengeluaran}`} />
 
             <SectionFee heading="Laba Bersih" value={`Rp. ${labaBersih}`} />
           </CardItem>
@@ -131,7 +194,7 @@ const Keuangan = () => {
                         required: "Nama transaksi harus di isi",
                       })}
                     />
-                    {errors.name && (
+                    {errors.transaksi && (
                       <FieldError message={errors.transaksi.message} />
                     )}
                   </div>
@@ -141,7 +204,7 @@ const Keuangan = () => {
                         required: "Besar nominal harus di isi",
                       })}
                     />
-                    {errors.name && (
+                    {errors.nominal && (
                       <FieldError message={errors.nominal.message} />
                     )}
                   </div>
@@ -153,7 +216,7 @@ const Keuangan = () => {
                     />
                     <Button
                       text="Batal"
-                      onClick={() => setLoadForm(false)}
+                      onClick={handleBatal}
                       additionalClassName="bg-red-500 rounded-lg ml-4"
                     />
                   </div>
@@ -164,9 +227,7 @@ const Keuangan = () => {
             {/* Isi */}
             {Object.entries(data.pengeluaran).map((item, index) => {
               const [key, value] = item;
-              console.log(key);
-              // value.nominal += value.nominal;
-              console.log(value.nominal);
+              // console.log(value.nominal);
 
               return (
                 <div key={index} className="p-3 flex">
@@ -179,7 +240,18 @@ const Keuangan = () => {
                   <div className="flex-grow text-center">
                     Rp. {value.nominal}
                   </div>
-                  <div className="flex-grow text-right">Edit / Hapus</div>
+                  <div className="flex-grow flex justify-end">
+                    <Button
+                      text="Edit"
+                      onClick={() => handleUpdateData(key)}
+                      additionalClassName="bg-blue-300"
+                    />
+                    <Button
+                      text="Hapus"
+                      onClick={() => handleDeleteData(key)}
+                      additionalClassName="bg-red-300"
+                    />
+                  </div>
                 </div>
               );
             })}
