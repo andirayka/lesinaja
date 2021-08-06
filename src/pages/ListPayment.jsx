@@ -42,7 +42,7 @@ const ListPayment = () => {
     );
   }
 
-  if (!data) {
+  if (data) {
     return (
       <div className="w-full flex-grow md:ml-8">
         <Title text="Daftar Riwayat Pembayaran" type="pageTitle" />
