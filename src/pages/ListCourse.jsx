@@ -42,41 +42,42 @@ const ListCourse = () => {
         />
       </Link>
 
-      {Object.entries(formData).map(([key, value], index) => {
-        return (
-          <CardItem key={index} title={value.mapel} containerClass="mt-8">
-            <CardKeyValue keyName="Paket" value={value.paket} />
-            <CardKeyValue keyName="Wilayah" value={value.wilayah} />
-            <CardKeyValue keyName="Harga" value={value.biaya} />
-            <div className="flex flex-row mt-8 justify-end">
-              <Button
-                text="Ubah Pilihan Les"
-                additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium mr-4"
-                onClick={() => {}}
-              />
-              <Button
-                text="Hapus Pilihan Les"
-                additionalClassName="bg-yellow-600 hover:bg-red-500 rounded-lg font-medium"
-                onClick={() => {
-                  Swal.fire({
-                    text: `Apakah Anda yakin akan menghapus data les ${value.mapel}?`,
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#FBBF24",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Hapus",
-                    cancelButtonText: "Batal",
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                      deleteFormData(key);
-                    }
-                  });
-                }}
-              />
-            </div>
-          </CardItem>
-        );
-      })}
+      {formData &&
+        Object.entries(formData).map(([key, value], index) => {
+          return (
+            <CardItem key={index} title={value.mapel} containerClass="mt-8">
+              <CardKeyValue keyName="Paket" value={value.paket} />
+              <CardKeyValue keyName="Wilayah" value={value.wilayah} />
+              <CardKeyValue keyName="Harga" value={value.biaya} />
+              <div className="flex flex-row mt-8 justify-end">
+                <Button
+                  text="Ubah Pilihan Les"
+                  additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium mr-4"
+                  onClick={() => {}}
+                />
+                <Button
+                  text="Hapus Pilihan Les"
+                  additionalClassName="bg-yellow-600 hover:bg-red-500 rounded-lg font-medium"
+                  onClick={() => {
+                    Swal.fire({
+                      text: `Apakah Anda yakin akan menghapus data les ${value.mapel}?`,
+                      icon: "warning",
+                      showCancelButton: true,
+                      confirmButtonColor: "#FBBF24",
+                      cancelButtonColor: "#d33",
+                      confirmButtonText: "Hapus",
+                      cancelButtonText: "Batal",
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        deleteFormData(key);
+                      }
+                    });
+                  }}
+                />
+              </div>
+            </CardItem>
+          );
+        })}
     </div>
   );
 };
