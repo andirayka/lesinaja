@@ -48,6 +48,7 @@ const RowMaster = ({
         );
       });
     } else if (multipleItem.length !== 0) {
+      console.log(multipleItem);
       return multipleItem.map((item, index) => {
         return (
           <div
@@ -132,15 +133,15 @@ const RowMaster = ({
               <InputSelect
                 data={dropdownData}
                 prompt={conditionalPromptRender()}
-                value={inputValue.provinsi}
-                onChange={(val) => {
+                onChange={({ value }) => {
+                  console.log(value);
                   if (inputValue.provinsi.length !== 0) {
                     setInputValue({
                       ...inputValue,
-                      provinsi: [...inputValue.provinsi, val],
+                      provinsi: [...inputValue.provinsi, value],
                     });
                   } else {
-                    setMultipleItem([...multipleItem, val]);
+                    setMultipleItem([...multipleItem, value]);
                   }
                 }}
               />
