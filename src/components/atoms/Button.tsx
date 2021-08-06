@@ -18,7 +18,7 @@ const Button: FC<Props> = ({
   if (loading) {
     return (
       <button
-        // disabled={true}
+        disabled
         // onClick={onClick}
         // type={type}
         className={`px-4 py-3 flex justify-center bg-yellow-600 ${additionalClassName}`}
