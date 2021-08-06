@@ -34,9 +34,9 @@ const ListCourse = () => {
 
       {Object.entries(formData).map(([key, value], index) => {
         return (
-          <CardItem key={index} title={value.id_mapel} containerClass="mt-8">
-            <CardKeyValue keyName="Paket" value={value.id_paket} />
-            <CardKeyValue keyName="Wilayah" value={value.id_wilayah} />
+          <CardItem key={index} title={value.mapel} containerClass="mt-8">
+            <CardKeyValue keyName="Paket" value={value.paket} />
+            <CardKeyValue keyName="Wilayah" value={value.wilayah} />
             <CardKeyValue keyName="Harga" value={value.biaya} />
             <div className="flex flex-row mt-8 justify-end">
               <Button
