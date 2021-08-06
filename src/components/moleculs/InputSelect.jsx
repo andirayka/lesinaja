@@ -49,26 +49,26 @@ const InputSelect = ({
           {/* data dropdown yang akan difilter */}
           {open &&
             data &&
-            Object.values(data)
-              .filter((item) => {
+            Object.entries(data)
+              .filter(([key, value]) => {
                 // i artinya tidak case sensitive
                 // filter data berdasarkan query dari onChange select
                 const matchKeyword = RegExp(query, "i");
 
                 // return data yang sesuai dengan pencarian
-                return matchKeyword.test(item.nama);
+                return matchKeyword.test(value.nama);
               })
-              .map((filteredItem, index) => {
+              .map(([key, value], index) => {
                 return (
                   <div
                     className="hover:bg-white"
                     key={index}
                     onClick={() => {
-                      onChange(filteredItem);
+                      onChange({ key, value });
                       setOpen(false);
                     }}
                   >
-                    {filteredItem.nama}
+                    {value.nama}
                   </div>
                 );
               })}
