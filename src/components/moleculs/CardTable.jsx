@@ -1,9 +1,9 @@
 import React from "react";
 
-const CardTable = ({ headerValues, contentValues }) => {
+const CardTable = ({ headerValues, contentValues, additionalClassName }) => {
   return (
     <div>
-      <div className="flex flex-row py-4">
+      <div className={`flex flex-row py-4 ${additionalClassName}`}>
         {headerValues.map((header, key) => {
           return (
             <div className="flex-1 text-center font-semibold" key={key}>
