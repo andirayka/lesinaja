@@ -23,8 +23,8 @@ const AddListCourse = () => {
     jenjangkelas: undefined,
     paket: undefined,
     wilayah: undefined,
-    biaya: undefined,
-    gaji_tutor: undefined,
+    biaya: "",
+    gaji_tutor: "",
   });
 
   const [prompt, setPrompt] = useState({
@@ -37,6 +37,7 @@ const AddListCourse = () => {
   useEffect(() => {
     getMultipleDropdownData();
     setFormName("master_les");
+    console.log(prompt);
   }, []);
 
   const clearForm = () => {
@@ -60,13 +61,13 @@ const AddListCourse = () => {
   const conditionalPromptRender = (type) => {
     if (prompt[type] !== undefined) {
       if (type == "mapel") {
-        return <div>{prompt.mapel.nama}</div>;
+        return <div>{prompt.mapel}</div>;
       } else if (type == "jenjangkelas") {
-        return <div>{prompt.jenjangkelas.nama}</div>;
+        return <div>{prompt.jenjangkelas}</div>;
       } else if (type == "paket") {
-        return <div>{prompt.paket.nama}</div>;
+        return <div>{prompt.paket}</div>;
       } else if (type == "wilayah") {
-        return <div>{prompt.wilayah.nama}</div>;
+        return <div>{prompt.wilayah}</div>;
       }
     } else {
       return <div>Pilih Data...</div>;
@@ -95,46 +96,46 @@ const AddListCourse = () => {
             containerClassName="mt-0 w-full"
             prompt={conditionalPromptRender(type)}
             data={multipleDropdownData[type]}
-            onChange={(val) => {
+            onChange={({ key, value }) => {
               // untuk inputvalue mapel
               if (type == "mapel") {
                 setPrompt({
                   ...prompt,
-                  mapel: val,
+                  mapel: value.nama,
                 });
                 setInputValue({
                   ...inputValue,
-                  mapel: val.nama,
+                  mapel: key,
                 });
                 // untuk inputvalue jenjangkelas
               } else if (type == "jenjangkelas") {
                 setPrompt({
                   ...prompt,
-                  jenjangkelas: val,
+                  jenjangkelas: value.nama,
                 });
                 setInputValue({
                   ...inputValue,
-                  jenjangkelas: val.nama,
+                  jenjangkelas: key,
                 });
                 // untuk inputvalue paket
               } else if (type == "paket") {
                 setPrompt({
                   ...prompt,
-                  paket: val,
+                  paket: value.nama,
                 });
                 setInputValue({
                   ...inputValue,
-                  paket: val.nama,
+                  paket: key,
                 });
                 // untuk inputvalue wilayah
               } else if (type == "wilayah") {
                 setPrompt({
                   ...prompt,
-                  wilayah: val,
+                  wilayah: value.nama,
                 });
                 setInputValue({
                   ...inputValue,
-                  wilayah: val.nama,
+                  wilayah: key,
                 });
                 // tampilan prompt pertama kali
                 // atau saat belum ada data yang di pilih

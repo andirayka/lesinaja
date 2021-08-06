@@ -1,19 +1,29 @@
 import React, { useContext, useEffect } from "react";
-import { Title, CardItem, CardKeyValue, Button, EmptyIcon } from "@components";
+import {
+  Title,
+  CardItem,
+  CardKeyValue,
+  Button,
+  EmptyIcon,
+  Swal,
+} from "@components";
 import { Link } from "react-router-dom";
 import { ContextMaster } from "@context";
 
 const ListCourse = () => {
   const {
-    state: { formData },
+    state: { formData, formStatus },
     getFormData,
+    deleteFormData,
+    setFormName,
   } = useContext(ContextMaster);
 
   useEffect(() => {
     getFormData("master_les");
+    setFormName("master_les");
   }, []);
 
-  if (!formData) {
+  if (formStatus == "loading") {
     return <EmptyIcon />;
   }
 
@@ -47,7 +57,21 @@ const ListCourse = () => {
               <Button
                 text="Hapus Pilihan Les"
                 additionalClassName="bg-yellow-600 hover:bg-red-500 rounded-lg font-medium"
-                onClick={() => {}}
+                onClick={() => {
+                  Swal.fire({
+                    text: `Apakah Anda yakin akan menghapus data les ${value.mapel}?`,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#FBBF24",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Hapus",
+                    cancelButtonText: "Batal",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      deleteFormData(key);
+                    }
+                  });
+                }}
               />
             </div>
           </CardItem>
