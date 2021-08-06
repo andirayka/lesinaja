@@ -19,6 +19,8 @@ import {
   updateFirebaseData,
 } from "@utils";
 import { useForm } from "react-hook-form";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 const Keuangan = () => {
   const {
@@ -219,6 +221,9 @@ const Keuangan = () => {
                       onClick={handleBatal}
                       additionalClassName="bg-red-500 rounded-lg ml-4"
                     />
+                    <button className="border-2">
+                      <FontAwesomeIcon icon={faTrashAlt} className="text-2xl" />
+                    </button>
                   </div>
                 </div>
               </form>
