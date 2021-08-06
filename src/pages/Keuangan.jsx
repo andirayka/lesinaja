@@ -10,6 +10,7 @@ import {
   InputText,
   InputDate,
   FieldError,
+  EmptyIcon,
 } from "@components";
 import React, { useEffect, useState } from "react";
 import {
@@ -65,7 +66,8 @@ const Keuangan = () => {
     setData(dataBulanTerpilih);
     setLoading(false);
     handlePengeluaran(dataBulanTerpilih);
-    console.log(data.pengeluaran);
+    // const dataNew = [Object.keys(getData)];
+    // console.log(dataNew);
   };
 
   const handleDeleteData = (id) => {
@@ -96,6 +98,7 @@ const Keuangan = () => {
           nominal: nominalNew,
         },
       });
+      setIsUpdate(false);
     } else {
       let nominalNew = parseInt(event.nominal);
       addFirebaseData({
@@ -231,7 +234,9 @@ const Keuangan = () => {
 
             {/* Isi */}
             {data.pengeluaran === undefined ? (
-              <div>Data Kosong Om</div>
+              <div className="py-8">
+                <EmptyIcon />
+              </div>
             ) : (
               Object.entries(data.pengeluaran).map((item, index) => {
                 const [key, value] = item;
