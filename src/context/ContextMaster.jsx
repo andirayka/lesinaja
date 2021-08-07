@@ -20,7 +20,7 @@ const initialState = {
     wilayah: undefined,
   },
   listStatus: "loading",
-  formData: null,
+  formData: undefined,
   formStatus: "loading",
   formName: "",
   dropdownData: "",
