@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "author": {
-    "name": "Andi, Fiqri, Nico",
+    "name": "Andi, Fiqri, Nico"
   },
   "scripts": {
     "dev": "vite",
