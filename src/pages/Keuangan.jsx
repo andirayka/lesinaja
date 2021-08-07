@@ -10,6 +10,7 @@ import {
   InputText,
   InputDate,
   FieldError,
+  EmptyIcon,
 } from "@components";
 import React, { useEffect, useState } from "react";
 import {
@@ -19,6 +20,8 @@ import {
   updateFirebaseData,
 } from "@utils";
 import { useForm } from "react-hook-form";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 const Keuangan = () => {
   const {
@@ -41,19 +44,7 @@ const Keuangan = () => {
 
   const [isPengeluaran, setIsPengeluaran] = useState();
 
-  let labaBersih =
-    data.pemasukan - (data.pembayaran_tutor + data.sadaqah + isPengeluaran);
-
-  const handlePengeluaran = (data) => {
-    let total = 0;
-    const semuaNominal = Object.values(data.pengeluaran);
-    for (let i = 0; i < semuaNominal.length; i++) {
-      const element = semuaNominal[i];
-      total += element.nominal;
-    }
-    setIsPengeluaran(total);
-    console.log(total);
-  };
+  const [labaBersih, setLabaBersih] = useState();
 
   const getDataFirebase = async () => {
     const getData = await getFirebaseDataOnce({ ref: `keuangan` });
@@ -62,6 +53,24 @@ const Keuangan = () => {
     setData(dataBulanTerpilih);
     setLoading(false);
     handlePengeluaran(dataBulanTerpilih);
+  };
+
+  const handlePengeluaran = (data) => {
+    let totalPengeluaran = 0;
+    if (data.pengeluaran) {
+      const semuaNominal = Object.values(data.pengeluaran);
+      for (let i = 0; i < semuaNominal.length; i++) {
+        const element = semuaNominal[i];
+        totalPengeluaran += element.nominal;
+      }
+    }
+
+    let labaNew =
+      data.pemasukan -
+      (data.pembayaran_tutor + data.sadaqah + totalPengeluaran);
+
+    setIsPengeluaran(totalPengeluaran);
+    setLabaBersih(labaNew);
   };
 
   const handleDeleteData = (id) => {
@@ -82,8 +91,8 @@ const Keuangan = () => {
 
   const onSubmit = (event) => {
     // const oldData = data.pengeluaran[id];
+    let nominalNew = parseInt(event.nominal);
     if (isUpdate) {
-      let nominalNew = parseInt(event.nominal);
       updateFirebaseData({
         ref: `keuangan/perBulanNya/pengeluaran/${isId}`, //sementara
         payload: {
@@ -92,8 +101,8 @@ const Keuangan = () => {
           nominal: nominalNew,
         },
       });
+      setIsUpdate(false);
     } else {
-      let nominalNew = parseInt(event.nominal);
       addFirebaseData({
         ref: `keuangan/perBulanNya/pengeluaran`, //sementara
         payload: {
@@ -175,6 +184,7 @@ const Keuangan = () => {
               <p className="font-semibold text-xl text-center w-1/4">Aksi</p>
             </div>
             {/* Form Imput */}
+
             {loadForm && (
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="p-3 flex">
@@ -225,36 +235,47 @@ const Keuangan = () => {
             )}
 
             {/* Isi */}
-            {Object.entries(data.pengeluaran).map((item, index) => {
-              const [key, value] = item;
-              // console.log(value.nominal);
+            {data.pengeluaran === undefined ? (
+              <div className="py-8">
+                <EmptyIcon />
+              </div>
+            ) : (
+              Object.entries(data.pengeluaran).map((item, index) => {
+                const [key, value] = item;
+                // console.log(value.nominal);
 
-              return (
-                <div key={index} className="p-3 flex">
-                  <div className="flex-none w-3/12 text-left">
-                    {value.tanggal}
+                return (
+                  <div key={index} className="p-3 flex">
+                    <div className="flex-none w-3/12 text-left">
+                      {value.tanggal}
+                    </div>
+                    <div className="flex-none w-3/12 text-left">
+                      {value.transaksi}
+                    </div>
+                    <div className="flex-grow text-center">
+                      Rp. {value.nominal}
+                    </div>
+                    <div className="flex-grow flex justify-end">
+                      <button onClick={() => handleUpdateData(key)}>
+                        <FontAwesomeIcon
+                          icon={faPencilAlt}
+                          className="text-2xl"
+                        />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteData(key)}
+                        className="ml-8 mr-4"
+                      >
+                        <FontAwesomeIcon
+                          icon={faTrashAlt}
+                          className="text-2xl"
+                        />
+                      </button>
+                    </div>
                   </div>
-                  <div className="flex-none w-3/12 text-left">
-                    {value.transaksi}
-                  </div>
-                  <div className="flex-grow text-center">
-                    Rp. {value.nominal}
-                  </div>
-                  <div className="flex-grow flex justify-end">
-                    <Button
-                      text="Edit"
-                      onClick={() => handleUpdateData(key)}
-                      additionalClassName="bg-blue-300"
-                    />
-                    <Button
-                      text="Hapus"
-                      onClick={() => handleDeleteData(key)}
-                      additionalClassName="bg-red-300"
-                    />
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })
+            )}
           </div>
         </div>
         );

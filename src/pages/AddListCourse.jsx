@@ -37,7 +37,6 @@ const AddListCourse = () => {
   useEffect(() => {
     getMultipleDropdownData();
     setFormName("master_les");
-    console.log(prompt);
   }, []);
 
   const clearForm = () => {
