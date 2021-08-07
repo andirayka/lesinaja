@@ -1,6 +1,6 @@
 {
   "name": "lesinaja",
-  "description": "Aplikasi web lesin aja",
+  "description": "Aplikasi web lesin aja. Diinisialisasi dengan boilerplate https://github.com/joaopaulomoraes/reactjs-vite-tailwindcss-boilerplate",
   "version": "0.1.0",
   "private": true,
   "author": {
