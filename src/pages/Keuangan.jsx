@@ -91,8 +91,8 @@ const Keuangan = () => {
 
   const onSubmit = (event) => {
     // const oldData = data.pengeluaran[id];
+    let nominalNew = parseInt(event.nominal);
     if (isUpdate) {
-      let nominalNew = parseInt(event.nominal);
       updateFirebaseData({
         ref: `keuangan/perBulanNya/pengeluaran/${isId}`, //sementara
         payload: {
@@ -103,7 +103,6 @@ const Keuangan = () => {
       });
       setIsUpdate(false);
     } else {
-      let nominalNew = parseInt(event.nominal);
       addFirebaseData({
         ref: `keuangan/perBulanNya/pengeluaran`, //sementara
         payload: {
