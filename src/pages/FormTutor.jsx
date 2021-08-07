@@ -22,8 +22,7 @@ const FormTutor = () => {
 
   const showImage = () => {
     let fileNew = `foto_tutor/profil_${prevData.id}.jpg`;
-    let id = "image";
-    handleShowFile(fileNew, id).then((url) => {
+    handleShowFile(fileNew).then((url) => {
       setProfileSrc(url);
     });
   };
