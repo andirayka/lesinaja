@@ -11,6 +11,7 @@ import {
   InputDate,
   FieldError,
   EmptyIcon,
+  Swal,
 } from "@components";
 import React, { useEffect, useState } from "react";
 import {
@@ -74,8 +75,25 @@ const Keuangan = () => {
   };
 
   const handleDeleteData = (id) => {
-    deleteFirebaseData({ ref: `keuangan/perBulanNya/pengeluaran/${id}` });
-    getDataFirebase();
+    const isDelete = data.pengeluaran[id].tanggal;
+    Swal.fire({
+      text: `Apakah anda yakin ingin menghapus data transaksi pada tanggal ${isDelete}!`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#FBBF24",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Batal",
+      confirmButtonText: "Hapus",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          text: "Data berhasil di hapus",
+          icon: "success",
+        });
+        deleteFirebaseData({ ref: `keuangan/perBulanNya/pengeluaran/${id}` });
+        getDataFirebase();
+      }
+    });
   };
 
   const handleUpdateData = (id) => {
@@ -178,13 +196,13 @@ const Keuangan = () => {
           <div className="rounded-md bg-white mt-8">
             {/* Header */}
             <div className="rounded-md p-2.5 bg-yellow-400 flex flex-row">
-              <p className="font-semibold text-xl w-3/4">Tanggal</p>
-              <p className="font-semibold text-xl w-3/4">Nama</p>
-              <p className="font-semibold text-xl w-3/4">Nominal</p>
-              <p className="font-semibold text-xl text-center w-1/4">Aksi</p>
+              <p className="font-semibold text-xl w-96 ">Tanggal</p>
+              <p className="font-semibold text-xl w-5/12 ">Nama</p>
+              <p className="font-semibold text-xl w-5/12 ">Nominal</p>
+              <p className="font-semibold text-xl text-center w-1/4 ">Aksi</p>
             </div>
-            {/* Form Imput */}
 
+            {/* Form Imput */}
             {loadForm && (
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="p-3 flex">
@@ -222,12 +240,12 @@ const Keuangan = () => {
                     <Button
                       text="Simpan"
                       type="submit"
-                      additionalClassName="bg-green-400 rounded-lg"
+                      additionalClassName="bg-green-500 hover:bg-green-700 rounded-lg"
                     />
                     <Button
                       text="Batal"
                       onClick={handleBatal}
-                      additionalClassName="bg-red-500 rounded-lg ml-4"
+                      additionalClassName="bg-red-500 hover:bg-red-700 rounded-lg ml-4"
                     />
                   </div>
                 </div>
@@ -246,15 +264,9 @@ const Keuangan = () => {
 
                 return (
                   <div key={index} className="p-3 flex">
-                    <div className="flex-none w-3/12 text-left">
-                      {value.tanggal}
-                    </div>
-                    <div className="flex-none w-3/12 text-left">
-                      {value.transaksi}
-                    </div>
-                    <div className="flex-grow text-center">
-                      Rp. {value.nominal}
-                    </div>
+                    <p className="text-lg w-5/12 ">{value.tanggal}</p>
+                    <p className="text-lg w-5/12 ">{value.transaksi}</p>
+                    <p className="text-lg w-5/12 ">Rp. {value.nominal}</p>
                     <div className="flex-grow flex justify-end">
                       <button onClick={() => handleUpdateData(key)}>
                         <FontAwesomeIcon
