@@ -6,6 +6,7 @@ import {
   Switch,
 } from "react-router-dom";
 import { enableFirebaseConfig } from "@utils";
+import AppProvider from "@context";
 
 // Global setting for dayjs
 import "dayjs/locale/id";
@@ -17,7 +18,13 @@ dayjs.locale("id");
 enableFirebaseConfig();
 
 const App: FC = () => {
-  return <Router></Router>;
+  return (
+    <AppProvider>
+      <Router>
+        <div>ok</div>
+      </Router>
+    </AppProvider>
+  );
 };
 
 export default App;

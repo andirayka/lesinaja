@@ -1,4 +1,5 @@
-import React, { createContext, useReducer, FC } from "react";
+import React, { createContext, useReducer } from "react";
+import type { ReactNode } from "react";
 
 // * initial Value
 const initialState = {
@@ -18,8 +19,8 @@ const reducer = (state: object, action: Actions) => {
   }
 };
 
-export const AuthContext = createContext(undefined);
-export const ProviderAuth: FC = ({ children }) => {
+export const AuthContext = createContext<object>(initialState);
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   // * Set ke reducer apakah sudah login atau belum
@@ -32,6 +33,8 @@ export const ProviderAuth: FC = ({ children }) => {
   const logout = async () => {};
 
   return (
-    <AuthContext.Provider value={{ state }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ state, setIsLoggedIn, logout }}>
+      {children}
+    </AuthContext.Provider>
   );
 };

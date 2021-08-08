@@ -1,13 +1,12 @@
 import React from "react";
-import { ProviderAuth, ContextAuth } from "./AuthContext";
+import { AuthProvider } from "./AuthContext";
 
 // * Combine all providers
-const providers = [ProviderAuth];
-const ProviderApp = ({ children }) => {
+const providers = [AuthProvider];
+const AppProvider = ({ children }: { children: JSX.Element }) => {
   return providers.reduceRight((acc, Comp) => {
     return <Comp>{acc}</Comp>;
   }, children);
 };
 
-export default ProviderApp;
-export * from "./AuthContext";
+export default AppProvider;
