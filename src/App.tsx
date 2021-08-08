@@ -1,7 +1,23 @@
-import React from 'react'
+import React, { FC } from "react";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
+import { enableFirebaseConfig } from "@utils";
 
-function App() {
-  return <div className="bg-white">ok</div>
-}
+// Global setting for dayjs
+import "dayjs/locale/id";
+import dayjs from "dayjs";
+// Buat dayjs agar bahasa indonesia dan gunakan plugin
+dayjs.locale("id");
 
-export default App
+// Inisialisasi agar fitur firebase bisa digunakan
+enableFirebaseConfig();
+
+const App: FC = () => {
+  return <Router></Router>;
+};
+
+export default App;

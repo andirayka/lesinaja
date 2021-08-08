@@ -13,7 +13,15 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react"
+    "jsx": "react",
+    "baseUrl": "./src",
+    "paths": {
+      "@assets": ["assets/index"],
+      "@pages": ["pages/index"],
+      "@utils": ["utils/index"],
+      "@components": ["components/index"],
+      "@context": ["context/index"]
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules"]
