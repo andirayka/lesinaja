@@ -15,6 +15,7 @@ const ListPayment = () => {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
 
+  // Ambil data pembayaran
   useEffect(() => {
     const fbParams = {
       ref: `pembayaran`,
@@ -23,13 +24,30 @@ const ListPayment = () => {
       .then((val) => {
         if (val) {
           setData(val);
-          console.log(val);
         }
       })
       .then(() => {
         setLoading(false);
       });
   }, []);
+
+  // Ambil data user
+  const getUser = async (uid) => {};
+
+  // Ambil kata2 keterangan untuk key keterangan di dalam CardItem
+  const getTextKeterangan = (data) => {
+    if (data.bayar_pendaftaran) {
+      return "Biaya Pendaftaran";
+    }
+    if (data.bayar_lessiswa) {
+      return "Biaya Les";
+    }
+    if (data.bayar_gajitutor) {
+      return "Gaji Tutor";
+    }
+
+    return "Tidak ada keterangan";
+  };
 
   if (loading) {
     return (
@@ -60,8 +78,10 @@ const ListPayment = () => {
       <InputSearch />
 
       {Object.entries(data).map(([key, value]) => {
-        const coba = dayjs();
-        console.log({ coba });
+        const waktu_transfer = dayjs(value.waktu_transfer).format(
+          "D MMMM YYYY, HH:mm"
+        );
+
         return (
           <CardItem
             key={key}
@@ -69,10 +89,10 @@ const ListPayment = () => {
             containerClass="mt-8"
           >
             <CardKeyValue
-              keyName="Waktu Pembayaran"
-              // value="12 Juli 2021, 14:45"
-              value={value.waktu_transfer}
+              keyName="Keterangan"
+              value={getTextKeterangan(value)}
             />
+            <CardKeyValue keyName="Waktu Pembayaran" value={waktu_transfer} />
             <CardKeyValue keyName="Nominal" value={`Rp ${value.nominal}`} />
             <div className="flex flex-row mt-8">
               <Button
