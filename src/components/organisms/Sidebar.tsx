@@ -11,6 +11,8 @@ import {
   faBookReader,
 } from "@fortawesome/free-solid-svg-icons";
 import { SidebarItem } from "@components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useHistory, useLocation } from "react-router-dom";
 
 // List path dan property dari sidebar item
 const sidebarList = [
@@ -70,6 +72,39 @@ const sidebarList = [
   },
 ];
 
+// Sidebar di sebelah kiri MainLayout
 export const Sidebar = () => {
-  return <div>sidebar</div>;
+  const { pathname } = useLocation(); // Path halaman yang sedang dibuka
+  const history = useHistory(); // Untuk pindah halaman
+
+  return (
+    <div className="fixed w-72 bg-white rounded-md overflow-hidden">
+      {sidebarList.map((item, index) => {
+        return (
+          <SidebarItem
+            key={index}
+            onClick={() => {
+              history.push(item.path);
+            }}
+            // onClick={async () => {
+            //   if (item.text == "Keluar") {
+            //     await handleLogout();
+            //     const user = firebase.auth().currentUser;
+            //     if (user === null) {
+            //       setIsLoggedIn(false);
+            //     } else {
+            //       setIsLoggedIn(true);
+            //     }
+            //   } else {
+            //     history.push(item.path);
+            //   }
+            // }}
+            isActive={item.activePaths.includes(pathname)}
+            icon={item.icon}
+            text={item.text}
+          />
+        );
+      })}
+    </div>
+  );
 };

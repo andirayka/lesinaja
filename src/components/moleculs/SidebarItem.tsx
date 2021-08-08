@@ -1,27 +1,28 @@
-import React, { FC } from "react";
+import {
+  FontAwesomeIcon,
+  FontAwesomeIconProps,
+} from "@fortawesome/react-fontawesome";
+import React, { FC, MouseEventHandler } from "react";
 
 type Props = {
   text: string;
+  icon: any;
   isActive: boolean;
-  additionalClassName?: string;
+  onClick: MouseEventHandler<HTMLButtonElement>;
 };
 
 // Item tiap sidebar
-export const SidebarItem: FC<Props> = ({
-  additionalClassName,
-  text,
-  icon,
-  isActive,
-  onClick,
-}) => {
+export const SidebarItem: FC<Props> = ({ text, icon, isActive, onClick }) => {
   return (
     <button
       onClick={onClick}
-      className={`hover:bg-yellow-400 py-2 w-full text-left pl-6 ${additionalClassName} ${
+      className={`hover:bg-yellow-400 py-2 w-full text-left pl-6 flex flex-row items-center ${
         isActive && "bg-yellow-400"
       }`}
     >
-      {icon}
+      <div className="w-12 mr-2">
+        <FontAwesomeIcon icon={icon} size="2x" />
+      </div>
       {text}
     </button>
   );
