@@ -44,24 +44,84 @@ enableFirebaseConfig();
 
 // List url halaman dan component yang digunakan
 const layoutPages = [
-  { path: ["/akun"], component: Account },
-  { path: ["/akun-tutor"], component: AccountTutor },
-  { path: ["/akun-walmur"], component: AccountWalmur },
-  { path: ["/list-lowongan"], component: ListLowongan },
-  { path: ["/list-les"], component: ListCourseTutor },
-  { path: ["/presensi-les-tutor"], component: PresensiLesTutor },
-  { path: ["/presensi-les-walmur"], component: PresensiLesWalmur },
-  { path: ["/beranda"], component: Home },
-  { path: ["/daftar-master"], component: ListMaster },
-  { path: ["/daftar-tutor"], component: ListTutor },
-  { path: ["/daftar-pembayaran"], component: ListPayment },
-  { path: ["/daftar-pilihanles"], component: ListCourse },
-  { path: ["/tambah-pilihanles"], component: AddListCourse },
-  { path: ["/form-master"], component: FormMaster },
-  { path: ["/form-tutor"], component: FormTutor },
-  { path: ["/keuangan"], component: Keuangan },
-  { path: ["/daftar-walimurid"], component: ListWalmur },
-  { path: ["/form-walimurid"], component: FormWalmur },
+  { path: ["/akun"], component: Account, title: ["Akun Admin LesinAja"] },
+  {
+    path: ["/akun-tutor"],
+    component: AccountTutor,
+    title: ["Akun Tutor LesinAja"],
+  },
+  {
+    path: ["/akun-walmur"],
+    component: AccountWalmur,
+    title: ["Akun Walmur LesinAja"],
+  },
+  {
+    path: ["/list-lowongan"],
+    component: ListLowongan,
+    title: ["List Lowongan LesinAja"],
+  },
+  {
+    path: ["/list-les"],
+    component: ListCourseTutor,
+    title: ["List Les LesinAja"],
+  },
+  {
+    path: ["/presensi-les-tutor"],
+    component: PresensiLesTutor,
+    title: ["Presensi Les Tutor LesinAja"],
+  },
+  {
+    path: ["/presensi-les-walmur"],
+    component: PresensiLesWalmur,
+    title: ["Presensi Les Walmur LesinAja"],
+  },
+  { path: ["/beranda"], component: Home, title: ["Beranda LesinAja"] },
+  {
+    path: ["/daftar-master"],
+    component: ListMaster,
+    title: ["Daftar Master LesinAja"],
+  },
+  {
+    path: ["/daftar-tutor"],
+    component: ListTutor,
+    title: ["Daftar Tutor LesinAja"],
+  },
+  {
+    path: ["/daftar-pembayaran"],
+    component: ListPayment,
+    title: ["Daftar Pembayaran LesinAja"],
+  },
+  {
+    path: ["/daftar-pilihanles"],
+    component: ListCourse,
+    title: ["Daftar Pilihan Les LesinAja"],
+  },
+  {
+    path: ["/tambah-pilihanles"],
+    component: AddListCourse,
+    title: ["Tambah Pilihan Les LesinAja"],
+  },
+  {
+    path: ["/form-master"],
+    component: FormMaster,
+    title: ["Form Master LesinAja"],
+  },
+  {
+    path: ["/form-tutor"],
+    component: FormTutor,
+    title: ["Form Tutor LesinAja"],
+  },
+  { path: ["/keuangan"], component: Keuangan, title: ["Keuangan LesinAja"] },
+  {
+    path: ["/daftar-walimurid"],
+    component: ListWalmur,
+    title: ["Daftar Wali Murid LesinAja"],
+  },
+  {
+    path: ["/form-walimurid"],
+    component: FormWalmur,
+    title: ["Form Wali Murid LesinAja"],
+  },
 ];
 
 const App = () => {
@@ -117,6 +177,7 @@ const InitialChecker = () => {
             exact
             path={item.path}
             render={(props) => {
+              document.title = item.title ? item.title : "Lesin Aja";
               return (
                 <MainLayout>
                   <item.component {...props} />

@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from "react";
+import React, { useRef, useContext, useEffect } from "react";
 import {
   ContentContainer,
   InputText,
@@ -55,6 +55,10 @@ const Register = () => {
       });
     }
   };
+
+  useEffect(() => {
+    document.title = "Register LesinAja";
+  }, []);
 
   return (
     <div className="flex flex-row justify-between items-start p-8">

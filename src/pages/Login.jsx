@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   ContentContainer,
   InputText,
@@ -59,6 +59,10 @@ const Login = () => {
     // console.log(errors);
     // history.push("/beranda");
   };
+
+  useEffect(() => {
+    document.title = "Masuk LesinAja";
+  }, []);
 
   return (
     <div className="flex flex-row justify-between items-start p-8">

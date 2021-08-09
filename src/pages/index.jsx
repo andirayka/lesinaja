@@ -10,7 +10,7 @@ import ListPayment from "./ListPayment";
 import ListCourse from "./ListCourse";
 import FormMaster from "./FormMaster";
 import FormTutor from "./FormTutor";
-import Keuangan from "./Keuangan";
+export * from "./Keuangan";
 import AddListCourse from "./AddListCourse";
 import AccountTutor from "./AccountTutor";
 import ListLowongan from "./ListLowongan";
@@ -39,7 +39,6 @@ export {
   ListCourse,
   FormMaster,
   FormTutor,
-  Keuangan,
   AddListCourse,
   ListLowongan,
 };
