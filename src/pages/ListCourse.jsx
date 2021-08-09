@@ -25,6 +25,7 @@ const ListCourse = () => {
     setFormName("master_les");
   }, []);
 
+  // tampilan form saat loading
   if (formStatus == "loading") {
     return (
       <div className="w-full flex-grow md:ml-8">
@@ -36,6 +37,7 @@ const ListCourse = () => {
     );
   }
 
+  // tampilan form saat data kosong
   if (formData === null) {
     return (
       <div className="w-full flex-grow md:ml-8">
@@ -62,8 +64,14 @@ const ListCourse = () => {
     <div className="w-full flex-grow md:ml-8">
       <Title text="Daftar Pilihan Les" type="pageTitle" />
       <Link
+        // button tambah mengirim state not updating
         to={{
           pathname: "/tambah-pilihanles",
+          state: {
+            isUpdating: false,
+            prevValue: undefined,
+            prevKey: undefined,
+          },
         }}
       >
         <Button
@@ -73,6 +81,7 @@ const ListCourse = () => {
         />
       </Link>
 
+      {/* data yang diquery dari context */}
       {formData &&
         Object.entries(formData).map(([key, value], index) => {
           return (
@@ -84,11 +93,19 @@ const ListCourse = () => {
               <CardKeyValue keyName="Wilayah" value={value.wilayah} />
               <CardKeyValue keyName="Harga" value={value.biaya} />
               <div className="flex flex-row mt-8 justify-end">
-                <Button
-                  text="Ubah Pilihan Les"
-                  additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium mr-4"
-                  onClick={() => {}}
-                />
+                <Link
+                  // button edit mengirim state updating
+                  to={{
+                    pathname: "/tambah-pilihanles",
+                    state: { isUpdating: true, prevValue: value, prevKey: key },
+                  }}
+                >
+                  <Button
+                    text="Ubah Pilihan Les"
+                    additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium mr-4"
+                    onClick={() => {}}
+                  />
+                </Link>
                 <Button
                   text="Hapus Pilihan Les"
                   additionalClassName="bg-yellow-600 hover:bg-red-500 rounded-lg font-medium"
