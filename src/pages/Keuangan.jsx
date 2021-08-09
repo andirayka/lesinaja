@@ -25,7 +25,7 @@ import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
-const Keuangan = () => {
+export const Keuangan = () => {
   const {
     register,
     handleSubmit,
@@ -51,7 +51,9 @@ const Keuangan = () => {
   const [exportData, setExportData] = useState([]);
 
   const getDataFirebase = async () => {
-    const getData = await getFirebaseDataOnce({ ref: `keuangan` });
+    const getData = await getFirebaseDataOnce({
+      ref: `keuangan`,
+    });
     const namaBulan = "perBulanNya"; //sementara
     const dataBulanTerpilih = getData[namaBulan];
     setData(dataBulanTerpilih);
@@ -310,5 +312,3 @@ const Keuangan = () => {
     );
   }
 };
-
-export default Keuangan;
