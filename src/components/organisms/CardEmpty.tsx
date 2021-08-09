@@ -4,9 +4,10 @@ import { SkeletonLoading, CardItem, EmptyIcon } from "@components";
 
 type Props = {
   type: "loading" | "noData";
+  title?: string;
 };
 // Card yang menampilkan list data di dalam content
-export const CardEmpty: FC<Props> = ({ type }) => {
+export const CardEmpty: FC<Props> = ({ type, title }) => {
   if (type == "loading")
     return (
       <CardItem title="Loading..." containerClass="mt-8">
@@ -16,7 +17,7 @@ export const CardEmpty: FC<Props> = ({ type }) => {
 
   // Default = noData
   return (
-    <CardItem title="Belum ada data pembayaran" containerClass="mt-8">
+    <CardItem title={title} containerClass="mt-8">
       <EmptyIcon />
     </CardItem>
   );

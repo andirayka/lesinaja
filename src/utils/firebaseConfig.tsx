@@ -23,3 +23,5 @@ export const enableFirebaseConfig = () => {
 
   firebase.analytics();
 };
+
+export { firebase };
