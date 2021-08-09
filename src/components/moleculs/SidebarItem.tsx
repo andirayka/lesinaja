@@ -1,7 +1,4 @@
-import {
-  FontAwesomeIcon,
-  FontAwesomeIconProps,
-} from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { FC, MouseEventHandler } from "react";
 
 type Props = {

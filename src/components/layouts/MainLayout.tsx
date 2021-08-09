@@ -5,12 +5,13 @@ import { Sidebar } from "@components";
 export const MainLayout: FC = ({ children }) => {
   return (
     <div className="flex p-6">
+      {/* Sidebar di sebelah kiri */}
       <div className="w-72">
         <Sidebar />
       </div>
 
-      {/* Content halaman dengan flex-grow:1 */}
-      <div className="flex-grow bg-green-500 ml-16">{children}</div>
+      {/* Content halaman di sebelah kanan */}
+      <div className="flex-grow ml-16">{children}</div>
     </div>
   );
 };
