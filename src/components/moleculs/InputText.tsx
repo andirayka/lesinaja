@@ -6,6 +6,7 @@ interface Props {
   value?: string;
   disabled?: boolean;
   name?: string;
+  containerClassName?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   onChange?: ChangeEvent<HTMLInputElement>;
   useHookRegister: any;
@@ -18,11 +19,12 @@ const InputText: FC<Props> = ({
   value,
   disabled,
   name,
+  containerClassName = "mt-4",
   onClick,
   onChange,
 }) => {
   return (
-    <div className="mt-4">
+    <div className={containerClassName}>
       <p className="text-left text-base font-medium">{label}</p>
       <input
         onClick={onClick}

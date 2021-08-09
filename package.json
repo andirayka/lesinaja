@@ -35,9 +35,11 @@
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "file-saver": "^2.0.5",
     "postcss": "^8.3.6",
     "prettier": "2.3.2",
     "tailwindcss": "^2.2.6",
-    "vite": "^2.4.3"
+    "vite": "^2.4.3",
+    "xlsx": "^0.17.0"
   }
 }

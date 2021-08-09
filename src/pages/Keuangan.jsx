@@ -19,6 +19,7 @@ import {
   addFirebaseData,
   deleteFirebaseData,
   updateFirebaseData,
+  exportToExcel,
 } from "@utils";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -46,6 +47,8 @@ export const Keuangan = () => {
   const [isPengeluaran, setIsPengeluaran] = useState();
 
   const [labaBersih, setLabaBersih] = useState();
+
+  const [exportData, setExportData] = useState([]);
 
   const getDataFirebase = async () => {
     const getData = await getFirebaseDataOnce({
@@ -186,10 +189,21 @@ export const Keuangan = () => {
             <SectionFee heading="Laba Bersih" value={`Rp. ${labaBersih}`} />
           </CardItem>
 
-          <div className="mt-8">
+          <div className="flex flex-row mt-8">
             <Button
               text="Input Pengeluaran"
               onClick={() => setLoadForm(true)}
+              additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium mr-2"
+            />
+            <Button
+              text="Export Excel"
+              onClick={() => {
+                console.log(exportData);
+                if (data) {
+                  setExportData([{ ...data.pengeluaran["nominal"] }]);
+                  // exportToExcel(exportData, "test");
+                }
+              }}
               additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium"
             />
           </div>
