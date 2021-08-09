@@ -10,7 +10,7 @@ import {
   LoadIcon,
 } from "@components";
 import { useLocation } from "react-router-dom";
-import { getFirebaseDataOnce, handleShowFile } from "@utils";
+import { getFirebaseDataOnce, handleShowFile, handleUploadFile } from "@utils";
 
 const FormTutor = () => {
   const [loading, setLoading] = useState(true);
@@ -20,8 +20,10 @@ const FormTutor = () => {
 
   const [data, setData] = useState({});
 
+  // const [fileUpload, setFileUpload] = useState(null);
+
   const showImage = () => {
-    let fileNew = `foto_tutor/profil_${prevData.id}.jpg`;
+    let fileNew = `foto_tutor/profil_${prevData.id}`;
     handleShowFile(fileNew).then((url) => {
       setProfileSrc(url);
     });
@@ -34,6 +36,26 @@ const FormTutor = () => {
     setData(getData);
     setLoading(false);
   };
+
+  // const handleUploadProfil = (event) => {
+  //   console.log(event.target.files[0].type, event.target.files[0].size);
+  //   const newFile = event.target.files[0];
+  //   setFileUpload(newFile);
+  // };
+
+  // const handleSubmitUpload = () => {
+  //   if (fileUpload.size >= 200000) {
+  //     alert("Ukuran terlalu besar");
+  //   } else if (fileUpload.type != "image/jpeg") {
+  //     alert("File bukan gambar");
+  //   } else {
+  //     alert("Anda Berhasil Meng-Upload");
+  //     const files = fileUpload;
+  //     const fileNew = `foto_tutor/profil_${prevData.id}`;
+  //     handleUploadFile(files, fileNew);
+  //     showImage();
+  //   }
+  // };
 
   useEffect(() => {
     showImage();
@@ -56,7 +78,11 @@ const FormTutor = () => {
           <LoadIcon additionalClassName="text-8xl" />
         ) : (
           <InputFile image={profileSrc} />
+          // <InputFile image={profileSrc} isFile onChange={handleUploadProfil} />
         )}
+        {/* <button onClick={handleSubmitUpload} className="px-4 py-2 bg-gray-500">
+          Upload
+        </button> */}
         <InputText disabled label="Nama" value={data.nama} />
 
         <InputText disabled label="Email" value={data.email} />

@@ -196,7 +196,6 @@ const handleUploadFile = (files, fileNew) => {
     .put(files)
     .then(() => {
       console.log("Proses Upload Berhasil Om");
-      alert("Proses Upload File Berhasil");
     });
 };
 
