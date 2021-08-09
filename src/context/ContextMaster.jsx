@@ -195,8 +195,8 @@ const ProviderMaster = ({ children }) => {
           jenjangkelas: data.jenjangkelas,
           paket: data.paket,
           wilayah: data.wilayah,
-          biaya: parseInt(data.biaya),
-          gaji_tutor: parseInt(data.gaji_tutor),
+          biaya: data.biaya,
+          gaji_tutor: data.gaji_tutor,
         },
       };
 

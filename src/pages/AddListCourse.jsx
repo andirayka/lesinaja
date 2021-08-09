@@ -9,6 +9,7 @@ import {
 } from "@components";
 import React, { useContext, useEffect, useState } from "react";
 import { ContextMaster } from "@context";
+import { useLocation } from "react-router-dom";
 
 const AddListCourse = () => {
   const {
@@ -34,10 +35,16 @@ const AddListCourse = () => {
     wilayah: undefined,
   });
 
+  const { state: prevData } = useLocation();
+
   useEffect(() => {
     getMultipleDropdownData();
     setFormName("master_les");
-  }, []);
+
+    if (prevData.prevValue) {
+      setInputValue(prevData.prevValue);
+    }
+  }, [prevData]);
 
   const clearForm = () => {
     setPrompt({
@@ -68,13 +75,23 @@ const AddListCourse = () => {
       } else if (type == "wilayah") {
         return <div>{prompt.wilayah}</div>;
       }
+    } else if (prevData.isUpdating) {
+      if (type == "mapel") {
+        return <div>{prevData.prevValue.mapel}</div>;
+      } else if (type == "jenjangkelas") {
+        return <div>{prevData.prevValue.jenjangkelas}</div>;
+      } else if (type == "paket") {
+        return <div>{prevData.prevValue.paket}</div>;
+      } else if (type == "wilayah") {
+        return <div>{prevData.prevValue.wilayah}</div>;
+      }
     } else {
       return <div>Pilih Data...</div>;
     }
   };
 
   // tampilan data dropdown sesuai child dari object prompt
-  const ConditionalDropdownRender = (type, heading) => {
+  const conditionalDropdownRender = (type, heading) => {
     if (multipleDropdownData[type] === undefined) {
       return <Skeleton mainCount={[1, 2]} elementClassName="w-4/5 h-3 mt-4" />;
       // tampilan jika data kosong
@@ -150,15 +167,15 @@ const AddListCourse = () => {
 
   return (
     <ContentContainer additionalClassName="w-full flex-grow bg-white rounded-lg p-6 md:ml-8">
-      <SectionTitle heading="Tambah Les" />
+      <SectionTitle heading={prevData.isUpdating ? "Edit Les" : "Tambah Les"} />
 
-      {ConditionalDropdownRender("mapel", "Mapel")}
+      {conditionalDropdownRender("mapel", "Mapel")}
 
-      {ConditionalDropdownRender("jenjangkelas", "Jenjang Kelas")}
+      {conditionalDropdownRender("jenjangkelas", "Jenjang Kelas")}
 
-      {ConditionalDropdownRender("paket", "Paket")}
+      {conditionalDropdownRender("paket", "Paket")}
 
-      {ConditionalDropdownRender("wilayah", "Wilayah")}
+      {conditionalDropdownRender("wilayah", "Wilayah")}
 
       <InputNumber
         label="Harga"
@@ -167,7 +184,7 @@ const AddListCourse = () => {
         onChange={(e) => {
           setInputValue({
             ...inputValue,
-            biaya: e.target.value,
+            biaya: parseInt(e.target.value),
           });
         }}
       />
@@ -179,7 +196,7 @@ const AddListCourse = () => {
         onChange={(e) => {
           setInputValue({
             ...inputValue,
-            gaji_tutor: e.target.value,
+            gaji_tutor: parseInt(e.target.value),
           });
         }}
       />
@@ -204,14 +221,23 @@ const AddListCourse = () => {
                 confirmButtonColor: "#FBBF24",
               });
             } else {
-              saveFormData(inputValue);
-              Swal.fire({
-                icon: "success",
-                text: "berhasil menambahkan les",
-                confirmButtonColor: "#FBBF24",
-              });
-              // bersihkan form setelah simpan data
-              clearForm();
+              if (prevData.prevKey) {
+                saveFormData({ ...inputValue, id: prevData.prevKey });
+                Swal.fire({
+                  icon: "success",
+                  text: "berhasil update les",
+                  confirmButtonColor: "#FBBF24",
+                });
+              } else {
+                saveFormData(inputValue);
+                Swal.fire({
+                  icon: "success",
+                  text: "berhasil menambahkan les",
+                  confirmButtonColor: "#FBBF24",
+                });
+                // bersihkan form setelah simpan data
+                clearForm();
+              }
             }
           }
         }}
