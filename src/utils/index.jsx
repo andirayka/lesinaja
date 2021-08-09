@@ -31,3 +31,5 @@ export {
   updateFirebaseData,
   deleteFirebaseData,
 };
+
+export * from "./exportToExcel";
