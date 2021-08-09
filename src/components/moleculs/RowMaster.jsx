@@ -20,13 +20,16 @@ const RowMaster = ({
     getDropdownData,
   } = useContext(ContextMaster);
 
+  // state untuk data yang dipilih (multiple select)
   const [multipleItem, setMultipleItem] = useState([]);
 
   useEffect(() => {
     getDropdownData("wilayah_provinsi");
   }, []);
 
+  // untuk prompt dropdwon dan multiple select
   const conditionalPromptRender = () => {
+    // tampilan prompt saat update data
     if (inputValue.provinsi.length !== 0) {
       return inputValue.provinsi.map((item, index) => {
         return (
@@ -47,6 +50,7 @@ const RowMaster = ({
           </div>
         );
       });
+      // tampilan prompt default
     } else if (multipleItem.length !== 0) {
       console.log(multipleItem);
       return multipleItem.map((item, index) => {
@@ -67,6 +71,7 @@ const RowMaster = ({
     }
   };
 
+  // tampilan form saat update data
   if (isEditing) {
     return (
       <div className="flex flex-row py-4">
@@ -269,6 +274,8 @@ const RowMaster = ({
     );
   }
 
+  // pengkondisian untuk menampilkan data
+  // tergantung dari ref / formname
   const conditionalRowRender = () => {
     if (formName == "master_paket") {
       return (

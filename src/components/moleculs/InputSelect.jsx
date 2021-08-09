@@ -9,6 +9,8 @@ const InputSelect = ({
   containerClassName = "mt-4 w-4/5",
 }) => {
   const [open, setOpen] = useState(false);
+
+  // state untuk input text filter
   const [query, setQuery] = useState("");
 
   return (
@@ -52,7 +54,6 @@ const InputSelect = ({
             Object.entries(data)
               .filter(([key, value]) => {
                 // i artinya tidak case sensitive
-                // filter data berdasarkan query dari onChange select
                 const matchKeyword = RegExp(query, "i");
 
                 // return data yang sesuai dengan pencarian
