@@ -18,10 +18,22 @@ const FormTutor = () => {
 
   const { state: prevData } = useLocation();
 
-  const [data, setData] = useState({});
+  const [dataUser, setDataUser] = useState({});
+
+  const [dataUserRole, setDataUserRole] = useState({});
+
+  const [dataMapel, setDataMapel] = useState(null);
+
+  const [wilayah, setWilayah] = useState({
+    provinsi: "P",
+    kabupaten: "K",
+    kecamatan: "M",
+    desa: "D",
+  });
 
   // const [fileUpload, setFileUpload] = useState(null);
 
+  // mengambil gambar
   const showImage = () => {
     let fileNew = `foto_tutor/profil_${prevData.id}`;
     handleShowFile(fileNew).then((url) => {
@@ -29,20 +41,78 @@ const FormTutor = () => {
     });
   };
 
+  //Mengambil data user dan user_role
   const getDataFirebase = async () => {
-    const getData = await getFirebaseDataOnce({
+    const getDataUserRole = await getFirebaseDataOnce({
       ref: `user_role/tutor/${prevData.id}`,
     });
-    setData(getData);
+    setDataUserRole(getDataUserRole);
+
+    const getDataUser = await getFirebaseDataOnce({
+      ref: `user/${prevData.id}/kontak/`,
+    });
+    setDataUser(getDataUser);
+
+    await getDataMapelFirebase(getDataUserRole);
+
+    getDataWilayahFirebase(getDataUser);
+
     setLoading(false);
   };
 
+  // mengambil data wilayah rumah
+  const getDataWilayahFirebase = async (data) => {
+    let wilayahRumah = data.id_desa;
+    let idProvinsi = wilayahRumah.substring(0, 2);
+    let idKabupaten = wilayahRumah.substring(0, 4);
+    let idKecamatan = wilayahRumah.substring(0, 7);
+    let idDesa = wilayahRumah.substring(0, 10);
+
+    const getDataProvinsi = await getFirebaseDataOnce({
+      ref: `wilayah_provinsi/${idProvinsi}/nama`,
+    });
+    const getDataKabupaten = await getFirebaseDataOnce({
+      ref: `wilayah_kabupaten/${idProvinsi}/${idKabupaten}/nama`,
+    });
+    const getDataKecamatan = await getFirebaseDataOnce({
+      ref: `wilayah_kecamatan/${idProvinsi}/${idKabupaten}/${idKecamatan}/nama`,
+    });
+    const getDataDesa = await getFirebaseDataOnce({
+      ref: `wilayah_desa/${idProvinsi}/${idKabupaten}/${idKecamatan}/${idDesa}/nama`,
+    });
+
+    setWilayah({
+      provinsi: getDataProvinsi,
+      kabupaten: getDataKabupaten,
+      kecamatan: getDataKecamatan,
+      desa: getDataDesa,
+    });
+  };
+
+  // mengambil data mapel pada master_mapel
+  const getDataMapelFirebase = async (dataUserRole) => {
+    let listMapel = [];
+    for (let i = 0; i < dataUserRole.mapel_ahli.length; i++) {
+      const element = dataUserRole.mapel_ahli[i];
+
+      const getDataMapel = await getFirebaseDataOnce({
+        ref: `master_mapel/${element}/nama`,
+      });
+
+      listMapel = [...listMapel, getDataMapel];
+    }
+
+    setDataMapel(listMapel);
+  };
+
+  // mengambil data file
   // const handleUploadProfil = (event) => {
   //   console.log(event.target.files[0].type, event.target.files[0].size);
   //   const newFile = event.target.files[0];
   //   setFileUpload(newFile);
   // };
 
+  // Upload file gambar
   // const handleSubmitUpload = () => {
   //   if (fileUpload.size >= 200000) {
   //     alert("Ukuran terlalu besar");
@@ -83,69 +153,77 @@ const FormTutor = () => {
         {/* <button onClick={handleSubmitUpload} className="px-4 py-2 bg-gray-500">
           Upload
         </button> */}
-        <InputText disabled label="Nama" value={data.nama} />
+        <InputText disabled label="Nama" value={dataUser.nama} />
 
-        <InputText disabled label="Email" value={data.email} />
+        <InputText disabled label="Email" value={dataUser.email} />
 
-        <InputText disabled label="Nomor WA" value={data.nomor} />
+        <InputText disabled label="Nomor WA" value={dataUser.telepon} />
 
         <InputRadio heading="Jenis Kelamin" />
         <InputRadio
           id="pria"
           label="Laki - Laki"
-          value="pria"
-          checked={data.gender == "pria" && "checked"}
+          value="laki-laki"
+          checked={dataUserRole.jenis_kelamin == "laki-laki" && "checked"}
         />
         <InputRadio
           id="wanita"
           label="Perempuan"
-          value="wanita"
-          checked={data.gender == "wanita" && "checked"}
+          value="perempuan"
+          checked={dataUserRole.jenis_kelamin == "perempuan" && "checked"}
         />
 
-        <InputText disabled label="Provinsi" value={data.provinsi} />
+        <InputText disabled label="Provinsi" value={wilayah.provinsi} />
 
-        <InputText disabled label="Kabupaten/kota" value={data.kabupaten} />
+        <InputText disabled label="Kabupaten/kota" value={wilayah.kabupaten} />
 
-        <InputText disabled label="Kecamatan" value={data.kecamatan} />
+        <InputText disabled label="Kecamatan" value={wilayah.kecamatan} />
 
-        <InputText disabled label="Desa" value={data.desa} />
+        <InputText disabled label="Desa" value={wilayah.desa} />
 
-        <InputTextarea disabled heading="Alamat" value={data.alamat} />
+        <InputTextarea
+          disabled
+          heading="Alamat"
+          value={dataUser.alamat_rumah}
+        />
 
         <InputText
           disabled
-          value={data.perguruan_tinggi}
+          value={dataUserRole.perguruan_tinggi}
           label="Perguruan Tinggi"
         />
 
-        <InputText disabled value={data.jurusan} label="Jurusan" />
+        <InputText disabled value={dataUserRole.jurusan} label="Jurusan" />
 
-        <InputText disabled label="Mapel yang dikuasai" value={data.matkul} />
+        <InputText disabled label="Mapel yang dikuasai" value={dataMapel} />
 
         <InputRadio heading="Apakah pernah memberi les atau mengajar sebelumnya?" />
         <InputRadio
           id="yes"
           label="Ya"
           value="yes"
-          checked={data.pengalaman == "yes" && "checked"}
+          checked={dataUserRole.pengalaman == "yes" && "checked"}
         />
         <InputRadio
           id="no"
           label="Tidak"
           value="no"
-          checked={data.pengalaman == "no" && "checked"}
+          checked={dataUserRole.pengalaman == "no" && "checked"}
         />
 
         <InputText
           disabled
           label="Jika pernah, sebutkan semua pengalaman mengajar yang pernah anda lakukan"
-          value={data.pengalaman_mengajar}
+          value={dataUserRole.pengalaman_mengajar}
         />
 
-        <InputText disabled label="Bank" value={data.bank} />
+        <InputText disabled label="Bank" value={dataUserRole.bank} />
 
-        <InputText disabled label="Rekening" value={data.rekening} />
+        <InputText
+          disabled
+          label="Rekening"
+          value={dataUserRole.nomor_rekening}
+        />
       </ContentContainer>
     );
   }
