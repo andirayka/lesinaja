@@ -17,7 +17,7 @@ const ListMaster = () => {
 
   const CardContent = ({ type }) => {
     if (listStatus == "loading") {
-      return <Skeleton mainCount={[1, 2, 3]} subCount={[1, 2]} />;
+      return <Skeleton mainCount={[1, 2, 3, 4, 5]} subCount={[1, 2]} />;
     }
 
     // Jika ada isinya
@@ -50,25 +50,27 @@ const ListMaster = () => {
         <CardItem title="Jenjang Kelas" containerClass="mt-8 flex-1">
           <>
             <CardContent type="jenjangkelas" />
-            <div className="flex-row mt-8">
-              <Link
-                to={{
-                  pathname: "/form-master",
-                  state: {
-                    title: "Jenjang Kelas",
-                    refName: DBKEY.masterJenjangKelas,
-                  },
-                }}
-              >
-                <Button
-                  text="Kelola"
-                  additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-                  onClick={() => {
-                    setFormStatus("loading");
+            {listStatus == "viewing" && (
+              <div className="flex-row mt-8">
+                <Link
+                  to={{
+                    pathname: "/form-master",
+                    state: {
+                      title: "Jenjang Kelas",
+                      refName: DBKEY.masterJenjangKelas,
+                    },
                   }}
-                />
-              </Link>
-            </div>
+                >
+                  <Button
+                    text="Kelola"
+                    additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
+                    onClick={() => {
+                      setFormStatus("loading");
+                    }}
+                  />
+                </Link>
+              </div>
+            )}
           </>
         </CardItem>
 
@@ -79,22 +81,24 @@ const ListMaster = () => {
           <>
             <CardContent type="mapel" />
 
-            <div className="flex-row mt-8">
-              <Link
-                to={{
-                  pathname: "/form-master",
-                  state: { title: "Mapel", refName: DBKEY.masterMapel },
-                }}
-              >
-                <Button
-                  text="Kelola"
-                  additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-                  onClick={() => {
-                    setFormStatus("loading");
+            {listStatus == "viewing" && (
+              <div className="flex-row mt-8">
+                <Link
+                  to={{
+                    pathname: "/form-master",
+                    state: { title: "Mapel", refName: DBKEY.masterMapel },
                   }}
-                />
-              </Link>
-            </div>
+                >
+                  <Button
+                    text="Kelola"
+                    additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
+                    onClick={() => {
+                      setFormStatus("loading");
+                    }}
+                  />
+                </Link>
+              </div>
+            )}
           </>
         </CardItem>
       </div>
@@ -106,22 +110,24 @@ const ListMaster = () => {
           <>
             <CardContent type="paket" />
 
-            <div className="flex-row mt-8">
-              <Link
-                to={{
-                  pathname: "/form-master",
-                  state: { title: "Paket", refName: DBKEY.masterPaket },
-                }}
-              >
-                <Button
-                  text="Kelola"
-                  additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-                  onClick={() => {
-                    setFormStatus("loading");
+            {listStatus == "viewing" && (
+              <div className="flex-row mt-8">
+                <Link
+                  to={{
+                    pathname: "/form-master",
+                    state: { title: "Paket", refName: DBKEY.masterPaket },
                   }}
-                />
-              </Link>
-            </div>
+                >
+                  <Button
+                    text="Kelola"
+                    additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
+                    onClick={() => {
+                      setFormStatus("loading");
+                    }}
+                  />
+                </Link>
+              </div>
+            )}
           </>
         </CardItem>
 
@@ -132,22 +138,24 @@ const ListMaster = () => {
           <>
             <CardContent type="wilayah" />
 
-            <div className="flex-row mt-8">
-              <Link
-                to={{
-                  pathname: "/form-master",
-                  state: { title: "Wilayah", refName: DBKEY.masterWilayah },
-                }}
-              >
-                <Button
-                  text="Kelola"
-                  additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-                  onClick={() => {
-                    setFormStatus("loading");
+            {listStatus == "viewing" && (
+              <div className="flex-row mt-8">
+                <Link
+                  to={{
+                    pathname: "/form-master",
+                    state: { title: "Wilayah", refName: DBKEY.masterWilayah },
                   }}
-                />
-              </Link>
-            </div>
+                >
+                  <Button
+                    text="Kelola"
+                    additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
+                    onClick={() => {
+                      setFormStatus("loading");
+                    }}
+                  />
+                </Link>
+              </div>
+            )}
           </>
         </CardItem>
       </div>
