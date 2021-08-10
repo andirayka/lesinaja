@@ -80,12 +80,14 @@ const CardFormMaster = ({
         <p className="font-semibold text-xl w-3/4">Nama</p>
         <p className="font-semibold text-xl text-center w-1/4">Aksi</p>
       </div>
-      <InputText
-        value={query}
-        placeholder="Cari data berdasarkan nama..."
-        containerClassName="mx-2 mt-4"
-        onChange={(e) => setQuery(e.target.value)}
-      />
+      {formStatus == "viewing" && (
+        <InputText
+          value={query}
+          placeholder="Cari data berdasarkan nama..."
+          containerClassName="mx-2 mt-4"
+          onChange={(e) => setQuery(e.target.value)}
+        />
+      )}
 
       {/* Table Row when user is adding new data */}
       {isAdding && (

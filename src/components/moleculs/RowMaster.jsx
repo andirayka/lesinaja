@@ -97,10 +97,10 @@ const RowMaster = ({
                 onChange={(e) => {
                   setInputValue({
                     ...inputValue,
-                    jumlah_pertemuan: e.target.value,
+                    jumlah_pertemuan: parseInt(e.target.value),
                   });
                 }}
-                type="text"
+                type="number"
                 placeholder="jumlah pertemuan"
                 className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600 mb-2"
               />
@@ -128,10 +128,10 @@ const RowMaster = ({
                 onChange={(e) => {
                   setInputValue({
                     ...inputValue,
-                    biaya_daftar: e.target.value,
+                    biaya_daftar: parseInt(e.target.value),
                   });
                 }}
-                type="text"
+                type="number"
                 placeholder="biaya daftar"
                 className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600 mb-2"
               />
@@ -139,7 +139,6 @@ const RowMaster = ({
                 data={dropdownData}
                 prompt={conditionalPromptRender()}
                 onChange={({ value }) => {
-                  console.log(value);
                   if (inputValue.provinsi.length !== 0) {
                     setInputValue({
                       ...inputValue,
