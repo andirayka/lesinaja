@@ -30,23 +30,23 @@ const RowMaster = ({
   // untuk prompt dropdwon dan multiple select
   const conditionalPromptRender = () => {
     // tampilan prompt saat update data
-    if (inputValue.provinsi.length !== 0) {
-      return inputValue.provinsi.map((item, index) => {
+    if (inputValue.id_provinsi.length !== 0) {
+      return inputValue.id_provinsi.map((item, index) => {
         return (
           <div
             key={index}
             className="inline-block bg-gray-300 rounded-md m-1 p-1"
             onClick={() => {
-              const helper = inputValue.provinsi.filter(
+              const helper = inputValue.id_provinsi.filter(
                 (i) => i.nama !== item.nama
               );
               setInputValue({
                 ...inputValue,
-                provinsi: helper,
+                id_provinsi: helper,
               });
             }}
           >
-            {`${item.nama} `} &#10006;
+            {`${item} `} &#10006;
           </div>
         );
       });
@@ -59,10 +59,10 @@ const RowMaster = ({
             key={index}
             className="inline-block bg-gray-300 rounded-md m-1 p-1"
             onClick={() => {
-              setMultipleItem(multipleItem.filter((i) => i.nama !== item.nama));
+              setMultipleItem(multipleItem.filter((i) => i !== item));
             }}
           >
-            {`${item.nama} `} &#10006;
+            {`${item} `} &#10006;
           </div>
         );
       });
@@ -138,14 +138,14 @@ const RowMaster = ({
               <InputSelect
                 data={dropdownData}
                 prompt={conditionalPromptRender()}
-                onChange={({ value }) => {
-                  if (inputValue.provinsi.length !== 0) {
+                onChange={({ key }) => {
+                  if (inputValue.id_provinsi.length !== 0) {
                     setInputValue({
                       ...inputValue,
-                      provinsi: [...inputValue.provinsi, value],
+                      id_provinsi: [...inputValue.id_provinsi, parseInt(key)],
                     });
                   } else {
-                    setMultipleItem([...multipleItem, value]);
+                    setMultipleItem([...multipleItem, parseInt(key)]);
                   }
                 }}
               />
@@ -192,14 +192,14 @@ const RowMaster = ({
                         ...item,
                         nama: inputValue.nama,
                         biaya_daftar: inputValue.biaya_daftar,
-                        provinsi: inputValue.provinsi,
+                        id_provinsi: inputValue.id_provinsi,
                       });
                     } else {
                       // Buat baru
                       saveFormData({
                         nama: inputValue.nama,
                         biaya_daftar: inputValue.biaya_daftar,
-                        provinsi: multipleItem,
+                        id_provinsi: multipleItem,
                       });
                     }
                     onClickSave();
@@ -288,17 +288,7 @@ const RowMaster = ({
           <div className="w-3/4 ml-2.5 text-lg">{item.nama}</div>
           <div className="w-3/4 ml-2.5 text-lg">{item.biaya_daftar}</div>
           <div className="w-3/4 ml-2.5 text-lg">
-            {item.provinsi ? (
-              item.provinsi.map((item, index) => {
-                return (
-                  <div key={index} className="bg-gray-300 rounded-md m-1 p-1">
-                    {item.nama}
-                  </div>
-                );
-              })
-            ) : (
-              <p>Memuat...</p>
-            )}
+            <p>Memuat...</p>
           </div>
         </>
       );

@@ -173,7 +173,7 @@ const ProviderMaster = ({ children }) => {
         payload: {
           nama: data.nama,
           biaya_daftar: data.biaya_daftar,
-          provinsi: data.provinsi,
+          id_provinsi: data.id_provinsi,
         },
       };
 
@@ -252,6 +252,7 @@ const ProviderMaster = ({ children }) => {
   return (
     <ContextMaster.Provider
       value={{
+        rtDatabase,
         state,
         getFormData,
         getListData,

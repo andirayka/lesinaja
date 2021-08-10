@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Title,
   CardItem,
@@ -14,6 +14,7 @@ import { ContextMaster } from "@context";
 
 const ListCourse = () => {
   const {
+    // rtDatabase,
     state: { formData, formStatus },
     getFormData,
     deleteFormData,
@@ -89,6 +90,7 @@ const ListCourse = () => {
               {formStatus == "refreshing" && (
                 <RefreshIcon additionalClassName="text-8xl absolute left-1/2" />
               )}
+
               <CardKeyValue keyName="Paket" value={value.paket} />
               <CardKeyValue keyName="Wilayah" value={value.wilayah} />
               <CardKeyValue keyName="Harga" value={value.biaya} />
