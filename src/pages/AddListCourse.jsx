@@ -109,7 +109,8 @@ const AddListCourse = () => {
         multipleDropdownData[type] && (
           <InputSelect
             heading={heading}
-            containerClassName="mt-0 w-full"
+            containerClassName="cursor-pointer mt-4"
+            itemClassName="w-full"
             prompt={conditionalPromptRender(type)}
             data={multipleDropdownData[type]}
             onChange={({ key, value }) => {

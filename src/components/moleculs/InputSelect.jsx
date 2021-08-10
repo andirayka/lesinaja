@@ -6,7 +6,8 @@ const InputSelect = ({
   prompt,
   onChange,
   heading,
-  containerClassName = "mt-4 w-4/5",
+  containerClassName = "mt-4 cursor-pointer",
+  itemClassName = "w-4/5",
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -15,11 +16,11 @@ const InputSelect = ({
 
   return (
     <>
-      {heading && <p className="mt-4">{heading}</p>}
-      <div className="cursor-pointer">
+      <div className={containerClassName}>
+        {heading && <p>{heading}</p>}
         {/* aksi ketika klik dropdown */}
         <div
-          className={`relative border-2 rounded-lg p-1 ${containerClassName}`}
+          className={`relative border-2 rounded-lg p-1 ${itemClassName}`}
           onClick={() => {
             setOpen((prev) => !prev);
           }}
