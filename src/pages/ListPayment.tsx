@@ -1,59 +1,78 @@
 import React, { FC, useEffect, useState } from "react";
-import { Title, CardEmpty, CardItem, CardKeyValue, Button } from "@components";
-import { firebase } from "@utils";
+import {
+  Title,
+  CardEmpty,
+  CardItem,
+  CardKeyValue,
+  Button,
+  PaginationButtons,
+} from "@components";
+import { databaseRef } from "@utils";
 import dayjs from "dayjs";
 
 export const ListPayment: FC = () => {
+  const dataCountPerPage = 2;
+  const [currentPage, setCurrentPage] = useState(0);
   const [data, setData] = useState<null | object>(null);
+  const [allDataCount, setAllDataCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Ambil data dari database
   useEffect(() => {
-    firebase
-      .database()
-      .ref("pembayaran")
-      .once("value", (snapshot) => {
-        const value = snapshot.val();
-        if (value) {
-          setData(value);
-        }
-      })
-      .then(() => setIsLoading(false))
-      .catch(console.error);
+    // Ambil data dari database
+    const getData = async () => {
+      try {
+        // Ambil total jumlah data
+        await databaseRef("jumlah_data/pembayaran").once(
+          "value",
+          (snapshot) => {
+            const value = snapshot.val();
+            if (value) {
+              setAllDataCount(value);
+            }
+          }
+        );
+
+        // Ambil list data
+        await databaseRef("pembayaran")
+          // .orderByKey()
+          .startAt(currentPage)
+          .limitToFirst(dataCountPerPage)
+          .once("value", (snapshot) => {
+            const value = snapshot.val();
+            if (value) {
+              // const reversedValue = Object.entries(value).reverse();
+              // console.log(reversedValue);
+              setData(value);
+            }
+          });
+
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getData();
+
     return () => {};
-  }, []);
+  }, [currentPage]);
 
-  // Ambil kata2 keterangan untuk key keterangan di dalam CardItem
-  const getTextKeterangan = (data: any) => {
-    if (data.bayar_pendaftaran) {
-      return "Biaya Pendaftaran";
-    }
-    if (data.bayar_lessiswa) {
-      return "Biaya Les";
-    }
-    if (data.bayar_gajitutor) {
-      return "Gaji Tutor";
+  // Conditional content render
+  const renderContent = () => {
+    // Tampilan loading
+    if (isLoading) {
+      return <CardEmpty type="loading" />;
     }
 
-    return "Tidak ada keterangan";
-  };
+    // Tampilan jika selesai loading dan tidak ada data
+    if (!data) {
+      return <CardEmpty type="noData" title="Belum ada data pembayaran" />;
+    }
 
-  return (
-    <div>
-      <Title text="Daftar Riwayat Pembayaran" type="pageTitle" />
-
-      {/* Tampilan loading */}
-      {isLoading && <CardEmpty type="loading" />}
-
-      {/* Tampilan jika selesai loading dan tidak ada data */}
-      {!isLoading && !data && (
-        <CardEmpty type="noData" title="Belum ada data pembayaran" />
-      )}
-
-      {/* Tampilan jika selesai loading dan ada data */}
-      {!isLoading &&
-        data &&
-        Object.entries(data).map(([key, value]) => {
+    // Tampilan jika selesai loading dan ada data
+    return (
+      <>
+        {Object.entries(data).map(([key, value]) => {
           const waktu_transfer = dayjs(value.waktu_transfer).format(
             "D MMMM YYYY, HH:mm"
           );
@@ -61,7 +80,7 @@ export const ListPayment: FC = () => {
           return (
             <CardItem
               key={key}
-              title={`Wali Murid Sucipto ke Lesin Aja`}
+              title={`Wali Murid Sucipto ke Lesin Aja (Sementara)`}
               containerClass="mt-8"
             >
               <CardKeyValue
@@ -85,6 +104,41 @@ export const ListPayment: FC = () => {
             </CardItem>
           );
         })}
+
+        {allDataCount > dataCountPerPage && (
+          <PaginationButtons
+            onClick={(index) => {
+              // Ganti page sesuai index page yang dipilih
+              setCurrentPage(index + 1);
+            }}
+            dataCountPerPage={dataCountPerPage}
+            dataCount={allDataCount}
+          />
+        )}
+      </>
+    );
+  };
+
+  // Ambil kata2 keterangan untuk key keterangan di dalam CardItem
+  const getTextKeterangan = (data: any) => {
+    if (data.bayar_pendaftaran) {
+      return "Biaya Pendaftaran";
+    }
+    if (data.bayar_lessiswa) {
+      return "Biaya Les";
+    }
+    if (data.bayar_gajitutor) {
+      return "Gaji Tutor";
+    }
+
+    return "Tidak ada keterangan";
+  };
+
+  return (
+    <div>
+      <Title text="Daftar Riwayat Pembayaran" type="pageTitle" />
+
+      {renderContent()}
     </div>
   );
 };

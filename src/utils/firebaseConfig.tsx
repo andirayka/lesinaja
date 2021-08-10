@@ -4,7 +4,7 @@ import "firebase/database";
 import "firebase/auth";
 import "firebase/storage";
 
-// Project Lesin Ajas
+// Project Lesin Aja
 const firebaseConfig = {
   apiKey: "AIzaSyA9xbqzTZeuYTz-CSqdhmf4ppFHYDicXlM",
   authDomain: "lesinaja-b6947.firebaseapp.com",
@@ -24,4 +24,12 @@ export const enableFirebaseConfig = () => {
   firebase.analytics();
 };
 
-export { firebase };
+// Ambil database ref untuk menggunakan method lain setelahnya
+export const databaseRef = (ref: string) => {
+  return firebase.database().ref(ref);
+};
+
+// Ambil nama data jika diketahui idnya
+export const getUserNameById = async ({ uid }: { uid: string }) => {
+  //
+};
