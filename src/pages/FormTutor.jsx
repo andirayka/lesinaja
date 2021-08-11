@@ -25,31 +25,24 @@ const FormTutor = () => {
   const [dataMapel, setDataMapel] = useState(null);
 
   const [wilayah, setWilayah] = useState({
-    provinsi: "P",
-    kabupaten: "K",
-    kecamatan: "M",
-    desa: "D",
+    provinsi: "",
+    kabupaten: "",
+    kecamatan: "",
+    desa: "",
   });
 
   // const [fileUpload, setFileUpload] = useState(null);
 
-  // mengambil gambar
-  const showImage = () => {
-    let fileNew = `foto_tutor/profil_${prevData.id}`;
-    handleShowFile(fileNew).then((url) => {
-      setProfileSrc(url);
-    });
-  };
-
   //Mengambil data user dan user_role
   const getDataFirebase = async () => {
+    console.log(prevData.id);
     const getDataUserRole = await getFirebaseDataOnce({
       ref: `user_role/tutor/${prevData.id}`,
     });
     setDataUserRole(getDataUserRole);
 
     const getDataUser = await getFirebaseDataOnce({
-      ref: `user/${prevData.id}/kontak/`,
+      ref: `user/${prevData.id}`,
     });
     setDataUser(getDataUser);
 
@@ -62,7 +55,7 @@ const FormTutor = () => {
 
   // mengambil data wilayah rumah
   const getDataWilayahFirebase = async (data) => {
-    let wilayahRumah = data.id_desa;
+    let wilayahRumah = data.kontak.id_desa;
     let idProvinsi = wilayahRumah.substring(0, 2);
     let idKabupaten = wilayahRumah.substring(0, 4);
     let idKecamatan = wilayahRumah.substring(0, 7);
@@ -103,6 +96,14 @@ const FormTutor = () => {
     }
 
     setDataMapel(listMapel);
+  };
+
+  // mengambil gambar
+  const showImage = () => {
+    let fileNew = `foto_tutor/profil_${prevData.id}`;
+    handleShowFile(fileNew).then((url) => {
+      setProfileSrc(url);
+    });
   };
 
   // mengambil data file
@@ -157,7 +158,7 @@ const FormTutor = () => {
 
         <InputText disabled label="Email" value={dataUser.email} />
 
-        <InputText disabled label="Nomor WA" value={dataUser.telepon} />
+        <InputText disabled label="Nomor WA" value={dataUser.kontak.telepon} />
 
         <InputRadio heading="Jenis Kelamin" />
         <InputRadio
@@ -184,7 +185,7 @@ const FormTutor = () => {
         <InputTextarea
           disabled
           heading="Alamat"
-          value={dataUser.alamat_rumah}
+          value={dataUser.kontak.alamat_rumah}
         />
 
         <InputText
@@ -197,23 +198,9 @@ const FormTutor = () => {
 
         <InputText disabled label="Mapel yang dikuasai" value={dataMapel} />
 
-        <InputRadio heading="Apakah pernah memberi les atau mengajar sebelumnya?" />
-        <InputRadio
-          id="yes"
-          label="Ya"
-          value="yes"
-          checked={dataUserRole.pengalaman == "yes" && "checked"}
-        />
-        <InputRadio
-          id="no"
-          label="Tidak"
-          value="no"
-          checked={dataUserRole.pengalaman == "no" && "checked"}
-        />
-
         <InputText
           disabled
-          label="Jika pernah, sebutkan semua pengalaman mengajar yang pernah anda lakukan"
+          label="Semua pengalaman mengajar yang pernah dilakukan"
           value={dataUserRole.pengalaman_mengajar}
         />
 

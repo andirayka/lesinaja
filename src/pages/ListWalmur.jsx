@@ -35,12 +35,14 @@ const ListWalmur = () => {
         {Object.entries(data).map((item, index) => {
           const [key, value] = item;
           if (value.roles && value.roles.wali_murid) {
-            console.log(value.roles);
             return (
               <CardItem key={index} title={value.nama} containerClass="mt-8">
                 <CardKeyValue keyName="Email" value={value.email} />
-                <CardKeyValue keyName="No. WA" value={value.nomor} />
-                <CardKeyValue keyName="Alamat" value={value.alamat} />
+                <CardKeyValue keyName="No. WA" value={value.kontak.telepon} />
+                <CardKeyValue
+                  keyName="Alamat"
+                  value={value.kontak.alamat_rumah}
+                />
                 <div className="flex-row mt-8">
                   <Link
                     to={{

@@ -70,12 +70,10 @@ const ListTutor = () => {
               return (
                 <CardItem
                   key={index}
-                  title={
-                    value.kontak.nama ? value.kontak.nama : "Data Nama Kosong"
-                  }
+                  title={value.nama ? value.nama : "Data Nama Kosong"}
                   containerClass="mt-8"
                 >
-                  <CardKeyValue keyName="Email" value={value.kontak.email} />
+                  <CardKeyValue keyName="Email" value={value.email} />
                   <CardKeyValue keyName="No. WA" value={value.kontak.telepon} />
                   <CardKeyValue
                     keyName="Alamat"

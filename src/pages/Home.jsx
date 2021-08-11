@@ -21,8 +21,6 @@ const Home = () => {
 
   const getDataFirebase = async () => {
     const getData = await getFirebaseDataOnce({ ref: `referensi_bimbel` });
-    console.log(getData);
-
     setData(getData);
 
     let total =
