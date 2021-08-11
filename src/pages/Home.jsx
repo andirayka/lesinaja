@@ -25,7 +25,12 @@ const Home = () => {
 
     setData(getData);
 
-    let total = getData.facebook + getData.instagram;
+    let total =
+      getData.facebook +
+      getData.instagram +
+      getData.tiktok +
+      getData.youtube +
+      getData.teman;
     let persenFacebook = (getData.facebook / total) * 100;
     let persenInstagram = (getData.instagram / total) * 100;
     let persenTiktok = (getData.tiktok / total) * 100;

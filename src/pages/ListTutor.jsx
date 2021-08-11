@@ -21,7 +21,6 @@ const ListTutor = () => {
   const getDataFirebase = async () => {
     const getData = await getFirebaseDataOnce({ ref: `user` });
     setData(getData);
-
     setLoading(false);
   };
 

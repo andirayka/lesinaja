@@ -9,7 +9,7 @@ const ListWalmur = () => {
   const [data, setData] = useState({});
 
   const getDataFirebase = async () => {
-    const getData = await getFirebaseDataOnce({ ref: `user_role/wali_murid` });
+    const getData = await getFirebaseDataOnce({ ref: `user` });
     setData(getData);
     setLoading(false);
   };
@@ -34,29 +34,32 @@ const ListWalmur = () => {
 
         {Object.entries(data).map((item, index) => {
           const [key, value] = item;
-          return (
-            <CardItem key={index} title={value.nama} containerClass="mt-8">
-              <CardKeyValue keyName="Email" value={value.email} />
-              <CardKeyValue keyName="No. WA" value={value.nomor} />
-              <CardKeyValue keyName="Alamat" value={value.alamat} />
-              <div className="flex-row mt-8">
-                <Link
-                  to={{
-                    pathname: "/form-walimurid",
-                    state: {
-                      id: key,
-                    },
-                  }}
-                >
-                  <Button
-                    text="Lihat Detail"
-                    additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-                    onClick={() => {}}
-                  />
-                </Link>
-              </div>
-            </CardItem>
-          );
+          if (value.roles && value.roles.wali_murid) {
+            console.log(value.roles);
+            return (
+              <CardItem key={index} title={value.nama} containerClass="mt-8">
+                <CardKeyValue keyName="Email" value={value.email} />
+                <CardKeyValue keyName="No. WA" value={value.nomor} />
+                <CardKeyValue keyName="Alamat" value={value.alamat} />
+                <div className="flex-row mt-8">
+                  <Link
+                    to={{
+                      pathname: "/form-walimurid",
+                      state: {
+                        id: key,
+                      },
+                    }}
+                  >
+                    <Button
+                      text="Lihat Detail"
+                      additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
+                      onClick={() => {}}
+                    />
+                  </Link>
+                </div>
+              </CardItem>
+            );
+          }
         })}
       </div>
     );
