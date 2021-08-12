@@ -10,7 +10,8 @@ import {
   LoadIcon,
 } from "@components";
 import { useLocation } from "react-router-dom";
-import { getFirebaseDataOnce, handleShowFile, handleUploadFile } from "@utils";
+import { getFirebaseDataOnce, handleShowFile } from "@utils";
+// import { getFirebaseDataOnce, handleShowFile, handleUploadFile } from "@utils";
 
 const FormTutor = () => {
   const [loading, setLoading] = useState(true);
@@ -24,6 +25,8 @@ const FormTutor = () => {
 
   const [dataMapel, setDataMapel] = useState(null);
 
+  const [dataJenjang, setDataJenjang] = useState(null);
+
   const [wilayah, setWilayah] = useState({
     provinsi: "",
     kabupaten: "",
@@ -35,7 +38,6 @@ const FormTutor = () => {
 
   //Mengambil data user dan user_role
   const getDataFirebase = async () => {
-    console.log(prevData.id);
     const getDataUserRole = await getFirebaseDataOnce({
       ref: `user_role/tutor/${prevData.id}`,
     });
@@ -46,7 +48,9 @@ const FormTutor = () => {
     });
     setDataUser(getDataUser);
 
-    await getDataMapelFirebase(getDataUserRole);
+    getDataMapelFirebase(getDataUserRole);
+
+    getDataJenjangFirebase(getDataUserRole);
 
     getDataWilayahFirebase(getDataUser);
 
@@ -96,6 +100,21 @@ const FormTutor = () => {
     }
 
     setDataMapel(listMapel);
+  };
+
+  const getDataJenjangFirebase = async (data) => {
+    let listJenjang = [];
+    for (let i = 0; i < data.jenjang_ahli.length; i++) {
+      const element = data.jenjang_ahli[i];
+
+      const getDataJenjang = await getFirebaseDataOnce({
+        ref: `master_jenjangkelas/${element}/nama`,
+      });
+
+      listJenjang = [...listJenjang, getDataJenjang];
+    }
+
+    setDataJenjang(listJenjang);
   };
 
   // mengambil gambar
@@ -196,7 +215,31 @@ const FormTutor = () => {
 
         <InputText disabled value={dataUserRole.jurusan} label="Jurusan" />
 
-        <InputText disabled label="Mapel yang dikuasai" value={dataMapel} />
+        <div className="mt-4">
+          <label className="font-medium">Mapel yang dikuasai</label>
+          {dataMapel &&
+            dataMapel.map((item, index) => {
+              return (
+                <div key={index} className="border-b-2 px-2">
+                  <div className="list-item ml-5">{item}</div>
+                </div>
+              );
+            })}
+        </div>
+
+        <div className="mt-4">
+          <label className="font-medium">
+            Jenjang Kelas mengajar yang di inginkan
+          </label>
+          {dataJenjang &&
+            dataJenjang.map((item, index) => {
+              return (
+                <div key={index} className="border-b-2 px-2">
+                  <div className="list-item ml-5">{item}</div>
+                </div>
+              );
+            })}
+        </div>
 
         <InputText
           disabled

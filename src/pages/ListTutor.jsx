@@ -31,7 +31,7 @@ const ListTutor = () => {
   if (loading) {
     return (
       <div className="w-full flex-grow md:ml-8">
-        <Title text="Daftar Tutor Lesin Aja Om" type="pageTitle" />
+        <Title text="Daftar Tutor Lesin Aja" type="pageTitle" />
         <CardItem title="Loading..." containerClass="mt-8">
           <Skeleton mainCount={[1, 2, 3, 4, 5, 6]} />
         </CardItem>

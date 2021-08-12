@@ -5,10 +5,13 @@ import {
   Paginations,
   CardNotification,
   CardTable,
+  Skeleton,
 } from "@components";
-import { getFirebaseDataOnce } from "@utils";
+import { getFirebaseDataOnce, updateFirebaseData } from "@utils";
 
 const Home = () => {
+  const [loading, setLoading] = useState(true);
+
   const [persentase, setPersentase] = useState({
     facebook: 0,
     instagram: 0,
@@ -17,23 +20,27 @@ const Home = () => {
     teman: 0,
   });
 
-  const [data, setData] = useState({});
+  const [dataSosmed, setDataSosmed] = useState({});
+
+  const [dataNotif, setDataNotif] = useState({});
 
   const getDataFirebase = async () => {
-    const getData = await getFirebaseDataOnce({ ref: `referensi_bimbel` });
-    setData(getData);
+    const getDataSosmed = await getFirebaseDataOnce({
+      ref: `referensi_bimbel`,
+    });
+    setDataSosmed(getDataSosmed);
 
     let total =
-      getData.facebook +
-      getData.instagram +
-      getData.tiktok +
-      getData.youtube +
-      getData.teman;
-    let persenFacebook = (getData.facebook / total) * 100;
-    let persenInstagram = (getData.instagram / total) * 100;
-    let persenTiktok = (getData.tiktok / total) * 100;
-    let persenYoutube = (getData.youtube / total) * 100;
-    let persenTeman = (getData.teman / total) * 100;
+      getDataSosmed.facebook +
+      getDataSosmed.instagram +
+      getDataSosmed.tiktok +
+      getDataSosmed.youtube +
+      getDataSosmed.teman;
+    let persenFacebook = (getDataSosmed.facebook / total) * 100;
+    let persenInstagram = (getDataSosmed.instagram / total) * 100;
+    let persenTiktok = (getDataSosmed.tiktok / total) * 100;
+    let persenYoutube = (getDataSosmed.youtube / total) * 100;
+    let persenTeman = (getDataSosmed.teman / total) * 100;
 
     setPersentase({
       facebook: Math.round(persenFacebook),
@@ -42,64 +49,131 @@ const Home = () => {
       youtube: Math.round(persenYoutube),
       teman: Math.round(persenTeman),
     });
+
+    const getDataNotif = await getFirebaseDataOnce({ ref: `notifikasi` });
+    setDataNotif(getDataNotif);
+    // let date = new Date().getTime();
+    // console.log(date);
+    setLoading(false);
+  };
+
+  const handleSubmitTrue = (key) => {
+    updateFirebaseData({
+      ref: `notifikasi/${key}`,
+      payload: { sudah_dibaca: true },
+    });
+    getDataFirebase();
+  };
+
+  const handleSubmitFalse = (key) => {
+    updateFirebaseData({
+      ref: `notifikasi/${key}`,
+      payload: { sudah_dibaca: false },
+    });
+    getDataFirebase();
   };
 
   useEffect(() => {
     getDataFirebase();
   }, []);
 
+  // if (loading) {
+  //   return (
+  //     <div className="w-full flex-grow md:ml-8">
+  //       <Title text="Loading..." type="pageTitle" />
+  //       <CardItem title="Loading..." containerClass="mt-8">
+  //         <Skeleton mainCount={[1, 2, 3, 4, 5, 6]} />
+  //       </CardItem>
+  //     </div>
+  //   );
+  // }
+
   return (
     <div className="w-full flex-grow md:ml-8">
       <Title text="Beranda Administrator" type="pageTitle" />
 
       {/* Notifications */}
-      <CardItem title="Notifikasi Terbaru" containerClass="mt-8">
-        {[1, 1, 1, 1, 1].map((item, key) => {
-          return (
-            <CardNotification
-              key={key}
-              notification="Tutor Zainal Abidin menunggu pembayaran Rp 200.000 ke rekening 112334456666"
-              buttonText="Tandai Sudah Dibaca"
-              onClickButton={() => {}}
-            />
-          );
-        })}
-        <Paginations />
-      </CardItem>
+      {loading ? (
+        <div className="w-full flex-grow">
+          <CardItem title="Notifikasi Loading..." containerClass="mt-8">
+            <Skeleton mainCount={[1, 2, 3, 4, 5, 6]} />
+          </CardItem>
+        </div>
+      ) : (
+        <CardItem title="Notifikasi Terbaru" containerClass="mt-8">
+          {Object.entries(dataNotif).map((item, index) => {
+            const [key, value] = item;
+            let timestamp = value.waktu_dibuat;
+            let times = new Date(timestamp).toLocaleString("id");
+            if (value.sudah_dibaca) {
+              return (
+                <CardNotification
+                  key={index}
+                  notification={value.pesan}
+                  buttonText="Batalkan"
+                  additionalClassName="bg-green-400 hover:bg-green-600"
+                  isTime={times}
+                  onClickButton={() => handleSubmitFalse(key)}
+                />
+              );
+            } else {
+              return (
+                <CardNotification
+                  key={index}
+                  notification={value.pesan}
+                  buttonText="Tandai Sudah Dibaca"
+                  additionalClassName="bg-yellow-400 hover:bg-yellow-600"
+                  isTime={times}
+                  onClickButton={() => handleSubmitTrue(key)}
+                />
+              );
+            }
+          })}
+          <Paginations />
+        </CardItem>
+      )}
 
       {/* Social Media Effectivity */}
-      <CardItem title="Efektivitas Sosial Media" containerClass="mt-8">
-        <CardTable
-          headerValues={["Sosial Media", "Efektivitas", "Keterangan"]}
-          contentValues={[
-            [
-              "Facebook",
-              `${persentase.facebook}%`,
-              `${data.facebook} wali murid tahu Lesin Aja dari Facebook`,
-            ],
-            [
-              "Tiktok",
-              `${persentase.tiktok}%`,
-              `${data.tiktok} wali murid tahu Lesin Aja dari Tiktok`,
-            ],
-            [
-              "Instagram",
-              `${persentase.instagram}%`,
-              `${data.instagram} wali murid tahu Lesin Aja dari Instagram`,
-            ],
-            [
-              "YouTube",
-              `${persentase.youtube}%`,
-              `${data.youtube} wali murid tahu Lesin Aja dari YouTube`,
-            ],
-            [
-              "Teman",
-              `${persentase.teman}%`,
-              `${data.teman} wali murid tahu Lesin Aja dari Temannya`,
-            ],
-          ]}
-        />
-      </CardItem>
+      {loading ? (
+        <div className="w-full flex-grow">
+          <CardItem title="Sosial Media Loading..." containerClass="mt-8">
+            <Skeleton mainCount={[1, 2, 3, 4, 5, 6]} />
+          </CardItem>
+        </div>
+      ) : (
+        <CardItem title="Efektivitas Sosial Media" containerClass="mt-8">
+          <CardTable
+            headerValues={["Sosial Media", "Efektivitas", "Keterangan"]}
+            contentValues={[
+              [
+                `Facebook`,
+                `${persentase.facebook}%`,
+                `${dataSosmed.facebook} wali murid tahu Lesin Aja dari Facebook`,
+              ],
+              [
+                `Tiktok`,
+                `${persentase.tiktok}%`,
+                `${dataSosmed.tiktok} wali murid tahu Lesin Aja dari Tiktok`,
+              ],
+              [
+                `Instagram`,
+                `${persentase.instagram}%`,
+                `${dataSosmed.instagram} wali murid tahu Lesin Aja dari Instagram`,
+              ],
+              [
+                `YouTube`,
+                `${persentase.youtube}%`,
+                `${dataSosmed.youtube} wali murid tahu Lesin Aja dari YouTube`,
+              ],
+              [
+                `Teman`,
+                `${persentase.teman}%`,
+                `${dataSosmed.teman} wali murid tahu Lesin Aja dari Temannya`,
+              ],
+            ]}
+          />
+        </CardItem>
+      )}
     </div>
   );
 };
