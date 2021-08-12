@@ -40,7 +40,7 @@ const ListTutor = () => {
   } else {
     return (
       <div className="w-full flex-grow md:ml-8">
-        <Title text="Daftar Tutor Lesin Aja" type="pageTitle" />
+        <Title text="Daftar Tutor Lesin Aja Om" type="pageTitle" />
         {/* form filter */}
         <div className="bg-white mt-8 rounded-md">
           <InputText
