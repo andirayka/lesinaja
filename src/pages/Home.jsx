@@ -77,20 +77,9 @@ const Home = () => {
     getDataFirebase();
   }, []);
 
-  // if (loading) {
-  //   return (
-  //     <div className="w-full flex-grow md:ml-8">
-  //       <Title text="Loading..." type="pageTitle" />
-  //       <CardItem title="Loading..." containerClass="mt-8">
-  //         <Skeleton mainCount={[1, 2, 3, 4, 5, 6]} />
-  //       </CardItem>
-  //     </div>
-  //   );
-  // }
-
   return (
-    <div className="w-full flex-grow md:ml-8">
-      <Title text="Beranda Administrator" type="pageTitle" />
+    <div className="flex-grow md:ml-8 md:mr-8 md:mb-8">
+      <Title title="Beranda" text="Beranda / Administrator" type="pageTitle" />
 
       {/* Notifications */}
       {loading ? (

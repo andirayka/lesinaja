@@ -30,8 +30,12 @@ const ListTutor = () => {
 
   if (loading) {
     return (
-      <div className="w-full flex-grow md:ml-8">
-        <Title text="Daftar Tutor Lesin Aja" type="pageTitle" />
+      <div className="flex-grow md:ml-8 md:mr-8">
+        <Title
+          title="Tutor Lesin Aja"
+          text="Daftar Tutor Lesin Aja"
+          type="pageTitle"
+        />
         <CardItem title="Loading..." containerClass="mt-8">
           <Skeleton mainCount={[1, 2, 3, 4, 5, 6]} />
         </CardItem>
@@ -39,8 +43,12 @@ const ListTutor = () => {
     );
   } else {
     return (
-      <div className="w-full flex-grow md:ml-8">
-        <Title text="Daftar Tutor Lesin Aja Om" type="pageTitle" />
+      <div className="flex-grow md:ml-8 md:mr-8 md:mb-8">
+        <Title
+          title="Tutor Lesin Aja"
+          text="Daftar / Tutor Lesin Aja"
+          type="pageTitle"
+        />
         {/* form filter */}
         <div className="bg-white mt-8 rounded-md">
           <InputText
@@ -99,7 +107,6 @@ const ListTutor = () => {
               );
             }
           })}
-        )
       </div>
     );
   }

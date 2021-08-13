@@ -89,7 +89,7 @@ const Sidebar = () => {
   }, [authState.isLoggedIn]);
 
   return (
-    <div className="hidden md:block flex-none w-80 bg-white rounded-md overflow-hidden">
+    <div className="hidden md:block flex-none w-72 bg-white overflow-hidden h-screen">
       <img src={mainLogo} alt="" className="w-64" />
       <div className="">
         {sidebarList.map((item, index) => {

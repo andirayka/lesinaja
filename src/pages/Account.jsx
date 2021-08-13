@@ -27,7 +27,7 @@ const Account = () => {
   };
 
   return (
-    <ContentContainer additionalClassName="w-full flex-grow bg-white rounded-lg p-6 md:ml-8">
+    <ContentContainer additionalClassName="flex-grow bg-white rounded-lg p-6 md:ml-8 md:mr-8">
       {/* Nama */}
       <SectionTitle heading="Akun Administrator" />
       <form onSubmit={handleSubmit(onSubmit)} name="validation">
