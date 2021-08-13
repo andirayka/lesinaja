@@ -51,8 +51,12 @@ const ListPayment = () => {
 
   if (loading) {
     return (
-      <div className="w-full flex-grow md:ml-8">
-        <Title text="Daftar Riwayat Pembayaran" type="pageTitle" />
+      <div className="flex-grow md:ml-8 md:mr-8">
+        <Title
+          title="Riwayat Pembayaran"
+          text="Daftar / Riwayat Pembayaran"
+          type="pageTitle"
+        />
         <CardItem title="Loading..." containerClass="mt-8">
           <Skeleton mainCount={[1, 2, 3, 4, 5, 6]} />
         </CardItem>
@@ -62,8 +66,12 @@ const ListPayment = () => {
 
   if (data) {
     return (
-      <div className="w-full flex-grow md:ml-8">
-        <Title text="Daftar Riwayat Pembayaran" type="pageTitle" />
+      <div className="flex-grow md:ml-8 md:mr-8">
+        <Title
+          title="Riwayat Pembayaran"
+          text="Daftar / Riwayat Pembayaran"
+          type="pageTitle"
+        />
         <CardItem title="Belum ada data pembayaran" containerClass="mt-8">
           <EmptyIcon />
         </CardItem>

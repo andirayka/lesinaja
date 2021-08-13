@@ -153,8 +153,8 @@ export const Keuangan = () => {
 
   if (loading) {
     return (
-      <div className="w-full flex-grow md:ml-8">
-        <Title text="Loading..." type="pageTitle" />
+      <div className="flex-grow md:ml-8 md:mr-8">
+        <Title title="Loading..." type="pageTitle" />
         <CardItem title="Loading..." containerClass="mt-8">
           <Skeleton mainCount={[1, 2, 3, 4, 5, 6]} />
         </CardItem>
@@ -162,9 +162,9 @@ export const Keuangan = () => {
     );
   } else {
     return (
-      <div className="w-full flex-grow md:ml-8">
+      <div className="flex-grow md:ml-8 md:mr-8">
         <div className="mb-8">
-          <Title text={`Keuangan Bulan ${data.bulan}`} type="pageTitle" />
+          <Title title={`Keuangan Bulan ${data.bulan}`} type="pageTitle" />
 
           <CardItem title="Rangkuman" containerClass="mt-8">
             <CardKeyValue

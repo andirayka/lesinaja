@@ -1,10 +1,14 @@
 import React from "react";
 import { Title } from "@components";
 
-const CardItem = ({ title, children, containerClass }) => {
+const CardItem = ({ title, children, containerClass, additionalClassName }) => {
   return (
     <div className={`rounded-md bg-white ${containerClass}`}>
-      {title && <Title text={title} type="cardItem" />}
+      {title && (
+        <div className={`rounded-t-md ${additionalClassName}`}>
+          <Title text={title} type="cardItem" />
+        </div>
+      )}
       <div className="p-2.5">{children}</div>
     </div>
   );

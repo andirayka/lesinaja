@@ -20,8 +20,12 @@ const ListWalmur = () => {
 
   if (loading) {
     return (
-      <div className="w-full flex-grow md:ml-8">
-        <Title text="Daftar Wali Murid Lesin Aja" type="pageTitle" />
+      <div className="flex-grow md:ml-8 md:mr-8">
+        <Title
+          title="Wali Murid Lesin Aja"
+          text="Daftar / Wali Murid Lesin Aja"
+          type="pageTitle"
+        />
         <CardItem title="Loading..." containerClass="mt-8">
           <Skeleton mainCount={[1, 2, 3, 4, 5, 6]} />
         </CardItem>
@@ -29,8 +33,12 @@ const ListWalmur = () => {
     );
   } else {
     return (
-      <div className="w-full flex-grow md:ml-8">
-        <Title text="Daftar Wali Murid Lesin Aja" type="pageTitle" />
+      <div className="flex-grow md:ml-8 md:mr-8">
+        <Title
+          title="Wali Murid Lesin Aja"
+          text="Daftar / Wali Murid Lesin Aja"
+          type="pageTitle"
+        />
 
         {Object.entries(data).map((item, index) => {
           const [key, value] = item;

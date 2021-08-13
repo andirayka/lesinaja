@@ -42,12 +42,20 @@ const ListMaster = () => {
   };
 
   return (
-    <div className="w-full flex-grow md:ml-8">
-      <Title text="Daftar Data Master Aplikasi" type="pageTitle" />
+    <div className="flex-grow md:ml-8 md:mr-8 md:mb-8">
+      <Title
+        title="Master Aplikasi"
+        text="Daftar / Data Master Aplikasi"
+        type="pageTitle"
+      />
       {/* Row 1 */}
       <div className="flex">
         {/* Jenjang Kelas */}
-        <CardItem title="Jenjang Kelas" containerClass="mt-8 flex-1">
+        <CardItem
+          title="Jenjang Kelas"
+          containerClass="mt-8 flex-1"
+          additionalClassName="bg-yellow-400"
+        >
           <>
             <CardContent type="jenjangkelas" />
             {listStatus == "viewing" && (
@@ -77,7 +85,11 @@ const ListMaster = () => {
         {/* mapel */}
         <div className="mx-5"></div>
 
-        <CardItem title="Mapel" containerClass="mt-8 flex-1">
+        <CardItem
+          title="Mapel"
+          containerClass="mt-8 flex-1"
+          additionalClassName="bg-yellow-400"
+        >
           <>
             <CardContent type="mapel" />
 
@@ -106,7 +118,11 @@ const ListMaster = () => {
       {/* Row 2 */}
       <div className="flex">
         {/* paket */}
-        <CardItem title="Paket" containerClass="mt-8 flex-1">
+        <CardItem
+          title="Paket"
+          containerClass="mt-8 flex-1"
+          additionalClassName="bg-yellow-400"
+        >
           <>
             <CardContent type="paket" />
 
@@ -134,7 +150,11 @@ const ListMaster = () => {
         <div className="mx-5"></div>
 
         {/* wilayah */}
-        <CardItem title="Wilayah" containerClass="mt-8 flex-1">
+        <CardItem
+          title="Wilayah"
+          containerClass="mt-8 flex-1"
+          additionalClassName="bg-yellow-400"
+        >
           <>
             <CardContent type="wilayah" />
 

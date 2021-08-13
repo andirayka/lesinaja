@@ -29,7 +29,7 @@ const ListCourse = () => {
   // tampilan form saat loading
   if (formStatus == "loading") {
     return (
-      <div className="w-full flex-grow md:ml-8">
+      <div className="flex-grow md:ml-8 md:mr-8">
         <Title text="Daftar Pilihan Les" type="pageTitle" />
         <CardItem title="Loading..." containerClass="mt-8">
           <Skeleton mainCount={[1, 2, 3, 4, 5, 6]} />
@@ -41,7 +41,7 @@ const ListCourse = () => {
   // tampilan form saat data kosong
   if (formData === null) {
     return (
-      <div className="w-full flex-grow md:ml-8">
+      <div className="flex-grow md:ml-8 md:mr-8">
         <Title text="Daftar Pilihan Les" type="pageTitle" />
         <Link
           to={{
@@ -62,8 +62,8 @@ const ListCourse = () => {
   }
 
   return (
-    <div className="w-full flex-grow md:ml-8">
-      <Title text="Daftar Pilihan Les" type="pageTitle" />
+    <div className="flex-grow md:ml-8 md:mr-8">
+      <Title title="Pilihan Les" text="Daftar / Pilihan Les" type="pageTitle" />
       <Link
         // button tambah mengirim state not updating
         to={{
