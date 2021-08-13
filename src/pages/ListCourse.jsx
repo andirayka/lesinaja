@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Title,
   CardItem,
@@ -10,129 +10,121 @@ import {
   RefreshIcon,
 } from "@components";
 import { Link } from "react-router-dom";
-import { ContextMaster } from "@context";
+import { getFirebaseDataOnce, getFirebaseDataByChild } from "@utils";
 
 const ListCourse = () => {
-  const {
-    // rtDatabase,
-    state: { formData, formStatus },
-    getFormData,
-    deleteFormData,
-    setFormName,
-  } = useContext(ContextMaster);
+  const [masterData, setMasterData] = useState({
+    mapel: undefined,
+    paket: undefined,
+    wilayah: undefined,
+  });
+
+  const [loading, setLoading] = useState(true);
+
+  const [courseData, setCourseData] = useState(undefined);
+
+  const getCourseData = async () => {
+    const courseQuery = await getFirebaseDataOnce({ ref: "master_les" });
+    setCourseData(Object.values(courseQuery));
+  };
+
+  const getMasterData = async () => {
+    const masterQuery = {
+      mapel: await getFirebaseDataByChild("master_mapel", courseData, "mapel"),
+      paket: await getFirebaseDataByChild("master_paket", courseData, "paket"),
+      wilayah: await getFirebaseDataByChild(
+        "master_wilayah",
+        courseData,
+        "wilayah"
+      ),
+    };
+
+    Object.values(masterQuery).map((item) => {
+      Promise.all(masterQuery[item.type].snapshotPromise).then((snapshots) => {
+        let data = {
+          mapel: {
+            nama: [],
+          },
+          paket: {
+            nama: [],
+            jumlah_pertemuan: [],
+          },
+          wilayah: {
+            nama: [],
+          },
+        };
+
+        snapshots.forEach((snapshot) => {
+          if (item.type == "mapel") {
+            data.mapel.nama.push(snapshot.val().nama);
+          } else if (item.type == "paket") {
+            data.paket.nama.push(snapshot.val().nama);
+            data.paket.jumlah_pertemuan.push(snapshot.val().jumlah_pertemuan);
+          } else if (item.type == "wilayah") {
+            data.wilayah.nama.push(snapshot.val().nama);
+          }
+        });
+
+        if (data.length !== 0) {
+          if (masterQuery[item.type].type == "mapel") {
+            setMasterData((prevData) => ({
+              ...prevData,
+              mapel: {
+                nama: data.mapel.nama,
+              },
+            }));
+          } else if (masterQuery[item.type].type == "paket") {
+            setMasterData((prevData) => ({
+              ...prevData,
+              paket: {
+                nama: data.paket.nama,
+                jumlah_pertemuan: data.paket.jumlah_pertemuan,
+              },
+            }));
+          } else if (masterQuery[item.type].type == "wilayah") {
+            setMasterData((prevData) => ({
+              ...prevData,
+              wilayah: {
+                nama: data.wilayah.nama,
+              },
+            }));
+          }
+        }
+      });
+    });
+  };
+
+  const cardRender = () => {
+    if (
+      courseData &&
+      masterData.mapel &&
+      masterData.paket &&
+      masterData.wilayah
+    ) {
+      return <div>data loaded</div>;
+    } else {
+      return (
+        <div className="w-full flex-grow md:ml-8">
+          <Title text="Daftar Pilihan Les" type="pageTitle" />
+          <CardItem title="Loading..." containerClass="mt-8">
+            <Skeleton mainCount={[1, 2, 3, 4, 5, 6]} />
+          </CardItem>
+        </div>
+      );
+    }
+  };
 
   useEffect(() => {
-    getFormData("master_les");
-    setFormName("master_les");
-  }, []);
+    if (!courseData) {
+      getCourseData();
+    }
+    if (courseData) {
+      getMasterData();
+    }
+    console.log(masterData);
+  }, [courseData]);
 
-  // tampilan form saat loading
-  if (formStatus == "loading") {
-    return (
-      <div className="w-full flex-grow md:ml-8">
-        <Title text="Daftar Pilihan Les" type="pageTitle" />
-        <CardItem title="Loading..." containerClass="mt-8">
-          <Skeleton mainCount={[1, 2, 3, 4, 5, 6]} />
-        </CardItem>
-      </div>
-    );
-  }
-
-  // tampilan form saat data kosong
-  if (formData === null) {
-    return (
-      <div className="w-full flex-grow md:ml-8">
-        <Title text="Daftar Pilihan Les" type="pageTitle" />
-        <Link
-          to={{
-            pathname: "/tambah-pilihanles",
-          }}
-        >
-          <Button
-            text="Tambah Pilihan Les"
-            additionalClassName="bg-yellow-400 hover:bg-white hover:shadow-lg rounded-lg font-medium mt-4"
-            onClick={() => {}}
-          />
-        </Link>
-        <CardItem title="-" containerClass="mt-8">
-          <EmptyIcon />
-        </CardItem>
-      </div>
-    );
-  }
-
-  return (
-    <div className="w-full flex-grow md:ml-8">
-      <Title text="Daftar Pilihan Les" type="pageTitle" />
-      <Link
-        // button tambah mengirim state not updating
-        to={{
-          pathname: "/tambah-pilihanles",
-          state: {
-            isUpdating: false,
-            prevValue: undefined,
-            prevKey: undefined,
-          },
-        }}
-      >
-        <Button
-          text="Tambah Pilihan Les"
-          additionalClassName="bg-yellow-400 hover:bg-white hover:shadow-lg rounded-lg font-medium mt-4"
-          onClick={() => {}}
-        />
-      </Link>
-
-      {/* data yang diquery dari context */}
-      {formData &&
-        Object.entries(formData).map(([key, value], index) => {
-          return (
-            <CardItem key={index} title={value.mapel} containerClass="mt-8">
-              {formStatus == "refreshing" && (
-                <RefreshIcon additionalClassName="text-8xl absolute left-1/2" />
-              )}
-
-              <CardKeyValue keyName="Paket" value={value.paket} />
-              <CardKeyValue keyName="Wilayah" value={value.wilayah} />
-              <CardKeyValue keyName="Harga" value={value.biaya} />
-              <div className="flex flex-row mt-8 justify-end">
-                <Link
-                  // button edit mengirim state updating
-                  to={{
-                    pathname: "/tambah-pilihanles",
-                    state: { isUpdating: true, prevValue: value, prevKey: key },
-                  }}
-                >
-                  <Button
-                    text="Ubah Pilihan Les"
-                    additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium mr-4"
-                    onClick={() => {}}
-                  />
-                </Link>
-                <Button
-                  text="Hapus Pilihan Les"
-                  additionalClassName="bg-yellow-600 hover:bg-red-500 rounded-lg font-medium"
-                  onClick={() => {
-                    Swal.fire({
-                      text: `Apakah Anda yakin akan menghapus data les ${value.mapel}?`,
-                      icon: "warning",
-                      showCancelButton: true,
-                      confirmButtonColor: "#FBBF24",
-                      cancelButtonColor: "#d33",
-                      confirmButtonText: "Hapus",
-                      cancelButtonText: "Batal",
-                    }).then((result) => {
-                      if (result.isConfirmed) {
-                        deleteFormData(key);
-                      }
-                    });
-                  }}
-                />
-              </div>
-            </CardItem>
-          );
-        })}
-    </div>
-  );
+  return cardRender();
 };
 
 export default ListCourse;
