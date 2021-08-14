@@ -63,7 +63,7 @@ const getFirebaseDataOnce = async ({ ref, limit }) => {
  *
  * @param {string} ref - ref untuk query
  * @param {Array}  childKey - child key dari root ref
- * @param {string} type - diisi jika childkey bertipe array of objects
+ * @param {string=} type - diisi jika childkey bertipe array of objects
  */
 const getFirebaseDataByChild = async (ref, childKey, type = undefined) => {
   const rtDatabase = firebase.database();

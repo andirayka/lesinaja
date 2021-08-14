@@ -14,9 +14,16 @@ import { getFirebaseDataOnce, getFirebaseDataByChild } from "@utils";
 
 const ListCourse = () => {
   const [masterData, setMasterData] = useState({
-    mapel: undefined,
-    paket: undefined,
-    wilayah: undefined,
+    mapel: {
+      nama_mapel: undefined,
+    },
+    paket: {
+      nama_paket: undefined,
+      jumlah_pertemuan: undefined,
+    },
+    wilayah: {
+      nama_wilayah: undefined,
+    },
   });
 
   const [loading, setLoading] = useState(true);
@@ -42,50 +49,44 @@ const ListCourse = () => {
     Object.values(masterQuery).map((item) => {
       Promise.all(masterQuery[item.type].snapshotPromise).then((snapshots) => {
         let data = {
-          mapel: {
-            nama: [],
-          },
-          paket: {
-            nama: [],
-            jumlah_pertemuan: [],
-          },
-          wilayah: {
-            nama: [],
-          },
+          nama_mapel: [],
+          nama_paket: [],
+          jumlah_pertemuan: [],
+          nama_wilayah: [],
         };
 
         snapshots.forEach((snapshot) => {
           if (item.type == "mapel") {
-            data.mapel.nama.push(snapshot.val().nama);
+            data.nama_mapel.push(snapshot.val().nama);
           } else if (item.type == "paket") {
-            data.paket.nama.push(snapshot.val().nama);
-            data.paket.jumlah_pertemuan.push(snapshot.val().jumlah_pertemuan);
+            data.nama_paket.push(snapshot.val().nama);
+            data.jumlah_pertemuan.push(snapshot.val().jumlah_pertemuan);
           } else if (item.type == "wilayah") {
-            data.wilayah.nama.push(snapshot.val().nama);
+            data.nama_wilayah.push(snapshot.val().nama);
           }
         });
 
-        if (data.length !== 0) {
+        if (data) {
           if (masterQuery[item.type].type == "mapel") {
             setMasterData((prevData) => ({
               ...prevData,
               mapel: {
-                nama: data.mapel.nama,
+                nama_mapel: data.nama_mapel,
               },
             }));
           } else if (masterQuery[item.type].type == "paket") {
             setMasterData((prevData) => ({
               ...prevData,
               paket: {
-                nama: data.paket.nama,
-                jumlah_pertemuan: data.paket.jumlah_pertemuan,
+                nama_paket: data.nama_paket,
+                jumlah_pertemuan: data.jumlah_pertemuan,
               },
             }));
           } else if (masterQuery[item.type].type == "wilayah") {
             setMasterData((prevData) => ({
               ...prevData,
               wilayah: {
-                nama: data.wilayah.nama,
+                nama_wilayah: data.nama_wilayah,
               },
             }));
           }
@@ -94,37 +95,67 @@ const ListCourse = () => {
     });
   };
 
-  const cardRender = () => {
-    if (
-      courseData &&
-      masterData.mapel &&
-      masterData.paket &&
-      masterData.wilayah
-    ) {
-      return <div>data loaded</div>;
-    } else {
-      return (
-        <div className="w-full flex-grow md:ml-8">
-          <Title text="Daftar Pilihan Les" type="pageTitle" />
-          <CardItem title="Loading..." containerClass="mt-8">
-            <Skeleton mainCount={[1, 2, 3, 4, 5, 6]} />
-          </CardItem>
-        </div>
-      );
-    }
-  };
-
   useEffect(() => {
     if (!courseData) {
       getCourseData();
     }
     if (courseData) {
       getMasterData();
+      console.log(masterData);
     }
-    console.log(masterData);
   }, [courseData]);
 
-  return cardRender();
+  if (courseData && masterData) {
+    return (
+      <div className="flex-grow md:ml-8 md:mr-8">
+        <Title
+          title="Pilihan Les"
+          text="Daftar / Pilihan Les"
+          type="pageTitle"
+        />
+        <Link
+          // button tambah mengirim state not updating
+          to={{
+            pathname: "/tambah-pilihanles",
+            state: {
+              isUpdating: false,
+              prevValue: undefined,
+              prevKey: undefined,
+            },
+          }}
+        >
+          <Button
+            text="Tambah Pilihan Les"
+            additionalClassName="bg-yellow-400 hover:bg-white hover:shadow-lg rounded-lg font-medium mt-4"
+            onClick={() => {}}
+          />
+        </Link>
+        {Object.values(masterData).map((item) => {
+          return (
+            item.nama_mapel &&
+            item.nama_mapel.map((itemMapel, index) => {
+              return (
+                <CardItem
+                  key={index}
+                  title={itemMapel}
+                  containerClass="mt-8"
+                ></CardItem>
+              );
+            })
+          );
+        })}
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex-grow md:ml-8 md:mr-8">
+      <Title title="Pilihan Les" text="Daftar / Pilihan Les" type="pageTitle" />
+      <CardItem title="Loading..." containerClass="mt-8">
+        <Skeleton mainCount={[1, 2, 3, 4, 5, 6]} />
+      </CardItem>
+    </div>
+  );
 };
 
 export default ListCourse;
