@@ -62,8 +62,12 @@ const FormMaster = () => {
   };
 
   return (
-    <div className="w-full flex-grow md:ml-8">
-      <Title text={`Daftar ${prevData?.title}`} type="pageTitle" />
+    <div className="flex-grow md:ml-8 md:mr-8">
+      <Title
+        title={prevData?.title}
+        text={`Daftar / ${prevData?.title}`}
+        type="pageTitle"
+      />
 
       {renderForm()}
     </div>
