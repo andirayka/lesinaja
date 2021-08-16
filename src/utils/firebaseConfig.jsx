@@ -35,11 +35,9 @@ const enableFirebaseConfig = () => {
   firebase.analytics();
 };
 
-/**
- * Jika ref yang dicari tidak ada, return nya adalah null
- * .on untuk ambil berkali - kali
- * .once untuk ambil sekali
- */
+// Jika ref yang dicari tidak ada, return nya adalah null
+// .on untuk ambil berkali - kali
+// .once untuk ambil sekali
 const getFirebaseDataOnce = async ({ ref, limit }) => {
   const rtDatabase = firebase.database();
 
@@ -60,10 +58,10 @@ const getFirebaseDataOnce = async ({ ref, limit }) => {
 };
 
 /**
- *
- * @param {string} ref - ref untuk query
- * @param {Array}  childKey - child key dari root ref
- * @param {string=} type - diisi jika childkey bertipe array of objects
+ * @typedef {Object}
+ * @property {String} ref - ref untuk query
+ * @property {Array}  childKey - child key dari root ref
+ * @property {String=} type - diisi jika childkey bertipe array of objects
  */
 const getFirebaseDataByChild = async ({
   ref,
@@ -83,6 +81,18 @@ const getFirebaseDataByChild = async ({
     });
 
     return { snapshotPromise: query, type: type };
+  } else {
+    console.log(childKey);
+    const query = childKey.map(async (key) => {
+      try {
+        const value = await rtDatabase.ref(ref).child(key).once("value");
+        return value;
+      } catch (message) {
+        return console.error(message);
+      }
+    });
+
+    return query;
   }
 };
 

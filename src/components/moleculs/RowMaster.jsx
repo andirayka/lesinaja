@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { ContextMaster } from "@context";
 import { Swal, InputSelect } from "@components";
+import { getFirebaseDataByChild } from "@utils";
 
 const RowMaster = ({
   item,
@@ -20,12 +21,35 @@ const RowMaster = ({
     getDropdownData,
   } = useContext(ContextMaster);
 
-  // state untuk data yang dipilih (multiple select)
+  // untuk query key
   const [multipleItem, setMultipleItem] = useState([]);
+
+  // untuk data prompt yang diquery dari wilayah_provinsi
+  const [provinsiMultipleItem, setProvinsiMultipleItem] = useState([]);
 
   useEffect(() => {
     getDropdownData("wilayah_provinsi");
-  }, []);
+    if (multipleItem) {
+      getWilayahProvinsiData();
+    }
+  }, [multipleItem]);
+
+  const getWilayahProvinsiData = async () => {
+    const query = await getFirebaseDataByChild({
+      ref: "wilayah_provinsi",
+      childKey: multipleItem,
+    });
+
+    Promise.all(query).then((snapshot) => {
+      let data = [];
+
+      snapshot.forEach((snapshot) => {
+        data.push(snapshot.val());
+      });
+
+      setProvinsiMultipleItem(data);
+    });
+  };
 
   // untuk prompt dropdwon dan multiple select
   const conditionalPromptRender = () => {
@@ -51,18 +75,17 @@ const RowMaster = ({
         );
       });
       // tampilan prompt default
-    } else if (multipleItem.length !== 0) {
-      console.log(multipleItem);
-      return multipleItem.map((item, index) => {
+    } else if (provinsiMultipleItem.length !== 0) {
+      return provinsiMultipleItem.map((item, index) => {
         return (
           <div
             key={index}
             className="inline-block bg-gray-300 rounded-md m-1 p-1"
             onClick={() => {
-              setMultipleItem(multipleItem.filter((i) => i !== item));
+              setMultipleItem(multipleItem.filter((i) => i !== item.id));
             }}
           >
-            {`${item} `} &#10006;
+            {`${item.nama} `} &#10006;
           </div>
         );
       });
