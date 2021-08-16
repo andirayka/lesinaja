@@ -185,7 +185,6 @@ const handleLoginGoogleFirebase = async () => {
   try {
     const userCredential = await firebase.auth().signInWithPopup(provider);
     var user = userCredential.user;
-    console.log(user);
     const getData = await getFirebaseDataOnce({
       ref: `user/${user.uid}/roles`,
     });

@@ -60,16 +60,18 @@ const Login = () => {
 
     if (success) {
       setIsLoggedIn(true);
-      if (role && role.tutor && roleOn == "tutor") {
-        history.push("/akun-tutor");
-      } else if (role && role.wali_murid && roleOn == "walmur") {
-        history.push("/akun-walmur");
-      } else {
-        Swal.fire({
-          icon: "error",
-          text: "Data Google anda belum terdaftar",
-          confirmButtonColor: "#FBBF24",
-        });
+      if (roleOn == "tutor") {
+        if (role && role.tutor) {
+          history.push("/akun-tutor");
+        } else {
+          alert("Akun belum terdaftar sebagai Tutor");
+        }
+      } else if (roleOn == "walmur") {
+        if (role && role.wali_murid) {
+          history.push("/akun-walmur");
+        } else {
+          alert("Akun belum terdaftar sebagai Walimurid");
+        }
       }
       setFormStatus();
     } else {
