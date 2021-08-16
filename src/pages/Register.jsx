@@ -61,7 +61,7 @@ const Register = () => {
   }, []);
 
   return (
-    <div className="flex flex-row justify-between items-start p-8">
+    <div className="flex flex-row justify-between items-start p-8 bg-yellow-300 h-screen">
       <img src={logregLogo} className="hidden md:block m-10 w-2/4" al="" />
       <ContentContainer additionalClassName="flex-grow md:flex-grow-0 bg-white rounded-lg p-6">
         <SectionTitle

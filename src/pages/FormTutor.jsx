@@ -119,7 +119,7 @@ const FormTutor = () => {
 
   // mengambil gambar
   const showImage = () => {
-    let fileNew = `foto_tutor/profil_${prevData.id}`;
+    let fileNew = `foto_tutor/${prevData.id}`;
     handleShowFile(fileNew).then((url) => {
       setProfileSrc(url);
     });
@@ -154,14 +154,14 @@ const FormTutor = () => {
 
   if (loading) {
     return (
-      <ContentContainer additionalClassName="w-full flex-grow bg-white rounded-lg p-6 md:ml-8">
+      <ContentContainer additionalClassName="flex-grow bg-white rounded-lg p-6 md:ml-8 md:mr-8">
         <SectionTitle heading="Loading..." />
         <Skeleton mainCount={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} />
       </ContentContainer>
     );
   } else {
     return (
-      <ContentContainer additionalClassName="w-full flex-grow bg-white rounded-lg p-6 md:ml-8">
+      <ContentContainer additionalClassName="flex-grow bg-white rounded-lg p-6 md:ml-8 md:mr-8">
         <SectionTitle heading="Detail Tutor/Pengajar" />
 
         {!profileSrc ? (

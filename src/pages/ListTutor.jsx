@@ -74,7 +74,7 @@ const ListTutor = () => {
           })
           .map((item, index) => {
             const [key, value] = item;
-            if (value.roles && value.roles.tutor) {
+            if (value.roles && value.roles.tutor && value.kontak) {
               return (
                 <CardItem
                   key={index}

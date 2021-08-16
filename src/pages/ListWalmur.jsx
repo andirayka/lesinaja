@@ -33,7 +33,7 @@ const ListWalmur = () => {
     );
   } else {
     return (
-      <div className="flex-grow md:ml-8 md:mr-8">
+      <div className="flex-grow md:ml-8 md:mr-8 md:mb-8">
         <Title
           title="Wali Murid Lesin Aja"
           text="Daftar / Wali Murid Lesin Aja"
@@ -42,7 +42,7 @@ const ListWalmur = () => {
 
         {Object.entries(data).map((item, index) => {
           const [key, value] = item;
-          if (value.roles && value.roles.wali_murid) {
+          if (value.roles && value.roles.wali_murid && value.kontak) {
             return (
               <CardItem key={index} title={value.nama} containerClass="mt-8">
                 <CardKeyValue keyName="Email" value={value.email} />

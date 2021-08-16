@@ -42,7 +42,7 @@ const ListCourse = () => {
 
   if (courseData) {
     return (
-      <div className="flex-grow md:ml-8 md:mr-8">
+      <div className="flex-grow md:ml-8 md:mr-8 md:mb-8">
         <Title
           title="Pilihan Les"
           text="Daftar / Pilihan Les"
@@ -82,7 +82,7 @@ const ListCourse = () => {
   }
 
   return (
-    <div className="flex-grow md:ml-8 md:mr-8">
+    <div className="flex-grow md:ml-8 md:mr-8 md:mb-8">
       <Title title="Pilihan Les" text="Daftar / Pilihan Les" type="pageTitle" />
       <CardItem title="Loading..." containerClass="mt-8">
         <Skeleton mainCount={[1, 2, 3, 4, 5, 6]} />
