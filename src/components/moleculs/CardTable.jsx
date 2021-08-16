@@ -22,7 +22,6 @@ const CardTable = ({ headerValues, contentValues, additionalClassName }) => {
           <div className="flex flex-row py-4" key={key}>
             {content.map((value, key2) => {
               if (key2 == 0) {
-                console.log(value);
                 return (
                   <div className="text-center md:ml-28 mr-2 ml-4" key={key2}>
                     {/* <FontAwesomeIcon icon={value} size="2x" /> */}

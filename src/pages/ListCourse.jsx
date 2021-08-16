@@ -42,7 +42,7 @@ const ListCourse = () => {
 
   if (courseData) {
     return (
-      <div className="flex-grow md:ml-8 md:mr-8">
+      <div className="flex-grow md:ml-8 md:mr-8 md:mb-8">
         <Title
           title="Pilihan Les"
           text="Daftar / Pilihan Les"

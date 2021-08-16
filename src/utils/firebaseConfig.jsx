@@ -159,8 +159,8 @@ const handleRegister = async (email, password, role) => {
   }
 };
 
-// login firebase
-const handleLogin = async (email, password) => {
+// login dengan Email firebase
+const handleLoginEmail = async (email, password) => {
   try {
     const userCredential = await firebase
       .auth()
@@ -176,6 +176,26 @@ const handleLogin = async (email, password) => {
     var errorMessage = error.message;
     console.log(errorCode, errorMessage);
     return { success: false };
+  }
+};
+
+//Login dengan Google firebase
+const handleLoginGoogleFirebase = async () => {
+  var provider = new firebase.auth.GoogleAuthProvider();
+  try {
+    const userCredential = await firebase.auth().signInWithPopup(provider);
+    var user = userCredential.user;
+    console.log(user);
+    const getData = await getFirebaseDataOnce({
+      ref: `user/${user.uid}/roles`,
+    });
+    console.log(getData);
+    return { success: true, role: getData };
+  } catch (error) {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    console.log(errorCode, errorMessage);
+    return { success: true };
   }
 };
 
@@ -230,13 +250,14 @@ const handleShowFile = (fileNew) => {
 };
 
 export {
+  handleLoginGoogleFirebase,
   handleLogout,
   handleStatusAutentikasi,
   handleShowFile,
   handleUploadFile,
   firebase,
   handleResetPassword,
-  handleLogin,
+  handleLoginEmail,
   handleRegister,
   enableFirebaseConfig,
   getFirebaseDataOnce,

@@ -42,7 +42,7 @@ const ListWalmur = () => {
 
         {Object.entries(data).map((item, index) => {
           const [key, value] = item;
-          if (value.roles && value.roles.wali_murid) {
+          if (value.roles && value.roles.wali_murid && value.kontak) {
             return (
               <CardItem key={index} title={value.nama} containerClass="mt-8">
                 <CardKeyValue keyName="Email" value={value.email} />

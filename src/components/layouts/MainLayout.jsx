@@ -8,7 +8,6 @@ const MainLayout = ({ children }) => {
   const [profileSrc, setProfileSrc] = useState("");
 
   const handleNavbarPage = async (uid) => {
-    console.log(uid);
     const getDataUser = await getFirebaseDataOnce({
       ref: `user/${uid}`,
     });
