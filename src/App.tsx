@@ -21,7 +21,7 @@ dayjs.locale("id");
 enableFirebaseConfig();
 
 // List url halaman dan component yang digunakan
-const layoutPages = [
+const adminPages = [
   { path: ["/daftar-pembayaran"], component: ListPayment },
   { path: ["/daftar-pilihanles"], component: ListCourse },
 ];
@@ -73,7 +73,7 @@ const InitialChecker = () => {
 
       {/* Untuk mengecek data-data awal ketika buk aplikasi */}
       <MainLayout>
-        {layoutPages.map((item, index) => {
+        {adminPages.map((item, index) => {
           return (
             <Route
               key={index}

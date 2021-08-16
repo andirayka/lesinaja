@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import { Title } from "@components";
 import { SkeletonLoading, CardItem, EmptyIcon } from "@components";
 
 type Props = {
