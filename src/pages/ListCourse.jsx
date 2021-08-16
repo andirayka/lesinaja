@@ -37,13 +37,21 @@ const ListCourse = () => {
 
   const getMasterData = async () => {
     const masterQuery = {
-      mapel: await getFirebaseDataByChild("master_mapel", courseData, "mapel"),
-      paket: await getFirebaseDataByChild("master_paket", courseData, "paket"),
-      wilayah: await getFirebaseDataByChild(
-        "master_wilayah",
-        courseData,
-        "wilayah"
-      ),
+      mapel: await getFirebaseDataByChild({
+        ref: "master_mapel",
+        childKey: courseData,
+        type: "mapel",
+      }),
+      paket: await getFirebaseDataByChild({
+        ref: "master_paket",
+        childKey: courseData,
+        type: "paket",
+      }),
+      wilayah: await getFirebaseDataByChild({
+        ref: "master_wilayah",
+        childKey: courseData,
+        type: "wilayah",
+      }),
     };
 
     Object.values(masterQuery).map((item) => {
