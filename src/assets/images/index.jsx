@@ -1,4 +1,3 @@
-import logregLogo from "./logreg-logo.svg";
-import mainLogo from "./main-logo.png";
+import LogoLesinAja from "./LogoLesinAja.png";
 
-export { logregLogo, mainLogo };
+export { LogoLesinAja };

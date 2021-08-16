@@ -4,7 +4,7 @@ import { Sidebar } from "@components";
 // Pembungkus semua content di dalam halaman yang bisa login
 export const MainLayout: FC = ({ children }) => {
   return (
-    <div className="flex p-6">
+    <div className="flex">
       {/* Sidebar di sebelah kiri */}
       <div className="w-72">
         <Sidebar />

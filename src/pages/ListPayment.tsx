@@ -12,9 +12,9 @@ import dayjs from "dayjs";
 
 export const ListPayment: FC = () => {
   const dataCountPerPage = 2;
-  const [currentPage, setCurrentPage] = useState(0);
-  const [data, setData] = useState<null | object>(null);
-  const [allDataCount, setAllDataCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [data, setData] = useState<null | any[]>(null);
+  const [allDataCount, setAllDataCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -34,15 +34,14 @@ export const ListPayment: FC = () => {
 
         // Ambil list data
         await databaseRef("pembayaran")
-          // .orderByKey()
-          .startAt(currentPage)
-          .limitToFirst(dataCountPerPage)
+          // .orderByChild("waktu_transfer")
+          // .startAt(currentPage)
+          // .limitToLast(dataCountPerPage)
           .once("value", (snapshot) => {
             const value = snapshot.val();
             if (value) {
-              // const reversedValue = Object.entries(value).reverse();
-              // console.log(reversedValue);
-              setData(value);
+              const reversedValue = Object.entries(value).reverse();
+              setData(reversedValue);
             }
           });
 
@@ -54,8 +53,25 @@ export const ListPayment: FC = () => {
 
     getData();
 
-    return () => {};
+    return () => {
+      databaseRef("jumlah_data/pembayaran").off();
+    };
   }, [currentPage]);
+
+  // Ambil kata2 keterangan untuk key keterangan di dalam CardItem
+  const getTextKeterangan = (data: any) => {
+    if (data.bayar_pendaftaran) {
+      return "Biaya Pendaftaran";
+    }
+    if (data.bayar_les) {
+      return "Biaya Les";
+    }
+    if (data.bayar_gajitutor) {
+      return "Gaji Tutor";
+    }
+
+    return "Tidak ada keterangan";
+  };
 
   // Conditional content render
   const renderContent = () => {
@@ -72,10 +88,10 @@ export const ListPayment: FC = () => {
     // Tampilan jika selesai loading dan ada data
     return (
       <>
-        {Object.entries(data).map(([key, value]) => {
-          const waktu_transfer = dayjs(value.waktu_transfer).format(
-            "D MMMM YYYY, HH:mm"
-          );
+        {data.map(([key, value]) => {
+          const waktu_transfer = dayjs
+            .unix(value.waktu_transfer)
+            .format("D MMMM YYYY, HH:mm");
 
           return (
             <CardItem
@@ -117,21 +133,6 @@ export const ListPayment: FC = () => {
         )}
       </>
     );
-  };
-
-  // Ambil kata2 keterangan untuk key keterangan di dalam CardItem
-  const getTextKeterangan = (data: any) => {
-    if (data.bayar_pendaftaran) {
-      return "Biaya Pendaftaran";
-    }
-    if (data.bayar_lessiswa) {
-      return "Biaya Les";
-    }
-    if (data.bayar_gajitutor) {
-      return "Gaji Tutor";
-    }
-
-    return "Tidak ada keterangan";
   };
 
   return (

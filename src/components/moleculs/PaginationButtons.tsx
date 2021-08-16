@@ -11,8 +11,7 @@ export const PaginationButtons: FC<Props> = ({
   dataCountPerPage,
   onClick,
 }) => {
-  const buttonCount = Math.floor(dataCount / dataCountPerPage);
-  console.log(buttonCount, dataCount, dataCountPerPage);
+  const buttonCount = Math.ceil(dataCount / dataCountPerPage);
 
   return (
     <div className="flex justify-center mt-16">

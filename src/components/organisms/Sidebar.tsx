@@ -13,6 +13,7 @@ import {
 import { SidebarItem } from "@components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useHistory, useLocation } from "react-router-dom";
+import { LogoLesinAja } from "@assets";
 
 // List path dan property dari sidebar item
 const sidebarList = [
@@ -78,7 +79,8 @@ export const Sidebar = () => {
   const history = useHistory(); // Untuk pindah halaman
 
   return (
-    <div className="fixed w-72 bg-white rounded-md overflow-hidden">
+    <div className="fixed w-72 h-screen bg-white rounded-md overflow-hidden">
+      <img src={LogoLesinAja} alt="" className="w-64" />
       {sidebarList.map((item, index) => {
         return (
           <SidebarItem
