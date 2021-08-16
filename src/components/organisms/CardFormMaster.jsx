@@ -12,7 +12,7 @@ const CardFormMaster = ({
     nama: "",
     jumlah_pertemuan: "",
     biaya_daftar: "",
-    id_provinsi: "",
+    id_provinsi: [],
   };
 
   // Diisi integer urutan row yang sedang edit

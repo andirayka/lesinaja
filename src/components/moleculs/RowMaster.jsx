@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { ContextMaster } from "@context";
 import { Swal, InputSelect } from "@components";
-import { getFirebaseDataByChild } from "@utils";
+import { getFirebaseDataOnce } from "@utils";
 
 const RowMaster = ({
   item,
@@ -21,74 +21,109 @@ const RowMaster = ({
     getDropdownData,
   } = useContext(ContextMaster);
 
-  // untuk query key
-  const [multipleItem, setMultipleItem] = useState([]);
-
-  // untuk data prompt yang diquery dari wilayah_provinsi
-  const [provinsiMultipleItem, setProvinsiMultipleItem] = useState([]);
+  //untuk tampilan prompt input select
+  // promptkey - menampung key dari dropdown data
+  // promptQuery - menampung hasil query dari ref promptkey
+  const [promptKey, setPromptKey] = useState([]);
+  const [promptQuery, setPromptQuery] = useState([]);
+  const [rowQuery, setRowQuery] = useState([]);
 
   useEffect(() => {
-    getDropdownData("wilayah_provinsi");
-    if (multipleItem) {
-      getWilayahProvinsiData();
+    if (formName == "master_wilayah") {
+      getDropdownData("wilayah_provinsi");
+
+      // query data prompt dropdown dan row master wilayah
+      const getProvinsi = async () => {
+        // query data prompt saat input select dalam keadaan updating
+        if (inputValue.id_provinsi.length !== 0) {
+          const query = await Promise.all(
+            inputValue.id_provinsi.map(async (child) => {
+              const queryData = await getFirebaseDataOnce({
+                ref: `wilayah_provinsi/${child}/nama`,
+              });
+
+              return { value: queryData, key: child };
+            })
+          );
+
+          setPromptQuery(query);
+
+          // query data prompt saat input select dalam keadaan adding
+        } else if (promptKey.length !== 0) {
+          const query = await Promise.all(
+            promptKey.map(async (child) => {
+              const queryData = await getFirebaseDataOnce({
+                ref: `wilayah_provinsi/${child}/nama`,
+              });
+
+              return { value: queryData, key: child };
+            })
+          );
+
+          setPromptQuery(query);
+
+          // query data untuk row
+        } else if (item.id_provinsi.length !== 0) {
+          const query = await Promise.all(
+            item.id_provinsi.map(async (child) => {
+              const queryData = await getFirebaseDataOnce({
+                ref: `wilayah_provinsi/${child}/nama`,
+              });
+
+              return queryData;
+            })
+          );
+
+          setRowQuery(query);
+        }
+      };
+
+      getProvinsi();
     }
-  }, [multipleItem]);
+  }, [inputValue.id_provinsi]);
 
-  const getWilayahProvinsiData = async () => {
-    const query = await getFirebaseDataByChild({
-      ref: "wilayah_provinsi",
-      childKey: multipleItem,
-    });
-
-    Promise.all(query).then((snapshot) => {
-      let data = [];
-
-      snapshot.forEach((snapshot) => {
-        data.push(snapshot.val());
-      });
-
-      setProvinsiMultipleItem(data);
-    });
-  };
-
-  // untuk prompt dropdwon dan multiple select
+  // data prompt input select
   const conditionalPromptRender = () => {
-    // tampilan prompt saat update data
-    if (inputValue.id_provinsi.length !== 0) {
-      return inputValue.id_provinsi.map((item, index) => {
+    // tampilan prompt saat updating
+    if (inputValue.id_provinsi.length !== 0 && promptQuery.length !== 0) {
+      return Object.values(promptQuery).map((item, index) => {
         return (
           <div
             key={index}
             className="inline-block bg-gray-300 rounded-md m-1 p-1"
             onClick={() => {
-              const helper = inputValue.id_provinsi.filter(
-                (i) => i.nama !== item.nama
-              );
               setInputValue({
                 ...inputValue,
-                id_provinsi: helper,
+                id_provinsi: inputValue.id_provinsi.filter(
+                  (i) => i !== item.key
+                ),
               });
             }}
           >
-            {`${item} `} &#10006;
+            {`${item.value} `}
+            &#10006;
           </div>
         );
       });
-      // tampilan prompt default
-    } else if (provinsiMultipleItem.length !== 0) {
-      return provinsiMultipleItem.map((item, index) => {
+
+      // tampilan prompt saat adding
+    } else if (promptKey.length !== 0 && promptQuery.length !== 0) {
+      return Object.values(promptQuery).map((item, index) => {
         return (
           <div
             key={index}
             className="inline-block bg-gray-300 rounded-md m-1 p-1"
             onClick={() => {
-              setMultipleItem(multipleItem.filter((i) => i !== item.id));
+              setPromptKey(promptKey.filter((i) => i !== item.key));
             }}
           >
-            {`${item.nama} `} &#10006;
+            {`${item.value} `}
+            &#10006;
           </div>
         );
       });
+
+      // tampilan prompt saat tidak ada data yang dipilih
     } else {
       return <div>Pilih Provinsi</div>;
     }
@@ -160,6 +195,7 @@ const RowMaster = ({
               />
               <InputSelect
                 data={dropdownData}
+                value={inputValue.id_provinsi}
                 prompt={conditionalPromptRender()}
                 onChange={({ key }) => {
                   if (inputValue.id_provinsi.length !== 0) {
@@ -168,13 +204,12 @@ const RowMaster = ({
                       id_provinsi: [...inputValue.id_provinsi, parseInt(key)],
                     });
                   } else {
-                    setMultipleItem([...multipleItem, parseInt(key)]);
+                    setPromptKey([...promptKey, parseInt(key)]);
                   }
                 }}
               />
             </>
           )}
-
           {/* untuk form master jenjangkelas dan mapel */}
           {(formName == "master_jenjangkelas" ||
             formName == "master_mapel") && (
@@ -201,7 +236,7 @@ const RowMaster = ({
                   if (
                     !inputValue.nama ||
                     !inputValue.biaya_daftar ||
-                    !multipleItem.length === 0
+                    !promptKey.length === 0
                   ) {
                     Swal.fire({
                       icon: "error",
@@ -222,7 +257,7 @@ const RowMaster = ({
                       saveFormData({
                         nama: inputValue.nama,
                         biaya_daftar: inputValue.biaya_daftar,
-                        id_provinsi: multipleItem,
+                        id_provinsi: promptKey,
                       });
                     }
                     onClickSave();
@@ -296,8 +331,6 @@ const RowMaster = ({
     );
   }
 
-  // pengkondisian untuk menampilkan data
-  // tergantung dari ref / formname
   const conditionalRowRender = () => {
     if (formName == "master_paket") {
       return (
@@ -311,7 +344,14 @@ const RowMaster = ({
           <div className="w-3/4 ml-2.5 text-lg">{item.nama}</div>
           <div className="w-3/4 ml-2.5 text-lg">{item.biaya_daftar}</div>
           <div className="w-3/4 ml-2.5 text-lg">
-            <p>Memuat...</p>
+            {rowQuery.length !== 0 &&
+              rowQuery.map((item, index) => {
+                return (
+                  <p key={index} className="bg-gray-300 rounded-md m-1 p-1">
+                    {item}
+                  </p>
+                );
+              })}
           </div>
         </>
       );
@@ -341,7 +381,7 @@ const RowMaster = ({
                 onClickEdit({
                   nama: item.nama,
                   biaya_daftar: item.biaya_daftar,
-                  provinsi: item.provinsi,
+                  id_provinsi: item.id_provinsi,
                 });
                 //button edit master jenjangkelas dan mapel
               } else {
