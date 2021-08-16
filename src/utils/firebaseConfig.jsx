@@ -3,7 +3,6 @@ import "firebase/analytics";
 import "firebase/database";
 import "firebase/auth";
 import "firebase/storage";
-import { Swal } from "@components";
 
 const firebaseConfig = {
   // * Project Coba RTDB coba2 punya Andi
@@ -36,10 +35,10 @@ const enableFirebaseConfig = () => {
   firebase.analytics();
 };
 
+// Jika ref yang dicari tidak ada, return nya adalah null
+// .on untuk ambil berkali - kali
+// .once untuk ambil sekali
 const getFirebaseDataOnce = async ({ ref, limit }) => {
-  // Jika ref yang dicari tidak ada, return nya adalah null
-  // .on untuk ambil berkali - kali
-  // .once untuk ambil sekali
   const rtDatabase = firebase.database();
 
   if (limit) {
@@ -58,17 +57,51 @@ const getFirebaseDataOnce = async ({ ref, limit }) => {
     .catch(console.error);
 };
 
+/**
+ * @typedef {Object}
+ * @property {String} ref - ref untuk query
+ * @property {Array}  childKey - child key dari root ref
+ * @property {String=} type - diisi jika childkey bertipe array of objects
+ */
+const getFirebaseDataByChild = async ({
+  ref,
+  childKey = [],
+  type = undefined,
+}) => {
+  const rtDatabase = firebase.database();
+
+  if (type) {
+    const query = childKey.map(async (key) => {
+      try {
+        const value = await rtDatabase.ref(ref).child(key[type]).once("value");
+        return value;
+      } catch (message) {
+        return console.error(message);
+      }
+    });
+
+    return { snapshotPromise: query, type: type };
+  } else {
+    console.log(childKey);
+    const query = childKey.map(async (key) => {
+      try {
+        const value = await rtDatabase.ref(ref).child(key).once("value");
+        return value;
+      } catch (message) {
+        return console.error(message);
+      }
+    });
+
+    return query;
+  }
+};
+
 const addFirebaseData = ({ ref, payload, isNoKey }) => {
   const rtDatabase = firebase.database();
 
   if (isNoKey) {
     return rtDatabase.ref(`${ref}`).set(payload, (error) => {
       if (error) {
-        // Swal.fire({
-        //   icon: "error",
-        //   text: "Input data gagal",
-        //   confirmButtonColor: "#FBBF24",
-        // });
         console.log("gagal");
       }
     });
@@ -77,11 +110,6 @@ const addFirebaseData = ({ ref, payload, isNoKey }) => {
 
   return rtDatabase.ref(`${ref}/${newKey}`).set(payload, (error) => {
     if (error) {
-      // Swal.fire({
-      //   icon: "error",
-      //   text: "Input data gagal",
-      //   confirmButtonColor: "#FBBF24",
-      // });
       console.log("gagal");
     }
   });
@@ -91,11 +119,7 @@ const updateFirebaseData = ({ ref, payload }) => {
   const rtDatabase = firebase.database();
   return rtDatabase.ref(ref).update(payload, (error) => {
     if (error) {
-      Swal.fire({
-        icon: "error",
-        text: "Update data gagal",
-        confirmButtonColor: "#FBBF24",
-      });
+      console.log("gagal");
     }
   });
 };
@@ -216,6 +240,7 @@ export {
   handleRegister,
   enableFirebaseConfig,
   getFirebaseDataOnce,
+  getFirebaseDataByChild,
   addFirebaseData,
   updateFirebaseData,
   deleteFirebaseData,
