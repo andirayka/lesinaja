@@ -1,119 +1,46 @@
 import React, { useEffect, useState } from "react";
-import {
-  Title,
-  CardItem,
-  CardKeyValue,
-  Button,
-  EmptyIcon,
-  Swal,
-  Skeleton,
-  RefreshIcon,
-} from "@components";
+import { Title, CardItem, Button, Skeleton, CardKeyValue } from "@components";
 import { Link } from "react-router-dom";
-import { getFirebaseDataOnce, getFirebaseDataByChild } from "@utils";
+import { getFirebaseDataOnce } from "@utils";
 
 const ListCourse = () => {
-  const [masterData, setMasterData] = useState({
-    mapel: {
-      nama_mapel: undefined,
-    },
-    paket: {
-      nama_paket: undefined,
-      jumlah_pertemuan: undefined,
-    },
-    wilayah: {
-      nama_wilayah: undefined,
-    },
-  });
-
-  const [loading, setLoading] = useState(true);
-
+  // Belum ada handle jika sudah get data dan data kosong
   const [courseData, setCourseData] = useState(undefined);
 
-  const getCourseData = async () => {
-    const courseQuery = await getFirebaseDataOnce({ ref: "master_les" });
-    setCourseData(Object.values(courseQuery));
-  };
+  useEffect(() => {
+    const getCourseData = async () => {
+      const courses = await getFirebaseDataOnce({ ref: "master_les" });
 
-  const getMasterData = async () => {
-    const masterQuery = {
-      mapel: await getFirebaseDataByChild({
-        ref: "master_mapel",
-        childKey: courseData,
-        type: "mapel",
-      }),
-      paket: await getFirebaseDataByChild({
-        ref: "master_paket",
-        childKey: courseData,
-        type: "paket",
-      }),
-      wilayah: await getFirebaseDataByChild({
-        ref: "master_wilayah",
-        childKey: courseData,
-        type: "wilayah",
-      }),
+      if (courses) {
+        const arrCourses = await Promise.all(
+          Object.entries(courses).map(async ([key, value]) => {
+            const finalValue = {
+              ...value,
+              jenjangkelas: await getFirebaseDataOnce({
+                ref: `master_jenjangkelas/${value.jenjangkelas}/nama`,
+              }),
+              mapel: await getFirebaseDataOnce({
+                ref: `master_mapel/${value.mapel}/nama`,
+              }),
+              paket: await getFirebaseDataOnce({
+                ref: `master_paket/${value.paket}/nama`,
+              }),
+              wilayah: await getFirebaseDataOnce({
+                ref: `master_wilayah/${value.wilayah}/nama`,
+              }),
+            };
+
+            return [key, finalValue];
+          })
+        );
+        setCourseData(arrCourses);
+      }
     };
 
-    Object.values(masterQuery).map((item) => {
-      Promise.all(masterQuery[item.type].snapshotPromise).then((snapshots) => {
-        let data = {
-          nama_mapel: [],
-          nama_paket: [],
-          jumlah_pertemuan: [],
-          nama_wilayah: [],
-        };
+    getCourseData();
+  }, []);
 
-        snapshots.forEach((snapshot) => {
-          if (item.type == "mapel") {
-            data.nama_mapel.push(snapshot.val().nama);
-          } else if (item.type == "paket") {
-            data.nama_paket.push(snapshot.val().nama);
-            data.jumlah_pertemuan.push(snapshot.val().jumlah_pertemuan);
-          } else if (item.type == "wilayah") {
-            data.nama_wilayah.push(snapshot.val().nama);
-          }
-        });
-
-        if (data) {
-          if (masterQuery[item.type].type == "mapel") {
-            setMasterData((prevData) => ({
-              ...prevData,
-              mapel: {
-                nama_mapel: data.nama_mapel,
-              },
-            }));
-          } else if (masterQuery[item.type].type == "paket") {
-            setMasterData((prevData) => ({
-              ...prevData,
-              paket: {
-                nama_paket: data.nama_paket,
-                jumlah_pertemuan: data.jumlah_pertemuan,
-              },
-            }));
-          } else if (masterQuery[item.type].type == "wilayah") {
-            setMasterData((prevData) => ({
-              ...prevData,
-              wilayah: {
-                nama_wilayah: data.nama_wilayah,
-              },
-            }));
-          }
-        }
-      });
-    });
-  };
-
-  useEffect(() => {
-    if (!courseData) {
-      getCourseData();
-    }
-    if (courseData) {
-      getMasterData();
-      console.log(masterData);
-    }
-  }, [courseData]);
-
-  if (courseData && masterData) {
+  if (courseData) {
     return (
       <div className="flex-grow md:ml-8 md:mr-8">
         <Title
@@ -138,18 +65,16 @@ const ListCourse = () => {
             onClick={() => {}}
           />
         </Link>
-        {Object.values(masterData).map((item) => {
+        {Object.values(courseData).map(([key, value]) => {
           return (
-            item.nama_mapel &&
-            item.nama_mapel.map((itemMapel, index) => {
-              return (
-                <CardItem
-                  key={index}
-                  title={itemMapel}
-                  containerClass="mt-8"
-                ></CardItem>
-              );
-            })
+            <CardItem key={key} title={value.mapel} containerClass="mt-8">
+              <CardKeyValue
+                keyName="Jenjang Kelas"
+                value={value.jenjangkelas}
+              />
+              <CardKeyValue keyName="Paket" value={value.paket} />
+              <CardKeyValue keyName="Wilayah" value={value.wilayah} />
+            </CardItem>
           );
         })}
       </div>
