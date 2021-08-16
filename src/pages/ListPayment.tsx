@@ -7,7 +7,7 @@ import {
   Button,
   PaginationButtons,
 } from "@components";
-import { databaseRef } from "@utils";
+import { databaseRef, getFirebaseDataOnce } from "@utils";
 import dayjs from "dayjs";
 
 export const ListPayment: FC = () => {
@@ -22,28 +22,43 @@ export const ListPayment: FC = () => {
     const getData = async () => {
       try {
         // Ambil total jumlah data
-        await databaseRef("jumlah_data/pembayaran").once(
-          "value",
-          (snapshot) => {
-            const value = snapshot.val();
-            if (value) {
-              setAllDataCount(value);
-            }
-          }
-        );
+        const jumlahData = await getFirebaseDataOnce("jumlah_data/pembayaran");
+        if (jumlahData) {
+          setAllDataCount(jumlahData);
+        }
 
-        // Ambil list data
-        await databaseRef("pembayaran")
-          // .orderByChild("waktu_transfer")
-          // .startAt(currentPage)
-          // .limitToLast(dataCountPerPage)
-          .once("value", (snapshot) => {
-            const value = snapshot.val();
-            if (value) {
-              const reversedValue = Object.entries(value).reverse();
-              setData(reversedValue);
-            }
-          });
+        const dataPembayaran = await getFirebaseDataOnce("pembayaran");
+        if (dataPembayaran) {
+          // Membalik urutan data
+          const reversedData = Object.entries<any>(dataPembayaran).reverse();
+          const finalData = await Promise.all(
+            reversedData.map(async ([key, value]) => {
+              const pengirimIsAdmin = await getFirebaseDataOnce(
+                `user/${value.id_pengirim}/roles/admin`
+              );
+              const penerimaIsAdmin = await getFirebaseDataOnce(
+                `user/${value.id_penerima}/roles/admin`
+              );
+
+              const finalValue = {
+                ...value,
+                namaPengirim: await getFirebaseDataOnce(
+                  `user/${value.id_pengirim}/nama`
+                ),
+                rolePengirim: pengirimIsAdmin ? "Admin" : "Wali Murid",
+                namaPenerima: await getFirebaseDataOnce(
+                  `user/${value.id_penerima}/nama`
+                ),
+                rolePenerima: penerimaIsAdmin ? "Admin" : "Tutor",
+              };
+
+              return [key, finalValue];
+            })
+          );
+
+          // console.log(finalData);
+          setData(finalData);
+        }
 
         setIsLoading(false);
       } catch (error) {
@@ -96,7 +111,7 @@ export const ListPayment: FC = () => {
           return (
             <CardItem
               key={key}
-              title={`Wali Murid Sucipto ke Lesin Aja (Sementara)`}
+              title={`${value.rolePengirim} ${value.namaPengirim} kepada ${value.rolePenerima} ${value.namaPenerima}`}
               containerClass="mt-8"
             >
               <CardKeyValue
@@ -106,16 +121,29 @@ export const ListPayment: FC = () => {
               <CardKeyValue keyName="Waktu Pembayaran" value={waktu_transfer} />
               <CardKeyValue keyName="Nominal" value={`Rp ${value.nominal}`} />
               <div className="flex flex-row mt-8">
-                <Button
-                  text="Unduh Bukti Pembayaran"
-                  additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-                  onClick={() => {}}
-                />
-                <Button
-                  text="Konfirmasi Uang Sudah Masuk"
-                  additionalClassName="bg-yellow-600 hover:bg-yellow-300 rounded-lg font-medium ml-5"
-                  onClick={() => {}}
-                />
+                {["Wali Murid"].includes(value.rolePengirim) && (
+                  <Button
+                    text="Unduh Bukti Pembayaran"
+                    additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
+                    onClick={() => {}}
+                  />
+                )}
+
+                {["Wali Murid"].includes(value.rolePengirim) && (
+                  <Button
+                    text="Konfirmasi Uang Sudah Masuk"
+                    additionalClassName="bg-yellow-600 hover:bg-yellow-300 rounded-lg font-medium ml-5"
+                    onClick={() => {}}
+                  />
+                )}
+
+                {["Admin"].includes(value.rolePengirim) && (
+                  <Button
+                    text="Tandai Sudah Mengirim Gaji"
+                    additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
+                    onClick={() => {}}
+                  />
+                )}
               </div>
             </CardItem>
           );
@@ -135,5 +163,15 @@ export const ListPayment: FC = () => {
     );
   };
 
-  return <div>{renderContent()}</div>;
+  return (
+    <div>
+      <Title
+        title="Wali Murid Lesin Aja"
+        subtitle="Daftar / Wali Murid Lesin Aja"
+        type="pageTitle"
+      />
+
+      {renderContent()}
+    </div>
+  );
 };

@@ -29,7 +29,14 @@ export const databaseRef = (ref: string) => {
   return firebase.database().ref(ref);
 };
 
-// Ambil nama data jika diketahui idnya
-export const getUserNameById = async ({ uid }: { uid: string }) => {
-  //
+/**
+ * Jika ref yang dicari tidak ada, return nya adalah null
+ * .on untuk ambil berkali - kali
+ * .once untuk ambil sekali
+ */
+export const getFirebaseDataOnce = async (ref: string) => {
+  return databaseRef(ref)
+    .once("value", (snapshot) => snapshot)
+    .then((value) => value.val())
+    .catch(console.error);
 };
