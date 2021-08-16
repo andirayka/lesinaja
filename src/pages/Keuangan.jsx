@@ -162,7 +162,7 @@ export const Keuangan = () => {
     );
   } else {
     return (
-      <div className="flex-grow md:ml-8 md:mr-8">
+      <div className="flex-grow md:ml-8 md:mr-8 md:mb-8">
         <div className="mb-8">
           <Title title={`Keuangan Bulan ${data.bulan}`} type="pageTitle" />
 
@@ -306,7 +306,6 @@ export const Keuangan = () => {
             )}
           </div>
         </div>
-        );
         <Paginations />
       </div>
     );

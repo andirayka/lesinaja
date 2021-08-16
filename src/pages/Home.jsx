@@ -8,6 +8,8 @@ import {
   Skeleton,
 } from "@components";
 import { getFirebaseDataOnce, updateFirebaseData } from "@utils";
+// import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { IconFb, IconIg, IconYt, IconTeman, IconTiktok } from "@assets";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
@@ -135,26 +137,31 @@ const Home = () => {
             headerValues={["Sosial Media", "Efektivitas", "Keterangan"]}
             contentValues={[
               [
+                IconFb,
                 `Facebook`,
                 `${persentase.facebook}%`,
                 `${dataSosmed.facebook} wali murid tahu Lesin Aja dari Facebook`,
               ],
               [
+                IconTiktok,
                 `Tiktok`,
                 `${persentase.tiktok}%`,
                 `${dataSosmed.tiktok} wali murid tahu Lesin Aja dari Tiktok`,
               ],
               [
+                IconIg,
                 `Instagram`,
                 `${persentase.instagram}%`,
                 `${dataSosmed.instagram} wali murid tahu Lesin Aja dari Instagram`,
               ],
               [
+                IconYt,
                 `YouTube`,
                 `${persentase.youtube}%`,
                 `${dataSosmed.youtube} wali murid tahu Lesin Aja dari YouTube`,
               ],
               [
+                IconTeman,
                 `Teman`,
                 `${persentase.teman}%`,
                 `${dataSosmed.teman} wali murid tahu Lesin Aja dari Temannya`,

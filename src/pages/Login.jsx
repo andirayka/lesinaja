@@ -35,7 +35,7 @@ const Login = () => {
   const onSubmit = async (data) => {
     const { success, role } = await handleLogin(data.email, data.password);
 
-    console.log(role);
+    // console.log(role);
     if (success) {
       setIsLoggedIn(true);
       if (role && role.admin) {

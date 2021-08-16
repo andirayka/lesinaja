@@ -33,7 +33,7 @@ const ListWalmur = () => {
     );
   } else {
     return (
-      <div className="flex-grow md:ml-8 md:mr-8">
+      <div className="flex-grow md:ml-8 md:mr-8 md:mb-8">
         <Title
           title="Wali Murid Lesin Aja"
           text="Daftar / Wali Murid Lesin Aja"
