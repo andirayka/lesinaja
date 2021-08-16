@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Sidebar } from "@components";
+import { Sidebar, NavbarDesktop } from "@components";
 
 // Pembungkus semua content di dalam halaman yang bisa login
 export const MainLayout: FC = ({ children }) => {
@@ -10,8 +10,11 @@ export const MainLayout: FC = ({ children }) => {
         <Sidebar />
       </div>
 
-      {/* Content halaman di sebelah kanan */}
-      <div className="flex-grow ml-16">{children}</div>
+      <div className="flex flex-1 flex-col">
+        <NavbarDesktop />
+        {/* Content halaman di sebelah kanan */}
+        <div className="flex-grow m-8">{children}</div>
+      </div>
     </div>
   );
 };

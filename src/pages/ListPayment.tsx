@@ -135,11 +135,5 @@ export const ListPayment: FC = () => {
     );
   };
 
-  return (
-    <div>
-      <Title text="Daftar Riwayat Pembayaran" type="pageTitle" />
-
-      {renderContent()}
-    </div>
-  );
+  return <div>{renderContent()}</div>;
 };

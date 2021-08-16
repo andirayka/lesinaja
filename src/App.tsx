@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import { enableFirebaseConfig } from "@utils";
 import AppProvider from "@context";
-import { ListPayment, Login } from "@pages";
+import { ListCourse, ListPayment, Login } from "@pages";
 
 // Global setting for dayjs
 import "dayjs/locale/id";
@@ -21,7 +21,10 @@ dayjs.locale("id");
 enableFirebaseConfig();
 
 // List url halaman dan component yang digunakan
-const layoutPages = [{ path: ["/daftar-pembayaran"], component: ListPayment }];
+const layoutPages = [
+  { path: ["/daftar-pembayaran"], component: ListPayment },
+  { path: ["/daftar-pilihanles"], component: ListCourse },
+];
 
 const App: FC = () => {
   return (
