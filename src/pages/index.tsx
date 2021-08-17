@@ -4,3 +4,5 @@ export * from "./ListCourse";
 export * from "./Home";
 export * from "./ListTutor";
 export * from "./FormTutor";
+export * from "./ListWalmur";
+export * from "./FormWalmur";

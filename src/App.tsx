@@ -14,6 +14,8 @@ import {
   Home,
   ListTutor,
   FormTutor,
+  ListWalmur,
+  FormWalmur,
 } from "@pages";
 
 // Global setting for dayjs
@@ -34,6 +36,8 @@ const adminPages = [
   { path: ["/beranda"], component: Home },
   { path: ["/daftar-tutor"], component: ListTutor },
   { path: ["/form-tutor"], component: FormTutor },
+  { path: ["/daftar-walimurid"], component: ListWalmur },
+  { path: ["/form-walimurid"], component: FormWalmur },
 ];
 
 const App: FC = () => {

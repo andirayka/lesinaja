@@ -151,14 +151,14 @@ export const FormTutor = () => {
 
   if (loading) {
     return (
-      <div className="flex-grow bg-white rounded-lg p-6 md:ml-8 md:mr-8">
+      <div className="flex-grow bg-white rounded-lg p-6">
         <Title title="Loading..." type="cardItem" titleClassName="text-2xl" />
         <SkeletonLoading fullWidthLineCount={10} />
       </div>
     );
   } else {
     return (
-      <div className="flex-grow bg-white rounded-lg p-6 md:ml-8 md:mr-8">
+      <div className="flex-grow bg-white rounded-lg p-6">
         <Title
           title="Detail Tutor/Pengajar"
           type="cardItem"

@@ -42,13 +42,7 @@ export const getFirebaseDataOnce = async (ref: string) => {
 };
 
 // Update data di firebase
-export const updateFirebaseData = ({
-  ref,
-  payload,
-}: {
-  ref: string;
-  payload: string | object;
-}) => {
+export const updateFirebaseData = (ref: string, payload: string | object) => {
   const rtDatabase = firebase.database();
   return rtDatabase.ref(ref).update(payload, (error) => {
     if (error) {

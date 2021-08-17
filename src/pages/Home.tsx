@@ -57,18 +57,12 @@ export const Home = () => {
   };
 
   const handleSubmitTrue = (key: string) => {
-    updateFirebaseData({
-      ref: `notifikasi/${key}`,
-      payload: { sudah_dibaca: true },
-    });
+    updateFirebaseData(`notifikasi/${key}`, { sudah_dibaca: true });
     getDataFirebase();
   };
 
   const handleSubmitFalse = (key: string) => {
-    updateFirebaseData({
-      ref: `notifikasi/${key}`,
-      payload: { sudah_dibaca: false },
-    });
+    updateFirebaseData(`notifikasi/${key}`, { sudah_dibaca: false });
     getDataFirebase();
   };
 
