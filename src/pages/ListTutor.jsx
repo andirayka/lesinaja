@@ -68,7 +68,6 @@ const ListTutor = () => {
           .filter(([key, value]) => {
             // i artinya tidak case sensitive
             const matchKeyword = RegExp(query, "i");
-
             // return data yang sesuai dengan pencarian
             return matchKeyword.test(value.nama);
           })

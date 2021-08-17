@@ -85,13 +85,13 @@ const Home = () => {
 
       {/* Notifications */}
       {loading ? (
-        <div className="w-full flex-grow">
+        <div className="w-full flex-grow shadow-lg">
           <CardItem title="Notifikasi Loading..." containerClass="mt-8">
             <Skeleton mainCount={[1, 2, 3, 4, 5, 6]} />
           </CardItem>
         </div>
       ) : (
-        <CardItem title="Notifikasi Terbaru" containerClass="mt-8">
+        <CardItem title="Notifikasi Terbaru" containerClass="mt-8 shadow-lg">
           {Object.entries(dataNotif).map((item, index) => {
             const [key, value] = item;
             let timestamp = value.waktu_dibuat;
@@ -126,44 +126,47 @@ const Home = () => {
 
       {/* Social Media Effectivity */}
       {loading ? (
-        <div className="w-full flex-grow">
+        <div className="w-full flex-grow shadow-lg">
           <CardItem title="Sosial Media Loading..." containerClass="mt-8">
             <Skeleton mainCount={[1, 2, 3, 4, 5, 6]} />
           </CardItem>
         </div>
       ) : (
-        <CardItem title="Efektivitas Sosial Media" containerClass="mt-8">
+        <CardItem
+          title="Efektivitas Sosial Media"
+          containerClass="mt-8 shadow-lg"
+        >
           <CardTable
             headerValues={["Sosial Media", "Efektivitas", "Keterangan"]}
             contentValues={[
               [
                 IconFb,
                 `Facebook`,
-                `${persentase.facebook}%`,
+                `${persentase.facebook ? persentase.facebook : 0}%`,
                 `${dataSosmed.facebook} wali murid tahu Lesin Aja dari Facebook`,
               ],
               [
                 IconTiktok,
                 `Tiktok`,
-                `${persentase.tiktok}%`,
+                `${persentase.tiktok ? persentase.tiktok : 0}%`,
                 `${dataSosmed.tiktok} wali murid tahu Lesin Aja dari Tiktok`,
               ],
               [
                 IconIg,
                 `Instagram`,
-                `${persentase.instagram}%`,
+                `${persentase.instagram ? persentase.instagram : 0}%`,
                 `${dataSosmed.instagram} wali murid tahu Lesin Aja dari Instagram`,
               ],
               [
                 IconYt,
                 `YouTube`,
-                `${persentase.youtube}%`,
+                `${persentase.youtube ? persentase.youtube : 0}%`,
                 `${dataSosmed.youtube} wali murid tahu Lesin Aja dari YouTube`,
               ],
               [
                 IconTeman,
                 `Teman`,
-                `${persentase.teman}%`,
+                `${persentase.teman ? persentase.teman : 0}%`,
                 `${dataSosmed.teman} wali murid tahu Lesin Aja dari Temannya`,
               ],
             ]}
