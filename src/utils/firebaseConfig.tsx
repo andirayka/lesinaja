@@ -40,3 +40,25 @@ export const getFirebaseDataOnce = async (ref: string) => {
     .then((value) => value.val())
     .catch(console.error);
 };
+
+// Update data di firebase
+export const updateFirebaseData = ({
+  ref,
+  payload,
+}: {
+  ref: string;
+  payload: string | object;
+}) => {
+  const rtDatabase = firebase.database();
+  return rtDatabase.ref(ref).update(payload, (error) => {
+    if (error) {
+      console.log("gagal");
+    }
+  });
+};
+
+// download file dari database
+export const handleShowFile = (fileNew: string) => {
+  var storageRef = firebase.storage().ref();
+  return storageRef.child(fileNew).getDownloadURL();
+};

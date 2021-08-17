@@ -7,7 +7,14 @@ import {
 } from "react-router-dom";
 import { enableFirebaseConfig } from "@utils";
 import AppProvider from "@context";
-import { ListCourse, ListPayment, Login } from "@pages";
+import {
+  ListCourse,
+  ListPayment,
+  Login,
+  Home,
+  ListTutor,
+  FormTutor,
+} from "@pages";
 
 // Global setting for dayjs
 import "dayjs/locale/id";
@@ -24,6 +31,9 @@ enableFirebaseConfig();
 const adminPages = [
   { path: ["/daftar-pembayaran"], component: ListPayment },
   { path: ["/daftar-pilihanles"], component: ListCourse },
+  { path: ["/beranda"], component: Home },
+  { path: ["/daftar-tutor"], component: ListTutor },
+  { path: ["/form-tutor"], component: FormTutor },
 ];
 
 const App: FC = () => {
