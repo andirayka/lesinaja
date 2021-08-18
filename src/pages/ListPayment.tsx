@@ -7,11 +7,11 @@ import {
   Button,
   PaginationButtons,
 } from "@components";
-import { databaseRef, getFirebaseDataOnce } from "@utils";
+import { databaseRef, getFirebaseDataOnce, updateFirebaseData } from "@utils";
 import dayjs from "dayjs";
 
 export const ListPayment: FC = () => {
-  const dataCountPerPage = 2;
+  const dataCountPerPage = 5;
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [data, setData] = useState<null | any[]>(null);
   const [allDataCount, setAllDataCount] = useState<number>(0);
@@ -50,6 +50,9 @@ export const ListPayment: FC = () => {
                   `user/${value.id_penerima}/nama`
                 ),
                 rolePenerima: penerimaIsAdmin ? "Admin" : "Tutor",
+                namaSiswa: await getFirebaseDataOnce(
+                  `siswa/${value.id_siswa || value.bayar_pendaftaran}/nama`
+                ),
               };
 
               return [key, finalValue];
@@ -73,16 +76,20 @@ export const ListPayment: FC = () => {
     };
   }, [currentPage]);
 
+  const konfirmasiPembayaran = async (data: any) => {
+    // await updateFirebaseData(`siswa/${data.id_siswa}/`, );
+  };
+
   // Ambil kata2 keterangan untuk key keterangan di dalam CardItem
   const getTextKeterangan = (data: any) => {
     if (data.bayar_pendaftaran) {
-      return "Biaya Pendaftaran";
+      return "Bayar Pendaftaran";
     }
-    if (data.bayar_les) {
-      return "Biaya Les";
+    if (data.bayar_lessiswa) {
+      return "Bayar Les Siswa";
     }
     if (data.bayar_gajitutor) {
-      return "Gaji Tutor";
+      return "Bayar Gaji Tutor";
     }
 
     return "Tidak ada keterangan";
@@ -104,9 +111,10 @@ export const ListPayment: FC = () => {
     return (
       <>
         {data.map(([key, value]) => {
-          const waktu_transfer = dayjs
-            .unix(value.waktu_transfer)
-            .format("D MMMM YYYY, HH:mm");
+          console.log(value);
+          const waktu_transfer = dayjs(value.waktu_transfer).format(
+            "DD MMMM YYYY, HH:mm"
+          );
 
           return (
             <CardItem
@@ -118,6 +126,9 @@ export const ListPayment: FC = () => {
                 keyName="Keterangan"
                 value={getTextKeterangan(value)}
               />
+              {!value.bayar_gajitutor && (
+                <CardKeyValue keyName="Nama Siswa" value={value.namaSiswa} />
+              )}
               <CardKeyValue keyName="Waktu Pembayaran" value={waktu_transfer} />
               <CardKeyValue keyName="Nominal" value={`Rp ${value.nominal}`} />
               <div className="flex flex-row mt-8">
@@ -129,21 +140,23 @@ export const ListPayment: FC = () => {
                   />
                 )}
 
-                {["Wali Murid"].includes(value.rolePengirim) && (
-                  <Button
-                    text="Konfirmasi Uang Sudah Masuk"
-                    additionalClassName="bg-yellow-600 hover:bg-yellow-300 rounded-lg font-medium ml-5"
-                    onClick={() => {}}
-                  />
-                )}
+                {!value.sudah_dikonfirmasi &&
+                  ["Wali Murid"].includes(value.rolePengirim) && (
+                    <Button
+                      text="Konfirmasi Uang Sudah Masuk"
+                      additionalClassName="bg-yellow-600 hover:bg-yellow-300 rounded-lg font-medium ml-5"
+                      onClick={() => {}}
+                    />
+                  )}
 
-                {["Admin"].includes(value.rolePengirim) && (
-                  <Button
-                    text="Tandai Sudah Mengirim Gaji"
-                    additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-                    onClick={() => {}}
-                  />
-                )}
+                {!value.sudah_dikonfirmasi &&
+                  ["Admin"].includes(value.rolePengirim) && (
+                    <Button
+                      text="Tandai Sudah Mengirim Gaji"
+                      additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
+                      onClick={() => {}}
+                    />
+                  )}
               </div>
             </CardItem>
           );
