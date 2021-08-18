@@ -53,6 +53,7 @@ const AddListCourse = () => {
       paket: undefined,
       wilayah: undefined,
     });
+
     setInputValue({
       mapel: undefined,
       jenjangkelas: undefined,
@@ -230,6 +231,7 @@ const AddListCourse = () => {
                   confirmButtonColor: "#FBBF24",
                 });
               } else {
+                console.log(inputValue);
                 saveFormData(inputValue);
                 Swal.fire({
                   icon: "success",

@@ -1,7 +1,6 @@
 import {
   enableFirebaseConfig,
   getFirebaseDataOnce,
-  getFirebaseDataByChild,
   addFirebaseData,
   updateFirebaseData,
   deleteFirebaseData,
@@ -30,7 +29,6 @@ export {
   handleRegister,
   enableFirebaseConfig,
   getFirebaseDataOnce,
-  getFirebaseDataByChild,
   addFirebaseData,
   updateFirebaseData,
   deleteFirebaseData,

@@ -15,7 +15,7 @@ const RowMaster = ({
   setInputValue,
 }) => {
   const {
-    state: { formName, dropdownData },
+    state: { formName, dropdownData, formStatus },
     saveFormData,
     deleteFormData,
     getDropdownData,
@@ -23,70 +23,88 @@ const RowMaster = ({
 
   //untuk tampilan prompt input select
   // promptkey - menampung key dari dropdown data
-  // promptQuery - menampung hasil query dari ref promptkey
+  // promptValue - menampung hasil query dari ref promptKey
   const [promptKey, setPromptKey] = useState([]);
-  const [promptQuery, setPromptQuery] = useState([]);
-  const [rowQuery, setRowQuery] = useState([]);
+  const [promptValue, setPromptValue] = useState([]);
+  const [rowQuery, setRowQuery] = useState({
+    status: "loading",
+    data: [],
+  });
 
-  useEffect(() => {
-    if (formName == "master_wilayah") {
-      getDropdownData("wilayah_provinsi");
+  // query data prompt dropdown master wilyah
+  const getProvinsiPromptData = async () => {
+    // query data prompt saat input select dalam keadaan updating
+    if (inputValue.id_provinsi.length > 0) {
+      const query = await Promise.all(
+        inputValue.id_provinsi.map(async (child) => {
+          const queryData = await getFirebaseDataOnce({
+            ref: `wilayah_provinsi/${child}/nama`,
+          });
 
-      // query data prompt dropdown dan row master wilayah
-      const getProvinsi = async () => {
-        // query data prompt saat input select dalam keadaan updating
-        if (inputValue.id_provinsi.length !== 0) {
-          const query = await Promise.all(
-            inputValue.id_provinsi.map(async (child) => {
-              const queryData = await getFirebaseDataOnce({
-                ref: `wilayah_provinsi/${child}/nama`,
-              });
+          return { value: queryData, key: child };
+        })
+      );
 
-              return { value: queryData, key: child };
-            })
-          );
-
-          setPromptQuery(query);
-
-          // query data prompt saat input select dalam keadaan adding
-        } else if (promptKey.length !== 0) {
-          const query = await Promise.all(
-            promptKey.map(async (child) => {
-              const queryData = await getFirebaseDataOnce({
-                ref: `wilayah_provinsi/${child}/nama`,
-              });
-
-              return { value: queryData, key: child };
-            })
-          );
-
-          setPromptQuery(query);
-
-          // query data untuk row
-        } else if (item.id_provinsi.length !== 0) {
-          const query = await Promise.all(
-            item.id_provinsi.map(async (child) => {
-              const queryData = await getFirebaseDataOnce({
-                ref: `wilayah_provinsi/${child}/nama`,
-              });
-
-              return queryData;
-            })
-          );
-
-          setRowQuery(query);
-        }
-      };
-
-      getProvinsi();
+      setPromptValue(query);
     }
-  }, [inputValue.id_provinsi]);
+  };
+
+  // query wilayah provinsi pada row master wilayah
+  const getProvinsiRowData = async () => {
+    if (item && item.id_provinsi) {
+      const query = await Promise.all(
+        item.id_provinsi.map(async (child) => {
+          const queryData = await getFirebaseDataOnce({
+            ref: `wilayah_provinsi/${child}/nama`,
+          });
+
+          return queryData;
+        })
+      );
+      setRowQuery({
+        ...rowQuery,
+        data: query,
+      });
+    }
+  };
+
+  // data rowmaster
+  const conditionalRowRender = () => {
+    if (formName == "master_paket") {
+      return (
+        <div className="w-3/4 ml-2.5 text-lg">{`${item.nama} (${item.jumlah_pertemuan} pertemuan)`}</div>
+      );
+    }
+
+    if (formName == "master_wilayah") {
+      return (
+        <>
+          <div className="w-3/4 ml-2.5 text-lg">{item.nama}</div>
+          <div className="w-3/4 ml-2.5 text-lg">{item.biaya_daftar}</div>
+          <div className="w-3/4 ml-2.5 text-lg">
+            {rowQuery.status == "loading" && rowQuery.data.length <= 0 ? (
+              <div>Memuat...</div>
+            ) : (
+              rowQuery.data.length > 0 &&
+              rowQuery.data.map((item, index) => {
+                return (
+                  <p key={index} className="bg-gray-300 rounded-md m-1 p-1">
+                    {item}
+                  </p>
+                );
+              })
+            )}
+          </div>
+        </>
+      );
+    }
+  };
 
   // data prompt input select
   const conditionalPromptRender = () => {
     // tampilan prompt saat updating
-    if (inputValue.id_provinsi.length !== 0 && promptQuery.length !== 0) {
-      return Object.values(promptQuery).map((item, index) => {
+    if (inputValue.id_provinsi.length !== 0 && promptValue.length !== 0) {
+      return Object.values(promptValue).map((item, index) => {
         return (
           <div
             key={index}
@@ -107,8 +125,8 @@ const RowMaster = ({
       });
 
       // tampilan prompt saat adding
-    } else if (promptKey.length !== 0 && promptQuery.length !== 0) {
-      return Object.values(promptQuery).map((item, index) => {
+    } else if (promptKey.length !== 0 && promptValue.length !== 0) {
+      return Object.values(promptValue).map((item, index) => {
         return (
           <div
             key={index}
@@ -128,6 +146,29 @@ const RowMaster = ({
       return <div>Pilih Provinsi</div>;
     }
   };
+
+  useEffect(() => {
+    // hanya dieksekusi di rowmaster wilayah
+    if (formName == "master_wilayah") {
+      getDropdownData("wilayah_provinsi");
+      getProvinsiPromptData();
+      getProvinsiRowData();
+
+      if (rowQuery.data.length > 0) {
+        setRowQuery({
+          ...rowQuery,
+          status: "loaded",
+        });
+      }
+
+      if (formStatus == "refreshing") {
+        setRowQuery({
+          ...rowQuery,
+          status: "loading",
+        });
+      }
+    }
+  }, [inputValue.id_provinsi, promptKey, formStatus, rowQuery.status]);
 
   // tampilan form saat update data
   if (isEditing) {
@@ -198,14 +239,11 @@ const RowMaster = ({
                 value={inputValue.id_provinsi}
                 prompt={conditionalPromptRender()}
                 onChange={({ key }) => {
-                  if (inputValue.id_provinsi.length !== 0) {
-                    setInputValue({
-                      ...inputValue,
-                      id_provinsi: [...inputValue.id_provinsi, parseInt(key)],
-                    });
-                  } else {
-                    setPromptKey([...promptKey, parseInt(key)]);
-                  }
+                  // if (inputValue.id_provinsi.length !== 0) {
+                  setInputValue({
+                    ...inputValue,
+                    id_provinsi: [...inputValue.id_provinsi, parseInt(key)],
+                  });
                 }}
               />
             </>
@@ -236,7 +274,7 @@ const RowMaster = ({
                   if (
                     !inputValue.nama ||
                     !inputValue.biaya_daftar ||
-                    !promptKey.length === 0
+                    inputValue.id_provinsi.length <= 0
                   ) {
                     Swal.fire({
                       icon: "error",
@@ -257,7 +295,7 @@ const RowMaster = ({
                       saveFormData({
                         nama: inputValue.nama,
                         biaya_daftar: inputValue.biaya_daftar,
-                        id_provinsi: promptKey,
+                        id_provinsi: inputValue.id_provinsi,
                       });
                     }
                     onClickSave();
@@ -330,33 +368,6 @@ const RowMaster = ({
       </div>
     );
   }
-
-  const conditionalRowRender = () => {
-    if (formName == "master_paket") {
-      return (
-        <div className="w-3/4 ml-2.5 text-lg">{`${item.nama} (${item.jumlah_pertemuan} pertemuan)`}</div>
-      );
-    }
-
-    if (formName == "master_wilayah") {
-      return (
-        <>
-          <div className="w-3/4 ml-2.5 text-lg">{item.nama}</div>
-          <div className="w-3/4 ml-2.5 text-lg">{item.biaya_daftar}</div>
-          <div className="w-3/4 ml-2.5 text-lg">
-            {rowQuery.length !== 0 &&
-              rowQuery.map((item, index) => {
-                return (
-                  <p key={index} className="bg-gray-300 rounded-md m-1 p-1">
-                    {item}
-                  </p>
-                );
-              })}
-          </div>
-        </>
-      );
-    }
-  };
 
   return (
     <div className="flex flex-row py-4">

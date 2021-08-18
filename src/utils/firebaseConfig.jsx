@@ -57,45 +57,6 @@ const getFirebaseDataOnce = async ({ ref, limit }) => {
     .catch(console.error);
 };
 
-/**
- * @typedef {Object}
- * @property {String} ref - ref untuk query
- * @property {Array}  childKey - child key dari root ref
- * @property {String=} type - diisi jika childkey bertipe array of objects
- */
-const getFirebaseDataByChild = async ({
-  ref,
-  childKey = [],
-  type = undefined,
-}) => {
-  const rtDatabase = firebase.database();
-
-  if (type) {
-    const query = childKey.map(async (key) => {
-      try {
-        const value = await rtDatabase.ref(ref).child(key[type]).once("value");
-        return value;
-      } catch (message) {
-        return console.error(message);
-      }
-    });
-
-    return { snapshotPromise: query, type: type };
-  } else {
-    console.log(childKey);
-    const query = childKey.map(async (key) => {
-      try {
-        const value = await rtDatabase.ref(ref).child(key).once("value");
-        return value;
-      } catch (message) {
-        return console.error(message);
-      }
-    });
-
-    return query;
-  }
-};
-
 const addFirebaseData = ({ ref, payload, isNoKey }) => {
   const rtDatabase = firebase.database();
 
@@ -260,7 +221,6 @@ export {
   handleRegister,
   enableFirebaseConfig,
   getFirebaseDataOnce,
-  getFirebaseDataByChild,
   addFirebaseData,
   updateFirebaseData,
   deleteFirebaseData,
