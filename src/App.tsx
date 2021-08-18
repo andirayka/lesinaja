@@ -16,6 +16,7 @@ import {
   FormTutor,
   ListWalmur,
   FormWalmur,
+  Keuangan,
 } from "@pages";
 
 // Global setting for dayjs
@@ -31,13 +32,18 @@ enableFirebaseConfig();
 
 // List url halaman dan component yang digunakan
 const adminPages = [
-  { path: ["/daftar-pembayaran"], component: ListPayment },
+  {
+    path: ["/daftar-pembayaran"],
+    component: ListPayment,
+    title: ["Daftar Pembayaran LesinAja"],
+  },
   { path: ["/daftar-pilihanles"], component: ListCourse },
   { path: ["/beranda"], component: Home },
   { path: ["/daftar-tutor"], component: ListTutor },
   { path: ["/form-tutor"], component: FormTutor },
   { path: ["/daftar-walimurid"], component: ListWalmur },
   { path: ["/form-walimurid"], component: FormWalmur },
+  { path: ["/keuangan"], component: Keuangan },
 ];
 
 const App: FC = () => {
