@@ -112,7 +112,7 @@ export const ListPayment: FC = () => {
             <CardItem
               key={key}
               title={`${value.rolePengirim} ${value.namaPengirim} kepada ${value.rolePenerima} ${value.namaPenerima}`}
-              containerClass="mt-8"
+              containerClass="mt-8 shadow-lg"
             >
               <CardKeyValue
                 keyName="Keterangan"

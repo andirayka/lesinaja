@@ -5,17 +5,19 @@ type Props = {
   title: string;
   subtitle?: string;
   titleClassName?: string;
+  itemClassName?: string;
 };
 // Judul content
 export const Title: FC<Props> = ({
   type,
   title,
   subtitle,
+  itemClassName = "p-2.5",
   titleClassName = "text-xl",
 }) => {
   if (type == "cardItem")
     return (
-      <div className="rounded-md p-2.5">
+      <div className={`rounded-md ${itemClassName}`}>
         <p className={`font-bold ${titleClassName}`}>{title}</p>
         {subtitle && <p className="text-gray-500">{subtitle}</p>}
       </div>

@@ -151,18 +151,24 @@ export const FormTutor = () => {
 
   if (loading) {
     return (
-      <div className="flex-grow bg-white rounded-lg p-6">
-        <Title title="Loading..." type="cardItem" titleClassName="text-2xl" />
+      <div className="flex-grow bg-white rounded-lg p-6 shadow-lg">
+        <Title
+          title="Loading..."
+          type="cardItem"
+          titleClassName="text-2xl"
+          itemClassName="p-0"
+        />
         <SkeletonLoading fullWidthLineCount={10} />
       </div>
     );
   } else {
     return (
-      <div className="flex-grow bg-white rounded-lg p-6">
+      <div className="flex-grow bg-white rounded-lg p-6 shadow-lg">
         <Title
           title="Detail Tutor/Pengajar"
           type="cardItem"
           titleClassName="text-2xl"
+          itemClassName="p-0"
         />
 
         {!profileSrc ? (

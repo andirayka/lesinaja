@@ -50,7 +50,7 @@ export const ListTutor = () => {
           type="pageTitle"
         />
         {/* form filter */}
-        <div className="bg-white mt-8 rounded-md">
+        <div className="bg-white mt-8 rounded-md shadow-lg">
           <InputText
             value={query}
             placeholder="Cari data berdasarkan nama..."
@@ -78,7 +78,7 @@ export const ListTutor = () => {
                 <CardItem
                   key={index}
                   title={value.nama ? value.nama : "Data Nama Kosong"}
-                  containerClass="mt-8"
+                  containerClass="mt-8 shadow-lg"
                 >
                   <CardKeyValue keyName="Email" value={value.email} />
                   <CardKeyValue keyName="No. WA" value={value.kontak.telepon} />

@@ -32,7 +32,7 @@ export const ListWalmur = () => {
           subtitle="Daftar / Wali Murid Lesin Aja"
           type="pageTitle"
         />
-        <CardItem title="Loading..." containerClass="mt-8">
+        <CardItem title="Loading..." containerClass="mt-8 shadow-lg">
           <SkeletonLoading fullWidthLineCount={6} />
         </CardItem>
       </div>
@@ -50,7 +50,11 @@ export const ListWalmur = () => {
           const [key, value] = item;
           if (value.roles && value.roles.wali_murid && value.kontak) {
             return (
-              <CardItem key={index} title={value.nama} containerClass="mt-8">
+              <CardItem
+                key={index}
+                title={value.nama}
+                containerClass="mt-8 shadow-lg"
+              >
                 <CardKeyValue keyName="Email" value={value.email} />
                 <CardKeyValue keyName="No. WA" value={value.kontak.telepon} />
                 <CardKeyValue
