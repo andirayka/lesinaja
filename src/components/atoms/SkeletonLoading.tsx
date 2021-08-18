@@ -6,6 +6,7 @@ type Props = {
   containerClassName?: string;
   elementClassName?: string;
 };
+
 // Tampilan skeleton loading
 export const SkeletonLoading: FC<Props> = ({
   fullWidthLineCount,
