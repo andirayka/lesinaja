@@ -187,6 +187,12 @@ export const ListPayment: FC = () => {
                       text="Konfirmasi Uang Sudah Masuk"
                       additionalClassName="bg-yellow-600 hover:bg-yellow-300 rounded-lg font-medium ml-5"
                       onClick={() => konfirmasiPembayaranDaftar(value, key)}
+                      loading={
+                        isLoadingButton &&
+                        key == isKey && (
+                          <LoadIcon additionalClassName="text-2xl" />
+                        )
+                      }
                     />
                   )}
 

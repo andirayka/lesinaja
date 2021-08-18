@@ -3,13 +3,12 @@ import {
   CardItem,
   Title,
   CardKeyValue,
-  Paginations,
   SectionFee,
-  Skeleton,
+  SkeletonLoading,
   InputNumber,
   InputText,
   InputDate,
-  FieldError,
+  // FieldError,
   EmptyIcon,
   Swal,
 } from "@components";
@@ -34,7 +33,7 @@ export const Keuangan = () => {
     formState: { errors },
   } = useForm();
 
-  const [data, setData] = useState({});
+  const [data, setData] = useState<any>({});
 
   const [loading, setLoading] = useState(true);
 
@@ -44,16 +43,14 @@ export const Keuangan = () => {
 
   const [isId, setId] = useState();
 
-  const [isPengeluaran, setIsPengeluaran] = useState();
+  const [isPengeluaran, setIsPengeluaran] = useState<number>();
 
-  const [labaBersih, setLabaBersih] = useState();
+  const [labaBersih, setLabaBersih] = useState<number>();
 
-  const [exportData, setExportData] = useState([]);
+  const [exportData, setExportData] = useState<any>([]);
 
   const getDataFirebase = async () => {
-    const getData = await getFirebaseDataOnce({
-      ref: `keuangan`,
-    });
+    const getData = await getFirebaseDataOnce(`keuangan`);
     const namaBulan = "perBulanNya"; //sementara
     const dataBulanTerpilih = getData[namaBulan];
     setData(dataBulanTerpilih);
@@ -61,12 +58,12 @@ export const Keuangan = () => {
     handlePengeluaran(dataBulanTerpilih);
   };
 
-  const handlePengeluaran = (data) => {
+  const handlePengeluaran = (data: any) => {
     let totalPengeluaran = 0;
     if (data.pengeluaran) {
       const semuaNominal = Object.values(data.pengeluaran);
       for (let i = 0; i < semuaNominal.length; i++) {
-        const element = semuaNominal[i];
+        const element: any = semuaNominal[i];
         totalPengeluaran += element.nominal;
       }
     }
@@ -79,7 +76,7 @@ export const Keuangan = () => {
     setLabaBersih(labaNew);
   };
 
-  const handleDeleteData = (id) => {
+  const handleDeleteData = (id: any) => {
     const isDelete = data.pengeluaran[id].tanggal;
     Swal.fire({
       text: `Apakah anda yakin ingin menghapus data transaksi pada tanggal ${isDelete}!`,
@@ -95,13 +92,13 @@ export const Keuangan = () => {
           text: "Data berhasil di hapus",
           icon: "success",
         });
-        deleteFirebaseData({ ref: `keuangan/perBulanNya/pengeluaran/${id}` });
+        deleteFirebaseData(`keuangan/perBulanNya/pengeluaran/${id}`);
         getDataFirebase();
       }
     });
   };
 
-  const handleUpdateData = (id) => {
+  const handleUpdateData = (id: any) => {
     setLoadForm(true);
     const oldData = data.pengeluaran[id];
     setValue("tanggal", oldData.tanggal);
@@ -112,18 +109,18 @@ export const Keuangan = () => {
     setIsUpdate(true);
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = (event: any) => {
     // const oldData = data.pengeluaran[id];
     let nominalNew = parseInt(event.nominal);
     if (isUpdate) {
-      updateFirebaseData({
-        ref: `keuangan/perBulanNya/pengeluaran/${isId}`, //sementara
-        payload: {
+      updateFirebaseData(
+        `keuangan/perBulanNya/pengeluaran/${isId}`, //sementara
+        {
           tanggal: event.tanggal,
           transaksi: event.transaksi,
           nominal: nominalNew,
-        },
-      });
+        }
+      );
       setIsUpdate(false);
     } else {
       addFirebaseData({
@@ -153,16 +150,16 @@ export const Keuangan = () => {
 
   if (loading) {
     return (
-      <div className="flex-grow md:ml-8 md:mr-8">
+      <div className="flex-grow">
         <Title title="Loading..." type="pageTitle" />
         <CardItem title="Loading..." containerClass="mt-8">
-          <Skeleton mainCount={[1, 2, 3, 4, 5, 6]} />
+          <SkeletonLoading fullWidthLineCount={6} />
         </CardItem>
       </div>
     );
   } else {
     return (
-      <div className="flex-grow md:ml-8 md:mr-8 md:mb-8">
+      <div className="flex-grow">
         <div className="mb-8">
           <Title title={`Keuangan Bulan ${data.bulan}`} type="pageTitle" />
 
@@ -229,7 +226,8 @@ export const Keuangan = () => {
                       })}
                     />
                     {errors.name && (
-                      <FieldError message={errors.tanggal.message} />
+                      <p>{errors.tanggal.message}</p>
+                      // <FieldError message={errors.tanggal.message} />
                     )}
                   </div>
                   <div className="flex-grow text-left ">
@@ -239,7 +237,8 @@ export const Keuangan = () => {
                       })}
                     />
                     {errors.transaksi && (
-                      <FieldError message={errors.transaksi.message} />
+                      <p>{errors.transaksi.message}</p>
+                      // <FieldError message={errors.transaksi.message} />
                     )}
                   </div>
                   <div className="flex-grow text-center">
@@ -249,7 +248,8 @@ export const Keuangan = () => {
                       })}
                     />
                     {errors.nominal && (
-                      <FieldError message={errors.nominal.message} />
+                      <p>{errors.nominal.message}</p>
+                      // <FieldError message={errors.nominal.message} />
                     )}
                   </div>
                   <div className="flex-grow flex py-3 justify-end">
@@ -274,7 +274,7 @@ export const Keuangan = () => {
                 <EmptyIcon />
               </div>
             ) : (
-              Object.entries(data.pengeluaran).map((item, index) => {
+              Object.entries<any>(data.pengeluaran).map((item, index) => {
                 const [key, value] = item;
                 // console.log(value.nominal);
 
@@ -306,7 +306,6 @@ export const Keuangan = () => {
             )}
           </div>
         </div>
-        <Paginations />
       </div>
     );
   }
