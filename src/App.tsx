@@ -32,16 +32,44 @@ dayjs.locale("id");
 enableFirebaseConfig();
 
 // List url halaman dan component yang digunakan
-const adminPages = [
-  { path: ["/daftar-master"], component: ListMaster },
-  { path: ["/daftar-pembayaran"], component: ListPayment },
-  { path: ["/daftar-pilihanles"], component: ListCourse },
-  { path: ["/beranda"], component: Home },
-  { path: ["/daftar-tutor"], component: ListTutor },
-  { path: ["/form-tutor"], component: FormTutor },
-  { path: ["/daftar-walimurid"], component: ListWalmur },
-  { path: ["/form-walimurid"], component: FormWalmur },
-  { path: ["/keuangan"], component: Keuangan },
+const adminPages: any = [
+  {
+    path: ["/daftar-master"],
+    component: ListMaster,
+    title: ["Daftar Master LesinAja"],
+  },
+  {
+    path: ["/daftar-pembayaran"],
+    component: ListPayment,
+    title: "Daftar Pembayaran LesinAja",
+  },
+  {
+    path: ["/daftar-pilihanles"],
+    component: ListCourse,
+    title: ["Daftar Pilihan Les LesinAja"],
+  },
+  { path: ["/beranda"], component: Home, title: ["Beranda LesinAja"] },
+  {
+    path: ["/daftar-tutor"],
+    component: ListTutor,
+    title: ["Daftar Tutor LesinAja"],
+  },
+  {
+    path: ["/form-tutor"],
+    component: FormTutor,
+    title: ["Form Tutor LesinAja"],
+  },
+  {
+    path: ["/daftar-walimurid"],
+    component: ListWalmur,
+    title: ["Daftar Wali Murid LesinAja"],
+  },
+  {
+    path: ["/form-walimurid"],
+    component: FormWalmur,
+    title: ["Form Wali Murid LesinAja"],
+  },
+  { path: ["/keuangan"], component: Keuangan, title: ["Keuangan LesinAja"] },
 ];
 
 const App: FC = () => {
@@ -90,18 +118,23 @@ const InitialChecker = () => {
       {/* <Route path="/daftar" exact component={Register} /> */}
 
       {/* Untuk mengecek data-data awal ketika buk aplikasi */}
-      <MainLayout>
-        {adminPages.map((item, index) => {
-          return (
-            <Route
-              key={index}
-              path={item.path}
-              exact
-              component={item.component}
-            />
-          );
-        })}
-      </MainLayout>
+      {adminPages.map((item: any, index: any) => {
+        return (
+          <Route
+            key={index}
+            exact
+            path={item.path}
+            render={(props) => {
+              document.title = item.title ? item.title : "Lesin Aja";
+              return (
+                <MainLayout>
+                  <item.component {...props} />
+                </MainLayout>
+              );
+            }}
+          />
+        );
+      })}
       <Redirect to="/masuk" />
     </Switch>
   );

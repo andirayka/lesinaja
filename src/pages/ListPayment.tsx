@@ -112,6 +112,10 @@ export const ListPayment: FC = () => {
     getData();
   };
 
+  const handleUnduhBukti = (link: any) => {
+    window.open(link, "_blank");
+  };
+
   // Ambil kata2 keterangan untuk key keterangan di dalam CardItem
   const getTextKeterangan = (data: any) => {
     if (data.bayar_pendaftaran) {
@@ -174,9 +178,9 @@ export const ListPayment: FC = () => {
               <div className="flex flex-row mt-8">
                 {["Wali Murid"].includes(value.rolePengirim) && (
                   <Button
-                    text="Unduh Bukti Pembayaran"
+                    text="Lihat Bukti Pembayaran"
                     additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-                    onClick={() => {}}
+                    onClick={() => handleUnduhBukti(value.bukti)}
                   />
                 )}
 

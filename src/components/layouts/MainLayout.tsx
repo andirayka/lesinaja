@@ -2,7 +2,10 @@ import React, { FC } from "react";
 import { Sidebar, NavbarDesktop } from "@components";
 
 // Pembungkus semua content di dalam halaman yang bisa login
-export const MainLayout: FC = ({ children }) => {
+type Props = {
+  children?: any;
+};
+export const MainLayout: FC<Props> = ({ children }) => {
   return (
     <div className="flex">
       {/* Sidebar di sebelah kiri */}
