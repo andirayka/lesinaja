@@ -5,8 +5,8 @@ import {
   Route,
   Switch,
 } from "react-router-dom";
-import { enableFirebaseConfig } from "@utils";
-import AppProvider from "@context";
+import { enableFirebaseConfig, firebase } from "@utils";
+import AppProvider, { AuthContext } from "@context";
 import {
   ListMaster,
   ListCourse,
@@ -23,7 +23,6 @@ import {
 // Global setting for dayjs
 import "dayjs/locale/id";
 import dayjs from "dayjs";
-import { AuthContext } from "context/AuthContext";
 import { MainLayout } from "@components";
 // Buat dayjs agar bahasa indonesia dan gunakan plugin
 dayjs.locale("id");
@@ -32,7 +31,7 @@ dayjs.locale("id");
 enableFirebaseConfig();
 
 // List url halaman dan component yang digunakan
-const adminPages: any = [
+const adminPages = [
   {
     path: ["/daftar-master"],
     component: ListMaster,
@@ -84,32 +83,32 @@ const App: FC = () => {
 
 const InitialChecker = () => {
   // Undefined = belum tahu, true = sudah login, false = tidak login
-  // const { state: authState, setIsLoggedIn } = useContext(AuthContext);
-  // const { isLoggedIn } = authState;
+  const { state: authState, setIsLoggedIn } = useContext<any>(AuthContext);
+  const { isLoggedIn } = authState;
 
   // Cek apakah user sudah login
-  // useEffect(() => {
-  //   firebase.auth().onAuthStateChanged((user) => {
-  //     if (user) {
-  //       setIsLoggedIn(true);
-  //     } else {
-  //       setIsLoggedIn(false);
-  //       console.log("anda belum login");
-  //     }
-  //   });
-  // }, []);
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user: any) => {
+      if (user) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+        console.log("anda belum login");
+      }
+      // console.log(user);
+    });
+  }, []);
 
-  // if (isLoggedIn === false) {
-  //   return (
-  //     <Switch>
-  //       <Route path="/" exact component={Landing} />
-  //       <Route path="/masuk" exact component={Login} />
-  //       <Route path="/daftar" exact component={Register} />
-
-  //       <Redirect to="/masuk" />
-  //     </Switch>
-  //   );
-  // }
+  if (isLoggedIn === false) {
+    return (
+      <Switch>
+        {/* <Route path="/" exact component={Landing} /> */}
+        <Route path="/masuk" exact component={Login} />
+        {/* <Route path="/daftar" exact component={Register} /> */}
+        <Redirect to="/masuk" />
+      </Switch>
+    );
+  }
 
   return (
     <Switch>

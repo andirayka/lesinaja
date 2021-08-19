@@ -12,3 +12,4 @@ export * from "./SectionFee";
 export * from "./InputNumber";
 export * from "./InputDate";
 export * from "./Popup";
+export * from "./InputPassword";

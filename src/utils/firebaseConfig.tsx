@@ -92,3 +92,44 @@ export const handleShowFile = (fileNew: string) => {
   var storageRef = firebase.storage().ref();
   return storageRef.child(fileNew).getDownloadURL();
 };
+
+// login dengan Email firebase
+export const handleLoginEmail = async (email: string, password: string) => {
+  try {
+    const userCredential = await firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password);
+    var user: any = userCredential.user;
+    const getData = await getFirebaseDataOnce(`user/${user.uid}/roles`);
+    // console.log(getData);
+    return { success: true, role: getData };
+  } catch (error) {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    console.log(errorCode, errorMessage);
+    return { success: false };
+  }
+};
+
+//Login dengan Google firebase
+export const handleLoginGoogleFirebase = async () => {
+  var provider = new firebase.auth.GoogleAuthProvider();
+  try {
+    const userCredential = await firebase.auth().signInWithPopup(provider);
+    var user: any = userCredential.user;
+    const getData = await getFirebaseDataOnce(`user/${user.uid}/roles`);
+    console.log(getData);
+    return { success: true, role: getData };
+  } catch (error) {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    console.log(errorCode, errorMessage);
+    return { success: true };
+  }
+};
+
+export const handleLogout = async () => {
+  return firebase.auth().signOut();
+};
+
+export { firebase };
