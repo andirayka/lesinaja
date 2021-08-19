@@ -4,7 +4,7 @@ type Props = {
   type?: "submit" | "reset" | "button";
   text: string;
   additionalClassName: string;
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
   loading?: any;
 };
 

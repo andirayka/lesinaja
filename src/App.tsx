@@ -18,6 +18,7 @@ import {
   FormTutor,
   ListWalmur,
   FormWalmur,
+  Keuangan,
 } from "@pages";
 
 // Global setting for dayjs
@@ -42,6 +43,7 @@ const adminPages = [
   { path: ["/form-tutor"], component: FormTutor },
   { path: ["/daftar-walimurid"], component: ListWalmur },
   { path: ["/form-walimurid"], component: FormWalmur },
+  { path: ["/keuangan"], component: Keuangan },
 ];
 
 const App: FC = () => {

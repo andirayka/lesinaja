@@ -96,16 +96,19 @@ export const ListPayment: FC = () => {
     setIsKey(key);
     setIsLoadingButton(true);
 
-    // updateFirebaseData(`pembayaran/${key}`, {
-    //   sudah_dikonfirmasi: true,
-    // });
+    updateFirebaseData(`pembayaran/${key}`, {
+      sudah_dikonfirmasi: true,
+    });
 
     const getDataLesSiswa = await getFirebaseDataOnce(
       `les_siswa/${data.bayar_lessiswa}/wilayah_status`
     );
-    let idWilayahKabupaten = getDataLesSiswa;
 
-    console.log(idWilayahKabupaten.substring(0, 4));
+    updateFirebaseData(`les_siswa/${data.bayar_lessiswa}`, {
+      wilayah_status: `${getDataLesSiswa}_apply`,
+    });
+
+    console.log(getDataLesSiswa);
     getData();
   };
 
@@ -184,6 +187,12 @@ export const ListPayment: FC = () => {
                       text="Konfirmasi Uang Sudah Masuk"
                       additionalClassName="bg-yellow-600 hover:bg-yellow-300 rounded-lg font-medium ml-5"
                       onClick={() => konfirmasiPembayaranDaftar(value, key)}
+                      loading={
+                        isLoadingButton &&
+                        key == isKey && (
+                          <LoadIcon additionalClassName="text-2xl" />
+                        )
+                      }
                     />
                   )}
 
@@ -234,8 +243,8 @@ export const ListPayment: FC = () => {
   return (
     <div>
       <Title
-        title="Wali Murid Lesin Aja"
-        subtitle="Daftar / Wali Murid Lesin Aja"
+        title="Riwayat Pembayaran"
+        subtitle="Daftar / Riwayat Pembayaran"
         type="pageTitle"
       />
 

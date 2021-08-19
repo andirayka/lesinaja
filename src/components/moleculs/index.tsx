@@ -9,3 +9,7 @@ export * from "./InputSelect";
 export * from "./InputRadio";
 export * from "./InputTextarea";
 export * from "./InputFile";
+export * from "./SectionFee";
+export * from "./InputNumber";
+export * from "./InputDate";
+export * from "./Popup";

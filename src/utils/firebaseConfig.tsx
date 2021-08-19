@@ -39,6 +39,34 @@ export const getFirebaseDataOnce = async (ref: string) => {
     .catch(console.error);
 };
 
+// menambahkan data ke database firebase
+export const addFirebaseData = ({
+  ref,
+  payload,
+  isNoKey,
+}: {
+  ref: string;
+  payload: any;
+  isNoKey?: string;
+}) => {
+  const rtDatabase = firebase.database();
+
+  if (isNoKey) {
+    return rtDatabase.ref(`${ref}`).set(payload, (error) => {
+      if (error) {
+        console.log("gagal");
+      }
+    });
+  }
+  const newKey = firebase.database().ref(ref).push().key;
+
+  return rtDatabase.ref(`${ref}/${newKey}`).set(payload, (error) => {
+    if (error) {
+      console.log("gagal");
+    }
+  });
+};
+
 // Update data di firebase
 export const updateFirebaseData = (ref: string, payload: string | object) => {
   const rtDatabase = firebase.database();
@@ -47,6 +75,16 @@ export const updateFirebaseData = (ref: string, payload: string | object) => {
       console.log("gagal");
     }
   });
+};
+
+// delete data di firebase
+export const deleteFirebaseData = async (ref: string) => {
+  const rtDatabase = firebase.database();
+  try {
+    return rtDatabase.ref(ref).remove();
+  } catch (message) {
+    return console.error(message);
+  }
 };
 
 // download file dari database
