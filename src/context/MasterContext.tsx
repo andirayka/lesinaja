@@ -56,8 +56,8 @@ const reducer = (state: any, action: any) => {
   }
 };
 
-export const ContextMaster = createContext<any>(initialState);
-export const ProviderMaster: FC = ({ children }) => {
+export const MasterContext = createContext<any>(initialState);
+export const MasterProvider: FC = ({ children }) => {
   const [state, dispatch] = useReducer<any>(reducer, initialState);
 
   // Get 4 list data master
@@ -258,7 +258,7 @@ export const ProviderMaster: FC = ({ children }) => {
 */
 
   return (
-    <ContextMaster.Provider
+    <MasterContext.Provider
       value={{
         state,
         // getFormData,
@@ -273,6 +273,6 @@ export const ProviderMaster: FC = ({ children }) => {
       }}
     >
       {children}
-    </ContextMaster.Provider>
+    </MasterContext.Provider>
   );
 };

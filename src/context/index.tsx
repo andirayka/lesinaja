@@ -1,9 +1,9 @@
 import React, { FC } from "react";
 import { AuthProvider } from "./AuthContext";
-import { ProviderMaster, ContextMaster } from "./ContextMaster";
+import { MasterProvider, MasterContext } from "./MasterContext";
 
 // * Combine all providers
-const providers = [AuthProvider, ProviderMaster];
+const providers = [AuthProvider, MasterProvider];
 const AppProvider: FC = ({ children }) => {
   return providers.reduceRight((acc, Comp) => {
     return <Comp>{acc}</Comp>;
@@ -11,4 +11,4 @@ const AppProvider: FC = ({ children }) => {
 };
 
 export default AppProvider;
-export { ContextMaster };
+export { MasterContext };
