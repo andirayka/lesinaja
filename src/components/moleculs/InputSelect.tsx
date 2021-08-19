@@ -2,10 +2,10 @@ import React, { useState, FC } from "react";
 import { DropdownArrow } from "@assets";
 
 type Props = {
-  data?: any;
-  prompt: string;
+  data: any;
+  prompt: any;
   onChange?: any;
-  heading: string;
+  heading?: string;
   containerClassName?: string;
   itemClassName?: string;
 };
@@ -64,7 +64,6 @@ export const InputSelect: FC<Props> = ({
             Object.entries<any>(data)
               .filter(([key, value]) => {
                 // i artinya tidak case sensitive
-                console.log(key);
                 const matchKeyword = RegExp(query, "i");
 
                 // return data yang sesuai dengan pencarian

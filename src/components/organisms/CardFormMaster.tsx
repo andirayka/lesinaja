@@ -24,13 +24,11 @@ export const CardFormMaster: FC<Props> = ({
   };
 
   // Diisi integer urutan row yang sedang edit
-  const [editingRow, setEditingRow] = useState<any>(undefined);
+  const [editingRow, setEditingRow] = useState<number | undefined>(undefined);
 
-  const [inputValue, setInputValue] = useState<any>({
-    ...intialValue,
-  });
+  const [inputValue, setInputValue] = useState<object>({ ...intialValue });
 
-  // state untuk input text filter
+  // untuk input text filter
   const [query, setQuery] = useState("");
 
   const renderList = () => {
@@ -88,6 +86,8 @@ export const CardFormMaster: FC<Props> = ({
         <p className="font-semibold text-xl w-3/4">Nama</p>
         <p className="font-semibold text-xl text-center w-1/4">Aksi</p>
       </div>
+
+      {/* form search data */}
       {formStatus == "viewing" && (
         <InputText
           value={query}
@@ -97,8 +97,8 @@ export const CardFormMaster: FC<Props> = ({
         />
       )}
 
-      {/* Table Row when user is adding new data */}
-      {/*isAdding && (
+      {/* row saat dalam status editing */}
+      {isAdding && (
         <RowMaster
           inputValue={inputValue}
           onClickSave={() => {
@@ -112,10 +112,10 @@ export const CardFormMaster: FC<Props> = ({
           setInputValue={setInputValue}
           isEditing
         />
-        )*/}
+      )}
 
       {/* Table Row when user is update data */}
-      {/* {renderList()} */}
+      {renderList()}
     </div>
   );
 };

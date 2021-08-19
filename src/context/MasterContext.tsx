@@ -1,5 +1,10 @@
-// @ts-nocheck
-import { updateFirebaseData, databaseRef, DBKEY } from "@utils";
+import {
+  addFirebaseData,
+  updateFirebaseData,
+  deleteFirebaseData,
+  databaseRef,
+  DBKEY,
+} from "@utils";
 import React, { FC, createContext, useReducer } from "react";
 
 // * initial Value
@@ -15,7 +20,6 @@ const initialState = {
     paket: undefined,
     wilayah: undefined,
   },
-
   listStatus: "loading",
 
   // data dan status form master
@@ -59,7 +63,7 @@ const reducer = (state: any, action: any) => {
 
 export const MasterContext = createContext<any>(initialState);
 export const MasterProvider: FC = ({ children }) => {
-  const [state, dispatch] = useReducer<any>(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   // Get 4 list data master
   const getListData = async () => {
@@ -82,15 +86,16 @@ export const MasterProvider: FC = ({ children }) => {
     };
 
     setListStatus("viewing");
-    dispatch<object>({ type: "GET_LIST_DATA", data });
+    dispatch({ type: "GET_LIST_DATA", data });
   };
-  /*
+
   // Dipanggil ketika pertama kali buka form
-  const getFormData = async (ref) => {
+  const getFormData = async (ref: string) => {
     try {
-      const value = await rtDatabase
-        .ref(ref)
-        .once("value", (snapshot) => snapshot);
+      const value = await databaseRef(ref).once(
+        "value",
+        (snapshot) => snapshot
+      );
       const data = value.val();
 
       setFormStatus("viewing");
@@ -99,15 +104,14 @@ export const MasterProvider: FC = ({ children }) => {
       console.error(message);
     }
   };
-*/
 
-  /*
   // query untuk dropdown
-  const getDropdownData = async (ref) => {
+  const getDropdownData = async (ref: string) => {
     try {
-      const value = await rtDatabase
-        .ref(ref)
-        .once("value", (snapshot) => snapshot);
+      const value = await databaseRef(ref).once(
+        "value",
+        (snapshot) => snapshot
+      );
       const data = value.val();
 
       dispatch({ type: "GET_DROPDOWN_DATA", data });
@@ -115,15 +119,14 @@ export const MasterProvider: FC = ({ children }) => {
       console.error(message);
     }
   };
-*/
 
-  /*
   const getMultipleDropdownData = async () => {
-    const getData = async (ref) => {
+    const getData = async (ref: string) => {
       try {
-        const value = await rtDatabase
-          .ref(ref)
-          .once("value", (snapshot) => snapshot);
+        const value = await databaseRef(ref).once(
+          "value",
+          (snapshot) => snapshot
+        );
         return value.val();
       } catch (message) {
         return console.error(message);
@@ -139,138 +142,116 @@ export const MasterProvider: FC = ({ children }) => {
 
     dispatch({ type: "GET_MULTIPLE_DROPDOWN_DATA", data });
   };
-*/
 
   const setFormStatus = (status: string) => {
-    dispatch<object>({ type: "SET_FORM_STATUS", status });
-  };
-  /*
-  const setFormName = (name) => {
-    dispatch({ type: "SET_FORM_NAME", name });
-  };
-*/
-  const setListStatus = (status: string) => {
-    dispatch<object>({ type: "SET_LIST_STATUS", status });
+    dispatch({ type: "SET_FORM_STATUS", status });
   };
 
-  /*
-  const saveFormData = async (data) => {
+  const setFormName = (name: string) => {
+    dispatch({ type: "SET_FORM_NAME", name });
+  };
+
+  const setListStatus = (status: string) => {
+    dispatch({ type: "SET_LIST_STATUS", status });
+  };
+
+  const saveFormData = async (data: any) => {
     // untuk master paket
     if (state.formName == "master_paket") {
-      let fbParams = {
-        payload: { nama: data.nama, jumlah_pertemuan: data.jumlah_pertemuan },
+      const payload = {
+        nama: data.nama,
+        jumlah_pertemuan: data.jumlah_pertemuan,
       };
 
       if (data.id) {
         // Update
-        fbParams.ref = `${state.formName}/${data.id}`;
-        await updateFirebaseData(fbParams);
+        await updateFirebaseData(`{state.formName}/${data.id}`, payload);
       } else {
         // Add new
-        fbParams.ref = `${state.formName}`;
-        await addFirebaseData(fbParams);
+        await addFirebaseData({ ref: `${state.formName}`, payload: payload });
       }
 
       // untuk master wilyah
     } else if (state.formName == "master_wilayah") {
-      let fbParams = {
-        payload: {
-          nama: data.nama,
-          biaya_daftar: data.biaya_daftar,
-          id_provinsi: data.id_provinsi,
-        },
+      const payload = {
+        nama: data.nama,
+        biaya_daftar: data.biaya_daftar,
+        id_provinsi: data.id_provinsi,
       };
 
       if (data.id) {
         // Update
-        fbParams.ref = `${state.formName}/${data.id}`;
-        await updateFirebaseData(fbParams);
+        await updateFirebaseData(`{state.formName}/${data.id}`, payload);
       } else {
         // Add new
-        fbParams.ref = `${state.formName}`;
-        await addFirebaseData(fbParams);
+        await addFirebaseData({ ref: `${state.formName}`, payload: payload });
       }
 
       //untuk master les
     } else if (state.formName == "master_les") {
-      let fbParams = {
-        payload: {
-          mapel: data.mapel,
-          jenjangkelas: data.jenjangkelas,
-          paket: data.paket,
-          wilayah: data.wilayah,
-          biaya: data.biaya,
-          gaji_tutor: data.gaji_tutor,
-        },
+      const payload = {
+        mapel: data.mapel,
+        jenjangkelas: data.jenjangkelas,
+        paket: data.paket,
+        wilayah: data.wilayah,
+        biaya: data.biaya,
+        gaji_tutor: data.gaji_tutor,
       };
 
       if (data.id) {
         // Update
-        fbParams.ref = `${state.formName}/${data.id}`;
-        await updateFirebaseData(fbParams);
+        await updateFirebaseData(`{state.formName}/${data.id}`, payload);
       } else {
         // Add new
-        fbParams.ref = `${state.formName}`;
-        await addFirebaseData(fbParams);
+        await addFirebaseData({ ref: `${state.formName}`, payload: payload });
       }
 
       // untuk master jenjangkelas dan mapel
     } else {
-      let fbParams = {
-        payload: { nama: data.nama },
-      };
+      const payload = { nama: data.nama };
 
       if (data.id) {
         // Update
-        fbParams.ref = `${state.formName}/${data.id}`;
-        await updateFirebaseData(fbParams);
+        await updateFirebaseData(`{state.formName}/${data.id}`, payload);
       } else {
         // Add new
-        fbParams.ref = `${state.formName}`;
-        await addFirebaseData(fbParams);
+        await addFirebaseData({ ref: `${state.formName}`, payload: payload });
       }
     }
     refreshData();
   };
-*/
 
-  /*
-  const deleteFormData = async (dataId) => {
-    let fbParams = { ref: `${state.formName}/${dataId}` };
-
-    await deleteFirebaseData(fbParams);
+  const deleteFormData = async (dataId: string | number) => {
+    await deleteFirebaseData(`${state.formName}/${dataId}`);
 
     refreshData();
   };
-*/
 
-  /*
   const refreshData = async () => {
     // Refresh form
     setFormStatus("refreshing");
     await getFormData(state.formName);
     setFormStatus("viewing");
 
-    // list
+    // Refresh list setelah refresh form
     setListStatus("loading");
     await getListData();
     setListStatus("viewing");
   };
-*/
 
   return (
     <MasterContext.Provider
       value={{
         state,
-        // getFormData,
+        getFormData,
         getListData,
         setFormStatus,
-        // saveFormData,
-        // deleteFormData,
-        // setFormName,
-        // setListStatus,
-        // getDropdownData,
-        // getMultipleDropdownData,
+        saveFormData,
+        deleteFormData,
+        setFormName,
+        setListStatus,
+        getDropdownData,
+        getMultipleDropdownData,
       }}
     >
       {children}

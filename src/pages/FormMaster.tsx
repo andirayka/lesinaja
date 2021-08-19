@@ -2,19 +2,20 @@ import React, { useEffect, useContext, useState } from "react";
 import { Title, Button, CardFormMaster, SkeletonLoading } from "@components";
 import { MasterContext } from "@context";
 import { useLocation } from "react-router-dom";
+import { clearConfigCache } from "prettier";
 
 export const FormMaster = () => {
   const { state: prevData }: any = useLocation();
   const {
-    state: { formData, formStatus },
+    state: { formData, formStatus, formName },
     getFormData,
     setFormName,
   } = useContext(MasterContext);
   const [isAdding, setIsAdding] = useState(false);
 
   useEffect(() => {
-    setFormName(prevData.refName);
-    getFormData(prevData.refName);
+    setFormName(prevData.ref);
+    getFormData(prevData.ref);
   }, [prevData]);
 
   const renderForm = () => {
