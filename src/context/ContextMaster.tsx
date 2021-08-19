@@ -1,5 +1,5 @@
 import { updateFirebaseData, databaseRef, DBKEY } from "@utils";
-import React, { createContext, useReducer } from "react";
+import React, { FC, createContext, useReducer } from "react";
 
 // * initial Value
 // Status:
@@ -56,8 +56,8 @@ const reducer = (state: any, action: any) => {
   }
 };
 
-export const ContextMaster = createContext<object>(initialState);
-export const ProviderMaster: React.FC = ({ children }) => {
+export const ContextMaster = createContext<any>(initialState);
+export const ProviderMaster: FC = ({ children }) => {
   const [state, dispatch] = useReducer<any>(reducer, initialState);
 
   // Get 4 list data master
@@ -81,7 +81,7 @@ export const ProviderMaster: React.FC = ({ children }) => {
     };
 
     setListStatus("viewing");
-    dispatch({ type: "GET_LIST_DATA", data });
+    dispatch<object>({ type: "GET_LIST_DATA", data });
   };
   /*
   // Dipanggil ketika pertama kali buka form
@@ -141,7 +141,7 @@ export const ProviderMaster: React.FC = ({ children }) => {
 */
 
   const setFormStatus = (status: string) => {
-    dispatch({ type: "SET_FORM_STATUS", status });
+    dispatch<object>({ type: "SET_FORM_STATUS", status });
   };
   /*
   const setFormName = (name) => {
@@ -149,7 +149,7 @@ export const ProviderMaster: React.FC = ({ children }) => {
   };
 */
   const setListStatus = (status: string) => {
-    dispatch({ type: "SET_LIST_STATUS", status });
+    dispatch<object>({ type: "SET_LIST_STATUS", status });
   };
 
   /*

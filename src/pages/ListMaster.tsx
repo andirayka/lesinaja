@@ -19,9 +19,10 @@ export const ListMaster = () => {
 
   useEffect(() => {
     getListData();
+    // console.log(listData);
   }, []);
 
-  const CardContent = ({ type: string }) => {
+  const CardContent = (type: string) => {
     if (listStatus == "loading") {
       return <SkeletonLoading fullWidthLineCount={5} halfWidthLineCount={2} />;
     }
@@ -29,16 +30,18 @@ export const ListMaster = () => {
     // Jika ada isinya
     if (listData[type]) {
       if (type == "paket") {
-        return Object.values(listData["paket"]).map((item, index) => {
-          return (
-            <p
-              key={index}
-            >{`${item.nama} (${item.jumlah_pertemuan} pertemuan)`}</p>
-          );
-        });
+        return Object.values(listData["paket"]).map(
+          (item: any, index: number) => {
+            return (
+              <p
+                key={index}
+              >{`${item.nama} (${item.jumlah_pertemuan} pertemuan)`}</p>
+            );
+          }
+        );
       }
 
-      return Object.values(listData[type]).map((item, index) => {
+      return Object.values(listData[type]).map((item: any, index: number) => {
         return <p key={index}>{item.nama}</p>;
       });
     }
@@ -51,19 +54,16 @@ export const ListMaster = () => {
     <div className="flex-grow md:ml-8 md:mr-8 md:mb-8">
       <Title
         title="Master Aplikasi"
-        text="Daftar / Data Master Aplikasi"
+        subtitle="Daftar / Data Master Aplikasi"
         type="pageTitle"
       />
       {/* Row 1 */}
       <div className="flex">
         {/* Jenjang Kelas */}
-        <CardItem
-          title="Jenjang Kelas"
-          containerClass="mt-8 flex-1"
-          additionalClassName="bg-yellow-400"
-        >
+        <CardItem title="Jenjang Kelas" containerClass="mt-8 flex-1">
           <>
-            <CardContent type="jenjangkelas" />
+            {CardContent("jenjangkelas")}
+
             {listStatus == "viewing" && (
               <div className="flex-row mt-8">
                 <Link
@@ -71,7 +71,7 @@ export const ListMaster = () => {
                     pathname: "/form-master",
                     state: {
                       title: "Jenjang Kelas",
-                      refName: DBKEY.masterJenjangKelas,
+                      ref: DBKEY.masterJenjangKelas,
                     },
                   }}
                 >
@@ -91,20 +91,16 @@ export const ListMaster = () => {
         {/* mapel */}
         <div className="mx-5"></div>
 
-        <CardItem
-          title="Mapel"
-          containerClass="mt-8 flex-1"
-          additionalClassName="bg-yellow-400"
-        >
+        <CardItem title="Mapel" containerClass="mt-8 flex-1">
           <>
-            <CardContent type="mapel" />
+            {CardContent("mapel")}
 
             {listStatus == "viewing" && (
               <div className="flex-row mt-8">
                 <Link
                   to={{
                     pathname: "/form-master",
-                    state: { title: "Mapel", refName: DBKEY.masterMapel },
+                    state: { title: "Mapel", ref: DBKEY.masterMapel },
                   }}
                 >
                   <Button
@@ -124,20 +120,16 @@ export const ListMaster = () => {
       {/* Row 2 */}
       <div className="flex">
         {/* paket */}
-        <CardItem
-          title="Paket"
-          containerClass="mt-8 flex-1"
-          additionalClassName="bg-yellow-400"
-        >
+        <CardItem title="Paket" containerClass="mt-8 flex-1">
           <>
-            <CardContent type="paket" />
+            {CardContent("paket")}
 
             {listStatus == "viewing" && (
               <div className="flex-row mt-8">
                 <Link
                   to={{
                     pathname: "/form-master",
-                    state: { title: "Paket", refName: DBKEY.masterPaket },
+                    state: { title: "Paket", ref: DBKEY.masterPaket },
                   }}
                 >
                   <Button
@@ -156,20 +148,16 @@ export const ListMaster = () => {
         <div className="mx-5"></div>
 
         {/* wilayah */}
-        <CardItem
-          title="Wilayah"
-          containerClass="mt-8 flex-1"
-          additionalClassName="bg-yellow-400"
-        >
+        <CardItem title="Wilayah" containerClass="mt-8 flex-1">
           <>
-            <CardContent type="wilayah" />
+            {CardContent("wilayah")}
 
             {listStatus == "viewing" && (
               <div className="flex-row mt-8">
                 <Link
                   to={{
                     pathname: "/form-master",
-                    state: { title: "Wilayah", refName: DBKEY.masterWilayah },
+                    state: { title: "Wilayah", ref: DBKEY.masterWilayah },
                   }}
                 >
                   <Button
