@@ -5,7 +5,7 @@ type Props = {
   text: string;
   additionalClassName: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
-  loading?: FC;
+  loading?: any;
 };
 
 export const Button: FC<Props> = ({
