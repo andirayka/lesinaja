@@ -3,6 +3,7 @@ export * from "./ListMaster";
 export * from "./Login";
 export * from "./ListPayment";
 export * from "./ListCourse";
+export * from "./AddListCourse";
 export * from "./Home";
 export * from "./HomeTutor";
 export * from "./ListTutor";
