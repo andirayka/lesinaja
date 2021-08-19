@@ -5,7 +5,7 @@ import {
   Route,
   Switch,
 } from "react-router-dom";
-import { enableFirebaseConfig, firebase } from "@utils";
+import { enableFirebaseConfig, firebase, getFirebaseDataOnce } from "@utils";
 import AppProvider, { AuthContext } from "@context";
 import {
   FormMaster,
@@ -19,6 +19,9 @@ import {
   ListWalmur,
   FormWalmur,
   Keuangan,
+  HomeTutor,
+  Account,
+  AccountTutor,
 } from "@pages";
 
 // Global setting for dayjs
@@ -75,6 +78,35 @@ const adminPages = [
     title: ["Form Wali Murid LesinAja"],
   },
   { path: ["/keuangan"], component: Keuangan, title: ["Keuangan LesinAja"] },
+  {
+    path: ["/akun-admin"],
+    component: Account,
+    title: ["Akun Admin LesinAja"],
+  },
+  // Halaman Tutor Sementara
+  // {
+  //   path: ["/beranda-tutor"],
+  //   component: HomeTutor,
+  //   title: ["Beranda Tutor LesinAja"],
+  // },
+  // {
+  //   path: ["/akun-tutor"],
+  //   component: AccountTutor,
+  //   title: ["Akun Tutor LesinAja"],
+  // },
+];
+
+const tutorPages = [
+  {
+    path: ["/beranda-tutor"],
+    component: HomeTutor,
+    title: ["Beranda Tutor LesinAja"],
+  },
+  {
+    path: ["/akun-tutor"],
+    component: AccountTutor,
+    title: ["Akun Tutor LesinAja"],
+  },
 ];
 
 const App: FC = () => {
@@ -101,7 +133,8 @@ const InitialChecker = () => {
         setIsLoggedIn(false);
         console.log("anda belum login");
       }
-      // console.log(user);
+      console.log(user.uid);
+      // const getDataRole = getFirebaseDataOnce
     });
   }, []);
 
@@ -114,35 +147,35 @@ const InitialChecker = () => {
         <Redirect to="/masuk" />
       </Switch>
     );
+  } else {
+    return (
+      <Switch>
+        {/* <Route path="/" exact component={Landing} /> */}
+        <Route path="/masuk" exact component={Login} />
+        {/* <Route path="/daftar" exact component={Register} /> */}
+
+        {/* Untuk mengecek data-data awal ketika buk aplikasi */}
+        {adminPages.map((item: any, index: any) => {
+          return (
+            <Route
+              key={index}
+              exact
+              path={item.path}
+              render={(props) => {
+                document.title = item.title ? item.title : "Lesin Aja";
+                return (
+                  <MainLayout>
+                    <item.component {...props} />
+                  </MainLayout>
+                );
+              }}
+            />
+          );
+        })}
+        <Redirect to="/masuk" />
+      </Switch>
+    );
   }
-
-  return (
-    <Switch>
-      {/* <Route path="/" exact component={Landing} /> */}
-      <Route path="/masuk" exact component={Login} />
-      {/* <Route path="/daftar" exact component={Register} /> */}
-
-      {/* Untuk mengecek data-data awal ketika buk aplikasi */}
-      {adminPages.map((item: any, index: any) => {
-        return (
-          <Route
-            key={index}
-            exact
-            path={item.path}
-            render={(props) => {
-              document.title = item.title ? item.title : "Lesin Aja";
-              return (
-                <MainLayout>
-                  <item.component {...props} />
-                </MainLayout>
-              );
-            }}
-          />
-        );
-      })}
-      <Redirect to="/masuk" />
-    </Switch>
-  );
 };
 
 export default App;

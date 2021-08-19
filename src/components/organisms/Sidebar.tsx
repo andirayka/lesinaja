@@ -26,10 +26,10 @@ const sidebarList = [
     activePaths: ["/beranda"],
   },
   {
-    path: "/akun",
+    path: "/akun-admin",
     text: "Akun",
     icon: faUser,
-    activePaths: ["/akun"],
+    activePaths: ["/akun-admin"],
   },
   {
     path: "/daftar-master",

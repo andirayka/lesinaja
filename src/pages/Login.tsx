@@ -62,17 +62,17 @@ export const Login = () => {
       setIsLoggedIn(true);
       if (roleOn == "tutor") {
         if (role && role.tutor) {
-          history.push("/akun-tutor");
+          history.push("/beranda-tutor");
         } else {
           alert("Akun belum terdaftar sebagai Tutor");
           history.push("/akun-tutor");
         }
       } else if (roleOn == "walmur") {
         if (role && role.wali_murid) {
-          history.push("/akun-walmur");
+          // history.push("/beranda-tutor");
         } else {
           alert("Akun belum terdaftar sebagai Walimurid");
-          history.push("/akun-walmur");
+          // history.push("/akun-walmur");
         }
       }
       setFormStatus();
