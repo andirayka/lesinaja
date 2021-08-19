@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { FC } from "react";
 import { AuthProvider } from "./AuthContext";
 import { MasterProvider, MasterContext } from "./MasterContext";

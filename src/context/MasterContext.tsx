@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { updateFirebaseData, databaseRef, DBKEY } from "@utils";
 import React, { FC, createContext, useReducer } from "react";
 

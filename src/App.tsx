@@ -8,6 +8,7 @@ import {
 import { enableFirebaseConfig } from "@utils";
 import AppProvider from "@context";
 import {
+  FormMaster,
   ListMaster,
   ListCourse,
   ListPayment,
@@ -32,9 +33,10 @@ enableFirebaseConfig();
 
 // List url halaman dan component yang digunakan
 const adminPages = [
-  { path: ["/daftar-master"], component: ListMaster },
+  { path: ["/daftar-master"], component: Home },
+  { path: ["/form-master"], component: Home },
   { path: ["/daftar-pembayaran"], component: ListPayment },
-  { path: ["/daftar-pilihanles"], component: ListCourse },
+  { path: ["/daftar-pilihanles"], component: Home },
   { path: ["/beranda"], component: Home },
   { path: ["/daftar-tutor"], component: ListTutor },
   { path: ["/form-tutor"], component: FormTutor },
