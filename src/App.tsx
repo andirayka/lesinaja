@@ -34,6 +34,11 @@ enableFirebaseConfig();
 // List url halaman dan component yang digunakan
 const adminPages = [
   {
+    path: ["/form-master"],
+    component: FormMaster,
+    title: ["Form Master LesinAja"],
+  },
+  {
     path: ["/daftar-master"],
     component: ListMaster,
     title: ["Daftar Master LesinAja"],
