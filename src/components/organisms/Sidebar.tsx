@@ -88,7 +88,7 @@ export const Sidebar = () => {
   }, [authState.isLoggedIn]);
 
   return (
-    <div className="fixed w-72 h-screen bg-white rounded-md overflow-hidden">
+    <div className="fixed w-72 h-screen bg-white overflow-hidden">
       <img src={LogoLesinAja} alt="" className="w-64" />
       {sidebarList.map((item, index) => {
         return (
