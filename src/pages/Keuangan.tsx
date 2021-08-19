@@ -152,7 +152,7 @@ export const Keuangan = () => {
     return (
       <div className="flex-grow">
         <Title title="Loading..." type="pageTitle" />
-        <CardItem title="Loading..." containerClass="mt-8">
+        <CardItem title="Loading..." containerClass="mt-8 shadow-lg">
           <SkeletonLoading fullWidthLineCount={6} />
         </CardItem>
       </div>
@@ -163,7 +163,7 @@ export const Keuangan = () => {
         <div className="mb-8">
           <Title title={`Keuangan Bulan ${data.bulan}`} type="pageTitle" />
 
-          <CardItem title="Rangkuman" containerClass="mt-8">
+          <CardItem title="Rangkuman" containerClass="mt-8 shadow-lg">
             <CardKeyValue
               keyName="Pemasukan Biaya Les"
               value={`Rp ${data.pemasukan}`}
@@ -190,7 +190,7 @@ export const Keuangan = () => {
             <Button
               text="Input Pengeluaran"
               onClick={() => setLoadForm(true)}
-              additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium mr-2"
+              additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium mr-2 shadow-lg"
             />
             <Button
               text="Export Excel"
@@ -201,12 +201,12 @@ export const Keuangan = () => {
                   // exportToExcel(exportData, "test");
                 }
               }}
-              additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium"
+              additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium shadow-lg"
             />
           </div>
 
           {/* Data pengeluaran */}
-          <div className="rounded-md bg-white mt-8">
+          <div className="rounded-md bg-white mt-8 shadow-lg">
             {/* Header */}
             <div className="rounded-md p-2.5 bg-yellow-400 flex flex-row">
               <p className="font-semibold text-xl w-96 ">Tanggal</p>
@@ -226,7 +226,7 @@ export const Keuangan = () => {
                       })}
                     />
                     {errors.name && (
-                      <p>{errors.tanggal.message}</p>
+                      <p className="text-red-500">{errors.tanggal.message}</p>
                       // <FieldError message={errors.tanggal.message} />
                     )}
                   </div>
@@ -237,7 +237,7 @@ export const Keuangan = () => {
                       })}
                     />
                     {errors.transaksi && (
-                      <p>{errors.transaksi.message}</p>
+                      <p className="text-red-500">{errors.transaksi.message}</p>
                       // <FieldError message={errors.transaksi.message} />
                     )}
                   </div>
@@ -248,7 +248,7 @@ export const Keuangan = () => {
                       })}
                     />
                     {errors.nominal && (
-                      <p>{errors.nominal.message}</p>
+                      <p className="text-red-500">{errors.nominal.message}</p>
                       // <FieldError message={errors.nominal.message} />
                     )}
                   </div>

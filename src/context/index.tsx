@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { FC } from "react";
-import { AuthProvider } from "./AuthContext";
+import { AuthProvider, AuthContext } from "./AuthContext";
 import { MasterProvider, MasterContext } from "./MasterContext";
 
 // * Combine all providers
@@ -12,4 +12,4 @@ const AppProvider: FC = ({ children }) => {
 };
 
 export default AppProvider;
-export { MasterContext };
+export { MasterContext, AuthContext };

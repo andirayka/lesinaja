@@ -5,8 +5,8 @@ import {
   Route,
   Switch,
 } from "react-router-dom";
-import { enableFirebaseConfig } from "@utils";
-import AppProvider from "@context";
+import { enableFirebaseConfig, firebase } from "@utils";
+import AppProvider, { AuthContext } from "@context";
 import {
   FormMaster,
   ListMaster,
@@ -24,7 +24,6 @@ import {
 // Global setting for dayjs
 import "dayjs/locale/id";
 import dayjs from "dayjs";
-import { AuthContext } from "context/AuthContext";
 import { MainLayout } from "@components";
 // Buat dayjs agar bahasa indonesia dan gunakan plugin
 dayjs.locale("id");
@@ -34,16 +33,43 @@ enableFirebaseConfig();
 
 // List url halaman dan component yang digunakan
 const adminPages = [
-  { path: ["/daftar-master"], component: ListMaster },
-  { path: ["/form-master"], component: FormMaster },
-  { path: ["/daftar-pembayaran"], component: ListPayment },
-  { path: ["/daftar-pilihanles"], component: Home },
-  { path: ["/beranda"], component: Home },
-  { path: ["/daftar-tutor"], component: ListTutor },
-  { path: ["/form-tutor"], component: FormTutor },
-  { path: ["/daftar-walimurid"], component: ListWalmur },
-  { path: ["/form-walimurid"], component: FormWalmur },
-  { path: ["/keuangan"], component: Keuangan },
+  {
+    path: ["/daftar-master"],
+    component: ListMaster,
+    title: ["Daftar Master LesinAja"],
+  },
+  {
+    path: ["/daftar-pembayaran"],
+    component: ListPayment,
+    title: "Daftar Pembayaran LesinAja",
+  },
+  {
+    path: ["/daftar-pilihanles"],
+    component: ListCourse,
+    title: ["Daftar Pilihan Les LesinAja"],
+  },
+  { path: ["/beranda"], component: Home, title: ["Beranda LesinAja"] },
+  {
+    path: ["/daftar-tutor"],
+    component: ListTutor,
+    title: ["Daftar Tutor LesinAja"],
+  },
+  {
+    path: ["/form-tutor"],
+    component: FormTutor,
+    title: ["Form Tutor LesinAja"],
+  },
+  {
+    path: ["/daftar-walimurid"],
+    component: ListWalmur,
+    title: ["Daftar Wali Murid LesinAja"],
+  },
+  {
+    path: ["/form-walimurid"],
+    component: FormWalmur,
+    title: ["Form Wali Murid LesinAja"],
+  },
+  { path: ["/keuangan"], component: Keuangan, title: ["Keuangan LesinAja"] },
 ];
 
 const App: FC = () => {
@@ -58,32 +84,32 @@ const App: FC = () => {
 
 const InitialChecker = () => {
   // Undefined = belum tahu, true = sudah login, false = tidak login
-  // const { state: authState, setIsLoggedIn } = useContext(AuthContext);
-  // const { isLoggedIn } = authState;
+  const { state: authState, setIsLoggedIn } = useContext<any>(AuthContext);
+  const { isLoggedIn } = authState;
 
   // Cek apakah user sudah login
-  // useEffect(() => {
-  //   firebase.auth().onAuthStateChanged((user) => {
-  //     if (user) {
-  //       setIsLoggedIn(true);
-  //     } else {
-  //       setIsLoggedIn(false);
-  //       console.log("anda belum login");
-  //     }
-  //   });
-  // }, []);
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user: any) => {
+      if (user) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+        console.log("anda belum login");
+      }
+      // console.log(user);
+    });
+  }, []);
 
-  // if (isLoggedIn === false) {
-  //   return (
-  //     <Switch>
-  //       <Route path="/" exact component={Landing} />
-  //       <Route path="/masuk" exact component={Login} />
-  //       <Route path="/daftar" exact component={Register} />
-
-  //       <Redirect to="/masuk" />
-  //     </Switch>
-  //   );
-  // }
+  if (isLoggedIn === false) {
+    return (
+      <Switch>
+        {/* <Route path="/" exact component={Landing} /> */}
+        <Route path="/masuk" exact component={Login} />
+        {/* <Route path="/daftar" exact component={Register} /> */}
+        <Redirect to="/masuk" />
+      </Switch>
+    );
+  }
 
   return (
     <Switch>
@@ -92,18 +118,23 @@ const InitialChecker = () => {
       {/* <Route path="/daftar" exact component={Register} /> */}
 
       {/* Untuk mengecek data-data awal ketika buk aplikasi */}
-      <MainLayout>
-        {adminPages.map((item, index) => {
-          return (
-            <Route
-              key={index}
-              path={item.path}
-              exact
-              component={item.component}
-            />
-          );
-        })}
-      </MainLayout>
+      {adminPages.map((item: any, index: any) => {
+        return (
+          <Route
+            key={index}
+            exact
+            path={item.path}
+            render={(props) => {
+              document.title = item.title ? item.title : "Lesin Aja";
+              return (
+                <MainLayout>
+                  <item.component {...props} />
+                </MainLayout>
+              );
+            }}
+          />
+        );
+      })}
       <Redirect to="/masuk" />
     </Switch>
   );

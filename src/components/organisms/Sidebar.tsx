@@ -14,6 +14,8 @@ import { SidebarItem } from "@components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useHistory, useLocation } from "react-router-dom";
 import { LogoLesinAja } from "@assets";
+import { handleLogout, firebase } from "@utils";
+import { AuthContext } from "@context";
 
 // List path dan property dari sidebar item
 const sidebarList = [
@@ -77,6 +79,13 @@ const sidebarList = [
 export const Sidebar = () => {
   const { pathname } = useLocation(); // Path halaman yang sedang dibuka
   const history = useHistory(); // Untuk pindah halaman
+  const { state: authState, setIsLoggedIn } = useContext<any>(AuthContext);
+
+  useEffect(() => {
+    if (authState.isLoggedIn === false) {
+      history.push("/masuk");
+    }
+  }, [authState.isLoggedIn]);
 
   return (
     <div className="fixed w-72 h-screen bg-white rounded-md overflow-hidden">
@@ -85,22 +94,22 @@ export const Sidebar = () => {
         return (
           <SidebarItem
             key={index}
-            onClick={() => {
-              history.push(item.path);
-            }}
-            // onClick={async () => {
-            //   if (item.text == "Keluar") {
-            //     await handleLogout();
-            //     const user = firebase.auth().currentUser;
-            //     if (user === null) {
-            //       setIsLoggedIn(false);
-            //     } else {
-            //       setIsLoggedIn(true);
-            //     }
-            //   } else {
-            //     history.push(item.path);
-            //   }
+            // onClick={() => {
+            //   history.push(item.path);
             // }}
+            onClick={async () => {
+              if (item.text == "Keluar") {
+                await handleLogout();
+                const user = firebase.auth().currentUser;
+                if (user === null) {
+                  setIsLoggedIn(false);
+                } else {
+                  setIsLoggedIn(true);
+                }
+              } else {
+                history.push(item.path);
+              }
+            }}
             isActive={item.activePaths.includes(pathname)}
             icon={item.icon}
             text={item.text}
