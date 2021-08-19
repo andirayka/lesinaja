@@ -7,7 +7,7 @@ import {
   EmptyIcon,
 } from "@components";
 import { Link } from "react-router-dom";
-import { ContextMaster } from "@context";
+import { MasterContext } from "@context";
 import { DBKEY } from "@utils";
 
 export const ListMaster = () => {
@@ -15,7 +15,7 @@ export const ListMaster = () => {
     state: { listData, listStatus },
     getListData,
     setFormStatus,
-  } = useContext(ContextMaster);
+  } = useContext(MasterContext);
 
   useEffect(() => {
     getListData();
