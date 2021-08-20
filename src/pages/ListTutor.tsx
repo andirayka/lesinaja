@@ -58,6 +58,7 @@ export const ListTutor = () => {
             onChange={(e) => setQuery(e.target.value)}
           />
           <InputSelect
+            data={""}
             heading="Filter berdasarkan wilayah"
             prompt="Pilih provinsi.."
             containerClassName="cursor-pointer p-2"

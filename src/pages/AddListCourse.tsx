@@ -10,6 +10,7 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 import { MasterContext } from "@context";
 import { useLocation } from "react-router-dom";
+import { getFirebaseDataOnce } from "@utils";
 
 export const AddListCourse = () => {
   const {
@@ -37,12 +38,34 @@ export const AddListCourse = () => {
 
   const { state: prevData } = useLocation();
 
+  const getMasterData = async () => {
+    if (prevData.prevValue) {
+      const queryData = {
+        mapel: await getFirebaseDataOnce(
+          `master_mapel/${prevData.prevValue.mapel}/nama`
+        ),
+        jenjangkelas: await getFirebaseDataOnce(
+          `master_jenjangkelas/${prevData.prevValue.jenjangkelas}/nama`
+        ),
+        paket: await getFirebaseDataOnce(
+          `master_paket/${prevData.prevValue.paket}/nama`
+        ),
+        wilayah: await getFirebaseDataOnce(
+          `master_wilayah/${prevData.prevValue.wilayah}/nama`
+        ),
+      };
+
+      setPrompt(queryData);
+    }
+  };
+
   useEffect(() => {
     getMultipleDropdownData();
     setFormName("master_les");
 
     if (prevData.prevValue) {
       setInputValue(prevData.prevValue);
+      getMasterData();
     }
   }, [prevData]);
 
@@ -75,16 +98,6 @@ export const AddListCourse = () => {
         return <div>{prompt.paket}</div>;
       } else if (type == "wilayah") {
         return <div>{prompt.wilayah}</div>;
-      }
-    } else if (prevData.isUpdating) {
-      if (type == "mapel") {
-        return <div>{prevData.prevValue.mapel}</div>;
-      } else if (type == "jenjangkelas") {
-        return <div>{prevData.prevValue.jenjangkelas}</div>;
-      } else if (type == "paket") {
-        return <div>{prevData.prevValue.paket}</div>;
-      } else if (type == "wilayah") {
-        return <div>{prevData.prevValue.wilayah}</div>;
       }
     } else {
       return <div>Pilih Data...</div>;
