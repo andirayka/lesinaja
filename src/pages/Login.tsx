@@ -65,12 +65,14 @@ export const Login = () => {
           history.push("/akun-tutor");
         } else {
           alert("Akun belum terdaftar sebagai Tutor");
+          history.push("/akun-tutor");
         }
       } else if (roleOn == "walmur") {
         if (role && role.wali_murid) {
           history.push("/akun-walmur");
         } else {
           alert("Akun belum terdaftar sebagai Walimurid");
+          history.push("/akun-walmur");
         }
       }
       setFormStatus();
