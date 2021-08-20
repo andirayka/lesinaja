@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Redirect,
@@ -129,6 +129,12 @@ const InitialChecker = () => {
   // Undefined = belum tahu, true = sudah login, false = tidak login
   const { state: authState, setIsLoggedIn } = useContext<any>(AuthContext);
   const { isLoggedIn } = authState;
+  const [isRole, setIsRole] = useState<any>();
+
+  const cekRole = (id: string) => {
+    const getDataRole = getFirebaseDataOnce(`user/${id}/roles`);
+    setIsRole(getDataRole);
+  };
 
   // Cek apakah user sudah login
   useEffect(() => {
@@ -139,8 +145,8 @@ const InitialChecker = () => {
         setIsLoggedIn(false);
         console.log("anda belum login");
       }
-      console.log(user.uid);
-      // const getDataRole = getFirebaseDataOnce
+      cekRole(user.uid);
+      console.log(isRole);
     });
   }, []);
 
@@ -161,6 +167,7 @@ const InitialChecker = () => {
         {/* <Route path="/daftar" exact component={Register} /> */}
 
         {/* Untuk mengecek data-data awal ketika buk aplikasi */}
+
         {adminPages.map((item: any, index: any) => {
           return (
             <Route
@@ -178,6 +185,7 @@ const InitialChecker = () => {
             />
           );
         })}
+
         <Redirect to="/masuk" />
       </Switch>
     );
