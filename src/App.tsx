@@ -21,8 +21,10 @@ import {
   FormWalmur,
   Keuangan,
   HomeTutor,
+  HomeWalmur,
   Account,
   AccountTutor,
+  AccountWalmur,
 } from "@pages";
 
 // Global setting for dayjs
@@ -90,19 +92,6 @@ const adminPages = [
     title: ["Akun Admin LesinAja"],
   },
   // Halaman Tutor Sementara
-  // {
-  //   path: ["/beranda-tutor"],
-  //   component: HomeTutor,
-  //   title: ["Beranda Tutor LesinAja"],
-  // },
-  // {
-  //   path: ["/akun-tutor"],
-  //   component: AccountTutor,
-  //   title: ["Akun Tutor LesinAja"],
-  // },
-];
-
-const tutorPages = [
   {
     path: ["/beranda-tutor"],
     component: HomeTutor,
@@ -113,7 +102,31 @@ const tutorPages = [
     component: AccountTutor,
     title: ["Akun Tutor LesinAja"],
   },
+  // Halaman Wali murid Sementara
+  {
+    path: ["/beranda-wali-murid"],
+    component: HomeWalmur,
+    title: ["Beranda Wali Murid LesinAja"],
+  },
+  {
+    path: ["/akun-wali-murid"],
+    component: AccountWalmur,
+    title: ["Akun Wali Murid LesinAja"],
+  },
 ];
+
+// const tutorPages = [
+//   {
+//     path: ["/beranda-tutor"],
+//     component: HomeTutor,
+//     title: ["Beranda Tutor LesinAja"],
+//   },
+//   {
+//     path: ["/akun-tutor"],
+//     component: AccountTutor,
+//     title: ["Akun Tutor LesinAja"],
+//   },
+// ];
 
 const App: FC = () => {
   return (
@@ -131,10 +144,10 @@ const InitialChecker = () => {
   const { isLoggedIn } = authState;
   const [isRole, setIsRole] = useState<any>();
 
-  const cekRole = (id: string) => {
-    const getDataRole = getFirebaseDataOnce(`user/${id}/roles`);
-    setIsRole(getDataRole);
-  };
+  // const cekRole = (id: string) => {
+  //   const getDataRole = getFirebaseDataOnce(`user/${id}/roles`);
+  //   setIsRole(getDataRole);
+  // };
 
   // Cek apakah user sudah login
   useEffect(() => {
@@ -145,8 +158,8 @@ const InitialChecker = () => {
         setIsLoggedIn(false);
         console.log("anda belum login");
       }
-      cekRole(user.uid);
-      console.log(isRole);
+      // cekRole(user.uid);
+      // console.log(isRole);
     });
   }, []);
 

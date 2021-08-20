@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import { Sidebar, NavbarDesktop } from "@components";
-import { IconLesinAja } from "@assets";
+import { IconProfile } from "@assets";
 import { firebase, getFirebaseDataOnce, handleShowFile } from "@utils";
 
 // Pembungkus semua content di dalam halaman yang bisa login
@@ -38,7 +38,10 @@ export const MainLayout: FC<Props> = ({ children }) => {
       </div>
 
       <div className="flex flex-1 flex-col">
-        <NavbarDesktop imgSrc={profileSrc} name={dataUser.nama} />
+        <NavbarDesktop
+          imgSrc={profileSrc ? profileSrc : IconProfile}
+          name={dataUser.nama}
+        />
         {/* Content halaman di sebelah kanan */}
         <div className="flex-grow m-8">{children}</div>
       </div>

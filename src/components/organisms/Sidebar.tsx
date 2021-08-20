@@ -26,12 +26,6 @@ const sidebarList = [
     activePaths: ["/beranda"],
   },
   {
-    path: "/akun-admin",
-    text: "Akun",
-    icon: faUser,
-    activePaths: ["/akun-admin"],
-  },
-  {
     path: "/daftar-master",
     text: "Data Master",
     icon: faBriefcase,

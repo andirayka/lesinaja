@@ -69,10 +69,10 @@ export const Login = () => {
         }
       } else if (roleOn == "walmur") {
         if (role && role.wali_murid) {
-          // history.push("/beranda-tutor");
+          history.push("/beranda-wali-murid");
         } else {
           alert("Akun belum terdaftar sebagai Walimurid");
-          // history.push("/akun-walmur");
+          history.push("/akun-wali-murid");
         }
       }
       setFormStatus();
@@ -102,9 +102,9 @@ export const Login = () => {
           />
           <Button
             type="submit"
-            text="Masuk Sebagai Admin"
-            onClick={() => setRoleOn("admin")}
-            additionalClassName="mb-4 mt-4 bg-yellow-400 hover:bg-yellow-600 font-medium w-full rounded-full"
+            text="Masuk Sebagai Wali Murid"
+            onClick={() => setRoleOn("walmur")}
+            additionalClassName="mb-4 bg-yellow-400 hover:bg-yellow-600 font-medium w-full rounded-full"
           />
           <Button
             type="submit"
@@ -114,9 +114,9 @@ export const Login = () => {
           />
           <Button
             type="submit"
-            text="Masuk Sebagai Wali Murid"
-            onClick={() => setRoleOn("walmur")}
-            additionalClassName="mb-4 bg-yellow-400 hover:bg-yellow-600 font-medium w-full rounded-full"
+            text="Masuk Sebagai Admin"
+            onClick={() => setRoleOn("admin")}
+            additionalClassName="mb-4 mt-4 bg-yellow-400 hover:bg-yellow-600 font-medium w-full rounded-full"
           />
         </ContentContainer>
       </div>
@@ -168,13 +168,6 @@ export const Login = () => {
               }
               additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 font-medium w-full rounded-full"
             />
-
-            <p className="text-center mt-4">
-              Belum punya akun?{" "}
-              <Link className="text-blue-600" to={{ pathname: "/daftar" }}>
-                Daftar di sini
-              </Link>
-            </p>
           </form>
         </ContentContainer>
       </div>
