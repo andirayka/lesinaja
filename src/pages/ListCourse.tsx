@@ -7,6 +7,7 @@ import {
   CardKeyValue,
   EmptyIcon,
   Swal,
+  LoadIcon,
 } from "@components";
 import { Link } from "react-router-dom";
 import { getFirebaseDataOnce } from "@utils";
@@ -61,7 +62,6 @@ export const ListCourse = () => {
 
   useEffect(() => {
     setFormName("master_les");
-    getFirebaseDataOnce;
 
     getCourseData();
   }, []);
@@ -69,7 +69,7 @@ export const ListCourse = () => {
   // tampilan saat berhasil query data
   if (courseData && status == "viewing") {
     return (
-      <div className="flex-grow md:ml-8 md:mr-8 md:mb-8">
+      <div className="flex-grow">
         <Title
           title="Pilihan Les"
           subtitle="Daftar / Pilihan Les"
@@ -98,11 +98,11 @@ export const ListCourse = () => {
               <CardItem
                 key={key}
                 title={`${value.mapel} ${value.jenjangkelas}`}
-                containerClass="mt-8"
+                containerClass="mt-8 bg-white rounded-lg shadow-lg"
               >
                 <CardKeyValue keyName="Paket" value={value.paket} />
                 <CardKeyValue keyName="Wilayah" value={value.wilayah} />
-
+                <CardKeyValue keyName="Biaya" value={value.biaya} />
                 <div className="flex flex-row mt-8 justify-end">
                   <Link
                     // button edit mengirim state updating
@@ -142,6 +142,8 @@ export const ListCourse = () => {
                         cancelButtonText: "Batal",
                       }).then((result) => {
                         if (result.isConfirmed) {
+                          setStatus("refreshing");
+                          getCourseData();
                           deleteFormData(key);
                         }
                       });
@@ -157,13 +159,16 @@ export const ListCourse = () => {
 
   if (status == "loading") {
     return (
-      <div className="flex-grow md:ml-8 md:mr-8 md:mb-8">
+      <div className="flex-grow">
         <Title
           title="Pilihan Les"
           subtitle="Daftar / Pilihan Les"
           type="pageTitle"
         />
-        <CardItem title="Loading..." containerClass="mt-8">
+        <CardItem
+          title="Loading..."
+          containerClass="mt-8 bg-white rounded-lg shadow-lg"
+        >
           <SkeletonLoading fullWidthLineCount={6} />
         </CardItem>
       </div>
@@ -194,8 +199,15 @@ export const ListCourse = () => {
           onClick={() => {}}
         />
       </Link>
-      <CardItem title="Belum Ada data les" containerClass="mt-8">
-        <EmptyIcon />
+      <CardItem
+        title={status == "refreshing" ? "Loading" : "Tidak ada data les"}
+        containerClass="mt-8"
+      >
+        {status == "refreshing" ? (
+          <LoadIcon additionalClassName="text-4xl" />
+        ) : (
+          <EmptyIcon />
+        )}
       </CardItem>
     </div>
   );

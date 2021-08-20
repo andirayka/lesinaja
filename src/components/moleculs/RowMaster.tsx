@@ -384,7 +384,7 @@ export const RowMaster: FC<Props> = ({
   }
 
   return (
-    <div className="flex flex-row py-4">
+    <div className="flex flex-row py-6">
       {formName == "master_jenjangkelas" || formName == "master_mapel" ? (
         <div className="w-3/4 ml-2.5 text-lg">{item.nama}</div>
       ) : (
