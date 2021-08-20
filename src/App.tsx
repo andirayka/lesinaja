@@ -11,6 +11,7 @@ import {
   FormMaster,
   ListMaster,
   ListCourse,
+  AddListCourse,
   ListPayment,
   Login,
   Home,
@@ -52,6 +53,11 @@ const adminPages = [
     path: ["/daftar-pilihanles"],
     component: ListCourse,
     title: ["Daftar Pilihan Les LesinAja"],
+  },
+  {
+    path: ["/tambah-pilihanles"],
+    component: AddListCourse,
+    title: ["Tambah Pilihan Les LesinAja"],
   },
   { path: ["/beranda"], component: Home, title: ["Beranda LesinAja"] },
   {

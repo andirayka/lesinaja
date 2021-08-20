@@ -165,7 +165,7 @@ export const MasterProvider: FC = ({ children }) => {
 
       if (data.id) {
         // Update
-        await updateFirebaseData(`{state.formName}/${data.id}`, payload);
+        await updateFirebaseData(`${state.formName}/${data.id}`, payload);
       } else {
         // Add new
         await addFirebaseData({ ref: `${state.formName}`, payload: payload });
@@ -181,7 +181,7 @@ export const MasterProvider: FC = ({ children }) => {
 
       if (data.id) {
         // Update
-        await updateFirebaseData(`{state.formName}/${data.id}`, payload);
+        await updateFirebaseData(`${state.formName}/${data.id}`, payload);
       } else {
         // Add new
         await addFirebaseData({ ref: `${state.formName}`, payload: payload });
@@ -200,7 +200,7 @@ export const MasterProvider: FC = ({ children }) => {
 
       if (data.id) {
         // Update
-        await updateFirebaseData(`{state.formName}/${data.id}`, payload);
+        await updateFirebaseData(`${state.formName}/${data.id}`, payload);
       } else {
         // Add new
         await addFirebaseData({ ref: `${state.formName}`, payload: payload });
@@ -212,7 +212,7 @@ export const MasterProvider: FC = ({ children }) => {
 
       if (data.id) {
         // Update
-        await updateFirebaseData(`{state.formName}/${data.id}`, payload);
+        await updateFirebaseData(`${state.formName}/${data.id}`, payload);
       } else {
         // Add new
         await addFirebaseData({ ref: `${state.formName}`, payload: payload });
