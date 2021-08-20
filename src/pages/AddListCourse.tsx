@@ -128,7 +128,7 @@ export const AddListCourse = () => {
         multipleDropdownData[type] && (
           <InputSelect
             heading={heading}
-            containerClassName="cursor-pointer mt-4"
+            containerClassName="cursor-pointer mt-6"
             itemClassName="w-full"
             prompt={conditionalPromptRender(type)}
             data={multipleDropdownData[type]}
@@ -186,7 +186,7 @@ export const AddListCourse = () => {
   };
 
   return (
-    <ContentContainer additionalClassName="w-full flex-grow bg-white rounded-lg p-6 md:ml-8">
+    <ContentContainer additionalClassName="flex-grow bg-white rounded-lg p-6">
       <Title
         type="pageTitle"
         title={prevData.isUpdating ? "Edit Les" : "Tambah Les"}

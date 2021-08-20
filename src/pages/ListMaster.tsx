@@ -49,7 +49,7 @@ export const ListMaster = () => {
   };
 
   return (
-    <div className="flex-grow md:ml-8 md:mr-8 md:mb-8">
+    <div className="flex-grow">
       <Title
         title="Master Aplikasi"
         subtitle="Daftar / Data Master Aplikasi"
@@ -58,7 +58,10 @@ export const ListMaster = () => {
       {/* Row 1 */}
       <div className="flex">
         {/* Jenjang Kelas */}
-        <CardItem title="Jenjang Kelas" containerClass="mt-8 flex-1">
+        <CardItem
+          title="Jenjang Kelas"
+          containerClass="mt-8 flex-1 bg-white rounded-lg p-1 shadow-lg"
+        >
           <>
             {CardContent("jenjangkelas")}
 
@@ -89,7 +92,10 @@ export const ListMaster = () => {
         {/* mapel */}
         <div className="mx-5"></div>
 
-        <CardItem title="Mapel" containerClass="mt-8 flex-1">
+        <CardItem
+          title="Mapel"
+          containerClass="mt-8 flex-1 bg-white rounded-lg p-1 shadow-lg"
+        >
           <>
             {CardContent("mapel")}
 
@@ -118,7 +124,10 @@ export const ListMaster = () => {
       {/* Row 2 */}
       <div className="flex">
         {/* paket */}
-        <CardItem title="Paket" containerClass="mt-8 flex-1">
+        <CardItem
+          title="Paket"
+          containerClass="mt-8 flex-1 bg-white rounded-lg p-1 shadow-lg"
+        >
           <>
             {CardContent("paket")}
 
@@ -146,7 +155,10 @@ export const ListMaster = () => {
         <div className="mx-5"></div>
 
         {/* wilayah */}
-        <CardItem title="Wilayah" containerClass="mt-8 flex-1">
+        <CardItem
+          title="Wilayah"
+          containerClass="mt-8 flex-1 bg-white rounded-lg p-1 shadow-lg"
+        >
           <>
             {CardContent("wilayah")}
 

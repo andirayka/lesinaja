@@ -31,7 +31,7 @@ export const FormMaster = () => {
         ) : (
           <Button
             text={`Tambah ${prevData?.title}`}
-            additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium mt-4"
+            additionalClassName="bg-yellow-400 hover:bg-white hover:shadow-lg rounded-lg font-medium mt-4"
             onClick={() => {
               setIsAdding(true);
             }}
@@ -48,7 +48,7 @@ export const FormMaster = () => {
             isAdding={isAdding}
             setIsAdding={setIsAdding}
             formStatus={formStatus}
-            containerClass="mt-8"
+            containerClass="mt-8 shadow-lg"
             data={formData}
           />
         </div>
@@ -57,7 +57,7 @@ export const FormMaster = () => {
   };
 
   return (
-    <div className="flex-grow md:ml-8 md:mr-8">
+    <div className="flex-grow">
       <Title
         title={prevData?.title}
         subtitle={`Daftar / ${prevData?.title}`}

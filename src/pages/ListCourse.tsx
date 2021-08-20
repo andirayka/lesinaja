@@ -69,7 +69,7 @@ export const ListCourse = () => {
   // tampilan saat berhasil query data
   if (courseData && status == "viewing") {
     return (
-      <div className="flex-grow md:ml-8 md:mr-8 md:mb-8">
+      <div className="flex-grow">
         <Title
           title="Pilihan Les"
           subtitle="Daftar / Pilihan Les"
@@ -98,7 +98,7 @@ export const ListCourse = () => {
               <CardItem
                 key={key}
                 title={`${value.mapel} ${value.jenjangkelas}`}
-                containerClass="mt-8"
+                containerClass="mt-8 bg-white rounded-lg shadow-lg"
               >
                 <CardKeyValue keyName="Paket" value={value.paket} />
                 <CardKeyValue keyName="Wilayah" value={value.wilayah} />
@@ -157,13 +157,16 @@ export const ListCourse = () => {
 
   if (status == "loading") {
     return (
-      <div className="flex-grow md:ml-8 md:mr-8 md:mb-8">
+      <div className="flex-grow">
         <Title
           title="Pilihan Les"
           subtitle="Daftar / Pilihan Les"
           type="pageTitle"
         />
-        <CardItem title="Loading..." containerClass="mt-8">
+        <CardItem
+          title="Loading..."
+          containerClass="mt-8 bg-white rounded-lg shadow-lg"
+        >
           <SkeletonLoading fullWidthLineCount={6} />
         </CardItem>
       </div>
