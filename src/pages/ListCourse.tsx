@@ -7,6 +7,7 @@ import {
   CardKeyValue,
   EmptyIcon,
   Swal,
+  LoadIcon,
 } from "@components";
 import { Link } from "react-router-dom";
 import { getFirebaseDataOnce } from "@utils";
@@ -61,7 +62,6 @@ export const ListCourse = () => {
 
   useEffect(() => {
     setFormName("master_les");
-    getFirebaseDataOnce;
 
     getCourseData();
   }, []);
@@ -102,7 +102,7 @@ export const ListCourse = () => {
               >
                 <CardKeyValue keyName="Paket" value={value.paket} />
                 <CardKeyValue keyName="Wilayah" value={value.wilayah} />
-
+                <CardKeyValue keyName="Biaya" value={value.biaya} />
                 <div className="flex flex-row mt-8 justify-end">
                   <Link
                     // button edit mengirim state updating
@@ -142,6 +142,8 @@ export const ListCourse = () => {
                         cancelButtonText: "Batal",
                       }).then((result) => {
                         if (result.isConfirmed) {
+                          setStatus("refreshing");
+                          getCourseData();
                           deleteFormData(key);
                         }
                       });
@@ -197,8 +199,15 @@ export const ListCourse = () => {
           onClick={() => {}}
         />
       </Link>
-      <CardItem title="Belum Ada data les" containerClass="mt-8">
-        <EmptyIcon />
+      <CardItem
+        title={status == "refreshing" ? "Loading" : "Tidak ada data les"}
+        containerClass="mt-8"
+      >
+        {status == "refreshing" ? (
+          <LoadIcon additionalClassName="text-4xl" />
+        ) : (
+          <EmptyIcon />
+        )}
       </CardItem>
     </div>
   );

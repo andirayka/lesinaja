@@ -1,5 +1,11 @@
 import React, { useEffect, useContext, useState } from "react";
-import { Title, Button, CardFormMaster, SkeletonLoading } from "@components";
+import {
+  Title,
+  Button,
+  CardFormMaster,
+  SkeletonLoading,
+  LoadIcon,
+} from "@components";
 import { MasterContext } from "@context";
 import { useLocation } from "react-router-dom";
 import { clearConfigCache } from "prettier";
@@ -41,7 +47,9 @@ export const FormMaster = () => {
         {/* Form */}
         <div className="relative">
           {/* Refresh Icon */}
-          {/* {formStatus == "refreshing" && <RefreshIcon />} */}
+          {formStatus == "refreshing" && (
+            <LoadIcon additionalClassName="text-2xl text-black absolute left-1/2 bottom-20 top-3 z-10" />
+          )}
 
           {/* Data Form Master */}
           <CardFormMaster
