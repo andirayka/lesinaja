@@ -1,10 +1,4 @@
-import React, {
-  FC,
-  MouseEventHandler,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { MasterContext } from "@context";
@@ -14,9 +8,9 @@ import { getFirebaseDataOnce } from "@utils";
 type Props = {
   item?: any;
   isEditing: boolean;
-  onClickEdit?: MouseEventHandler<HTMLButtonElement>;
-  onClickSave: MouseEventHandler<HTMLButtonElement>;
-  onClickCancel: MouseEventHandler<HTMLButtonElement>;
+  onClickEdit?: any;
+  onClickSave: any;
+  onClickCancel: any;
   inputValue: any;
   setInputValue: any;
 };
@@ -173,13 +167,6 @@ export const RowMaster: FC<Props> = ({
         setRowQuery({
           ...rowQuery,
           status: "loaded",
-        });
-      }
-
-      if (formStatus == "refreshing") {
-        setRowQuery({
-          ...rowQuery,
-          status: "loading",
         });
       }
     }
