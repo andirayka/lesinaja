@@ -178,8 +178,18 @@ export const ListPayment: FC = () => {
                 <CardKeyValue keyName="Nama Siswa" value={value.namaSiswa} />
               )}
               <CardKeyValue keyName="Waktu Pembayaran" value={waktu_transfer} />
+              {value.biaya_daftar && (
+                <CardKeyValue
+                  keyName="Biaya Pendaftaran Siswa"
+                  value={`Rp ${value.biaya_daftar}`}
+                />
+              )}
               <CardKeyValue
-                keyName="Nominal"
+                keyName="Biaya Pendaftaran Les"
+                value={`Rp ${value.biaya_les}`}
+              />
+              <CardKeyValue
+                keyName="Total"
                 value={`Rp ${
                   value.biaya_daftar
                     ? value.biaya_daftar + value.biaya_les
