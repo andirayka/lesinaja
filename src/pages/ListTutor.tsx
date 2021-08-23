@@ -9,7 +9,7 @@ import {
   InputSelect,
 } from "@components";
 import { Link } from "react-router-dom";
-import { getFirebaseDataOnce } from "@utils";
+import { getFirebaseDataOnce, getFirebaseDataByKeyword } from "@utils";
 
 export const ListTutor = () => {
   const [loading, setLoading] = useState(true);
@@ -26,6 +26,14 @@ export const ListTutor = () => {
 
   useEffect(() => {
     getDataFirebase();
+    // const data = getFirebaseDataByKeyword({
+    //   ref: "user",
+    //   child: "nama",
+    //   keyword: "S",
+    // });
+
+    // const d = Promise.all(data);
+    // console.log(d);
   }, []);
 
   if (loading) {

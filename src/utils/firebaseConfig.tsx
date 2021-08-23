@@ -32,8 +32,26 @@ export const databaseRef = (ref: string) => {
 // Jika ref yang dicari tidak ada, return nya adalah null
 // .on untuk ambil berkali - kali
 // .once untuk ambil sekali
-export const getFirebaseDataOnce = async (ref: string) => {
+export const getFirebaseDataOnce = (ref: string) => {
   return databaseRef(ref)
+    .once("value", (snapshot) => snapshot)
+    .then((value) => value.val())
+    .catch(console.error);
+};
+
+export const getFirebaseDataByKeyword = ({
+  ref,
+  child,
+  keyword,
+}: {
+  ref: string;
+  child: string;
+  keyword: string;
+}) => {
+  return databaseRef(ref)
+    .orderByChild(child)
+    .startAt(keyword)
+    .endAt(`${keyword}\uf8ff`)
     .once("value", (snapshot) => snapshot)
     .then((value) => value.val())
     .catch(console.error);
@@ -78,7 +96,7 @@ export const updateFirebaseData = (ref: string, payload: string | object) => {
 };
 
 // delete data di firebase
-export const deleteFirebaseData = async (ref: string) => {
+export const deleteFirebaseData = (ref: string) => {
   const rtDatabase = firebase.database();
   try {
     return rtDatabase.ref(ref).remove();
