@@ -53,7 +53,7 @@ export const ListPayment: FC = () => {
               ),
               rolePenerima: penerimaIsAdmin ? "Admin" : "Tutor",
               namaSiswa: await getFirebaseDataOnce(
-                `siswa/${value.id_siswa || value.bayar_pendaftaran}/nama`
+                `siswa/${value.id_siswa}/nama`
               ),
             };
 
@@ -77,16 +77,20 @@ export const ListPayment: FC = () => {
     setIsKey(key);
     setIsLoadingButton(true);
 
-    const getDataSiswa = await getFirebaseDataOnce(
-      `siswa/${data.bayar_pendaftaran}`
-    );
-    updateFirebaseData(`siswa/${data.bayar_pendaftaran}`, {
-      walimurid_status: `${getDataSiswa.walimurid_status}_daftar`,
+    // const getDataSiswa = await getFirebaseDataOnce(
+    //   `siswa/${data.bayar_pendaftaran}`
+    // );
+    updateFirebaseData(`siswa/${data.id_siswa}`, {
+      status_bayar: true,
+    });
+    updateFirebaseData(`les_siswa/${data.id_lessiswa}`, {
+      status_bayar: true,
     });
     updateFirebaseData(`pembayaran/${key}`, {
       sudah_dikonfirmasi: true,
     });
 
+    // console.log(data)
     console.log(key, data);
     getData();
   };
@@ -100,15 +104,15 @@ export const ListPayment: FC = () => {
       sudah_dikonfirmasi: true,
     });
 
-    const getDataLesSiswa = await getFirebaseDataOnce(
-      `les_siswa/${data.bayar_lessiswa}/wilayah_status`
-    );
+    // const getDataLesSiswa = await getFirebaseDataOnce(
+    //   `les_siswa/${data.id_lessiswa}/status_bayar`
+    // );
 
-    updateFirebaseData(`les_siswa/${data.bayar_lessiswa}`, {
-      wilayah_status: `${getDataLesSiswa}_apply`,
+    updateFirebaseData(`les_siswa/${data.id_lessiswa}`, {
+      status_bayar: true,
     });
 
-    console.log(getDataLesSiswa);
+    console.log(data.id_lessiswa);
     getData();
   };
 
@@ -118,10 +122,10 @@ export const ListPayment: FC = () => {
 
   // Ambil kata2 keterangan untuk key keterangan di dalam CardItem
   const getTextKeterangan = (data: any) => {
-    if (data.bayar_pendaftaran) {
-      return "Bayar Pendaftaran";
+    if (data.biaya_daftar && data.biaya_les) {
+      return "Bayar Pendaftaran dan Bayar Les";
     }
-    if (data.bayar_lessiswa) {
+    if (data.biaya_les) {
       return "Bayar Les Siswa";
     }
     if (data.bayar_gajitutor) {
@@ -174,7 +178,14 @@ export const ListPayment: FC = () => {
                 <CardKeyValue keyName="Nama Siswa" value={value.namaSiswa} />
               )}
               <CardKeyValue keyName="Waktu Pembayaran" value={waktu_transfer} />
-              <CardKeyValue keyName="Nominal" value={`Rp ${value.nominal}`} />
+              <CardKeyValue
+                keyName="Nominal"
+                value={`Rp ${
+                  value.biaya_daftar
+                    ? value.biaya_daftar + value.biaya_les
+                    : value.biaya_les
+                }`}
+              />
               <div className="flex flex-row mt-8">
                 {["Wali Murid"].includes(value.rolePengirim) && (
                   <Button
@@ -185,7 +196,8 @@ export const ListPayment: FC = () => {
                 )}
 
                 {!value.sudah_dikonfirmasi &&
-                  value.bayar_pendaftaran !== undefined &&
+                  value.biaya_daftar !== undefined &&
+                  value.biaya_les !== undefined &&
                   ["Wali Murid"].includes(value.rolePengirim) && (
                     <Button
                       text="Konfirmasi Uang Sudah Masuk"
@@ -201,7 +213,8 @@ export const ListPayment: FC = () => {
                   )}
 
                 {!value.sudah_dikonfirmasi &&
-                  value.bayar_lessiswa !== undefined &&
+                  value.biaya_les !== undefined &&
+                  value.biaya_daftar === undefined &&
                   ["Wali Murid"].includes(value.rolePengirim) && (
                     <Button
                       key={key}
