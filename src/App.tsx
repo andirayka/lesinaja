@@ -155,17 +155,12 @@ const InitialChecker = () => {
   // Undefined = belum tahu, true = sudah login, false = tidak login
   const { state: authState, setIsLoggedIn } = useContext<any>(AuthContext);
   const { isLoggedIn } = authState;
-  const [isRole, setIsRole] = useState<any>();
+  const [roleLogin, setRoleLogin] = useState<any>();
 
-  const cekRole = () => {
-    firebase.auth().onAuthStateChanged((user: any) => {
-      const roleOn = async () => {
-        const getData = await getFirebaseDataOnce(`user/${user.uid}/roles`);
-        setIsRole(getData)
-      }
-      roleOn();
-    });
-  }
+  const getLocalStorage = () => {
+    const getData = localStorage.getItem("roleUser");
+    setRoleLogin(getData);
+  };
 
   // Cek apakah user sudah login
   useEffect(() => {
@@ -176,7 +171,7 @@ const InitialChecker = () => {
         setIsLoggedIn(false);
         console.log("anda belum login");
       }
-      cekRole();
+      getLocalStorage();
     });
   }, []);
 
@@ -196,7 +191,8 @@ const InitialChecker = () => {
         <Route path="/masuk" exact component={Login} />
         {/* <Route path="/daftar" exact component={Register} /> */}
 
-        {/* {isRole && isRole.admin && (
+        {/* {roleUser &&
+          roleUser == "admin" &&
           adminPages.map((item: any, index: any) => {
             // console.log(isRole);
             return (
@@ -207,17 +203,17 @@ const InitialChecker = () => {
                 render={(props) => {
                   document.title = item.title ? item.title : "Lesin Aja";
                   return (
-                    <MainLayout>
+                    <MainLayout role={isRole} getRoleUser={roleUser}>
                       <item.component {...props} />
                     </MainLayout>
                   );
                 }}
               />
             );
-          })
-        )}
+          })}
 
-        {isRole && isRole.wali_murid && (
+        {roleUser &&
+          roleUser == "walmur" &&
           walmurPages.map((item: any, index: any) => {
             // console.log(isRole);
             return (
@@ -228,17 +224,17 @@ const InitialChecker = () => {
                 render={(props) => {
                   document.title = item.title ? item.title : "Lesin Aja";
                   return (
-                    <MainLayout>
+                    <MainLayout role={isRole} getRoleUser={roleUser}>
                       <item.component {...props} />
                     </MainLayout>
                   );
                 }}
               />
             );
-          })
-        )}
+          })}
 
-        {isRole && isRole.admin && (
+        {roleUser &&
+          roleUser == "tutor" &&
           tutorPages.map((item: any, index: any) => {
             // console.log(isRole);
             return (
@@ -249,16 +245,14 @@ const InitialChecker = () => {
                 render={(props) => {
                   document.title = item.title ? item.title : "Lesin Aja";
                   return (
-                    <MainLayout>
+                    <MainLayout role={isRole} getRoleUser={roleUser}>
                       <item.component {...props} />
                     </MainLayout>
                   );
                 }}
               />
             );
-          })
-        )} */}
-
+          })} */}
         {/* Untuk mengecek data-data awal ketika buk aplikasi */}
         {adminPages.map((item: any, index: any) => {
           // console.log(isRole);
@@ -271,7 +265,7 @@ const InitialChecker = () => {
                 document.title = item.title ? item.title : "Lesin Aja";
                 // console.log(isRole);
                 return (
-                  <MainLayout role={isRole}>
+                  <MainLayout getRoleUser={roleLogin}>
                     <item.component {...props} />
                   </MainLayout>
                 );
@@ -279,7 +273,6 @@ const InitialChecker = () => {
             />
           );
         })}
-
         <Redirect to="/masuk" />
       </Switch>
     );

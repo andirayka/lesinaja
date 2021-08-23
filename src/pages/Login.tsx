@@ -12,7 +12,12 @@ import {
 import { logregLogo } from "@assets";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { handleLoginEmail, handleLoginGoogleFirebase } from "@utils";
+import {
+  addFirebaseData,
+  getFirebaseDataOnce,
+  handleLoginEmail,
+  handleLoginGoogleFirebase,
+} from "@utils";
 import { Link } from "react-router-dom";
 import { AuthContext, MasterContext } from "@context";
 
@@ -25,7 +30,9 @@ export const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const [roleOn, setRoleOn] = useState<string | null>(null);
+  const [roleOn, setRoleOn] = useState<any | null>(null);
+
+  const [roleNow, setRoleNow] = useState();
 
   const history = useHistory();
 
@@ -56,16 +63,53 @@ export const Login = () => {
 
   const handleLoginGoogle = async () => {
     setFormStatus("refreshing");
-    const { success, role } = await handleLoginGoogleFirebase();
+    const { success, role, dataUser } = await handleLoginGoogleFirebase();
+    const getDataUser = await getFirebaseDataOnce(`user/${dataUser.uid}`);
 
     if (success) {
       setIsLoggedIn(true);
+
       if (roleOn == "tutor") {
         if (role && role.tutor) {
-          history.push("/beranda-tutor");
+          if (getDataUser.kontak) {
+            history.push("/beranda-tutor");
+          } else {
+            alert("Lengkapi dulu seluruh datanya!");
+            history.push("/akun-tutor");
+          }
         } else {
-          alert("Akun belum terdaftar sebagai Tutor");
-          history.push("/akun-tutor");
+          console.log(dataUser);
+          Swal.fire({
+            text: `Akun masih belum terdaftar sebagai tutor. Apakah anda ingin melakukan pendaftaran!`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#FBBF24",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Batal",
+            confirmButtonText: "Oke",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              if (role && role.wali_murid) {
+                addFirebaseData({
+                  ref: `user/${dataUser.uid}/roles/tutor`,
+                  payload: true,
+                  isNoKey: true,
+                });
+              } else {
+                addFirebaseData({
+                  ref: `user/${dataUser.uid}`,
+                  payload: {
+                    nama: dataUser.displayName,
+                    email: dataUser.email,
+                    login_terakhir: "tutor",
+                    roles: { tutor: true },
+                  },
+                  isNoKey: true,
+                });
+              }
+              history.push("/akun-tutor");
+            }
+          });
         }
       } else if (roleOn == "walmur") {
         if (role && role.wali_murid) {
@@ -90,6 +134,11 @@ export const Login = () => {
     document.title = "Masuk LesinAja";
   }, []);
 
+  const handleRoleOn = (data: string) => {
+    setRoleOn(data);
+    localStorage.setItem("roleUser", data);
+  };
+
   if (roleOn == null) {
     return (
       <div className="flex flex-row justify-between items-start p-8 bg-yellow-300 h-screen">
@@ -103,19 +152,19 @@ export const Login = () => {
           <Button
             type="submit"
             text="Masuk Sebagai Wali Murid"
-            onClick={() => setRoleOn("walmur")}
+            onClick={() => handleRoleOn("walmur")}
             additionalClassName="mb-4 bg-yellow-400 hover:bg-yellow-600 font-medium w-full rounded-full"
           />
           <Button
             type="submit"
             text="Masuk Sebagai Tutor"
-            onClick={() => setRoleOn("tutor")}
+            onClick={() => handleRoleOn("tutor")}
             additionalClassName="mb-4 bg-yellow-400 hover:bg-yellow-600 font-medium w-full rounded-full"
           />
           <Button
             type="submit"
             text="Masuk Sebagai Admin"
-            onClick={() => setRoleOn("admin")}
+            onClick={() => handleRoleOn("admin")}
             additionalClassName="mb-4 mt-4 bg-yellow-400 hover:bg-yellow-600 font-medium w-full rounded-full"
           />
         </ContentContainer>

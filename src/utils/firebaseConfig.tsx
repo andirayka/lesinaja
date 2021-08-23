@@ -47,7 +47,7 @@ export const addFirebaseData = ({
 }: {
   ref: string;
   payload: any;
-  isNoKey?: string;
+  isNoKey?: boolean;
 }) => {
   const rtDatabase = firebase.database();
 
@@ -118,8 +118,8 @@ export const handleLoginGoogleFirebase = async () => {
     const userCredential = await firebase.auth().signInWithPopup(provider);
     var user: any = userCredential.user;
     const getData = await getFirebaseDataOnce(`user/${user.uid}/roles`);
-    // console.log(getData);
-    return { success: true, role: getData };
+    // console.log(user);
+    return { success: true, role: getData, dataUser: user };
   } catch (error) {
     var errorCode = error.code;
     var errorMessage = error.message;
