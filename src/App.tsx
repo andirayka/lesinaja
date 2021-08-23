@@ -91,7 +91,7 @@ const adminPages = [
     component: Account,
     title: ["Akun Admin LesinAja"],
   },
-  // Halaman Tutor Sementara
+  //Halaman Tutor Sementara
   {
     path: ["/beranda-tutor"],
     component: HomeTutor,
@@ -102,7 +102,7 @@ const adminPages = [
     component: AccountTutor,
     title: ["Akun Tutor LesinAja"],
   },
-  // Halaman Wali murid Sementara
+  //Halaman Wali murid Sementara
   {
     path: ["/beranda-wali-murid"],
     component: HomeWalmur,
@@ -114,6 +114,19 @@ const adminPages = [
     title: ["Akun Wali Murid LesinAja"],
   },
 ];
+
+// const walmurPages = [
+//   {
+//     path: ["/beranda-wali-murid"],
+//     component: HomeWalmur,
+//     title: ["Beranda Wali Murid LesinAja"],
+//   },
+//   {
+//     path: ["/akun-wali-murid"],
+//     component: AccountWalmur,
+//     title: ["Akun Wali Murid LesinAja"],
+//   },
+// ];
 
 // const tutorPages = [
 //   {
@@ -144,10 +157,15 @@ const InitialChecker = () => {
   const { isLoggedIn } = authState;
   const [isRole, setIsRole] = useState<any>();
 
-  // const cekRole = (id: string) => {
-  //   const getDataRole = getFirebaseDataOnce(`user/${id}/roles`);
-  //   setIsRole(getDataRole);
-  // };
+  const cekRole = () => {
+    firebase.auth().onAuthStateChanged((user: any) => {
+      const roleOn = async () => {
+        const getData = await getFirebaseDataOnce(`user/${user.uid}/roles`);
+        setIsRole(getData)
+      }
+      roleOn();
+    });
+  }
 
   // Cek apakah user sudah login
   useEffect(() => {
@@ -158,8 +176,7 @@ const InitialChecker = () => {
         setIsLoggedIn(false);
         console.log("anda belum login");
       }
-      // cekRole(user.uid);
-      // console.log(isRole);
+      cekRole();
     });
   }, []);
 
@@ -179,9 +196,72 @@ const InitialChecker = () => {
         <Route path="/masuk" exact component={Login} />
         {/* <Route path="/daftar" exact component={Register} /> */}
 
-        {/* Untuk mengecek data-data awal ketika buk aplikasi */}
+        {/* {isRole && isRole.admin && (
+          adminPages.map((item: any, index: any) => {
+            // console.log(isRole);
+            return (
+              <Route
+                key={index}
+                exact
+                path={item.path}
+                render={(props) => {
+                  document.title = item.title ? item.title : "Lesin Aja";
+                  return (
+                    <MainLayout>
+                      <item.component {...props} />
+                    </MainLayout>
+                  );
+                }}
+              />
+            );
+          })
+        )}
 
+        {isRole && isRole.wali_murid && (
+          walmurPages.map((item: any, index: any) => {
+            // console.log(isRole);
+            return (
+              <Route
+                key={index}
+                exact
+                path={item.path}
+                render={(props) => {
+                  document.title = item.title ? item.title : "Lesin Aja";
+                  return (
+                    <MainLayout>
+                      <item.component {...props} />
+                    </MainLayout>
+                  );
+                }}
+              />
+            );
+          })
+        )}
+
+        {isRole && isRole.admin && (
+          tutorPages.map((item: any, index: any) => {
+            // console.log(isRole);
+            return (
+              <Route
+                key={index}
+                exact
+                path={item.path}
+                render={(props) => {
+                  document.title = item.title ? item.title : "Lesin Aja";
+                  return (
+                    <MainLayout>
+                      <item.component {...props} />
+                    </MainLayout>
+                  );
+                }}
+              />
+            );
+          })
+        )} */}
+
+        {/* Untuk mengecek data-data awal ketika buk aplikasi */}
         {adminPages.map((item: any, index: any) => {
+          // console.log(isRole);
           return (
             <Route
               key={index}
@@ -189,8 +269,9 @@ const InitialChecker = () => {
               path={item.path}
               render={(props) => {
                 document.title = item.title ? item.title : "Lesin Aja";
+                // console.log(isRole);
                 return (
-                  <MainLayout>
+                  <MainLayout role={isRole}>
                     <item.component {...props} />
                   </MainLayout>
                 );

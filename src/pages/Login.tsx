@@ -37,7 +37,7 @@ export const Login = () => {
   const onSubmit = async (data: any) => {
     const { success, role } = await handleLoginEmail(data.email, data.password);
 
-    console.log(role);
+    // console.log(role);
     if (success) {
       setIsLoggedIn(true);
       if (role && role.admin) {

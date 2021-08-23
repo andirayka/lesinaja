@@ -6,8 +6,9 @@ import { firebase, getFirebaseDataOnce, handleShowFile } from "@utils";
 // Pembungkus semua content di dalam halaman yang bisa login
 type Props = {
   children?: any;
+  role: any;
 };
-export const MainLayout: FC<Props> = ({ children }) => {
+export const MainLayout: FC<Props> = ({ children, role }) => {
   const [dataUser, setDataUser] = useState<any>({});
 
   const [profileSrc, setProfileSrc] = useState("");
@@ -34,7 +35,7 @@ export const MainLayout: FC<Props> = ({ children }) => {
     <div className="flex">
       {/* Sidebar di sebelah kiri */}
       <div className="w-72">
-        <Sidebar />
+        <Sidebar roleOn={role} />
       </div>
 
       <div className="flex flex-1 flex-col">

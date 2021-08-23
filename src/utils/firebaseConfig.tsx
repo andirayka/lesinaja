@@ -118,7 +118,7 @@ export const handleLoginGoogleFirebase = async () => {
     const userCredential = await firebase.auth().signInWithPopup(provider);
     var user: any = userCredential.user;
     const getData = await getFirebaseDataOnce(`user/${user.uid}/roles`);
-    console.log(getData);
+    // console.log(getData);
     return { success: true, role: getData };
   } catch (error) {
     var errorCode = error.code;

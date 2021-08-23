@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState, FC } from "react";
 import {
   faHome,
   faUser,
@@ -14,11 +14,11 @@ import { SidebarItem } from "@components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useHistory, useLocation } from "react-router-dom";
 import { LogoLesinAja } from "@assets";
-import { handleLogout, firebase } from "@utils";
+import { handleLogout, firebase, getFirebaseDataOnce } from "@utils";
 import { AuthContext } from "@context";
 
 // List path dan property dari sidebar item
-const sidebarList = [
+const adminSidebarList = [
   {
     path: "/beranda",
     text: "Beranda",
@@ -69,8 +69,42 @@ const sidebarList = [
   },
 ];
 
+const walmurSidebarList = [
+  {
+    path: "/beranda-wali-murid",
+    text: "Beranda",
+    icon: faHome,
+    activePaths: ["/beranda-wali-murid"],
+  },
+  {
+    path: "/akun-wali-murid",
+    text: "Akun",
+    icon: faUser,
+    activePaths: ["/akun-wali-murid"],
+  },
+];
+
+const tutorSidebarList = [
+  {
+    path: "/beranda-tutor",
+    text: "Beranda",
+    icon: faHome,
+    activePaths: ["/beranda-tutor"],
+  },
+  {
+    path: "/akun-tutor",
+    text: "Akun",
+    icon: faUser,
+    activePaths: ["/akun-tutor"],
+  },
+];
+
+type Props = {
+  roleOn: any;
+} 
+
 // Sidebar di sebelah kiri MainLayout
-export const Sidebar = () => {
+export const Sidebar: FC<Props> = ({roleOn}) => {
   const { pathname } = useLocation(); // Path halaman yang sedang dibuka
   const history = useHistory(); // Untuk pindah halaman
   const { state: authState, setIsLoggedIn } = useContext<any>(AuthContext);
@@ -84,13 +118,11 @@ export const Sidebar = () => {
   return (
     <div className="fixed w-72 h-screen bg-white overflow-hidden">
       <img src={LogoLesinAja} alt="" className="w-64" />
-      {sidebarList.map((item, index) => {
+      {/* {adminSidebarList.map((item, index) => {
+        console.log(roleOn)
         return (
           <SidebarItem
             key={index}
-            // onClick={() => {
-            //   history.push(item.path);
-            // }}
             onClick={async () => {
               if (item.text == "Keluar") {
                 await handleLogout();
@@ -109,7 +141,82 @@ export const Sidebar = () => {
             text={item.text}
           />
         );
-      })}
+      })} */}
+      {roleOn && roleOn.admin && (
+        adminSidebarList.map((item, index) => {
+          return (
+            <SidebarItem
+              key={index}
+              onClick={async () => {
+                if (item.text == "Keluar") {
+                  await handleLogout();
+                  const user = firebase.auth().currentUser;
+                  if (user === null) {
+                    setIsLoggedIn(false);
+                  } else {
+                    setIsLoggedIn(true);
+                  }
+                } else {
+                  history.push(item.path);
+                }
+              }}
+              isActive={item.activePaths.includes(pathname)}
+              icon={item.icon}
+              text={item.text}
+            />
+          );
+        })
+      )}
+      {roleOn && roleOn.wali_murid && (
+        walmurSidebarList.map((item, index) => {
+          return (
+            <SidebarItem
+              key={index}
+              onClick={async () => {
+                if (item.text == "Keluar") {
+                  await handleLogout();
+                  const user = firebase.auth().currentUser;
+                  if (user === null) {
+                    setIsLoggedIn(false);
+                  } else {
+                    setIsLoggedIn(true);
+                  }
+                } else {
+                  history.push(item.path);
+                }
+              }}
+              isActive={item.activePaths.includes(pathname)}
+              icon={item.icon}
+              text={item.text}
+            />
+          );
+        })
+      )}
+      {roleOn && roleOn.tutor && (
+        tutorSidebarList.map((item, index) => {
+          return (
+            <SidebarItem
+              key={index}
+              onClick={async () => {
+                if (item.text == "Keluar") {
+                  await handleLogout();
+                  const user = firebase.auth().currentUser;
+                  if (user === null) {
+                    setIsLoggedIn(false);
+                  } else {
+                    setIsLoggedIn(true);
+                  }
+                } else {
+                  history.push(item.path);
+                }
+              }}
+              isActive={item.activePaths.includes(pathname)}
+              icon={item.icon}
+              text={item.text}
+            />
+          );
+        })
+      )}
     </div>
   );
 };
