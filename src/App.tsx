@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { FC, useContext, useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
@@ -161,11 +162,11 @@ const InitialChecker = () => {
     firebase.auth().onAuthStateChanged((user: any) => {
       const roleOn = async () => {
         const getData = await getFirebaseDataOnce(`user/${user.uid}/roles`);
-        setIsRole(getData)
-      }
+        setIsRole(getData);
+      };
       roleOn();
     });
-  }
+  };
 
   // Cek apakah user sudah login
   useEffect(() => {

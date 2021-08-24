@@ -34,7 +34,7 @@ export const MainLayout: FC<Props> = ({ children, role }) => {
   return (
     <div className="flex">
       {/* Sidebar di sebelah kiri */}
-      <div className="w-72">
+      <div className="md:w-72">
         <Sidebar roleOn={role} />
       </div>
 

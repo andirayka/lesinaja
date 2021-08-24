@@ -39,24 +39,6 @@ export const getFirebaseDataOnce = (ref: string) => {
     .catch(console.error);
 };
 
-export const getFirebaseDataByKeyword = ({
-  ref,
-  child,
-  keyword,
-}: {
-  ref: string;
-  child: string;
-  keyword: string;
-}) => {
-  return databaseRef(ref)
-    .orderByChild(child)
-    .startAt(keyword)
-    .endAt(`${keyword}\uf8ff`)
-    .once("value", (snapshot) => snapshot)
-    .then((value) => value.val())
-    .catch(console.error);
-};
-
 // menambahkan data ke database firebase
 export const addFirebaseData = ({
   ref,

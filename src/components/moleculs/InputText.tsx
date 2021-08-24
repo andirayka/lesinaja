@@ -9,6 +9,7 @@ type Props = {
   containerClassName?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   onChange?: (e: any) => any;
+  onKeyDown?: (e: any) => any;
   useHookRegister?: any;
 };
 

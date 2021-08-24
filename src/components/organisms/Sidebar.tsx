@@ -101,10 +101,10 @@ const tutorSidebarList = [
 
 type Props = {
   roleOn: any;
-} 
+};
 
 // Sidebar di sebelah kiri MainLayout
-export const Sidebar: FC<Props> = ({roleOn}) => {
+export const Sidebar: FC<Props> = ({ roleOn }) => {
   const { pathname } = useLocation(); // Path halaman yang sedang dibuka
   const history = useHistory(); // Untuk pindah halaman
   const { state: authState, setIsLoggedIn } = useContext<any>(AuthContext);
@@ -116,7 +116,7 @@ export const Sidebar: FC<Props> = ({roleOn}) => {
   }, [authState.isLoggedIn]);
 
   return (
-    <div className="fixed w-72 h-screen bg-white overflow-hidden">
+    <div className="hidden md:block fixed w-72 h-screen bg-white overflow-hidden">
       <img src={LogoLesinAja} alt="" className="w-64" />
       {/* {adminSidebarList.map((item, index) => {
         console.log(roleOn)
@@ -142,7 +142,8 @@ export const Sidebar: FC<Props> = ({roleOn}) => {
           />
         );
       })} */}
-      {roleOn && roleOn.admin && (
+      {roleOn &&
+        roleOn.admin &&
         adminSidebarList.map((item, index) => {
           return (
             <SidebarItem
@@ -165,9 +166,9 @@ export const Sidebar: FC<Props> = ({roleOn}) => {
               text={item.text}
             />
           );
-        })
-      )}
-      {roleOn && roleOn.wali_murid && (
+        })}
+      {roleOn &&
+        roleOn.wali_murid &&
         walmurSidebarList.map((item, index) => {
           return (
             <SidebarItem
@@ -190,9 +191,9 @@ export const Sidebar: FC<Props> = ({roleOn}) => {
               text={item.text}
             />
           );
-        })
-      )}
-      {roleOn && roleOn.tutor && (
+        })}
+      {roleOn &&
+        roleOn.tutor &&
         tutorSidebarList.map((item, index) => {
           return (
             <SidebarItem
@@ -215,8 +216,7 @@ export const Sidebar: FC<Props> = ({roleOn}) => {
               text={item.text}
             />
           );
-        })
-      )}
+        })}
     </div>
   );
 };

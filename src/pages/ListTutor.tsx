@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Children, useEffect, useState } from "react";
 import {
   Title,
   CardItem,
@@ -9,34 +9,51 @@ import {
   InputSelect,
 } from "@components";
 import { Link } from "react-router-dom";
-import { getFirebaseDataOnce, getFirebaseDataByKeyword } from "@utils";
+import { getFirebaseDataOnce, databaseRef } from "@utils";
 
 export const ListTutor = () => {
   const [loading, setLoading] = useState(true);
 
-  const [data, setData] = useState({});
+  const [data, setData] = useState(undefined);
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(undefined);
+
+  const [queryInput, setQueryInput] = useState("");
 
   const getDataFirebase = async () => {
-    const getData = await getFirebaseDataOnce(`user`);
-    setData(getData);
-    setLoading(false);
+    try {
+      const tutorQuery = await databaseRef("user")
+        .orderByChild("roles/tutor")
+        .equalTo(true)
+        .once("value", (snapshot) => snapshot);
+
+      setData(tutorQuery.val());
+      setLoading(false);
+    } catch (message) {
+      console.error(message);
+    }
+  };
+
+  const searchData = async (keyword: string) => {
+    try {
+      const tutorQuery = await databaseRef(`user`)
+        .orderByChild("nama")
+        .startAt(`${keyword}`)
+        .endAt(`${keyword}\uf8ff`)
+        .once("value", (snapshot) => snapshot);
+
+      setQuery(tutorQuery.val());
+      setData(tutorQuery.val());
+    } catch (message) {
+      console.error(message);
+    }
   };
 
   useEffect(() => {
     getDataFirebase();
-    // const data = getFirebaseDataByKeyword({
-    //   ref: "user",
-    //   child: "nama",
-    //   keyword: "S",
-    // });
+  }, [queryInput]);
 
-    // const d = Promise.all(data);
-    // console.log(d);
-  }, []);
-
-  if (loading) {
+  if (loading && !data) {
     return (
       <div className="flex-grow">
         <Title
@@ -59,12 +76,21 @@ export const ListTutor = () => {
         />
         {/* form filter */}
         <div className="bg-white mt-8 rounded-md shadow-lg">
-          <InputText
-            value={query}
-            placeholder="Cari data berdasarkan nama..."
-            containerClassName="p-2"
-            onChange={(e) => setQuery(e.target.value)}
-          />
+          <div className="flex flex-row items-center">
+            <InputText
+              value={queryInput}
+              placeholder="Cari data berdasarkan nama..."
+              containerClassName="p-2 flex-1"
+              onChange={(e) => setQueryInput(e.target.value)}
+            />
+            <Button
+              text="Cari"
+              additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg mr-2 py-[0.5em]"
+              onClick={() => {
+                searchData(`${queryInput}`);
+              }}
+            />
+          </div>
           <InputSelect
             data={""}
             heading="Filter berdasarkan wilayah"
@@ -73,28 +99,28 @@ export const ListTutor = () => {
             itemClassName="w-full"
           />
         </div>
-        {Object.entries<any>(data)
-          .filter(([key, value]) => {
-            // i artinya tidak case sensitive
-            const matchKeyword = RegExp(query, "i");
-            // return data yang sesuai dengan pencarian
-            return matchKeyword.test(value.nama);
-          })
-          .map((item, index) => {
-            const [key, value] = item;
-            if (value.roles && value.roles.tutor && value.kontak) {
+        {data &&
+          Object.entries<any>(data).map(([key, value], index) => {
+            if (value.roles.tutor) {
               return (
                 <CardItem
                   key={index}
-                  title={value.nama ? value.nama : "Data Nama Kosong"}
+                  title={value.nama}
                   containerClass="mt-8 shadow-lg"
                 >
                   <CardKeyValue keyName="Email" value={value.email} />
-                  <CardKeyValue keyName="No. WA" value={value.kontak.telepon} />
-                  <CardKeyValue
-                    keyName="Alamat"
-                    value={value.kontak.alamat_rumah}
-                  />
+                  {value.kontak && (
+                    <>
+                      <CardKeyValue
+                        keyName="No. WA"
+                        value={value.kontak.telepon}
+                      />
+                      <CardKeyValue
+                        keyName="Alamat"
+                        value={value.kontak.alamat_rumah}
+                      />
+                    </>
+                  )}
                   <div className="flex-row mt-8">
                     <Link
                       to={{

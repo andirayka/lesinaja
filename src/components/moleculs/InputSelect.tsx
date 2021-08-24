@@ -29,7 +29,7 @@ export const InputSelect: FC<Props> = ({
         {heading && <p>{heading}</p>}
         {/* aksi ketika klik dropdown */}
         <div
-          className={`relative border-2 rounded-lg p-1 ${itemClassName}`}
+          className={`relative border-2 rounded-md p-1 ${itemClassName}`}
           onClick={() => {
             setOpen((prev) => !prev);
           }}
@@ -44,7 +44,7 @@ export const InputSelect: FC<Props> = ({
             </div>
           )}
         </div>
-        <div className="max-h-40 w-4/5 bg-gray-300 overflow-y-auto px-2">
+        <div className="max-h-40 full bg-gray-300 overflow-y-auto px-2 rounded-md">
           {/* text input untuk filter */}
           {open && (
             <input
@@ -72,7 +72,7 @@ export const InputSelect: FC<Props> = ({
               .map(([key, value], index) => {
                 return (
                   <div
-                    className="hover:bg-white"
+                    className="hover:bg-white hover:rounded-md hover:p-1 hover:mb-1"
                     key={index}
                     onClick={() => {
                       onChange({ key, value });

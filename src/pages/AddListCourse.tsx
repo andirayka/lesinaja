@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   ContentContainer,
   Title,
