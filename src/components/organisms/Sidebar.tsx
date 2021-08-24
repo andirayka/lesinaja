@@ -100,11 +100,11 @@ const tutorSidebarList = [
 ];
 
 type Props = {
-  roleOn: any;
+  roleUser: string;
 };
 
 // Sidebar di sebelah kiri MainLayout
-export const Sidebar: FC<Props> = ({ roleOn }) => {
+export const Sidebar: FC<Props> = ({ roleUser }) => {
   const { pathname } = useLocation(); // Path halaman yang sedang dibuka
   const history = useHistory(); // Untuk pindah halaman
   const { state: authState, setIsLoggedIn } = useContext<any>(AuthContext);
@@ -113,37 +113,15 @@ export const Sidebar: FC<Props> = ({ roleOn }) => {
     if (authState.isLoggedIn === false) {
       history.push("/masuk");
     }
+    // getLocalStorage();
   }, [authState.isLoggedIn]);
 
   return (
     <div className="hidden md:block fixed w-72 h-screen bg-white overflow-hidden">
       <img src={LogoLesinAja} alt="" className="w-64" />
-      {/* {adminSidebarList.map((item, index) => {
-        console.log(roleOn)
-        return (
-          <SidebarItem
-            key={index}
-            onClick={async () => {
-              if (item.text == "Keluar") {
-                await handleLogout();
-                const user = firebase.auth().currentUser;
-                if (user === null) {
-                  setIsLoggedIn(false);
-                } else {
-                  setIsLoggedIn(true);
-                }
-              } else {
-                history.push(item.path);
-              }
-            }}
-            isActive={item.activePaths.includes(pathname)}
-            icon={item.icon}
-            text={item.text}
-          />
-        );
-      })} */}
-      {roleOn &&
-        roleOn.admin &&
+
+      {/* pengecekan sidebar untuk admin */}
+      {roleUser == "admin" &&
         adminSidebarList.map((item, index) => {
           return (
             <SidebarItem
@@ -167,8 +145,9 @@ export const Sidebar: FC<Props> = ({ roleOn }) => {
             />
           );
         })}
-      {roleOn &&
-        roleOn.wali_murid &&
+
+      {/* pengecekan sidebar untuk Wali murid */}
+      {roleUser == "walmur" &&
         walmurSidebarList.map((item, index) => {
           return (
             <SidebarItem
@@ -192,8 +171,9 @@ export const Sidebar: FC<Props> = ({ roleOn }) => {
             />
           );
         })}
-      {roleOn &&
-        roleOn.tutor &&
+
+      {/* pengecekan sidebar untuk tutor */}
+      {roleUser == "tutor" &&
         tutorSidebarList.map((item, index) => {
           return (
             <SidebarItem

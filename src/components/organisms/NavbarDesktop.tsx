@@ -8,7 +8,7 @@ type Props = {
 
 export const NavbarDesktop: FC<Props> = ({ imgSrc, name }) => {
   return (
-    <nav className="hidden md:block px-8 py-2 bg-yellow-400 mb-8 flex h-14">
+    <nav className="hidden md:block px-8 py-2 bg-yellow-400 flex h-14">
       <div className="flex-auto ">
         <div className="flex">
           {!imgSrc ? (
