@@ -8,7 +8,6 @@ import {
 } from "@components";
 import { MasterContext } from "@context";
 import { useLocation } from "react-router-dom";
-import { clearConfigCache } from "prettier";
 
 export const FormMaster = () => {
   const { state: prevData }: any = useLocation();

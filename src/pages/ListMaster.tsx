@@ -60,7 +60,7 @@ export const ListMaster = () => {
         {/* Jenjang Kelas */}
         <CardItem
           title="Jenjang Kelas"
-          containerClass="mt-8 flex-1 bg-white rounded-lg p-1 shadow-lg"
+          containerClass="mt-8 flex-1 rounded-lg p-1 shadow-lg"
         >
           <>
             {CardContent("jenjangkelas")}
@@ -94,7 +94,7 @@ export const ListMaster = () => {
 
         <CardItem
           title="Mapel"
-          containerClass="mt-8 flex-1 bg-white rounded-lg p-1 shadow-lg"
+          containerClass="mt-8 flex-1 rounded-lg p-1 shadow-lg"
         >
           <>
             {CardContent("mapel")}
@@ -126,7 +126,7 @@ export const ListMaster = () => {
         {/* paket */}
         <CardItem
           title="Paket"
-          containerClass="mt-8 flex-1 bg-white rounded-lg p-1 shadow-lg"
+          containerClass="mt-8 flex-1 rounded-lg p-1 shadow-lg"
         >
           <>
             {CardContent("paket")}
@@ -157,7 +157,7 @@ export const ListMaster = () => {
         {/* wilayah */}
         <CardItem
           title="Wilayah"
-          containerClass="mt-8 flex-1 bg-white rounded-lg p-1 shadow-lg"
+          containerClass="mt-8 flex-1 rounded-lg p-1 shadow-lg"
         >
           <>
             {CardContent("wilayah")}

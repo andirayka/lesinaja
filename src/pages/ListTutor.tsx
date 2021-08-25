@@ -8,7 +8,7 @@ import {
   CardUserFilter,
 } from "@components";
 import { Link } from "react-router-dom";
-import { databaseRef } from "@utils";
+import { databaseRef, getFirebaseDataOnce } from "@utils";
 
 export const ListTutor = () => {
   const [loading, setLoading] = useState(true);
@@ -33,7 +33,7 @@ export const ListTutor = () => {
 
   const searchData = async (keyword: string) => {
     try {
-      const tutorQuery = await databaseRef(`user`)
+      const tutorQuery = await databaseRef("user")
         .orderByChild("nama")
         .startAt(`${keyword}`)
         .endAt(`${keyword}\uf8ff`)
@@ -105,7 +105,6 @@ export const ListTutor = () => {
                       <Button
                         text="Lihat Detail"
                         additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-                        onClick={() => {}}
                       />
                     </Link>
                   </div>
