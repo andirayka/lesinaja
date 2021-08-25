@@ -65,6 +65,7 @@ export const Login = () => {
     setFormStatus("refreshing");
     const { success, role, dataUser } = await handleLoginGoogleFirebase();
     const getDataUser = await getFirebaseDataOnce(`user/${dataUser.uid}`);
+    localStorage.setItem("IdUser", dataUser.uid);
 
     if (success) {
       setIsLoggedIn(true);

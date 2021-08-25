@@ -13,6 +13,6 @@ export const FieldError: FC<Props> = ({ message }) => {
 
   useEffect(() => {
     setFormStatus();
-  });
+  }, []);
   return <p className="text-red-500">{message}</p>;
 };

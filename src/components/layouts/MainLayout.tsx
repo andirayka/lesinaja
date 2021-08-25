@@ -22,6 +22,11 @@ export const MainLayout: FC<Props> = ({ children, getRoleUser }) => {
       handleShowFile(fileNew).then((url) => {
         setProfileSrc(url);
       });
+    } else if (getDataUser.roles.tutor) {
+      let fileNew = `foto_tutor/${uid}`;
+      handleShowFile(fileNew).then((url) => {
+        setProfileSrc(url);
+      });
     }
   };
 
