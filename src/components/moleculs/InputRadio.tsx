@@ -33,6 +33,7 @@ export const InputRadio: FC<Props> = ({
           checked={checked}
           id={id}
           value={value}
+          className="ml-4"
           {...useHookRegister}
         />
       )}

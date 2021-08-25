@@ -82,6 +82,12 @@ const walmurSidebarList = [
     icon: faUser,
     activePaths: ["/akun-wali-murid"],
   },
+  {
+    path: "/masuk",
+    text: "Keluar",
+    icon: faSignOutAlt,
+    activePaths: [],
+  },
 ];
 
 const tutorSidebarList = [
@@ -96,6 +102,12 @@ const tutorSidebarList = [
     text: "Akun",
     icon: faUser,
     activePaths: ["/akun-tutor"],
+  },
+  {
+    path: "/masuk",
+    text: "Keluar",
+    icon: faSignOutAlt,
+    activePaths: [],
   },
 ];
 

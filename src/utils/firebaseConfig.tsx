@@ -93,6 +93,17 @@ export const handleShowFile = (fileNew: string) => {
   return storageRef.child(fileNew).getDownloadURL();
 };
 
+// upload file ke firebase storage
+export const handleUploadFile = (files: any, fileNew: any) => {
+  var storageRef = firebase.storage().ref();
+  return storageRef
+    .child(fileNew)
+    .put(files)
+    .then(() => {
+      console.log("Proses Upload Berhasil Om");
+    });
+};
+
 // login dengan Email firebase
 export const handleLoginEmail = async (email: string, password: string) => {
   try {

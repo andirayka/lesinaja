@@ -99,6 +99,7 @@ export const FormTutor = () => {
     setDataMapel(listMapel);
   };
 
+  // mengambil data jenjang yang dikuasai
   const getDataJenjangFirebase = async (data: any) => {
     let listJenjang: any = [];
     for (let i = 0; i < data.jenjang_ahli.length; i++) {
@@ -253,6 +254,15 @@ export const FormTutor = () => {
           label="Semua pengalaman mengajar yang pernah dilakukan"
           value={dataUserRole.pengalaman_mengajar}
         />
+
+        <div className="mt-4">
+          <label className="font-medium">Link Microteaching</label>
+          <div className="border-b-2 px-2">
+            <a href={dataUserRole.link_microteaching} className="text-blue-400">
+              {dataUserRole.link_microteaching}
+            </a>
+          </div>
+        </div>
 
         <InputText disabled label="Bank" value={dataUserRole.bank} />
 

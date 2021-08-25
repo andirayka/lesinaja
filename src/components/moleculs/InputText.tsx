@@ -3,7 +3,7 @@ import React, { ChangeEvent, FC, MouseEventHandler } from "react";
 type Props = {
   label?: string;
   placeholder?: string;
-  value?: string;
+  value?: string | null;
   disabled?: boolean;
   name?: string;
   containerClassName?: string;
