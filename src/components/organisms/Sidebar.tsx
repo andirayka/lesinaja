@@ -129,7 +129,7 @@ export const Sidebar: FC<Props> = ({ roleUser }) => {
   }, [authState.isLoggedIn]);
 
   return (
-    <div className="fixed w-72 h-screen bg-white overflow-hidden">
+    <div className="hidden md:block fixed w-72 h-screen bg-white overflow-hidden">
       <img src={LogoLesinAja} alt="" className="w-64" />
 
       {/* pengecekan sidebar untuk admin */}

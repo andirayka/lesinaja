@@ -5,30 +5,51 @@ import {
   CardKeyValue,
   Button,
   SkeletonLoading,
-  InputText,
-  InputSelect,
+  CardUserFilter,
 } from "@components";
 import { Link } from "react-router-dom";
-import { getFirebaseDataOnce } from "@utils";
+import { databaseRef } from "@utils";
 
 export const ListTutor = () => {
   const [loading, setLoading] = useState(true);
 
-  const [data, setData] = useState({});
+  const [data, setData] = useState(undefined);
 
-  const [query, setQuery] = useState("");
+  const [queryInput, setQueryInput] = useState("");
 
   const getDataFirebase = async () => {
-    const getData = await getFirebaseDataOnce(`user`);
-    setData(getData);
-    setLoading(false);
+    try {
+      const tutorQuery = await databaseRef("user")
+        .orderByChild("roles/tutor")
+        .equalTo(true)
+        .once("value", (snapshot) => snapshot);
+
+      setData(tutorQuery.val());
+      setLoading(false);
+    } catch (message) {
+      console.error(message);
+    }
+  };
+
+  const searchData = async (keyword: string) => {
+    try {
+      const tutorQuery = await databaseRef(`user`)
+        .orderByChild("nama")
+        .startAt(`${keyword}`)
+        .endAt(`${keyword}\uf8ff`)
+        .once("value", (snapshot) => snapshot);
+
+      setData(tutorQuery.val());
+    } catch (message) {
+      console.error(message);
+    }
   };
 
   useEffect(() => {
     getDataFirebase();
-  }, []);
+  }, [queryInput]);
 
-  if (loading) {
+  if (loading && !data) {
     return (
       <div className="flex-grow">
         <Title
@@ -49,36 +70,20 @@ export const ListTutor = () => {
           subtitle="Daftar / Tutor Lesin Aja"
           type="pageTitle"
         />
-        {/* form filter */}
-        <div className="bg-white mt-8 rounded-md shadow-lg">
-          <InputText
-            value={query}
-            placeholder="Cari data berdasarkan nama..."
-            containerClassName="p-2"
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          <InputSelect
-            data={""}
-            heading="Filter berdasarkan wilayah"
-            prompt="Pilih provinsi.."
-            containerClassName="cursor-pointer p-2"
-            itemClassName="w-full"
-          />
-        </div>
-        {Object.entries<any>(data)
-          .filter(([key, value]) => {
-            // i artinya tidak case sensitive
-            const matchKeyword = RegExp(query, "i");
-            // return data yang sesuai dengan pencarian
-            return matchKeyword.test(value.nama);
-          })
-          .map((item, index) => {
-            const [key, value] = item;
-            if (value.roles && value.roles.tutor && value.kontak) {
+
+        <CardUserFilter
+          value={queryInput}
+          onChange={(e) => setQueryInput(e.target.value)}
+          onClick={() => searchData(queryInput)}
+        />
+
+        {data &&
+          Object.entries<any>(data).map(([key, value], index) => {
+            if (value.roles.tutor && value.kontak) {
               return (
                 <CardItem
                   key={index}
-                  title={value.nama ? value.nama : "Data Nama Kosong"}
+                  title={value.nama}
                   containerClass="mt-8 shadow-lg"
                 >
                   <CardKeyValue keyName="Email" value={value.email} />
@@ -87,6 +92,7 @@ export const ListTutor = () => {
                     keyName="Alamat"
                     value={value.kontak.alamat_rumah}
                   />
+
                   <div className="flex-row mt-8">
                     <Link
                       to={{

@@ -4,3 +4,4 @@ export * from "./CardEmpty";
 export * from "./NavbarDesktop";
 export * from "./CardFormMaster";
 export * from "./ContentContainer";
+export * from "./CardUserFilter";

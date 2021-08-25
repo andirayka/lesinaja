@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { FC, useContext, useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
