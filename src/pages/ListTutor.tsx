@@ -11,17 +11,22 @@ import { Link } from "react-router-dom";
 import { databaseRef, getFirebaseDataOnce } from "@utils";
 
 export const ListTutor = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const [data, setData] = useState(undefined);
+  const [data, setData] = useState<undefined | object>(undefined);
 
-  const [queryInput, setQueryInput] = useState("");
+  const [queryInput, setQueryInput] = useState<string>("");
 
-  const getDataFirebase = async () => {
+  const [filterInput, setFilterInput] = useState<string | undefined>(undefined);
+
+  const getDataFirebase = async (
+    filterType: string,
+    filterData: string | boolean
+  ) => {
     try {
       const tutorQuery = await databaseRef("user")
-        .orderByChild("roles/tutor")
-        .equalTo(true)
+        .orderByChild(filterType)
+        .equalTo(filterData)
         .once("value", (snapshot) => snapshot);
 
       setData(tutorQuery.val());
@@ -31,7 +36,7 @@ export const ListTutor = () => {
     }
   };
 
-  const searchData = async (keyword: string) => {
+  const getSearchResult = async (keyword: string) => {
     try {
       const tutorQuery = await databaseRef("user")
         .orderByChild("nama")
@@ -46,8 +51,13 @@ export const ListTutor = () => {
   };
 
   useEffect(() => {
-    getDataFirebase();
-  }, [queryInput]);
+    if (filterInput) {
+      getDataFirebase("kontak/id_desa", "3515110005");
+    } else {
+      getDataFirebase("roles/tutor", true);
+    }
+    console.log(data);
+  }, [queryInput, filterInput]);
 
   if (loading && !data) {
     return (
@@ -74,7 +84,9 @@ export const ListTutor = () => {
         <CardUserFilter
           value={queryInput}
           onChange={(e) => setQueryInput(e.target.value)}
-          onClick={() => searchData(queryInput)}
+          onClick={() => getSearchResult(queryInput)}
+          filterData={(o) => setFilterInput(o)}
+          clearFilterInput={{}}
         />
 
         {data &&

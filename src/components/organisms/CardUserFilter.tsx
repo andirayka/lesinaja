@@ -1,17 +1,26 @@
 import { InputText, Button, InputSelect } from "@components";
 import { getFirebaseDataOnce } from "@utils";
+import { type } from "node:os";
 import React, { FC, useState, useEffect } from "react";
 
 type Props = {
   value: any;
   onChange: (e: any) => any;
   onClick: (e: any) => any;
+  filterData: (o: any) => any;
+  clearFilterInput: object;
 };
 
-export const CardUserFilter: FC<Props> = ({ value, onChange, onClick }) => {
-  const [dropdownData, setDropdownData] = useState<any>({});
+export const CardUserFilter: FC<Props> = ({
+  value,
+  onChange,
+  onClick,
+  filterData,
+  clearFilterInput,
+}) => {
+  const [dropdownData, setDropdownData] = useState<object>({});
 
-  const [prompt, setPrompt] = useState({});
+  const [prompt, setPrompt] = useState<object>({});
 
   const getDropdownData = async () => {
     const dropdownDataQuery = {
@@ -96,9 +105,10 @@ export const CardUserFilter: FC<Props> = ({ value, onChange, onClick }) => {
     );
   };
 
+  const getPromptData = () => {};
+
   useEffect(() => {
     getDropdownData();
-    // console.log(prompt);
   }, [prompt]);
 
   return (
@@ -116,10 +126,27 @@ export const CardUserFilter: FC<Props> = ({ value, onChange, onClick }) => {
           onClick={onClick}
         />
       </div>
-      {dropdownData.provinsi && conditionalDropdownRender("provinsi")}
-      {prompt.provinsi && conditionalDropdownRender("kabupaten")}
-      {prompt.kabupaten && conditionalDropdownRender("kecamatan")}
-      {prompt.kecamatan && conditionalDropdownRender("desa")}
+      <div className="flex flex-col">
+        {dropdownData.provinsi && conditionalDropdownRender("provinsi")}
+        {prompt.provinsi && conditionalDropdownRender("kabupaten")}
+        {prompt.kabupaten && conditionalDropdownRender("kecamatan")}
+        {prompt.kecamatan && conditionalDropdownRender("desa")}
+      </div>
+      <div className="flex flex-row">
+        <Button
+          text="Filter"
+          additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg my-4 mx-2 w-1/2"
+          onClick={() => filterData(prompt)}
+        />
+        <Button
+          text="Reset"
+          additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg my-4 mr-2 w-1/2"
+          onClick={() => {
+            setPrompt(clearFilterInput);
+            filterData(undefined);
+          }}
+        />
+      </div>
     </div>
   );
 };
