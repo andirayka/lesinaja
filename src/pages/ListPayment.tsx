@@ -77,9 +77,6 @@ export const ListPayment: FC = () => {
     setIsKey(key);
     setIsLoadingButton(true);
 
-    // const getDataSiswa = await getFirebaseDataOnce(
-    //   `siswa/${data.bayar_pendaftaran}`
-    // );
     updateFirebaseData(`siswa/${data.id_siswa}`, {
       status_bayar: true,
     });
@@ -103,10 +100,6 @@ export const ListPayment: FC = () => {
     updateFirebaseData(`pembayaran/${key}`, {
       sudah_dikonfirmasi: true,
     });
-
-    // const getDataLesSiswa = await getFirebaseDataOnce(
-    //   `les_siswa/${data.id_lessiswa}/status_bayar`
-    // );
 
     updateFirebaseData(`les_siswa/${data.id_lessiswa}`, {
       status_bayar: true,

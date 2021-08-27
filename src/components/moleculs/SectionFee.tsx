@@ -2,7 +2,7 @@ import React, { FC } from "react";
 
 type Props = {
   heading: string;
-  value: string;
+  value: string | number;
 };
 
 export const SectionFee: FC<Props> = ({ heading, value }) => {
