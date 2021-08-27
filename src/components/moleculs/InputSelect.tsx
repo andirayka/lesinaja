@@ -8,6 +8,7 @@ type Props = {
   heading?: string;
   containerClassName?: string;
   itemClassName?: string;
+  useHookRegister?: any;
 };
 
 export const InputSelect: FC<Props> = ({
@@ -15,6 +16,7 @@ export const InputSelect: FC<Props> = ({
   prompt,
   onChange,
   heading,
+  useHookRegister,
   containerClassName = "mt-4 cursor-pointer",
   itemClassName = "w-4/5",
 }) => {
@@ -56,7 +58,10 @@ export const InputSelect: FC<Props> = ({
               className="w-full bg-gray-300 outline-none p-1"
               placeholder="cari data"
               autoFocus
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => {
+                setQuery(e.target.value);
+              }}
+              {...useHookRegister}
             />
           )}
 

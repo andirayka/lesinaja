@@ -3,7 +3,7 @@ import React, { FC, MouseEventHandler } from "react";
 type Props = {
   type?: "submit" | "reset" | "button";
   text: string;
-  additionalClassName: string;
+  additionalClassName?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   loading?: any;
 };
