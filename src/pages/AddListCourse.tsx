@@ -90,18 +90,18 @@ export const AddListCourse = () => {
 
   // tampilan prompt sesuai child dari object prompt
   const conditionalPromptRender = (type) => {
-    if (prompt[type] !== undefined) {
+    if (prompt[type]) {
       if (type == "mapel") {
-        return <div>{prompt.mapel}</div>;
+        return <p>{prompt.mapel}</p>;
       } else if (type == "jenjangkelas") {
-        return <div>{prompt.jenjangkelas}</div>;
+        return <p>{prompt.jenjangkelas}</p>;
       } else if (type == "paket") {
-        return <div>{prompt.paket}</div>;
+        return <p>{prompt.paket}</p>;
       } else if (type == "wilayah") {
-        return <div>{prompt.wilayah}</div>;
+        return <p>{prompt.wilayah}</p>;
       }
     } else {
-      return <div>Pilih Data...</div>;
+      return <p>Pilih Data...</p>;
     }
   };
 

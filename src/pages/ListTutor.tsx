@@ -8,14 +8,18 @@ import {
   CardUserFilter,
 } from "@components";
 import { Link } from "react-router-dom";
-import { databaseRef } from "@utils";
+import { databaseRef, getFirebaseDataOnce } from "@utils";
 
 export const ListTutor = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const [data, setData] = useState(undefined);
+  const [data, setData] = useState<undefined | object>(undefined);
 
-  const [queryInput, setQueryInput] = useState("");
+  const [filterNamaInput, setFilterNamaInput] = useState<string>("");
+
+  const [filterWilayahInput, setFilterWilayahInput] = useState<
+    string | undefined
+  >(undefined);
 
   const getDataFirebase = async () => {
     try {
@@ -31,10 +35,10 @@ export const ListTutor = () => {
     }
   };
 
-  const searchData = async (keyword: string) => {
+  const getFilterResults = async (keyword: string, filterType: string) => {
     try {
-      const tutorQuery = await databaseRef(`user`)
-        .orderByChild("nama")
+      const tutorQuery = await databaseRef("user")
+        .orderByChild(filterType)
         .startAt(`${keyword}`)
         .endAt(`${keyword}\uf8ff`)
         .once("value", (snapshot) => snapshot);
@@ -46,8 +50,13 @@ export const ListTutor = () => {
   };
 
   useEffect(() => {
-    getDataFirebase();
-  }, [queryInput]);
+    if (filterWilayahInput) {
+      getFilterResults(filterWilayahInput, "kontak/id_desa");
+    } else {
+      getDataFirebase();
+    }
+    console.log(filterWilayahInput);
+  }, [filterNamaInput, filterWilayahInput]);
 
   if (loading && !data) {
     return (
@@ -72,9 +81,11 @@ export const ListTutor = () => {
         />
 
         <CardUserFilter
-          value={queryInput}
-          onChange={(e) => setQueryInput(e.target.value)}
-          onClick={() => searchData(queryInput)}
+          value={filterNamaInput}
+          onChange={(e) => setFilterNamaInput(e.target.value)}
+          onClick={() => getFilterResults(filterNamaInput, "nama")}
+          filterData={(o) => setFilterWilayahInput(o)}
+          clearFilterInput={{}}
         />
 
         {data &&
@@ -105,7 +116,6 @@ export const ListTutor = () => {
                       <Button
                         text="Lihat Detail"
                         additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-                        onClick={() => {}}
                       />
                     </Link>
                   </div>

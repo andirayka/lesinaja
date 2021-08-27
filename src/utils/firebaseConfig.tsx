@@ -32,11 +32,13 @@ export const databaseRef = (ref: string) => {
 // Jika ref yang dicari tidak ada, return nya adalah null
 // .on untuk ambil berkali - kali
 // .once untuk ambil sekali
-export const getFirebaseDataOnce = (ref: string) => {
-  return databaseRef(ref)
-    .once("value", (snapshot) => snapshot)
-    .then((value) => value.val())
-    .catch(console.error);
+export const getFirebaseDataOnce = async (ref: string) => {
+  try {
+    const value = await databaseRef(ref).once("value", (snapshot) => snapshot);
+    return value.val();
+  } catch (message) {
+    return console.error(message);
+  }
 };
 
 // menambahkan data ke database firebase

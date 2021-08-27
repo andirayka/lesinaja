@@ -22,8 +22,14 @@ export const InputSelect: FC<Props> = ({
 }) => {
   const [open, setOpen] = useState(false);
 
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
   // state untuk input text filter
   const [query, setQuery] = useState("");
+
+  // const handleOpen = () => {
+  //   if
+  // };
 
   return (
     <>
@@ -32,9 +38,7 @@ export const InputSelect: FC<Props> = ({
         {/* aksi ketika klik dropdown */}
         <div
           className={`relative border-2 rounded-md p-1 ${itemClassName}`}
-          onClick={() => {
-            setOpen((prev) => !prev);
-          }}
+          onClick={() => setOpen((prev) => !prev)}
         >
           {/* tampilan data awal pada dropdown 
         dan tampilan data yang dipilih */}
@@ -51,7 +55,7 @@ export const InputSelect: FC<Props> = ({
           {open && (
             <input
               type="text"
-              className="w-full bg-gray-300 outline-none"
+              className="w-full bg-gray-300 outline-none p-1"
               placeholder="cari data"
               autoFocus
               onChange={(e) => {
@@ -75,11 +79,12 @@ export const InputSelect: FC<Props> = ({
               .map(([key, value], index) => {
                 return (
                   <div
-                    className="hover:bg-white hover:rounded-md hover:p-1 hover:mb-1"
+                    className="hover:bg-white hover:rounded-md p-1"
                     key={index}
                     onClick={() => {
                       onChange({ key, value });
                       setOpen(false);
+                      setQuery("");
                     }}
                   >
                     {value.nama}
