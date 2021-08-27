@@ -136,7 +136,9 @@ export const CardUserFilter: FC<Props> = ({
         <Button
           text="Filter"
           additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg my-4 mx-2 w-1/2"
-          onClick={() => filterData(prompt)}
+          onClick={() => {
+            filterData(prompt.provinsiKey);
+          }}
         />
         <Button
           text="Reset"

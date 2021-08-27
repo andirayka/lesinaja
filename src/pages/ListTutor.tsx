@@ -15,18 +15,17 @@ export const ListTutor = () => {
 
   const [data, setData] = useState<undefined | object>(undefined);
 
-  const [queryInput, setQueryInput] = useState<string>("");
+  const [filterNamaInput, setFilterNamaInput] = useState<string>("");
 
-  const [filterInput, setFilterInput] = useState<string | undefined>(undefined);
+  const [filterWilayahInput, setFilterWilayahInput] = useState<
+    string | undefined
+  >(undefined);
 
-  const getDataFirebase = async (
-    filterType: string,
-    filterData: string | boolean
-  ) => {
+  const getDataFirebase = async () => {
     try {
       const tutorQuery = await databaseRef("user")
-        .orderByChild(filterType)
-        .equalTo(filterData)
+        .orderByChild("roles/tutor")
+        .equalTo(true)
         .once("value", (snapshot) => snapshot);
 
       setData(tutorQuery.val());
@@ -36,10 +35,10 @@ export const ListTutor = () => {
     }
   };
 
-  const getSearchResult = async (keyword: string) => {
+  const getFilterResults = async (keyword: string, filterType: string) => {
     try {
       const tutorQuery = await databaseRef("user")
-        .orderByChild("nama")
+        .orderByChild(filterType)
         .startAt(`${keyword}`)
         .endAt(`${keyword}\uf8ff`)
         .once("value", (snapshot) => snapshot);
@@ -51,13 +50,13 @@ export const ListTutor = () => {
   };
 
   useEffect(() => {
-    if (filterInput) {
-      getDataFirebase("kontak/id_desa", "3515110005");
+    if (filterWilayahInput) {
+      getFilterResults(filterWilayahInput, "kontak/id_desa");
     } else {
-      getDataFirebase("roles/tutor", true);
+      getDataFirebase();
     }
-    console.log(data);
-  }, [queryInput, filterInput]);
+    console.log(filterWilayahInput);
+  }, [filterNamaInput, filterWilayahInput]);
 
   if (loading && !data) {
     return (
@@ -82,10 +81,10 @@ export const ListTutor = () => {
         />
 
         <CardUserFilter
-          value={queryInput}
-          onChange={(e) => setQueryInput(e.target.value)}
-          onClick={() => getSearchResult(queryInput)}
-          filterData={(o) => setFilterInput(o)}
+          value={filterNamaInput}
+          onChange={(e) => setFilterNamaInput(e.target.value)}
+          onClick={() => getFilterResults(filterNamaInput, "nama")}
+          filterData={(o) => setFilterWilayahInput(o)}
           clearFilterInput={{}}
         />
 

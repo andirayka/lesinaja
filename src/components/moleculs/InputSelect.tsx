@@ -79,6 +79,7 @@ export const InputSelect: FC<Props> = ({
                     onClick={() => {
                       onChange({ key, value });
                       setOpen(false);
+                      setQuery("");
                     }}
                   >
                     {value.nama}
