@@ -47,6 +47,7 @@ export const MainLayout: FC<Props> = ({ children, getRoleUser }) => {
         <NavbarDesktop
           imgSrc={profileSrc ? profileSrc : IconProfile}
           name={dataUser.nama}
+          roleUser={getRoleUser}
         />
         {/* Content halaman di sebelah kanan */}
         <div className="flex-grow m-8">{children}</div>

@@ -11,14 +11,13 @@ import {
   faBookReader,
 } from "@fortawesome/free-solid-svg-icons";
 import { SidebarItem } from "@components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useHistory, useLocation } from "react-router-dom";
 import { LogoLesinAja } from "@assets";
-import { handleLogout, firebase, getFirebaseDataOnce } from "@utils";
+import { handleLogout, firebase } from "@utils";
 import { AuthContext } from "@context";
 
 // List path dan property dari sidebar item
-const adminSidebarList = [
+export const adminSidebarList = [
   {
     path: "/beranda",
     text: "Beranda",
@@ -69,7 +68,7 @@ const adminSidebarList = [
   },
 ];
 
-const walmurSidebarList = [
+export const walmurSidebarList = [
   {
     path: "/beranda-wali-murid",
     text: "Beranda",
@@ -90,7 +89,7 @@ const walmurSidebarList = [
   },
 ];
 
-const tutorSidebarList = [
+export const tutorSidebarList = [
   {
     path: "/beranda-tutor",
     text: "Beranda",

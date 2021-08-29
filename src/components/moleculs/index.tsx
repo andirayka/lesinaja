@@ -14,3 +14,4 @@ export * from "./InputNumber";
 export * from "./InputDate";
 export * from "./Popup";
 export * from "./InputPassword";
+export * from "./NavbarDesktopItem";
