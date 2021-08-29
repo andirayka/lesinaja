@@ -56,38 +56,56 @@ export const Keuangan = () => {
 
   const [exportData, setExportData] = useState<any>([]);
 
-  const [dataFilter, setDataFilter] = useState({});
+  const [dataFilter, setDataFilter] = useState<any>();
+
+  const [filterBulan, setFilterBulan] = useState<string>();
 
   const filterBulanTahun = () => {
-    const onSubmitFilter = (event: any) => {
-      console.log(event);
-      reset({ date: "", tahun: "" });
+    const onSubmitFilter = async (event: any) => {
+      setLoading(true);
+      let idKeuangan = `${event.bulan}_${event.tahun}`;
+      const onBulan = `${event.bulan} ${event.tahun}`;
+      setFilterBulan(onBulan);
+      setDataFilter(idKeuangan);
+      reset({ tahun: "", bulan: "" });
+
+      addFirebaseData({
+        ref: `keuangan/${idKeuangan}/view`, //sementara
+        payload: true,
+        isNoKey: true,
+      });
+      // console.log(getDataKeuangan);
+      getDataFirebase(idKeuangan, onBulan);
     };
 
     return (
       <div className="mb-8">
         <form onSubmit={handleSubmit(onSubmitFilter)}>
           <div className="flex mb-2">
-            <div className="flex-grow">
-              <InputDate
-                placeholder="masukkan bulan"
-                useHookRegister={register("date", {
+            <div className="flex-grow pt-4">
+              <select
+                {...register("bulan", {
                   required: "harus di isi",
                 })}
-              />
-              <InputSelect
-                data={""}
-                heading="Filter berdasarkan wilayah"
-                prompt="Pilih provinsi.."
-                containerClassName="cursor-pointer p-2"
-                itemClassName="w-full"
-                useHookRegister={register("date", {
-                  required: "harus di isi",
-                })}
-              />
+                className="border-2 rounded-lg outline-none border-gray-200 px-1 py-1.5 w-full focus:border-gray-600 bg-white"
+              >
+                <option value="">Pilih Bulan</option>
+                <option value="Januari">Januari</option>
+                <option value="Februari">Februari</option>
+                <option value="Maret">Maret</option>
+                <option value="April">April</option>
+                <option value="Mei">Mei</option>
+                <option value="Juni">Juni</option>
+                <option value="Juli">Juli</option>
+                <option value="Agustus">Agustus</option>
+                <option value="September">September</option>
+                <option value="Oktober">Oktober</option>
+                <option value="November">November</option>
+                <option value="Desember">Desember</option>
+              </select>
             </div>
             <div className="flex-grow">
-              <InputText
+              <InputNumber
                 name="tahun"
                 placeholder="Masukkan tahun"
                 useHookRegister={register("tahun", {
@@ -106,17 +124,14 @@ export const Keuangan = () => {
     );
   };
 
-  const getDataFirebase = async () => {
+  const getDataFirebase = async (id: any, time: any) => {
     const getData = await getFirebaseDataOnce(`keuangan`);
-    const namaBulan = "perBulanNya"; //sementara
+    const namaBulan = id;
     const dataBulanTerpilih = getData[namaBulan];
     setData(dataBulanTerpilih);
     setLoading(false);
 
     // Totak Pemasukan dalam satu bulan
-    const timestime = Date.now();
-    const waktuSekarang = dayjs(timestime).format("MMMM YYYY");
-
     const getDataPembayaran = await getFirebaseDataOnce(`pembayaran`);
     let totalBiayaLes = 0;
     let totalBiayaDaftar = 0;
@@ -124,7 +139,7 @@ export const Keuangan = () => {
     for (let i = 0; i < semuaNominal.length; i++) {
       const element: any = semuaNominal[i];
       const waktu = dayjs(element.waktu_transfer).format("MMMM YYYY");
-      if (element.waktu_transfer && waktu == waktuSekarang) {
+      if (element.waktu_transfer && waktu == time) {
         if (element.biaya_daftar) {
           totalBiayaDaftar += element.biaya_daftar;
         }
@@ -133,6 +148,8 @@ export const Keuangan = () => {
         }
       }
     }
+    let pemasukan = totalBiayaLes + totalBiayaDaftar;
+
     setIsPemasukan(totalBiayaLes + totalBiayaDaftar);
     addFirebaseData({
       ref: `keuangan/${namaBulan}/pemasukan`,
@@ -140,7 +157,26 @@ export const Keuangan = () => {
       isNoKey: true,
     });
 
-    handlePengeluaranaAndSadaqah(dataBulanTerpilih);
+    const pengeluaranAndSadaqah = await handlePengeluaranaAndSadaqah(
+      dataBulanTerpilih
+    );
+
+    const labaBersihNya = await totalLabaBersih(
+      pemasukan,
+      dataBulanTerpilih.pembayaran_tutor,
+      pengeluaranAndSadaqah
+    );
+    setLabaBersih(labaBersihNya);
+    // console.log(labanyaOm);
+  };
+
+  const totalLabaBersih = async (
+    dataPemasukan: number,
+    dataPembayaran: number,
+    dataPengeluaranAndSadaqah: number
+  ) => {
+    let labaNew = dataPemasukan - (dataPembayaran + dataPengeluaranAndSadaqah);
+    return labaNew;
   };
 
   const handlePengeluaranaAndSadaqah = async (data: any) => {
@@ -163,6 +199,7 @@ export const Keuangan = () => {
       }
     }
     setIsSadaqah(totalSadaqah);
+    return totalPengeluaran + totalSadaqah;
   };
 
   const handleDeleteData = (id: any, type: string) => {
@@ -185,11 +222,11 @@ export const Keuangan = () => {
           icon: "success",
         });
         if (type == "pengeluaran") {
-          deleteFirebaseData(`keuangan/perBulanNya/pengeluaran/${id}`);
+          deleteFirebaseData(`keuangan/${dataFilter}/pengeluaran/${id}`);
         } else {
-          deleteFirebaseData(`keuangan/perBulanNya/sadaqah/${id}`);
+          deleteFirebaseData(`keuangan/${dataFilter}/sadaqah/${id}`);
         }
-        getDataFirebase();
+        getDataFirebase(dataFilter, filterBulan);
       }
     });
   };
@@ -220,7 +257,7 @@ export const Keuangan = () => {
     let nominalNew = parseInt(event.nominal);
     if (isUpdate == "pengeluaran") {
       updateFirebaseData(
-        `keuangan/perBulanNya/pengeluaran/${isId}`, //sementara
+        `keuangan/${dataFilter}/pengeluaran/${isId}`, //sementara
         {
           tanggal: event.tanggal,
           transaksi: event.transaksi,
@@ -230,7 +267,7 @@ export const Keuangan = () => {
       setIsUpdate("");
     } else {
       addFirebaseData({
-        ref: `keuangan/perBulanNya/pengeluaran`, //sementara
+        ref: `keuangan/${dataFilter}/pengeluaran`, //sementara
         payload: {
           tanggal: event.tanggal,
           transaksi: event.transaksi,
@@ -242,14 +279,14 @@ export const Keuangan = () => {
     reset({ nominal: 0, tanggal: "", transaksi: "" });
     setLoadFormPengeluaran(false);
     // console.log(nominalNew);
-    getDataFirebase();
+    getDataFirebase(dataFilter, filterBulan);
   };
 
   const onSubmitSadaqah = (event: any) => {
     let nominalNew = parseInt(event.nominal);
     if (isUpdate == "sadaqah") {
       updateFirebaseData(
-        `keuangan/perBulanNya/sadaqah/${isId}`, //sementara
+        `keuangan/${dataFilter}/sadaqah/${isId}`, //sementara
         {
           tanggal: event.tanggal,
           nominal: nominalNew,
@@ -258,7 +295,7 @@ export const Keuangan = () => {
       setIsUpdate("");
     } else {
       addFirebaseData({
-        ref: `keuangan/perBulanNya/sadaqah`, //sementara
+        ref: `keuangan/${dataFilter}/sadaqah`, //sementara
         payload: {
           tanggal: event.tanggal,
           nominal: nominalNew,
@@ -268,7 +305,7 @@ export const Keuangan = () => {
 
     reset({ nominal: 0, tanggal: "" });
     setLoadFormSadaqah(false);
-    getDataFirebase();
+    getDataFirebase(dataFilter, filterBulan);
   };
 
   const handleBatal = () => {
@@ -278,11 +315,15 @@ export const Keuangan = () => {
   };
 
   useEffect(() => {
-    getDataFirebase();
-    let labaNew =
-      isPemasukan - (data.pembayaran_tutor + isSadaqah + isPengeluaran);
-    setLabaBersih(labaNew);
-  }, [isPemasukan, isSadaqah, isPengeluaran]);
+    const timestime = Date.now();
+    const waktuSekarang = dayjs(timestime).format("MMMM YYYY");
+    const onNow = `${dayjs(timestime).format("MMMM")}_${dayjs(timestime).format(
+      "YYYY"
+    )}`;
+    setDataFilter(onNow);
+    setFilterBulan(waktuSekarang);
+    getDataFirebase(onNow, waktuSekarang);
+  }, []);
 
   if (loading) {
     return (
@@ -297,7 +338,12 @@ export const Keuangan = () => {
     return (
       <div className="mb-8">
         {filterBulanTahun()}
-        <Title title={`Keuangan Bulan ${Date.now()}`} type="pageTitle" />
+        <Title
+          title={`Keuangan Bulan ${
+            filterBulan ? filterBulan : dayjs(Date.now()).format("MMMM YYYY")
+          }`}
+          type="pageTitle"
+        />
 
         <CardItem title="Rangkuman" containerClass="mt-8 shadow-lg">
           <CardKeyValue
@@ -307,10 +353,15 @@ export const Keuangan = () => {
 
           <CardKeyValue
             keyName="Pembayaran Tutor"
-            value={`Rp ${data.pembayaran_tutor}`}
+            value={`Rp ${
+              data && data.pembayaran_tutor && data.pembayaran_tutor
+            }`}
           />
 
-          <CardKeyValue keyName="Laba Kotor" value={`Rp ${data.laba_kotor}`} />
+          <CardKeyValue
+            keyName="Laba Kotor"
+            value={`Rp ${data && data.laba_kotor && data.laba_kotor}`}
+          />
 
           <CardKeyValue keyName="Sadaqah" value={`Rp ${isSadaqah}`} />
 
