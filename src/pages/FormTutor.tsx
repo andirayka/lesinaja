@@ -49,7 +49,7 @@ export const FormTutor = () => {
 
     getDataJenjangFirebase(getDataUserRole);
 
-    getDataWilayahFirebase(getDataUser);
+    await getDataWilayahFirebase(getDataUser);
 
     setLoading(false);
   };
@@ -122,28 +122,6 @@ export const FormTutor = () => {
       setProfileSrc(url);
     });
   };
-
-  // mengambil data file
-  // const handleUploadProfil = (event) => {
-  //   console.log(event.target.files[0].type, event.target.files[0].size);
-  //   const newFile = event.target.files[0];
-  //   setFileUpload(newFile);
-  // };
-
-  // Upload file gambar
-  // const handleSubmitUpload = () => {
-  //   if (fileUpload.size >= 200000) {
-  //     alert("Ukuran terlalu besar");
-  //   } else if (fileUpload.type != "image/jpeg") {
-  //     alert("File bukan gambar");
-  //   } else {
-  //     alert("Anda Berhasil Meng-Upload");
-  //     const files = fileUpload;
-  //     const fileNew = `foto_tutor/profil_${prevData.id}`;
-  //     handleUploadFile(files, fileNew);
-  //     showImage();
-  //   }
-  // };
 
   useEffect(() => {
     showImage();

@@ -24,6 +24,7 @@ import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import dayjs from "dayjs";
+import { AnyMxRecord } from "dns";
 
 export const Keuangan = () => {
   const {
@@ -60,66 +61,120 @@ export const Keuangan = () => {
 
   const [filterBulan, setFilterBulan] = useState<string>();
 
-  const filterBulanTahun = () => {
-    const onSubmitFilter = async (event: any) => {
-      setLoading(true);
-      let idKeuangan = `${event.bulan}_${event.tahun}`;
-      const onBulan = `${event.bulan} ${event.tahun}`;
-      setFilterBulan(onBulan);
-      setDataFilter(idKeuangan);
-      reset({ tahun: "", bulan: "" });
+  const [filterValue, setFilterValue] = useState({
+    bulan: "",
+    tahun: "",
+  });
 
-      addFirebaseData({
-        ref: `keuangan/${idKeuangan}/view`, //sementara
-        payload: true,
-        isNoKey: true,
+  // masih pengembangan Om
+  const totalLabaKeseluruhan = () => {
+    const handleSubmit = async () => {
+      const getData = await getFirebaseDataOnce(`keuangan`);
+      console.log(getData);
+
+      const semuaNominal = Object.values(getData);
+      let totalValue = 0;
+      for (let i = 0; i < semuaNominal.length; i++) {
+        const element: any = semuaNominal[i];
+        totalValue += element.laba_bersih;
+      }
+
+      Swal.fire({
+        title: `Rp ${formatRupiah(totalValue)}`,
+        text: "Total laba bersih secara keseluruhan hingga saat ini",
+        icon: "info",
       });
-      // console.log(getDataKeuangan);
-      getDataFirebase(idKeuangan, onBulan);
+    };
+    return (
+      <div className="mb-8">
+        <Button
+          text="Lihat Laba Bersih Keseluruhan"
+          type="submit"
+          onClick={handleSubmit}
+          additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-bold mr-2 shadow-lg w-full"
+        />
+      </div>
+    );
+  };
+
+  // form filter dalam satu bulan
+  const filterBulanTahun = () => {
+    const handleOnChange = (event: any) => {
+      let formChange: any = { ...filterValue };
+      formChange[event.target.name] = event.target.value;
+      setFilterValue(formChange);
+    };
+
+    const handleSubmitFilter = () => {
+      if (filterValue.bulan == "" || filterValue.tahun == "") {
+        Swal.fire({
+          text: "Data tidak boleh ada yang kosong!!!",
+          icon: "warning",
+        });
+      } else {
+        setLoading(true);
+        let idKeuangan = `${filterValue.bulan}_${filterValue.tahun}`;
+        const onBulan = `${filterValue.bulan} ${filterValue.tahun}`;
+        setFilterBulan(onBulan);
+        setDataFilter(idKeuangan);
+
+        addFirebaseData({
+          ref: `keuangan/${idKeuangan}/view`, //sementara
+          payload: true,
+          isNoKey: true,
+        });
+
+        getDataFirebase(idKeuangan, onBulan);
+
+        setFilterValue({
+          bulan: "",
+          tahun: "",
+        });
+      }
     };
 
     return (
-      <div className="mb-8">
-        <form onSubmit={handleSubmit(onSubmitFilter)}>
-          <div className="flex mb-2">
-            <div className="flex-grow pt-4">
-              <select
-                {...register("bulan", {
-                  required: "harus di isi",
-                })}
-                className="border-2 rounded-lg outline-none border-gray-200 px-1 py-1.5 w-full focus:border-gray-600 bg-white"
-              >
-                <option value="">Pilih Bulan</option>
-                <option value="Januari">Januari</option>
-                <option value="Februari">Februari</option>
-                <option value="Maret">Maret</option>
-                <option value="April">April</option>
-                <option value="Mei">Mei</option>
-                <option value="Juni">Juni</option>
-                <option value="Juli">Juli</option>
-                <option value="Agustus">Agustus</option>
-                <option value="September">September</option>
-                <option value="Oktober">Oktober</option>
-                <option value="November">November</option>
-                <option value="Desember">Desember</option>
-              </select>
-            </div>
-            <div className="flex-grow">
-              <InputNumber
-                name="tahun"
-                placeholder="Masukkan tahun"
-                useHookRegister={register("tahun", {
-                  required: "harus di isi",
-                })}
-              />
-            </div>
+      <div className="mb-4">
+        <div className="flex mb-2">
+          <div className="flex-grow pt-4">
+            <select
+              name="bulan"
+              onChange={handleOnChange}
+              value={filterValue.bulan}
+              className="shadow-md h-10 border-2 rounded-lg outline-none border-gray-200 px-1 py-1.5 w-full focus:border-gray-600 bg-white"
+            >
+              <option value="">Pilih Bulan</option>
+              <option value="Januari">Januari</option>
+              <option value="Februari">Februari</option>
+              <option value="Maret">Maret</option>
+              <option value="April">April</option>
+              <option value="Mei">Mei</option>
+              <option value="Juni">Juni</option>
+              <option value="Juli">Juli</option>
+              <option value="Agustus">Agustus</option>
+              <option value="September">September</option>
+              <option value="Oktober">Oktober</option>
+              <option value="November">November</option>
+              <option value="Desember">Desember</option>
+            </select>
           </div>
-          <Button
-            text="Lihat"
-            type="submit"
-            additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-bold mr-2 shadow-lg w-full"
-          />
-        </form>
+
+          <div className="flex-grow">
+            <InputNumber
+              onChange={handleOnChange}
+              value={filterValue.tahun != "" && filterValue.tahun}
+              name="tahun"
+              placeholder="Masukkan tahun"
+              additionalClassName="shadow-md"
+            />
+          </div>
+        </div>
+        <Button
+          text="Lihat"
+          type="submit"
+          onClick={handleSubmitFilter}
+          additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-bold mr-2 shadow-lg w-full"
+        />
       </div>
     );
   };
@@ -131,7 +186,7 @@ export const Keuangan = () => {
     setData(dataBulanTerpilih);
     setLoading(false);
 
-    // Totak Pemasukan dalam satu bulan
+    // Total Pemasukan dalam satu bulan
     const getDataPembayaran = await getFirebaseDataOnce(`pembayaran`);
     let totalBiayaLes = 0;
     let totalBiayaDaftar = 0;
@@ -161,15 +216,21 @@ export const Keuangan = () => {
       dataBulanTerpilih
     );
 
-    const labaBersihNya = await totalLabaBersih(
+    const getLabaBersih = await totalLabaBersih(
       pemasukan,
       dataBulanTerpilih.pembayaran_tutor,
       pengeluaranAndSadaqah
     );
-    setLabaBersih(labaBersihNya);
+    addFirebaseData({
+      ref: `keuangan/${namaBulan}/laba_bersih`,
+      payload: getLabaBersih,
+      isNoKey: true,
+    });
+    setLabaBersih(getLabaBersih);
     // console.log(labanyaOm);
   };
 
+  // Perhitungan laba bersih dalam satu bulan
   const totalLabaBersih = async (
     dataPemasukan: number,
     dataPembayaran: number,
@@ -179,6 +240,7 @@ export const Keuangan = () => {
     return labaNew;
   };
 
+  // mengambil data pengeluaran dan sadaqah dalam firebase
   const handlePengeluaranaAndSadaqah = async (data: any) => {
     let totalPengeluaran = 0;
     if (data.pengeluaran) {
@@ -202,6 +264,7 @@ export const Keuangan = () => {
     return totalPengeluaran + totalSadaqah;
   };
 
+  // Menghapus data pengeluaran dan sadaqah
   const handleDeleteData = (id: any, type: string) => {
     const isDelete =
       type == "pengeluaran"
@@ -231,6 +294,7 @@ export const Keuangan = () => {
     });
   };
 
+  // Update data pengeluaran dan sadaqah
   const handleUpdateData = (id: any, type: string) => {
     if (type == "pengeluaran") {
       setLoadFormPengeluaran(true);
@@ -252,22 +316,19 @@ export const Keuangan = () => {
     }
   };
 
+  // Submit form pengeluaran
   const onSubmitPengeluaran = (event: any) => {
-    // const oldData = data.pengeluaran[id];
     let nominalNew = parseInt(event.nominal);
     if (isUpdate == "pengeluaran") {
-      updateFirebaseData(
-        `keuangan/${dataFilter}/pengeluaran/${isId}`, //sementara
-        {
-          tanggal: event.tanggal,
-          transaksi: event.transaksi,
-          nominal: nominalNew,
-        }
-      );
+      updateFirebaseData(`keuangan/${dataFilter}/pengeluaran/${isId}`, {
+        tanggal: event.tanggal,
+        transaksi: event.transaksi,
+        nominal: nominalNew,
+      });
       setIsUpdate("");
     } else {
       addFirebaseData({
-        ref: `keuangan/${dataFilter}/pengeluaran`, //sementara
+        ref: `keuangan/${dataFilter}/pengeluaran`,
         payload: {
           tanggal: event.tanggal,
           transaksi: event.transaksi,
@@ -278,24 +339,21 @@ export const Keuangan = () => {
 
     reset({ nominal: 0, tanggal: "", transaksi: "" });
     setLoadFormPengeluaran(false);
-    // console.log(nominalNew);
     getDataFirebase(dataFilter, filterBulan);
   };
 
+  // Submit form sadaqah
   const onSubmitSadaqah = (event: any) => {
     let nominalNew = parseInt(event.nominal);
     if (isUpdate == "sadaqah") {
-      updateFirebaseData(
-        `keuangan/${dataFilter}/sadaqah/${isId}`, //sementara
-        {
-          tanggal: event.tanggal,
-          nominal: nominalNew,
-        }
-      );
+      updateFirebaseData(`keuangan/${dataFilter}/sadaqah/${isId}`, {
+        tanggal: event.tanggal,
+        nominal: nominalNew,
+      });
       setIsUpdate("");
     } else {
       addFirebaseData({
-        ref: `keuangan/${dataFilter}/sadaqah`, //sementara
+        ref: `keuangan/${dataFilter}/sadaqah`,
         payload: {
           tanggal: event.tanggal,
           nominal: nominalNew,
@@ -308,10 +366,26 @@ export const Keuangan = () => {
     getDataFirebase(dataFilter, filterBulan);
   };
 
+  // Batal membuat dan update data
   const handleBatal = () => {
     setLoadFormPengeluaran(false);
     setLoadFormSadaqah(false);
     reset({ nominal: 0, tanggal: "", transaksi: "" });
+  };
+
+  // Menjadikan format rupiah
+  const formatRupiah = (value: number | undefined) => {
+    var number_string = String(value);
+    let sisa = number_string.length % 3;
+    let rupiah = number_string.substr(0, sisa);
+    let ribuan = number_string.substr(sisa).match(/\d{3}/g);
+
+    if (ribuan) {
+      let separator = sisa ? "." : "";
+      rupiah += separator + ribuan.join(".");
+    }
+
+    return rupiah;
   };
 
   useEffect(() => {
@@ -328,6 +402,8 @@ export const Keuangan = () => {
   if (loading) {
     return (
       <div className="flex-grow">
+        {filterBulanTahun()}
+        {totalLabaKeseluruhan()}
         <Title title="Loading..." type="pageTitle" />
         <CardItem title="Loading..." containerClass="mt-8 shadow-lg">
           <SkeletonLoading fullWidthLineCount={6} />
@@ -338,6 +414,7 @@ export const Keuangan = () => {
     return (
       <div className="mb-8">
         {filterBulanTahun()}
+        {totalLabaKeseluruhan()}
         <Title
           title={`Keuangan Bulan ${
             filterBulan ? filterBulan : dayjs(Date.now()).format("MMMM YYYY")
@@ -348,26 +425,39 @@ export const Keuangan = () => {
         <CardItem title="Rangkuman" containerClass="mt-8 shadow-lg">
           <CardKeyValue
             keyName="Pemasukan Biaya Les"
-            value={`Rp ${isPemasukan}`}
+            value={`Rp ${formatRupiah(isPemasukan)}`}
           />
 
           <CardKeyValue
             keyName="Pembayaran Tutor"
             value={`Rp ${
-              data && data.pembayaran_tutor && data.pembayaran_tutor
+              data &&
+              data.pembayaran_tutor &&
+              formatRupiah(data.pembayaran_tutor)
             }`}
           />
 
           <CardKeyValue
             keyName="Laba Kotor"
-            value={`Rp ${data && data.laba_kotor && data.laba_kotor}`}
+            value={`Rp ${
+              data && data.laba_kotor && formatRupiah(data.laba_kotor)
+            }`}
           />
 
-          <CardKeyValue keyName="Sadaqah" value={`Rp ${isSadaqah}`} />
+          <CardKeyValue
+            keyName="Sadaqah"
+            value={`Rp ${formatRupiah(isSadaqah)}`}
+          />
 
-          <CardKeyValue keyName="Pengeluaran" value={`Rp ${isPengeluaran}`} />
+          <CardKeyValue
+            keyName="Pengeluaran"
+            value={`Rp ${formatRupiah(isPengeluaran)}`}
+          />
 
-          <SectionFee heading="Laba Bersih" value={`Rp. ${labaBersih}`} />
+          <SectionFee
+            heading="Laba Bersih"
+            value={`Rp ${formatRupiah(labaBersih)}`}
+          />
         </CardItem>
 
         {/* Button input pengeluaran dan export excel */}
@@ -412,7 +502,6 @@ export const Keuangan = () => {
                   />
                   {errors.name && (
                     <p className="text-red-500">{errors.tanggal.message}</p>
-                    // <FieldError message={errors.tanggal.message} />
                   )}
                 </div>
                 <div className="flex-grow text-left ">
@@ -423,7 +512,6 @@ export const Keuangan = () => {
                   />
                   {errors.transaksi && (
                     <p className="text-red-500">{errors.transaksi.message}</p>
-                    // <FieldError message={errors.transaksi.message} />
                   )}
                 </div>
                 <div className="flex-grow text-center">
@@ -434,7 +522,6 @@ export const Keuangan = () => {
                   />
                   {errors.nominal && (
                     <p className="text-red-500">{errors.nominal.message}</p>
-                    // <FieldError message={errors.nominal.message} />
                   )}
                 </div>
                 <div className="flex-grow flex py-3 justify-end">
@@ -461,13 +548,14 @@ export const Keuangan = () => {
           ) : (
             Object.entries<any>(data.pengeluaran).map((item, index) => {
               const [key, value] = item;
-              // console.log(data);
 
               return (
                 <div key={index} className="p-3 flex">
                   <p className="text-lg md:w-1/4 w-2/6">{value.tanggal}</p>
                   <p className="text-lg md:w-1/3 w-1/3 ">{value.transaksi}</p>
-                  <p className="text-lg md:w-5/12 w-1/3">Rp. {value.nominal}</p>
+                  <p className="text-lg md:w-5/12 w-1/3">
+                    Rp. {formatRupiah(value.nominal)}
+                  </p>
                   <div className="flex-grow flex justify-end">
                     <button
                       onClick={() => handleUpdateData(key, "pengeluaran")}
@@ -556,12 +644,13 @@ export const Keuangan = () => {
           ) : (
             Object.entries<any>(data.sadaqah).map((item, index) => {
               const [key, value] = item;
-              // console.log(value.nominal);
 
               return (
                 <div key={index} className="p-3 flex">
                   <p className="text-lg md:w-1/4 w-2/6">{value.tanggal}</p>
-                  <p className="text-lg md:w-5/12 w-1/3">Rp. {value.nominal}</p>
+                  <p className="text-lg md:w-5/12 w-1/3">
+                    Rp. {formatRupiah(value.nominal)}
+                  </p>
                   <div className="flex-grow flex justify-end">
                     <button onClick={() => handleUpdateData(key, "sadaqah")}>
                       <FontAwesomeIcon
