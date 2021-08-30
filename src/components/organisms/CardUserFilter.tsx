@@ -18,9 +18,9 @@ export const CardUserFilter: FC<Props> = ({
   filterData,
   clearFilterInput,
 }) => {
-  const [dropdownData, setDropdownData] = useState<object>({});
+  const [dropdownData, setDropdownData] = useState<any>({});
 
-  const [prompt, setPrompt] = useState<object>({});
+  const [prompt, setPrompt] = useState<any>({});
 
   const getDropdownData = async () => {
     const dropdownDataQuery = {
@@ -69,17 +69,19 @@ export const CardUserFilter: FC<Props> = ({
         prompt={conditionalPromptRender(type)}
         containerClassName="cursor-pointer p-2"
         itemClassName="w-full"
-        onChange={({ value, key }) => {
+        onChange={({ value, key }: { value: any; key: string }) => {
           if (type == "provinsi") {
             setPrompt({
               provinsi: value.nama,
               provinsiKey: key,
+              mainKey: key,
             });
           } else if (type == "kabupaten") {
             setPrompt({
               ...prompt,
               kabupaten: value.nama,
               kabupatenKey: key,
+              mainKey: key,
               kecamatan: undefined,
               kecamatanKey: undefined,
               desa: undefined,
@@ -90,6 +92,7 @@ export const CardUserFilter: FC<Props> = ({
               ...prompt,
               kecamatan: value.nama,
               kecamatanKey: key,
+              mainKey: key,
               desa: undefined,
               desaKey: undefined,
             });
@@ -98,14 +101,13 @@ export const CardUserFilter: FC<Props> = ({
               ...prompt,
               desa: value.nama,
               desaKey: key,
+              mainKey: key,
             });
           }
         }}
       />
     );
   };
-
-  const getPromptData = () => {};
 
   useEffect(() => {
     getDropdownData();
@@ -137,7 +139,7 @@ export const CardUserFilter: FC<Props> = ({
           text="Filter"
           additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg my-4 mx-2 w-1/2"
           onClick={() => {
-            filterData(prompt.provinsiKey);
+            filterData(prompt.mainKey);
           }}
         />
         <Button
