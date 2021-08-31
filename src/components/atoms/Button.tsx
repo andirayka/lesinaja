@@ -6,6 +6,7 @@ type Props = {
   additionalClassName?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   loading?: any;
+  icon?: any;
 };
 
 export const Button: FC<Props> = ({
@@ -14,6 +15,7 @@ export const Button: FC<Props> = ({
   additionalClassName,
   onClick,
   loading,
+  icon,
 }) => {
   if (loading)
     return (
@@ -32,6 +34,7 @@ export const Button: FC<Props> = ({
       className={`px-4 py-3 flex justify-center ${additionalClassName}`}
     >
       {text}
+      {icon}
     </button>
   );
 };
