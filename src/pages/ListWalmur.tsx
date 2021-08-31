@@ -46,41 +46,43 @@ export const ListWalmur = () => {
           type="pageTitle"
         />
 
-        {Object.entries<any>(data).map((item, index) => {
-          const [key, value] = item;
-          if (value.roles && value.roles.wali_murid && value.kontak) {
-            return (
-              <CardItem
-                key={index}
-                title={value.nama}
-                containerClass="mt-8 shadow-lg"
-              >
-                <CardKeyValue keyName="Email" value={value.email} />
-                <CardKeyValue keyName="No. WA" value={value.kontak.telepon} />
-                <CardKeyValue
-                  keyName="Alamat"
-                  value={value.kontak.alamat_rumah}
-                />
-                <div className="flex-row mt-8">
-                  <Link
-                    to={{
-                      pathname: "/form-walimurid",
-                      state: {
-                        id: key,
-                      },
-                    }}
-                  >
-                    <Button
-                      text="Lihat Detail"
-                      additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-                      onClick={() => {}}
-                    />
-                  </Link>
-                </div>
-              </CardItem>
-            );
-          }
-        })}
+        {Object.entries<any>(data)
+          .reverse()
+          .map((item, index) => {
+            const [key, value] = item;
+            if (value.roles && value.roles.wali_murid && value.kontak) {
+              return (
+                <CardItem
+                  key={index}
+                  title={value.nama}
+                  containerClass="mt-8 shadow-lg"
+                >
+                  <CardKeyValue keyName="Email" value={value.email} />
+                  <CardKeyValue keyName="No. WA" value={value.kontak.telepon} />
+                  <CardKeyValue
+                    keyName="Alamat"
+                    value={value.kontak.alamat_rumah}
+                  />
+                  <div className="flex-row mt-8">
+                    <Link
+                      to={{
+                        pathname: "/form-walimurid",
+                        state: {
+                          id: key,
+                        },
+                      }}
+                    >
+                      <Button
+                        text="Lihat Detail"
+                        additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
+                        onClick={() => {}}
+                      />
+                    </Link>
+                  </div>
+                </CardItem>
+              );
+            }
+          })}
       </div>
     );
   }

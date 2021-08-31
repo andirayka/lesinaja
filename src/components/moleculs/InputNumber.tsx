@@ -6,7 +6,7 @@ type Props = {
   onChange?: any;
   label?: string;
   name?: string;
-  value?: number;
+  value?: number | any;
   placeholder?: string;
   onClick?: any;
   additionalClassName?: string;

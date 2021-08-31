@@ -89,40 +89,45 @@ export const ListTutor = () => {
         />
 
         {data &&
-          Object.entries<any>(data).map(([key, value], index) => {
-            if (value.roles.tutor && value.kontak) {
-              return (
-                <CardItem
-                  key={index}
-                  title={value.nama}
-                  containerClass="mt-8 shadow-lg"
-                >
-                  <CardKeyValue keyName="Email" value={value.email} />
-                  <CardKeyValue keyName="No. WA" value={value.kontak.telepon} />
-                  <CardKeyValue
-                    keyName="Alamat"
-                    value={value.kontak.alamat_rumah}
-                  />
+          Object.entries<any>(data)
+            .reverse()
+            .map(([key, value], index) => {
+              if (value.roles.tutor && value.kontak) {
+                return (
+                  <CardItem
+                    key={index}
+                    title={value.nama}
+                    containerClass="mt-8 shadow-lg"
+                  >
+                    <CardKeyValue keyName="Email" value={value.email} />
+                    <CardKeyValue
+                      keyName="No. WA"
+                      value={value.kontak.telepon}
+                    />
+                    <CardKeyValue
+                      keyName="Alamat"
+                      value={value.kontak.alamat_rumah}
+                    />
 
-                  <div className="flex-row mt-8">
-                    <Link
-                      to={{
-                        pathname: "/form-tutor",
-                        state: {
-                          id: key,
-                        },
-                      }}
-                    >
-                      <Button
-                        text="Lihat Detail"
-                        additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-                      />
-                    </Link>
-                  </div>
-                </CardItem>
-              );
-            }
-          })}
+                    <div className="flex-row mt-8">
+                      <Link
+                        to={{
+                          pathname: "/form-tutor",
+                          state: {
+                            id: key,
+                          },
+                        }}
+                      >
+                        <Button
+                          text="Lihat Detail"
+                          additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
+                        />
+                      </Link>
+                    </div>
+                  </CardItem>
+                );
+              }
+            })}
       </div>
     );
   }
