@@ -7,11 +7,14 @@ import {
   Button,
   InputNumber,
   Swal,
+  FieldError,
+  InputSelectSec,
 } from "@components";
 import React, { useContext, useEffect, useState } from "react";
 import { MasterContext } from "@context";
 import { useLocation } from "react-router-dom";
 import { getFirebaseDataOnce } from "@utils";
+import { useForm } from "react-hook-form";
 
 export const AddListCourse = () => {
   const {
@@ -21,23 +24,16 @@ export const AddListCourse = () => {
     saveFormData,
   } = useContext(MasterContext);
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
   const [inputValue, setInputValue] = useState({
-    mapel: undefined,
-    jenjangkelas: undefined,
-    paket: undefined,
-    wilayah: undefined,
-    biaya: "",
     gaji_tutor: "",
+    biaya: "",
   });
-
-  const [prompt, setPrompt] = useState({
-    mapel: undefined,
-    jenjangkelas: undefined,
-    paket: undefined,
-    wilayah: undefined,
-  });
-
-  const { state: prevData } = useLocation();
 
   const getMasterData = async () => {
     if (prevData.prevValue) {
@@ -60,6 +56,12 @@ export const AddListCourse = () => {
     }
   };
 
+  const [prompt, setPrompt] = useState({});
+
+  const [submitError, setSubmitError] = useState(false);
+
+  const { state: prevData } = useLocation();
+
   useEffect(() => {
     getMultipleDropdownData();
     setFormName("master_les");
@@ -71,24 +73,14 @@ export const AddListCourse = () => {
   }, [prevData]);
 
   const clearForm = () => {
-    setPrompt({
-      mapel: undefined,
-      jenjangkelas: undefined,
-      paket: undefined,
-      wilayah: undefined,
-    });
+    setPrompt({});
 
     setInputValue({
-      mapel: undefined,
-      jenjangkelas: undefined,
-      paket: undefined,
-      wilayah: undefined,
       biaya: "",
       gaji_tutor: "",
     });
   };
 
-  // tampilan prompt sesuai child dari object prompt
   const conditionalPromptRender = (type) => {
     if (prompt[type]) {
       if (type == "mapel") {
@@ -105,7 +97,6 @@ export const AddListCourse = () => {
     }
   };
 
-  // tampilan data dropdown sesuai child dari object prompt
   const conditionalDropdownRender = (type, heading) => {
     if (multipleDropdownData[type] === undefined) {
       return (
@@ -127,62 +118,95 @@ export const AddListCourse = () => {
     } else {
       return (
         multipleDropdownData[type] && (
-          <InputSelect
-            heading={heading}
-            containerClassName="cursor-pointer mt-6"
-            itemClassName="w-full"
-            prompt={conditionalPromptRender(type)}
-            data={multipleDropdownData[type]}
-            onChange={({ key, value }) => {
-              // untuk inputvalue mapel
-              if (type == "mapel") {
-                setPrompt({
-                  ...prompt,
-                  mapel: value.nama,
-                });
-                setInputValue({
-                  ...inputValue,
-                  mapel: key,
-                });
-                // untuk inputvalue jenjangkelas
-              } else if (type == "jenjangkelas") {
-                setPrompt({
-                  ...prompt,
-                  jenjangkelas: value.nama,
-                });
-                setInputValue({
-                  ...inputValue,
-                  jenjangkelas: key,
-                });
-                // untuk inputvalue paket
-              } else if (type == "paket") {
-                setPrompt({
-                  ...prompt,
-                  paket: value.nama,
-                });
-                setInputValue({
-                  ...inputValue,
-                  paket: key,
-                });
-                // untuk inputvalue wilayah
-              } else if (type == "wilayah") {
-                setPrompt({
-                  ...prompt,
-                  wilayah: value.nama,
-                });
-                setInputValue({
-                  ...inputValue,
-                  wilayah: key,
-                });
-                // tampilan prompt pertama kali
-                // atau saat belum ada data yang di pilih
-              } else {
-                return <div>Pilih Data...</div>;
-              }
-            }}
-          />
+          <>
+            <InputSelect
+              heading={heading}
+              containerClassName="cursor-pointer mt-6"
+              itemClassName="w-full"
+              prompt={conditionalPromptRender(type)}
+              data={multipleDropdownData[type]}
+              onChange={({ key, value }) => {
+                if (type == "mapel") {
+                  setPrompt({
+                    ...prompt,
+                    mapel: value.nama,
+                  });
+                  setInputValue({
+                    ...inputValue,
+                    mapel: key,
+                  });
+                } else if (type == "jenjangkelas") {
+                  setPrompt({
+                    ...prompt,
+                    jenjangkelas: value.nama,
+                  });
+                  setInputValue({
+                    ...inputValue,
+                    jenjangkelas: key,
+                  });
+                } else if (type == "paket") {
+                  setPrompt({
+                    ...prompt,
+                    paket: value.nama,
+                  });
+                  setInputValue({
+                    ...inputValue,
+                    paket: key,
+                  });
+                } else if (type == "wilayah") {
+                  setPrompt({
+                    ...prompt,
+                    wilayah: value.nama,
+                  });
+                  setInputValue({
+                    ...inputValue,
+                    wilayah: key,
+                  });
+                } else {
+                  return <div>Pilih Data...</div>;
+                }
+              }}
+            />
+          </>
         )
       );
+    }
+  };
+
+  const errorRender = (type: string) => {
+    if (!inputValue[type] && (errors.biaya || errors.gaji_tutor)) {
+      if (type == "mapel") {
+        console.log("hi");
+        return <p>mooo</p>;
+      }
+    }
+  };
+
+  const onSubmit = (data: any) => {
+    if (
+      inputValue.mapel &&
+      inputValue.jenjangkelas &&
+      inputValue.paket &&
+      inputValue.wilayah
+    ) {
+      if (prevData.prevKey) {
+        setSubmitError(false);
+        // saveFormData({ ...inputValue, id: prevData.prevKey });
+        Swal.fire({
+          icon: "success",
+          text: "berhasil update les",
+          confirmButtonColor: "#FBBF24",
+        });
+      } else {
+        // saveFormData(inputValue);
+        Swal.fire({
+          icon: "success",
+          text: "berhasil menambahkan les",
+          confirmButtonColor: "#FBBF24",
+        });
+        // bersihkan form setelah simpan data
+        clearForm();
+      }
     }
   };
 
@@ -194,6 +218,7 @@ export const AddListCourse = () => {
       />
 
       {conditionalDropdownRender("mapel", "Mapel")}
+      {errorRender("mapel")}
 
       {conditionalDropdownRender("jenjangkelas", "Jenjang Kelas")}
 
@@ -202,74 +227,33 @@ export const AddListCourse = () => {
       {conditionalDropdownRender("wilayah", "Wilayah")}
 
       {multipleDropdownData.wilayah ? (
-        <>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <InputNumber
-            label="Harga"
-            value={inputValue.biaya}
-            placeholder="Masukkan harga pilihan les"
-            onChange={(e) => {
-              setInputValue({
-                ...inputValue,
-                biaya: parseInt(e.target.value),
-              });
-            }}
+            label="Biaya"
+            placeholder="Masukkan biaya pilihan les"
+            useHookRegister={register("biaya", {
+              required: "biaya les harus diisi",
+            })}
           />
+          {errors.biaya && <FieldError message={errors.biaya.message} />}
 
           <InputNumber
-            label="Fee Tutor"
-            value={inputValue.gaji_tutor}
+            label="Gaji Tutor"
             placeholder="Masukkan besar Fee tutor"
-            onChange={(e) => {
-              setInputValue({
-                ...inputValue,
-                gaji_tutor: parseInt(e.target.value),
-              });
-            }}
+            useHookRegister={register("gaji_tutor", {
+              required: "gaji tutor harus diisi",
+            })}
           />
+          {errors.gaji_tutor && (
+            <FieldError message={errors.gaji_tutor.message} />
+          )}
 
           <Button
             type="submit"
             text="Simpan"
             additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 w-full rounded-full"
-            onClick={() => {
-              if (inputValue) {
-                if (
-                  inputValue.mapel === undefined ||
-                  inputValue.jenjangkelas === undefined ||
-                  inputValue.paket === undefined ||
-                  inputValue.wilayah === undefined ||
-                  inputValue.biaya === undefined ||
-                  inputValue.gaji_tutor === undefined
-                ) {
-                  Swal.fire({
-                    icon: "error",
-                    text: "data tidak boleh kosong",
-                    confirmButtonColor: "#FBBF24",
-                  });
-                } else {
-                  if (prevData.prevKey) {
-                    saveFormData({ ...inputValue, id: prevData.prevKey });
-                    Swal.fire({
-                      icon: "success",
-                      text: "berhasil update les",
-                      confirmButtonColor: "#FBBF24",
-                    });
-                  } else {
-                    console.log(inputValue);
-                    saveFormData(inputValue);
-                    Swal.fire({
-                      icon: "success",
-                      text: "berhasil menambahkan les",
-                      confirmButtonColor: "#FBBF24",
-                    });
-                    // bersihkan form setelah simpan data
-                    clearForm();
-                  }
-                }
-              }
-            }}
           />
-        </>
+        </form>
       ) : (
         <SkeletonLoading
           fullWidthLineCount={2}

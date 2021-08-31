@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useEffect, useState, useContext } from "react";
 import {
   Title,
@@ -16,7 +15,7 @@ import { MasterContext } from "@context";
 
 export const ListCourse = () => {
   const [courseData, setCourseData] = useState<object | undefined>(undefined);
-  const [masterData, setMasterData] = useState<object | undefined>(undefined);
+  const [masterData, setMasterData] = useState<any | undefined>(undefined);
   const [status, setStatus] = useState<string>("loading");
 
   const { setFormName, deleteFormData } = useContext(MasterContext);
@@ -27,7 +26,7 @@ export const ListCourse = () => {
 
     if (courses) {
       const arrCourses = await Promise.all(
-        Object.entries(courses).map(async ([key, value]) => {
+        Object.entries(courses).map(async ([key, value]: any) => {
           const finalValue = {
             ...value,
             jenjangkelas: await getFirebaseDataOnce(
@@ -94,7 +93,7 @@ export const ListCourse = () => {
           />
         </Link>
         {masterData &&
-          masterData.map(([key, value]) => {
+          masterData.map(([key, value]: any) => {
             return (
               <CardItem
                 key={key}
@@ -205,7 +204,7 @@ export const ListCourse = () => {
         containerClass="mt-8"
       >
         {status == "refreshing" ? (
-          <LoadIcon additionalClassName="text-4xl" />
+          <SkeletonLoading fullWidthLineCount={6} />
         ) : (
           <EmptyIcon />
         )}
