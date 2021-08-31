@@ -30,11 +30,6 @@ export const AddListCourse = () => {
     formState: { errors },
   } = useForm();
 
-  const [inputValue, setInputValue] = useState({
-    gaji_tutor: "",
-    biaya: "",
-  });
-
   const getMasterData = async () => {
     if (prevData.prevValue) {
       const queryData = {
@@ -56,10 +51,6 @@ export const AddListCourse = () => {
     }
   };
 
-  const [prompt, setPrompt] = useState({});
-
-  const [submitError, setSubmitError] = useState(false);
-
   const { state: prevData } = useLocation();
 
   useEffect(() => {
@@ -72,36 +63,11 @@ export const AddListCourse = () => {
     }
   }, [prevData]);
 
-  const clearForm = () => {
-    setPrompt({});
-
-    setInputValue({
-      biaya: "",
-      gaji_tutor: "",
-    });
-  };
-
-  const conditionalPromptRender = (type) => {
-    if (prompt[type]) {
-      if (type == "mapel") {
-        return <p>{prompt.mapel}</p>;
-      } else if (type == "jenjangkelas") {
-        return <p>{prompt.jenjangkelas}</p>;
-      } else if (type == "paket") {
-        return <p>{prompt.paket}</p>;
-      } else if (type == "wilayah") {
-        return <p>{prompt.wilayah}</p>;
-      }
-    } else {
-      return <p>Pilih Data...</p>;
-    }
-  };
-
-  const conditionalDropdownRender = (type, heading) => {
+  const conditionalDropdownRender = (type, label) => {
     if (multipleDropdownData[type] === undefined) {
       return (
         <SkeletonLoading
-          fullWidthLineCount={2}
+          fullWidthLineCount={4}
           elementClassName="w-4/5 h-3 mt-4"
         />
       );
@@ -109,7 +75,7 @@ export const AddListCourse = () => {
     } else if (multipleDropdownData[type] === null) {
       return (
         <>
-          <p className="mt-4 text-red-500">{`Data ${heading} Kosong`}</p>
+          <p className="mt-4 text-red-500">{`Data ${label} Kosong`}</p>
           <p className="text-red-500">
             Silahkan tambahkan melalui menu data master
           </p>
@@ -117,96 +83,36 @@ export const AddListCourse = () => {
       );
     } else {
       return (
-        multipleDropdownData[type] && (
-          <>
-            <InputSelect
-              heading={heading}
-              containerClassName="cursor-pointer mt-6"
-              itemClassName="w-full"
-              prompt={conditionalPromptRender(type)}
-              data={multipleDropdownData[type]}
-              onChange={({ key, value }) => {
-                if (type == "mapel") {
-                  setPrompt({
-                    ...prompt,
-                    mapel: value.nama,
-                  });
-                  setInputValue({
-                    ...inputValue,
-                    mapel: key,
-                  });
-                } else if (type == "jenjangkelas") {
-                  setPrompt({
-                    ...prompt,
-                    jenjangkelas: value.nama,
-                  });
-                  setInputValue({
-                    ...inputValue,
-                    jenjangkelas: key,
-                  });
-                } else if (type == "paket") {
-                  setPrompt({
-                    ...prompt,
-                    paket: value.nama,
-                  });
-                  setInputValue({
-                    ...inputValue,
-                    paket: key,
-                  });
-                } else if (type == "wilayah") {
-                  setPrompt({
-                    ...prompt,
-                    wilayah: value.nama,
-                  });
-                  setInputValue({
-                    ...inputValue,
-                    wilayah: key,
-                  });
-                } else {
-                  return <div>Pilih Data...</div>;
-                }
-              }}
-            />
-          </>
-        )
+        <>
+          <InputSelectSec
+            label={label}
+            defaultOption={`Pilih ${type}...`}
+            data={multipleDropdownData[type]}
+            useHookRegister={register(type, {
+              required: `data ${type} belum diisi`,
+            })}
+          />
+          {errors[type] && <FieldError message={errors[type].message} />}
+        </>
       );
     }
   };
 
-  const errorRender = (type: string) => {
-    if (!inputValue[type] && (errors.biaya || errors.gaji_tutor)) {
-      if (type == "mapel") {
-        console.log("hi");
-        return <p>mooo</p>;
-      }
-    }
-  };
-
   const onSubmit = (data: any) => {
-    if (
-      inputValue.mapel &&
-      inputValue.jenjangkelas &&
-      inputValue.paket &&
-      inputValue.wilayah
-    ) {
-      if (prevData.prevKey) {
-        setSubmitError(false);
-        // saveFormData({ ...inputValue, id: prevData.prevKey });
-        Swal.fire({
-          icon: "success",
-          text: "berhasil update les",
-          confirmButtonColor: "#FBBF24",
-        });
-      } else {
-        // saveFormData(inputValue);
-        Swal.fire({
-          icon: "success",
-          text: "berhasil menambahkan les",
-          confirmButtonColor: "#FBBF24",
-        });
-        // bersihkan form setelah simpan data
-        clearForm();
-      }
+    if (prevData.prevKey) {
+      // saveFormData({ ...inputValue, id: prevData.prevKey });
+      Swal.fire({
+        icon: "success",
+        text: "berhasil update les",
+        confirmButtonColor: "#FBBF24",
+      });
+    } else {
+      // saveFormData(data);
+      Swal.fire({
+        icon: "success",
+        text: "berhasil menambahkan les",
+        confirmButtonColor: "#FBBF24",
+      });
     }
   };
 
@@ -216,50 +122,41 @@ export const AddListCourse = () => {
         type="pageTitle"
         title={prevData.isUpdating ? "Edit Les" : "Tambah Les"}
       />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {conditionalDropdownRender("mapel", "Mapel")}
 
-      {conditionalDropdownRender("mapel", "Mapel")}
-      {errorRender("mapel")}
+        {conditionalDropdownRender("jenjangkelas", "Jenjang Kelas")}
 
-      {conditionalDropdownRender("jenjangkelas", "Jenjang Kelas")}
+        {conditionalDropdownRender("paket", "Paket")}
 
-      {conditionalDropdownRender("paket", "Paket")}
+        {conditionalDropdownRender("wilayah", "Wilayah")}
 
-      {conditionalDropdownRender("wilayah", "Wilayah")}
-
-      {multipleDropdownData.wilayah ? (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <InputNumber
-            label="Biaya"
-            placeholder="Masukkan biaya pilihan les"
-            useHookRegister={register("biaya", {
-              required: "biaya les harus diisi",
-            })}
-          />
-          {errors.biaya && <FieldError message={errors.biaya.message} />}
-
-          <InputNumber
-            label="Gaji Tutor"
-            placeholder="Masukkan besar Fee tutor"
-            useHookRegister={register("gaji_tutor", {
-              required: "gaji tutor harus diisi",
-            })}
-          />
-          {errors.gaji_tutor && (
-            <FieldError message={errors.gaji_tutor.message} />
-          )}
-
-          <Button
-            type="submit"
-            text="Simpan"
-            additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 w-full rounded-full"
-          />
-        </form>
-      ) : (
-        <SkeletonLoading
-          fullWidthLineCount={2}
-          elementClassName="w-4/5 h-3 mt-4"
+        <InputNumber
+          label="Biaya"
+          placeholder="Masukkan biaya pilihan les"
+          useHookRegister={register("biaya", {
+            required: "biaya les harus diisi",
+          })}
         />
-      )}
+        {errors.biaya && <FieldError message={errors.biaya.message} />}
+
+        <InputNumber
+          label="Gaji Tutor"
+          placeholder="Masukkan besar Fee tutor"
+          useHookRegister={register("gaji_tutor", {
+            required: "gaji tutor harus diisi",
+          })}
+        />
+        {errors.gaji_tutor && (
+          <FieldError message={errors.gaji_tutor.message} />
+        )}
+
+        <Button
+          type="submit"
+          text="Simpan"
+          additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 w-full rounded-full"
+        />
+      </form>
     </ContentContainer>
   );
 };

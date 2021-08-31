@@ -6,6 +6,7 @@ export * from "./CardNotification";
 export * from "./CardTable";
 export * from "./InputText";
 export * from "./InputSelect";
+export * from "./InputSelectSec";
 export * from "./InputRadio";
 export * from "./InputTextarea";
 export * from "./InputFile";
