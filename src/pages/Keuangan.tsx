@@ -22,7 +22,13 @@ import {
 } from "@utils";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPencilAlt,
+  faTrashAlt,
+  faWindowClose,
+  faFunnelDollar,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import dayjs from "dayjs";
 import { AnyMxRecord } from "dns";
 
@@ -61,16 +67,148 @@ export const Keuangan = () => {
 
   const [filterBulan, setFilterBulan] = useState<string>();
 
+  const [onFilter, setOnFilter] = useState(false);
+
   const [filterValue, setFilterValue] = useState({
     bulan: "",
     tahun: "",
   });
 
-  // masih pengembangan Om
+  const [filterMultiBulan, setFilterMultiBulan] = useState({
+    awal: "",
+    akhir: "",
+    tahun: "",
+  });
+
+  const bulan = [
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember",
+  ];
+
+  // form filte dalam beberapa bulan
+  const filterBeberapaBulan = () => {
+    const handleOnChange = (event: any) => {
+      let formChange: any = { ...filterMultiBulan };
+      formChange[event.target.name] = event.target.value;
+      setFilterMultiBulan(formChange);
+    };
+
+    const handleOnSubmit = async () => {
+      if (
+        filterMultiBulan.awal == "" ||
+        filterMultiBulan.akhir == "" ||
+        filterMultiBulan.tahun == ""
+      ) {
+        Swal.fire({
+          text: "Data tidak boleh ada yang kosong!!!",
+          icon: "warning",
+        });
+      } else {
+        let totalValue = 0;
+        for (
+          let i = parseInt(filterMultiBulan.awal);
+          i <= parseInt(filterMultiBulan.akhir);
+          i++
+        ) {
+          const element = bulan[i];
+          const getData = await getFirebaseDataOnce(
+            `keuangan/${element}_${filterMultiBulan.tahun}`
+          );
+          totalValue += getData.laba_bersih;
+        }
+
+        Swal.fire({
+          title: `Rp ${formatRupiah(totalValue)}`,
+          text: `Total laba bersih dari bulan ${
+            bulan[parseInt(filterMultiBulan.awal)]
+          } sampai bulan ${bulan[parseInt(filterMultiBulan.akhir)]}`,
+          icon: "info",
+        });
+
+        setFilterMultiBulan({
+          awal: "",
+          akhir: "",
+          tahun: "",
+        });
+      }
+    };
+
+    return (
+      <div className="mb-4">
+        <div className="flex mb-4">
+          <div className="flex-grow mt-4">
+            <select
+              name="awal"
+              value={filterMultiBulan.awal}
+              onChange={handleOnChange}
+              className="shadow-md h-10 border-2 rounded-lg outline-none border-gray-200 px-1 py-1.5 w-full focus:border-gray-600 bg-white"
+            >
+              <option value="">Pilih bulan awal</option>
+              {Object.entries(bulan).map((item, index) => {
+                const [key, value] = item;
+                return (
+                  <option key={index} value={parseInt(key)}>
+                    {value}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+
+          <div className="flex-grow mt-4">
+            <select
+              name="akhir"
+              value={filterMultiBulan.akhir}
+              onChange={handleOnChange}
+              className="shadow-md h-10 border-2 rounded-lg outline-none border-gray-200 px-1 py-1.5 w-full focus:border-gray-600 bg-white"
+            >
+              <option value="">Pilih bulan akhir</option>
+              {Object.entries(bulan).map((item, index) => {
+                const [key, value] = item;
+                return (
+                  <option key={index} value={parseInt(key)}>
+                    {value}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+
+          <div className="flex-grow">
+            <InputNumber
+              onChange={handleOnChange}
+              name="tahun"
+              value={filterMultiBulan.tahun != "" && filterMultiBulan.tahun}
+              placeholder="Masukkan tahun"
+              additionalClassName="shadow-md"
+            />
+          </div>
+        </div>
+
+        <Button
+          text="Lihat Laba Bersih Dalam Beberapa Bulan"
+          type="submit"
+          onClick={handleOnSubmit}
+          additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-bold mr-2 shadow-lg w-full"
+        />
+      </div>
+    );
+  };
+
+  // mentotal semua laba bersih seluruhnya
   const totalLabaKeseluruhan = () => {
     const handleSubmit = async () => {
       const getData = await getFirebaseDataOnce(`keuangan`);
-      console.log(getData);
 
       const semuaNominal = Object.values(getData);
       let totalValue = 0;
@@ -130,6 +268,8 @@ export const Keuangan = () => {
           bulan: "",
           tahun: "",
         });
+
+        setOnFilter(false);
       }
     };
 
@@ -144,18 +284,13 @@ export const Keuangan = () => {
               className="shadow-md h-10 border-2 rounded-lg outline-none border-gray-200 px-1 py-1.5 w-full focus:border-gray-600 bg-white"
             >
               <option value="">Pilih Bulan</option>
-              <option value="Januari">Januari</option>
-              <option value="Februari">Februari</option>
-              <option value="Maret">Maret</option>
-              <option value="April">April</option>
-              <option value="Mei">Mei</option>
-              <option value="Juni">Juni</option>
-              <option value="Juli">Juli</option>
-              <option value="Agustus">Agustus</option>
-              <option value="September">September</option>
-              <option value="Oktober">Oktober</option>
-              <option value="November">November</option>
-              <option value="Desember">Desember</option>
+              {bulan.map((item, index) => {
+                return (
+                  <option key={index} value={item}>
+                    {item}
+                  </option>
+                );
+              })}
             </select>
           </div>
 
@@ -170,7 +305,7 @@ export const Keuangan = () => {
           </div>
         </div>
         <Button
-          text="Lihat"
+          text="Lihat Detail Keuangan Dalam Satu Bulan"
           type="submit"
           onClick={handleSubmitFilter}
           additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-bold mr-2 shadow-lg w-full"
@@ -227,7 +362,6 @@ export const Keuangan = () => {
       isNoKey: true,
     });
     setLabaBersih(getLabaBersih);
-    // console.log(labanyaOm);
   };
 
   // Perhitungan laba bersih dalam satu bulan
@@ -402,8 +536,6 @@ export const Keuangan = () => {
   if (loading) {
     return (
       <div className="flex-grow">
-        {filterBulanTahun()}
-        {totalLabaKeseluruhan()}
         <Title title="Loading..." type="pageTitle" />
         <CardItem title="Loading..." containerClass="mt-8 shadow-lg">
           <SkeletonLoading fullWidthLineCount={6} />
@@ -412,15 +544,36 @@ export const Keuangan = () => {
     );
   } else {
     return (
-      <div className="mb-8">
-        {filterBulanTahun()}
-        {totalLabaKeseluruhan()}
-        <Title
-          title={`Keuangan Bulan ${
-            filterBulan ? filterBulan : dayjs(Date.now()).format("MMMM YYYY")
-          }`}
-          type="pageTitle"
-        />
+      <div className="mb-8 relative">
+        {onFilter && (
+          <div className="absolute w-full bg-white p-4 rounded-lg">
+            <div className="flex">
+              <FontAwesomeIcon
+                icon={faWindowClose}
+                onClick={() => setOnFilter(false)}
+                className="text-4xl ml-auto cursor-pointer"
+              />
+            </div>
+            {filterBulanTahun()}
+            {filterBeberapaBulan()}
+            {totalLabaKeseluruhan()}
+          </div>
+        )}
+
+        <div className="flex">
+          <div className="font-bold text-4xl flex-row mt-auto mb-auto">
+            {`Keuangan Bulan ${
+              filterBulan ? filterBulan : dayjs(Date.now()).format("MMMM YYYY")
+            }`}
+          </div>
+          <div className="flex-grow">
+            <Button
+              text={`Filter`}
+              onClick={() => setOnFilter(true)}
+              additionalClassName="ml-auto bg-yellow-400 hover:bg-white rounded-lg font-medium mr-2 shadow-lg"
+            />
+          </div>
+        </div>
 
         <CardItem title="Rangkuman" containerClass="mt-8 shadow-lg">
           <CardKeyValue
@@ -546,35 +699,40 @@ export const Keuangan = () => {
               <EmptyIcon />
             </div>
           ) : (
-            Object.entries<any>(data.pengeluaran).map((item, index) => {
-              const [key, value] = item;
+            Object.entries<any>(data.pengeluaran)
+              .reverse()
+              .map((item, index) => {
+                const [key, value] = item;
 
-              return (
-                <div key={index} className="p-3 flex">
-                  <p className="text-lg md:w-1/4 w-2/6">{value.tanggal}</p>
-                  <p className="text-lg md:w-1/3 w-1/3 ">{value.transaksi}</p>
-                  <p className="text-lg md:w-5/12 w-1/3">
-                    Rp. {formatRupiah(value.nominal)}
-                  </p>
-                  <div className="flex-grow flex justify-end">
-                    <button
-                      onClick={() => handleUpdateData(key, "pengeluaran")}
-                    >
-                      <FontAwesomeIcon
-                        icon={faPencilAlt}
-                        className="text-2xl"
-                      />
-                    </button>
-                    <button
-                      onClick={() => handleDeleteData(key, "pengeluaran")}
-                      className="md:ml-8 ml-4 md:mr-8 mr-4"
-                    >
-                      <FontAwesomeIcon icon={faTrashAlt} className="text-2xl" />
-                    </button>
+                return (
+                  <div key={index} className="p-3 flex">
+                    <p className="text-lg md:w-1/4 w-2/6">{value.tanggal}</p>
+                    <p className="text-lg md:w-1/3 w-1/3 ">{value.transaksi}</p>
+                    <p className="text-lg md:w-5/12 w-1/3">
+                      Rp. {formatRupiah(value.nominal)}
+                    </p>
+                    <div className="flex-grow flex justify-end">
+                      <button
+                        onClick={() => handleUpdateData(key, "pengeluaran")}
+                      >
+                        <FontAwesomeIcon
+                          icon={faPencilAlt}
+                          className="text-2xl"
+                        />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteData(key, "pengeluaran")}
+                        className="md:ml-8 ml-4 md:mr-8 mr-4"
+                      >
+                        <FontAwesomeIcon
+                          icon={faTrashAlt}
+                          className="text-2xl"
+                        />
+                      </button>
+                    </div>
                   </div>
-                </div>
-              );
-            })
+                );
+              })
           )}
         </div>
 
@@ -642,32 +800,37 @@ export const Keuangan = () => {
               <EmptyIcon />
             </div>
           ) : (
-            Object.entries<any>(data.sadaqah).map((item, index) => {
-              const [key, value] = item;
+            Object.entries<any>(data.sadaqah)
+              .reverse()
+              .map((item, index) => {
+                const [key, value] = item;
 
-              return (
-                <div key={index} className="p-3 flex">
-                  <p className="text-lg md:w-1/4 w-2/6">{value.tanggal}</p>
-                  <p className="text-lg md:w-5/12 w-1/3">
-                    Rp. {formatRupiah(value.nominal)}
-                  </p>
-                  <div className="flex-grow flex justify-end">
-                    <button onClick={() => handleUpdateData(key, "sadaqah")}>
-                      <FontAwesomeIcon
-                        icon={faPencilAlt}
-                        className="text-2xl"
-                      />
-                    </button>
-                    <button
-                      onClick={() => handleDeleteData(key, "sadaqah")}
-                      className="md:ml-8 ml-4 md:mr-8 mr-4"
-                    >
-                      <FontAwesomeIcon icon={faTrashAlt} className="text-2xl" />
-                    </button>
+                return (
+                  <div key={index} className="p-3 flex">
+                    <p className="text-lg md:w-1/4 w-2/6">{value.tanggal}</p>
+                    <p className="text-lg md:w-5/12 w-1/3">
+                      Rp. {formatRupiah(value.nominal)}
+                    </p>
+                    <div className="flex-grow flex justify-end">
+                      <button onClick={() => handleUpdateData(key, "sadaqah")}>
+                        <FontAwesomeIcon
+                          icon={faPencilAlt}
+                          className="text-2xl"
+                        />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteData(key, "sadaqah")}
+                        className="md:ml-8 ml-4 md:mr-8 mr-4"
+                      >
+                        <FontAwesomeIcon
+                          icon={faTrashAlt}
+                          className="text-2xl"
+                        />
+                      </button>
+                    </div>
                   </div>
-                </div>
-              );
-            })
+                );
+              })
           )}
         </div>
       </div>
