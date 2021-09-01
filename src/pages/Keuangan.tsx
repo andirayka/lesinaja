@@ -11,6 +11,7 @@ import {
   EmptyIcon,
   Swal,
   InputSelect,
+  LoadIcon,
 } from "@components";
 import React, { useEffect, useState } from "react";
 import {
@@ -566,12 +567,34 @@ export const Keuangan = () => {
               filterBulan ? filterBulan : dayjs(Date.now()).format("MMMM YYYY")
             }`}
           </div>
-          <div className="flex-grow">
-            <Button
-              text={`Filter`}
-              onClick={() => setOnFilter(true)}
-              additionalClassName="ml-auto bg-yellow-400 hover:bg-white rounded-lg font-medium mr-2 shadow-lg"
-            />
+          <div className="flex-grow flex">
+            <div className="flex-grow-0 ml-auto">
+              <Button
+                text={`Bayar Daftar Murid`}
+                additionalClassName="ml-auto bg-yellow-400 hover:bg-white rounded-lg font-medium mr-2 shadow-lg"
+              />
+            </div>
+            <div className="flex-grow-0">
+              <Button
+                text={`Bayar Les Murid`}
+                additionalClassName="ml-auto bg-yellow-400 hover:bg-white rounded-lg font-medium mr-2 shadow-lg"
+              />
+            </div>
+
+            <div className="flex-grow-0">
+              <Button
+                text={`Filter`}
+                icon={
+                  <FontAwesomeIcon
+                    icon={faFunnelDollar}
+                    onClick={() => setOnFilter(false)}
+                    className="text-2xl ml-2 cursor-pointer"
+                  />
+                }
+                onClick={() => setOnFilter(true)}
+                additionalClassName="ml-auto bg-yellow-400 hover:bg-white rounded-lg font-medium mr-2 shadow-lg"
+              />
+            </div>
           </div>
         </div>
 
