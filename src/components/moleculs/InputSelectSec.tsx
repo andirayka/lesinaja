@@ -3,15 +3,19 @@ import React, { FC } from "react";
 type Props = {
   data: any;
   label?: string;
+  disabled?: boolean;
   defaultOption: string;
+  defaultOptionValue?: any;
   useHookRegister?: any;
 };
 
 export const InputSelectSec: FC<Props> = ({
   data,
   label,
+  disabled = false,
   useHookRegister,
   defaultOption,
+  defaultOptionValue = "",
 }) => {
   return (
     <>
@@ -19,13 +23,20 @@ export const InputSelectSec: FC<Props> = ({
         <p>{label}</p>
         <div className="relative">
           <select
-            className="appearance-none p-2 bg-white border-gray-200 border-2 rounded-md w-full outline-none"
+            className="appearance-none p-1.5 bg-white border-gray-200 border-2 rounded-md w-full outline-none cursor-pointer"
             {...useHookRegister}
+            disabled={disabled}
           >
-            <option value="">{defaultOption}</option>
+            <option value={defaultOptionValue} hidden>
+              {defaultOption}
+            </option>
             {data &&
               Object.entries(data).map(([key, value]: any) => {
-                return <option key={key}>{value.nama}</option>;
+                return (
+                  <option key={key} value={key}>
+                    {value.nama}
+                  </option>
+                );
               })}
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">

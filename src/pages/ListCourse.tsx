@@ -62,11 +62,9 @@ export const ListCourse = () => {
 
   useEffect(() => {
     setFormName("master_les");
-
     getCourseData();
   }, []);
 
-  // tampilan saat berhasil query data
   if (courseData && status == "viewing") {
     return (
       <div className="flex-grow">
@@ -76,7 +74,6 @@ export const ListCourse = () => {
           type="pageTitle"
         />
         <Link
-          // button tambah mengirim state not updating
           to={{
             pathname: "/tambah-pilihanles",
             state: {
@@ -88,12 +85,12 @@ export const ListCourse = () => {
         >
           <Button
             text="Tambah Pilihan Les"
-            additionalClassName="bg-yellow-400 hover:bg-white hover:shadow-lg rounded-lg font-medium mt-4"
-            onClick={() => {}}
+            additionalClassName="bg-yellow-400 hover:bg-white shadow-lg rounded-lg font-medium mt-4"
           />
         </Link>
         {masterData &&
           masterData.map(([key, value]: any) => {
+            console.log(value);
             return (
               <CardItem
                 key={key}
@@ -105,9 +102,8 @@ export const ListCourse = () => {
                 <CardKeyValue keyName="Biaya" value={value.biaya} />
                 <div className="flex flex-row mt-8 justify-end">
                   <Link
-                    // button edit mengirim state updating
                     to={{
-                      pathname: "/beranda",
+                      pathname: "/tambah-pilihanles",
                       state: {
                         isUpdating: true,
                         prevValue: {
@@ -125,7 +121,6 @@ export const ListCourse = () => {
                     <Button
                       text="Ubah Pilihan Les"
                       additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium mr-4"
-                      onClick={() => {}}
                     />
                   </Link>
                   <Button
@@ -196,7 +191,6 @@ export const ListCourse = () => {
         <Button
           text="Tambah Pilihan Les"
           additionalClassName="bg-yellow-400 hover:bg-white hover:shadow-lg rounded-lg font-medium mt-4"
-          onClick={() => {}}
         />
       </Link>
       <CardItem

@@ -27,8 +27,13 @@ export const AddListCourse = () => {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm();
+
+  const [prompt, setPrompt] = useState(undefined);
+
+  const { state: prevData } = useLocation();
 
   const getMasterData = async () => {
     if (prevData.prevValue) {
@@ -51,17 +56,15 @@ export const AddListCourse = () => {
     }
   };
 
-  const { state: prevData } = useLocation();
-
-  useEffect(() => {
-    getMultipleDropdownData();
-    setFormName("master_les");
-
-    if (prevData.prevValue) {
-      setInputValue(prevData.prevValue);
-      getMasterData();
+  const handleDropdownDefaultOption = (type: string) => {
+    if (prompt) {
+      return prompt[type];
+    } else if (!prevData.prevValue) {
+      return `Pilih ${type}...`;
+    } else {
+      return "Memuat...";
     }
-  }, [prevData]);
+  };
 
   const dropdownRender = (type, label) => {
     if (multipleDropdownData[type] === undefined) {
@@ -71,7 +74,6 @@ export const AddListCourse = () => {
           elementClassName="w-full h-3 mt-4"
         />
       );
-      // tampilan jika data kosong
     } else if (multipleDropdownData[type] === null) {
       return (
         <>
@@ -86,11 +88,15 @@ export const AddListCourse = () => {
         <>
           <InputSelectSec
             label={label}
-            defaultOption={`Pilih ${type}...`}
+            defaultOption={handleDropdownDefaultOption(type)}
+            defaultOptionValue={
+              prevData.prevValue ? prevData.prevValue[type] : ""
+            }
             data={multipleDropdownData[type]}
             useHookRegister={register(type, {
-              required: `data ${type} belum diisi`,
+              required: `Data ${type} belum diisi`,
             })}
+            disabled={!prompt && prevData.prevValue ? true : false}
           />
           {errors[type] && <FieldError message={errors[type].message} />}
         </>
@@ -106,7 +112,7 @@ export const AddListCourse = () => {
             label="Biaya"
             placeholder="Masukkan biaya pilihan les"
             useHookRegister={register("biaya", {
-              required: "biaya les harus diisi",
+              required: "Biaya les belum diisi",
             })}
           />
           {errors.biaya && <FieldError message={errors.biaya.message} />}
@@ -115,7 +121,7 @@ export const AddListCourse = () => {
             label="Gaji Tutor"
             placeholder="Masukkan besar Fee tutor"
             useHookRegister={register("gaji_tutor", {
-              required: "gaji tutor harus diisi",
+              required: "Gaji tutor belum diisi",
             })}
           />
           {errors.gaji_tutor && (
@@ -158,8 +164,20 @@ export const AddListCourse = () => {
     }
   };
 
+  useEffect(() => {
+    getMultipleDropdownData();
+    setFormName("master_les");
+
+    if (prevData.prevValue) {
+      getMasterData();
+      setValue("gaji_tutor", prevData.prevValue.gaji_tutor);
+      setValue("biaya", prevData.prevValue.biaya);
+      console.log(prompt);
+    }
+  }, []);
+
   return (
-    <ContentContainer additionalClassName="flex-grow bg-white rounded-lg p-6">
+    <ContentContainer additionalClassName="flex-grow bg-white rounded-lg p-6 shadow-lg">
       <Title
         type="pageTitle"
         title={prevData.isUpdating ? "Edit Les" : "Tambah Les"}

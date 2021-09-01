@@ -196,6 +196,7 @@ export const MasterProvider: FC = ({ children }) => {
       };
 
       if (data.id) {
+        console.log("hi");
         // Update
         await updateFirebaseData(`${state.formName}/${data.id}`, payload);
       } else {
