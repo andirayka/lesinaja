@@ -107,7 +107,7 @@ export const ListCourse = () => {
                   <Link
                     // button edit mengirim state updating
                     to={{
-                      pathname: "/tambah-pilihanles",
+                      pathname: "/beranda",
                       state: {
                         isUpdating: true,
                         prevValue: {

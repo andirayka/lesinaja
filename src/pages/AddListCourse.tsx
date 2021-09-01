@@ -68,7 +68,7 @@ export const AddListCourse = () => {
       return (
         <SkeletonLoading
           fullWidthLineCount={4}
-          elementClassName="w-4/5 h-3 mt-4"
+          elementClassName="w-full h-3 mt-4"
         />
       );
       // tampilan jika data kosong
@@ -107,7 +107,7 @@ export const AddListCourse = () => {
         confirmButtonColor: "#FBBF24",
       });
     } else {
-      // saveFormData(data);
+      saveFormData(data);
       Swal.fire({
         icon: "success",
         text: "berhasil menambahkan les",

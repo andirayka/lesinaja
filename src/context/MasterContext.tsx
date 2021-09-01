@@ -194,10 +194,11 @@ export const MasterProvider: FC = ({ children }) => {
         jenjangkelas: data.jenjangkelas,
         paket: data.paket,
         wilayah: data.wilayah,
-        biaya: data.biaya,
-        gaji_tutor: data.gaji_tutor,
+        biaya: parseInt(data.biaya),
+        gaji_tutor: parseInt(data.gaji_tutor),
       };
 
+      console.log(payload);
       if (data.id) {
         // Update
         await updateFirebaseData(`${state.formName}/${data.id}`, payload);
