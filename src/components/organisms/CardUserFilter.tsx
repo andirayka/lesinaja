@@ -1,6 +1,5 @@
 import { InputText, Button, InputSelect } from "@components";
 import { getFirebaseDataOnce } from "@utils";
-import { type } from "node:os";
 import React, { FC, useState, useEffect } from "react";
 
 type Props = {

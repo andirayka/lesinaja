@@ -2,7 +2,6 @@
 import {
   ContentContainer,
   Title,
-  InputSelect,
   SkeletonLoading,
   Button,
   InputNumber,
@@ -27,6 +26,7 @@ export const AddListCourse = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -63,7 +63,7 @@ export const AddListCourse = () => {
     }
   }, [prevData]);
 
-  const conditionalDropdownRender = (type, label) => {
+  const dropdownRender = (type, label) => {
     if (multipleDropdownData[type] === undefined) {
       return (
         <SkeletonLoading
@@ -98,15 +98,57 @@ export const AddListCourse = () => {
     }
   };
 
+  const formRender = () => {
+    if (multipleDropdownData.wilayah) {
+      return (
+        <>
+          <InputNumber
+            label="Biaya"
+            placeholder="Masukkan biaya pilihan les"
+            useHookRegister={register("biaya", {
+              required: "biaya les harus diisi",
+            })}
+          />
+          {errors.biaya && <FieldError message={errors.biaya.message} />}
+
+          <InputNumber
+            label="Gaji Tutor"
+            placeholder="Masukkan besar Fee tutor"
+            useHookRegister={register("gaji_tutor", {
+              required: "gaji tutor harus diisi",
+            })}
+          />
+          {errors.gaji_tutor && (
+            <FieldError message={errors.gaji_tutor.message} />
+          )}
+
+          <Button
+            type="submit"
+            text="Simpan"
+            additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 w-full rounded-full"
+          />
+        </>
+      );
+    }
+  };
+
   const onSubmit = (data: any) => {
     if (prevData.prevKey) {
-      // saveFormData({ ...inputValue, id: prevData.prevKey });
+      saveFormData({ ...data, id: prevData.prevKey });
       Swal.fire({
         icon: "success",
         text: "berhasil update les",
         confirmButtonColor: "#FBBF24",
       });
     } else {
+      reset({
+        mapel: "",
+        jenjangkelas: "",
+        paket: "",
+        wilayah: "",
+        biaya: "",
+        gaji_tutor: "",
+      });
       saveFormData(data);
       Swal.fire({
         icon: "success",
@@ -122,40 +164,17 @@ export const AddListCourse = () => {
         type="pageTitle"
         title={prevData.isUpdating ? "Edit Les" : "Tambah Les"}
       />
+
       <form onSubmit={handleSubmit(onSubmit)}>
-        {conditionalDropdownRender("mapel", "Mapel")}
+        {dropdownRender("mapel", "Mapel")}
 
-        {conditionalDropdownRender("jenjangkelas", "Jenjang Kelas")}
+        {dropdownRender("jenjangkelas", "Jenjang Kelas")}
 
-        {conditionalDropdownRender("paket", "Paket")}
+        {dropdownRender("paket", "Paket")}
 
-        {conditionalDropdownRender("wilayah", "Wilayah")}
+        {dropdownRender("wilayah", "Wilayah")}
 
-        <InputNumber
-          label="Biaya"
-          placeholder="Masukkan biaya pilihan les"
-          useHookRegister={register("biaya", {
-            required: "biaya les harus diisi",
-          })}
-        />
-        {errors.biaya && <FieldError message={errors.biaya.message} />}
-
-        <InputNumber
-          label="Gaji Tutor"
-          placeholder="Masukkan besar Fee tutor"
-          useHookRegister={register("gaji_tutor", {
-            required: "gaji tutor harus diisi",
-          })}
-        />
-        {errors.gaji_tutor && (
-          <FieldError message={errors.gaji_tutor.message} />
-        )}
-
-        <Button
-          type="submit"
-          text="Simpan"
-          additionalClassName="mt-8 bg-yellow-400 hover:bg-yellow-600 w-full rounded-full"
-        />
+        {formRender()}
       </form>
     </ContentContainer>
   );
