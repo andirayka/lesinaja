@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useEffect, useState, useContext } from "react";
 import {
   Title,
@@ -16,7 +15,7 @@ import { MasterContext } from "@context";
 
 export const ListCourse = () => {
   const [courseData, setCourseData] = useState<object | undefined>(undefined);
-  const [masterData, setMasterData] = useState<object | undefined>(undefined);
+  const [masterData, setMasterData] = useState<any | undefined>(undefined);
   const [status, setStatus] = useState<string>("loading");
 
   const { setFormName, deleteFormData } = useContext(MasterContext);
@@ -27,7 +26,7 @@ export const ListCourse = () => {
 
     if (courses) {
       const arrCourses = await Promise.all(
-        Object.entries(courses).map(async ([key, value]) => {
+        Object.entries(courses).map(async ([key, value]: any) => {
           const finalValue = {
             ...value,
             jenjangkelas: await getFirebaseDataOnce(
@@ -63,11 +62,9 @@ export const ListCourse = () => {
 
   useEffect(() => {
     setFormName("master_les");
-
     getCourseData();
   }, []);
 
-  // tampilan saat berhasil query data
   if (courseData && status == "viewing") {
     return (
       <div className="flex-grow">
@@ -77,7 +74,6 @@ export const ListCourse = () => {
           type="pageTitle"
         />
         <Link
-          // button tambah mengirim state not updating
           to={{
             pathname: "/tambah-pilihanles",
             state: {
@@ -89,12 +85,12 @@ export const ListCourse = () => {
         >
           <Button
             text="Tambah Pilihan Les"
-            additionalClassName="bg-yellow-400 hover:bg-white hover:shadow-lg rounded-lg font-medium mt-4"
-            onClick={() => {}}
+            additionalClassName="bg-yellow-400 hover:bg-white shadow-lg rounded-lg font-medium mt-4"
           />
         </Link>
         {masterData &&
-          masterData.map(([key, value]) => {
+          masterData.map(([key, value]: any) => {
+            console.log(value);
             return (
               <CardItem
                 key={key}
@@ -106,7 +102,6 @@ export const ListCourse = () => {
                 <CardKeyValue keyName="Biaya" value={value.biaya} />
                 <div className="flex flex-row mt-8 justify-end">
                   <Link
-                    // button edit mengirim state updating
                     to={{
                       pathname: "/tambah-pilihanles",
                       state: {
@@ -126,7 +121,6 @@ export const ListCourse = () => {
                     <Button
                       text="Ubah Pilihan Les"
                       additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium mr-4"
-                      onClick={() => {}}
                     />
                   </Link>
                   <Button
@@ -197,7 +191,6 @@ export const ListCourse = () => {
         <Button
           text="Tambah Pilihan Les"
           additionalClassName="bg-yellow-400 hover:bg-white hover:shadow-lg rounded-lg font-medium mt-4"
-          onClick={() => {}}
         />
       </Link>
       <CardItem
@@ -205,7 +198,7 @@ export const ListCourse = () => {
         containerClass="mt-8"
       >
         {status == "refreshing" ? (
-          <LoadIcon additionalClassName="text-4xl" />
+          <SkeletonLoading fullWidthLineCount={6} />
         ) : (
           <EmptyIcon />
         )}

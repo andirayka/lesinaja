@@ -190,15 +190,13 @@ export const MasterProvider: FC = ({ children }) => {
       //untuk master les
     } else if (state.formName == "master_les") {
       const payload = {
-        mapel: data.mapel,
-        jenjangkelas: data.jenjangkelas,
-        paket: data.paket,
-        wilayah: data.wilayah,
-        biaya: data.biaya,
-        gaji_tutor: data.gaji_tutor,
+        ...data,
+        biaya: parseInt(data.biaya),
+        gaji_tutor: parseInt(data.gaji_tutor),
       };
 
       if (data.id) {
+        console.log("hi");
         // Update
         await updateFirebaseData(`${state.formName}/${data.id}`, payload);
       } else {

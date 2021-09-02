@@ -199,7 +199,7 @@ export const RowMaster: FC<Props> = ({
                 onChange={(e) => {
                   setInputValue({
                     ...inputValue,
-                    jumlah_pertemuan: parseInt(e.target.value),
+                    jumlah_pertemuan: e.target.value,
                   });
                 }}
                 type="number"
@@ -230,7 +230,7 @@ export const RowMaster: FC<Props> = ({
                 onChange={(e) => {
                   setInputValue({
                     ...inputValue,
-                    biaya_daftar: parseInt(e.target.value),
+                    biaya_daftar: e.target.value,
                   });
                 }}
                 type="number"
@@ -289,14 +289,14 @@ export const RowMaster: FC<Props> = ({
                       saveFormData({
                         ...item,
                         nama: inputValue.nama,
-                        biaya_daftar: inputValue.biaya_daftar,
+                        biaya_daftar: parseInt(inputValue.biaya_daftar),
                         id_provinsi: inputValue.id_provinsi,
                       });
                     } else {
                       // Buat baru
                       saveFormData({
                         nama: inputValue.nama,
-                        biaya_daftar: inputValue.biaya_daftar,
+                        biaya_daftar: parseInt(inputValue.biaya_daftar),
                         id_provinsi: inputValue.id_provinsi,
                       });
                     }
@@ -318,13 +318,13 @@ export const RowMaster: FC<Props> = ({
                       saveFormData({
                         ...item,
                         nama: inputValue.nama,
-                        jumlah_pertemuan: inputValue.jumlah_pertemuan,
+                        jumlah_pertemuan: parseInt(inputValue.jumlah_pertemuan),
                       });
                     } else {
                       // Buat baru
                       saveFormData({
                         nama: inputValue.nama,
-                        jumlah_pertemuan: inputValue.jumlah_pertemuan,
+                        jumlah_pertemuan: parseInt(inputValue.jumlah_pertemuan),
                       });
                     }
                     onClickSave();
