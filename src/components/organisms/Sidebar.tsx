@@ -56,9 +56,9 @@ export const adminSidebarList = [
   },
   {
     path: "/keuangan",
-    text: "Keuangan",
+    text: "Laporan",
     icon: faWallet,
-    activePaths: ["/keuangan"],
+    activePaths: ["/keuangan", "/sub-keuangan"],
   },
   {
     path: "/masuk",

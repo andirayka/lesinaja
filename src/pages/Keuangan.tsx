@@ -19,6 +19,7 @@ import {
   addFirebaseData,
   deleteFirebaseData,
   updateFirebaseData,
+  databaseRef,
   // exportToExcel,
 } from "@utils";
 import { useForm } from "react-hook-form";
@@ -32,6 +33,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import dayjs from "dayjs";
 import { AnyMxRecord } from "dns";
+import { Link } from "react-router-dom";
 
 export const Keuangan = () => {
   const {
@@ -125,7 +127,8 @@ export const Keuangan = () => {
           const getData = await getFirebaseDataOnce(
             `keuangan/${element}_${filterMultiBulan.tahun}`
           );
-          totalValue += getData.laba_bersih;
+          totalValue +=
+            getData && getData.laba_bersih ? getData.laba_bersih : 0;
         }
 
         Swal.fire({
@@ -352,9 +355,14 @@ export const Keuangan = () => {
       dataBulanTerpilih
     );
 
+    let pembayaran_tutor =
+      dataBulanTerpilih && dataBulanTerpilih.pembayaran_tutor
+        ? dataBulanTerpilih.pembayaran_tutor
+        : 0;
+
     const getLabaBersih = await totalLabaBersih(
       pemasukan,
-      dataBulanTerpilih.pembayaran_tutor,
+      pembayaran_tutor,
       pengeluaranAndSadaqah
     );
     addFirebaseData({
@@ -378,7 +386,7 @@ export const Keuangan = () => {
   // mengambil data pengeluaran dan sadaqah dalam firebase
   const handlePengeluaranaAndSadaqah = async (data: any) => {
     let totalPengeluaran = 0;
-    if (data.pengeluaran) {
+    if (data && data.pengeluaran) {
       const semuaNominal = Object.values(data.pengeluaran);
       for (let i = 0; i < semuaNominal.length; i++) {
         const element: any = semuaNominal[i];
@@ -388,7 +396,7 @@ export const Keuangan = () => {
     setIsPengeluaran(totalPengeluaran);
 
     let totalSadaqah = 0;
-    if (data.sadaqah) {
+    if (data && data.sadaqah) {
       const semuaNominal = Object.values(data.sadaqah);
       for (let i = 0; i < semuaNominal.length; i++) {
         const element: any = semuaNominal[i];
@@ -529,6 +537,10 @@ export const Keuangan = () => {
     const onNow = `${dayjs(timestime).format("MMMM")}_${dayjs(timestime).format(
       "YYYY"
     )}`;
+
+    // const waktuSekarang = "Mei 2021";
+    // const onNow = "Mei_2021";
+    // console.log(waktuSekarang, onNow);
     setDataFilter(onNow);
     setFilterBulan(waktuSekarang);
     getDataFirebase(onNow, waktuSekarang);
@@ -569,16 +581,36 @@ export const Keuangan = () => {
           </div>
           <div className="flex-grow flex">
             <div className="flex-grow-0 ml-auto">
-              <Button
-                text={`Bayar Daftar Murid`}
-                additionalClassName="ml-auto bg-yellow-400 hover:bg-white rounded-lg font-medium mr-2 shadow-lg"
-              />
+              <Link
+                to={{
+                  pathname: "/sub-keuangan",
+                  state: {
+                    bulan: filterBulan,
+                    type: "daftar",
+                  },
+                }}
+              >
+                <Button
+                  text={`Pendaftaran Murid`}
+                  additionalClassName="ml-auto bg-yellow-400 hover:bg-white rounded-lg font-medium mr-2 shadow-lg"
+                />
+              </Link>
             </div>
             <div className="flex-grow-0">
-              <Button
-                text={`Bayar Les Murid`}
-                additionalClassName="ml-auto bg-yellow-400 hover:bg-white rounded-lg font-medium mr-2 shadow-lg"
-              />
+              <Link
+                to={{
+                  pathname: "/sub-keuangan",
+                  state: {
+                    bulan: filterBulan,
+                    type: "les",
+                  },
+                }}
+              >
+                <Button
+                  text={`Pendaftaran Les`}
+                  additionalClassName="ml-auto bg-yellow-400 hover:bg-white rounded-lg font-medium mr-2 shadow-lg"
+                />
+              </Link>
             </div>
 
             <div className="flex-grow-0">
@@ -607,16 +639,16 @@ export const Keuangan = () => {
           <CardKeyValue
             keyName="Pembayaran Tutor"
             value={`Rp ${
-              data &&
-              data.pembayaran_tutor &&
-              formatRupiah(data.pembayaran_tutor)
+              data && data.pembayaran_tutor
+                ? formatRupiah(data.pembayaran_tutor)
+                : 0
             }`}
           />
 
           <CardKeyValue
             keyName="Laba Kotor"
             value={`Rp ${
-              data && data.laba_kotor && formatRupiah(data.laba_kotor)
+              data && data.laba_kotor ? formatRupiah(data.laba_kotor) : 0
             }`}
           />
 
@@ -717,7 +749,7 @@ export const Keuangan = () => {
           )}
 
           {/* Isi */}
-          {data.pengeluaran === undefined ? (
+          {data === undefined || data.pengeluaran === undefined ? (
             <div className="py-8">
               <EmptyIcon />
             </div>
@@ -818,7 +850,7 @@ export const Keuangan = () => {
           )}
 
           {/* Isi */}
-          {data.sadaqah === undefined ? (
+          {data === undefined || data.sadaqah === undefined ? (
             <div className="py-8">
               <EmptyIcon />
             </div>

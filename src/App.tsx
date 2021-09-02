@@ -26,6 +26,7 @@ import {
   Account,
   AccountTutor,
   AccountWalmur,
+  SubKeuangan,
 } from "@pages";
 
 // Global setting for dayjs
@@ -87,6 +88,11 @@ const adminPages = [
     title: ["Form Wali Murid LesinAja"],
   },
   { path: ["/keuangan"], component: Keuangan, title: ["Keuangan LesinAja"] },
+  {
+    path: ["/sub-keuangan"],
+    component: SubKeuangan,
+    title: ["Keuangan LesinAja"],
+  },
   {
     path: ["/akun-admin"],
     component: Account,
