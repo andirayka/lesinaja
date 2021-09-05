@@ -532,18 +532,15 @@ export const Keuangan = () => {
   };
 
   useEffect(() => {
-    const timestime = Date.now();
-    const waktuSekarang = dayjs(timestime).format("MMMM YYYY");
-    const onNow = `${dayjs(timestime).format("MMMM")}_${dayjs(timestime).format(
+    const timestamp = Date.now();
+    const waktuSekarang = dayjs(timestamp).format("MMMM YYYY");
+    const onId = `${dayjs(timestamp).format("MMMM")}_${dayjs(timestamp).format(
       "YYYY"
     )}`;
 
-    // const waktuSekarang = "Mei 2021";
-    // const onNow = "Mei_2021";
-    // console.log(waktuSekarang, onNow);
-    setDataFilter(onNow);
+    setDataFilter(onId);
     setFilterBulan(waktuSekarang);
-    getDataFirebase(onNow, waktuSekarang);
+    getDataFirebase(onId, waktuSekarang);
   }, []);
 
   if (loading) {
