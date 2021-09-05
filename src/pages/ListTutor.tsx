@@ -55,7 +55,7 @@ export const ListTutor = () => {
     } else {
       getDataFirebase();
     }
-    console.log(filterWilayahInput);
+    // console.log(filterWilayahInput);
   }, [filterNamaInput, filterWilayahInput]);
 
   if (loading && !data) {

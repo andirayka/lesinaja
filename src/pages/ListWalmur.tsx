@@ -5,24 +5,58 @@ import {
   CardKeyValue,
   Button,
   SkeletonLoading,
+  CardUserFilter,
 } from "@components";
 import { Link } from "react-router-dom";
-import { getFirebaseDataOnce } from "@utils";
+import { databaseRef, getFirebaseDataOnce } from "@utils";
 
 export const ListWalmur = () => {
   const [loading, setLoading] = useState(true);
 
   const [data, setData] = useState({});
 
+  const [filterNamaInput, setFilterNamaInput] = useState<string>("");
+
+  const [filterWilayahInput, setFilterWilayahInput] = useState<
+    string | undefined
+  >(undefined);
+
   const getDataFirebase = async () => {
-    const getData = await getFirebaseDataOnce(`user`);
-    setData(getData);
-    setLoading(false);
+    try {
+      const tutorQuery = await databaseRef("user")
+        .orderByChild("roles/wali_murid")
+        .equalTo(true)
+        .once("value", (snapshot) => snapshot);
+
+      setData(tutorQuery.val());
+      setLoading(false);
+    } catch (message) {
+      console.error(message);
+    }
+  };
+
+  const getFilterResults = async (keyword: string, filterType: string) => {
+    try {
+      const tutorQuery = await databaseRef("user")
+        .orderByChild(filterType)
+        .startAt(`${keyword}`)
+        .endAt(`${keyword}\uf8ff`)
+        .once("value", (snapshot) => snapshot);
+
+      setData(tutorQuery.val());
+    } catch (message) {
+      console.error(message);
+    }
   };
 
   useEffect(() => {
-    getDataFirebase();
-  }, []);
+    if (filterWilayahInput) {
+      getFilterResults(filterWilayahInput, "kontak/id_desa");
+    } else {
+      getDataFirebase();
+    }
+    // console.log(filterWilayahInput);
+  }, [filterNamaInput, filterWilayahInput]);
 
   if (loading) {
     return (
@@ -46,43 +80,54 @@ export const ListWalmur = () => {
           type="pageTitle"
         />
 
-        {Object.entries<any>(data)
-          .reverse()
-          .map((item, index) => {
-            const [key, value] = item;
-            if (value.roles && value.roles.wali_murid && value.kontak) {
-              return (
-                <CardItem
-                  key={index}
-                  title={value.nama}
-                  containerClass="mt-8 shadow-lg"
-                >
-                  <CardKeyValue keyName="Email" value={value.email} />
-                  <CardKeyValue keyName="No. WA" value={value.kontak.telepon} />
-                  <CardKeyValue
-                    keyName="Alamat"
-                    value={value.kontak.alamat_rumah}
-                  />
-                  <div className="flex-row mt-8">
-                    <Link
-                      to={{
-                        pathname: "/form-walimurid",
-                        state: {
-                          id: key,
-                        },
-                      }}
-                    >
-                      <Button
-                        text="Lihat Detail"
-                        additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
-                        onClick={() => {}}
-                      />
-                    </Link>
-                  </div>
-                </CardItem>
-              );
-            }
-          })}
+        <CardUserFilter
+          value={filterNamaInput}
+          onChange={(e) => setFilterNamaInput(e.target.value)}
+          onClick={() => getFilterResults(filterNamaInput, "nama")}
+          filterData={(o) => setFilterWilayahInput(o)}
+          clearFilterInput={{}}
+        />
+
+        {data &&
+          Object.entries<any>(data)
+            .reverse()
+            .map(([key, value], index) => {
+              if (value.roles.wali_murid && value.kontak) {
+                return (
+                  <CardItem
+                    key={index}
+                    title={value.nama}
+                    containerClass="mt-8 shadow-lg"
+                  >
+                    <CardKeyValue keyName="Email" value={value.email} />
+                    <CardKeyValue
+                      keyName="No. WA"
+                      value={value.kontak.telepon}
+                    />
+                    <CardKeyValue
+                      keyName="Alamat"
+                      value={value.kontak.alamat_rumah}
+                    />
+                    <div className="flex-row mt-8">
+                      <Link
+                        to={{
+                          pathname: "/form-walimurid",
+                          state: {
+                            id: key,
+                          },
+                        }}
+                      >
+                        <Button
+                          text="Lihat Detail"
+                          additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg font-medium"
+                          onClick={() => {}}
+                        />
+                      </Link>
+                    </div>
+                  </CardItem>
+                );
+              }
+            })}
       </div>
     );
   }

@@ -1,4 +1,4 @@
-import { getFirebaseDataOnce } from "@utils";
+import { databaseRef, getFirebaseDataOnce } from "@utils";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import dayjs from "dayjs";
@@ -77,13 +77,9 @@ export const SubKeuangan = () => {
           <InputText
             value={filterNamaInput}
             placeholder="Cari data berdasarkan nama..."
-            containerClassName="mr-2 flex-grow shadow-md"
+            containerClassName=" flex-grow shadow-md"
             onChange={(e) => setFilterNamaInput(e.target.value)}
-          />
-          <Button
-            text="Cari"
-            additionalClassName="bg-yellow-400 hover:bg-yellow-600 rounded-lg py-[0.5em] shadow-lg"
-            onClick={() => setFilter(filterNamaInput)}
+            search={true}
           />
         </div>
 
@@ -98,16 +94,24 @@ export const SubKeuangan = () => {
           {/* menampilkan data murid yang mendaftar */}
           {prevData.type == "daftar" && (
             <div>
-              {data.map((item: any, index: number) => {
-                const waktu = dayjs(item.waktu_transfer).format("MMMM YYYY");
-                if (item.biaya_daftar && waktu == prevData.bulan) {
-                  totalValue += 1;
-                  totalNominal += item.biaya_daftar;
-                  // hasil filter berdasarkan nama walmur dan nama murid
-                  if (
-                    item.namaWaliMurid == filter ||
-                    (item.namaMurid == filter && filter != "")
-                  ) {
+              {data
+                .filter((item: any, index: number) => {
+                  // i artinya tidak case sensitive
+                  const matchKeyword = RegExp(filterNamaInput, "i");
+
+                  // return data yang sesuai dengan pencarian
+                  return (
+                    matchKeyword.test(item.namaWaliMurid) ||
+                    matchKeyword.test(item.namaMurid)
+                  );
+                })
+                .map((item: any, index: number) => {
+                  const waktu = dayjs(item.waktu_transfer).format("MMMM YYYY");
+                  if (item.biaya_daftar && waktu == prevData.bulan) {
+                    totalValue += 1;
+                    totalNominal += item.biaya_daftar;
+
+                    // menampilkan data
                     return (
                       <div className="flex border-b-2 mt-3" key={index}>
                         <div className="flex-none w-1/5">
@@ -125,27 +129,7 @@ export const SubKeuangan = () => {
                       </div>
                     );
                   }
-                  // menampilkan data sebelum di filter
-                  if (filter == "") {
-                    return (
-                      <div className="flex border-b-2 mt-3" key={index}>
-                        <div className="flex-none w-1/5">
-                          {dayjs(item.waktu_transfer).format("DD MMMM YYYY")}
-                        </div>
-                        <div className="flex-none w-1/4 ml-4">
-                          {item.namaWaliMurid}
-                        </div>
-                        <div className="flex-none w-1/4 ml-12">
-                          {item.namaMurid}
-                        </div>
-                        <div className="flex-grow text-right">
-                          Rp {formatRupiah(item.biaya_daftar)}
-                        </div>
-                      </div>
-                    );
-                  }
-                }
-              })}
+                })}
               <div className="mt-6 text-base font-semibold">
                 Jumlah Siswa yang melakukan pendaftaran : {totalValue} Murid
               </div>
@@ -157,15 +141,24 @@ export const SubKeuangan = () => {
 
           {prevData.type == "les" && (
             <div>
-              {data.map((item: any, index: number) => {
-                const waktu = dayjs(item.waktu_transfer).format("MMMM YYYY");
-                if (item.biaya_les && waktu == prevData.bulan) {
-                  totalValue += 1;
-                  totalNominal += item.biaya_les;
-                  if (
-                    item.namaWaliMurid == filter ||
-                    (item.namaMurid == filter && filter != "")
-                  ) {
+              {data
+                .filter((item: any, index: number) => {
+                  // i artinya tidak case sensitive
+                  const matchKeyword = RegExp(filterNamaInput, "i");
+
+                  // return data yang sesuai dengan pencarian
+                  return (
+                    matchKeyword.test(item.namaWaliMurid) ||
+                    matchKeyword.test(item.namaMurid)
+                  );
+                })
+                .map((item: any, index: number) => {
+                  const waktu = dayjs(item.waktu_transfer).format("MMMM YYYY");
+                  if (item.biaya_les && waktu == prevData.bulan) {
+                    totalValue += 1;
+                    totalNominal += item.biaya_les;
+
+                    // Menampilkan data
                     return (
                       <div className="flex border-b-2 mt-3" key={index}>
                         <div className="flex-none w-1/5">
@@ -183,26 +176,7 @@ export const SubKeuangan = () => {
                       </div>
                     );
                   }
-                  if (filter == "") {
-                    return (
-                      <div className="flex border-b-2 mt-3" key={index}>
-                        <div className="flex-none w-1/5">
-                          {dayjs(item.waktu_transfer).format("DD MMMM YYYY")}
-                        </div>
-                        <div className="flex-none w-1/4 ml-4">
-                          {item.namaWaliMurid}
-                        </div>
-                        <div className="flex-none w-1/4 ml-12">
-                          {item.namaMurid}
-                        </div>
-                        <div className="flex-grow text-right">
-                          Rp {formatRupiah(item.biaya_les)}
-                        </div>
-                      </div>
-                    );
-                  }
-                }
-              })}
+                })}
               <div className="mt-6 text-base font-semibold">
                 Jumlah Siswa yang melakukan pembayaran Les : {totalValue} Murid
               </div>
