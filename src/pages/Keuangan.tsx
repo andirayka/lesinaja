@@ -556,7 +556,7 @@ export const Keuangan = () => {
     return (
       <div className="mb-8 relative">
         {onFilter && (
-          <div className="absolute w-full bg-white p-4 rounded-lg">
+          <div className="absolute w-full bg-white p-4 rounded-lg shadow-2xl">
             <div className="flex">
               <FontAwesomeIcon
                 icon={faWindowClose}
