@@ -7,19 +7,9 @@ import {
 } from "@utils";
 import React, { FC, createContext, useReducer } from "react";
 
-// * initial Value
-// Status:
-// loading = load data awal
-// viewing = melihat data
-// refreshing = refresh data setelah interaksi dengan databsae
 const initialState = {
   // data dan status list master
-  listData: {
-    jenjangkelas: undefined,
-    mapel: undefined,
-    paket: undefined,
-    wilayah: undefined,
-  },
+  listData: {},
   listStatus: "loading",
 
   // data dan status form master
@@ -29,13 +19,9 @@ const initialState = {
   // ref tiap form master
   formName: "",
 
+  // data dropdown
   dropdownData: "",
-  multipleDropdownData: {
-    jenjangkelas: undefined,
-    mapel: undefined,
-    paket: undefined,
-    wilayah: undefined,
-  },
+  multipleDropdownData: {},
 };
 
 // * Reducer
@@ -65,7 +51,7 @@ export const MasterContext = createContext<any>(initialState);
 export const MasterProvider: FC = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  // Get 4 list data master
+  // list data
   const getListData = async () => {
     const getData = async (ref: string) => {
       try {
@@ -89,7 +75,7 @@ export const MasterProvider: FC = ({ children }) => {
     dispatch({ type: "GET_LIST_DATA", data });
   };
 
-  // Dipanggil ketika pertama kali buka form
+  // form data
   const getFormData = async (ref: string) => {
     try {
       const value = await databaseRef(ref).once(
@@ -97,7 +83,6 @@ export const MasterProvider: FC = ({ children }) => {
         (snapshot) => snapshot
       );
       const data = value.val();
-
       setFormStatus("viewing");
       dispatch({ type: "GET_FORM_DATA", data });
     } catch (message) {
@@ -105,7 +90,7 @@ export const MasterProvider: FC = ({ children }) => {
     }
   };
 
-  // query untuk dropdown
+  // query dropdown
   const getDropdownData = async (ref: string) => {
     try {
       const value = await databaseRef(ref).once(
@@ -113,7 +98,6 @@ export const MasterProvider: FC = ({ children }) => {
         (snapshot) => snapshot
       );
       const data = value.val();
-
       dispatch({ type: "GET_DROPDOWN_DATA", data });
     } catch (message) {
       console.error(message);
@@ -156,7 +140,6 @@ export const MasterProvider: FC = ({ children }) => {
   };
 
   const saveFormData = async (data: any) => {
-    // untuk master paket
     if (state.formName == "master_paket") {
       const payload = {
         nama: data.nama,
@@ -170,8 +153,6 @@ export const MasterProvider: FC = ({ children }) => {
         // Add new
         await addFirebaseData({ ref: `${state.formName}`, payload: payload });
       }
-
-      // untuk master wilyah
     } else if (state.formName == "master_wilayah") {
       const payload = {
         nama: data.nama,
@@ -186,8 +167,6 @@ export const MasterProvider: FC = ({ children }) => {
         // Add new
         await addFirebaseData({ ref: `${state.formName}`, payload: payload });
       }
-
-      //untuk master les
     } else if (state.formName == "master_les") {
       const payload = {
         ...data,
@@ -203,10 +182,8 @@ export const MasterProvider: FC = ({ children }) => {
         // Add new
         await addFirebaseData({ ref: `${state.formName}`, payload: payload });
       }
-
-      // untuk master jenjangkelas dan mapel
     } else {
-      const payload = { nama: data.nama };
+      const payload = { ...data };
 
       if (data.id) {
         // Update
@@ -221,17 +198,15 @@ export const MasterProvider: FC = ({ children }) => {
 
   const deleteFormData = async (dataId: string | number) => {
     await deleteFirebaseData(`${state.formName}/${dataId}`);
-
     refreshData();
   };
 
   const refreshData = async () => {
-    // Refresh form
+    // Refresh form dan list
     setFormStatus("refreshing");
     await getFormData(state.formName);
     setFormStatus("viewing");
 
-    // Refresh list setelah refresh form
     setListStatus("loading");
     await getListData();
     setListStatus("viewing");
