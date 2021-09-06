@@ -480,7 +480,7 @@ export const Keuangan = () => {
       });
     }
 
-    reset({ nominal: 0, tanggal: "", transaksi: "" });
+    reset({ nominal: "", tanggal: "", transaksi: "" });
     setLoadFormPengeluaran(false);
     getDataFirebase(dataFilter, filterBulan);
   };
@@ -504,7 +504,7 @@ export const Keuangan = () => {
       });
     }
 
-    reset({ nominal: 0, tanggal: "" });
+    reset({ nominal: "", tanggal: "" });
     setLoadFormSadaqah(false);
     getDataFirebase(dataFilter, filterBulan);
   };
@@ -513,7 +513,7 @@ export const Keuangan = () => {
   const handleBatal = () => {
     setLoadFormPengeluaran(false);
     setLoadFormSadaqah(false);
-    reset({ nominal: 0, tanggal: "", transaksi: "" });
+    reset({ nominal: "", tanggal: "", transaksi: "" });
   };
 
   // Menjadikan format rupiah
@@ -570,13 +570,13 @@ export const Keuangan = () => {
           </div>
         )}
 
-        <div className="flex">
-          <div className="font-bold text-4xl flex-row mt-auto mb-auto">
+        <div className="lg:flex">
+          <div className="font-bold text-4xl mt-auto mb-auto flex-grow">
             {`Keuangan Bulan ${
               filterBulan ? filterBulan : dayjs(Date.now()).format("MMMM YYYY")
             }`}
           </div>
-          <div className="flex-grow flex">
+          <div className="flex-grow flex lg:mt-0 mt-6">
             <div className="flex-grow-0 ml-auto">
               <Link
                 to={{
@@ -588,7 +588,7 @@ export const Keuangan = () => {
                 }}
               >
                 <Button
-                  text={`Pendaftaran Murid`}
+                  text={`Laporan Murid`}
                   additionalClassName="ml-auto bg-yellow-400 hover:bg-white rounded-lg font-medium mr-2 shadow-lg"
                 />
               </Link>
@@ -604,7 +604,7 @@ export const Keuangan = () => {
                 }}
               >
                 <Button
-                  text={`Pendaftaran Les`}
+                  text={`Laporan Les`}
                   additionalClassName="ml-auto bg-yellow-400 hover:bg-white rounded-lg font-medium mr-2 shadow-lg"
                 />
               </Link>
@@ -688,8 +688,8 @@ export const Keuangan = () => {
         {/* Data pengeluaran */}
         <div className="rounded-md bg-white mt-8 shadow-lg">
           {/* Header */}
-          <div className="rounded-md p-2.5 bg-yellow-400 flex flex-row">
-            <p className="font-semibold text-xl md:w-80 w-72">Tanggal</p>
+          <div className="rounded-md p-2.5 bg-yellow-400 flex">
+            <p className="font-semibold text-xl lg:w-80 w-2/5">Tanggal</p>
             <p className="font-semibold text-xl w-5/12">Nama</p>
             <p className="font-semibold text-xl w-5/12 ">Nominal</p>
             <p className="font-semibold text-xl text-center w-1/4 ">Aksi</p>
@@ -698,7 +698,7 @@ export const Keuangan = () => {
           {/* Form Imput */}
           {loadFormPengeluaran && (
             <form onSubmit={handleSubmit(onSubmitPengeluaran)}>
-              <div className="p-3 flex">
+              <div className="p-3 lg:flex">
                 <div className="flex-grow text-left">
                   <InputDate
                     useHookRegister={register("tanggal", {
@@ -711,6 +711,7 @@ export const Keuangan = () => {
                 </div>
                 <div className="flex-grow text-left ">
                   <InputText
+                    placeholder="Masukkan Nama Transaksi"
                     useHookRegister={register("transaksi", {
                       required: "Nama transaksi harus di isi",
                     })}
@@ -721,6 +722,7 @@ export const Keuangan = () => {
                 </div>
                 <div className="flex-grow text-center">
                   <InputNumber
+                    placeholder="Masukkan Nominal"
                     useHookRegister={register("nominal", {
                       required: "Besar nominal harus di isi",
                     })}
@@ -738,7 +740,7 @@ export const Keuangan = () => {
                   <Button
                     text="Batal"
                     onClick={handleBatal}
-                    additionalClassName="bg-red-500 hover:bg-red-700 rounded-lg md:ml-4"
+                    additionalClassName="bg-red-500 hover:bg-red-700 rounded-lg lg:ml-4"
                   />
                 </div>
               </div>
@@ -774,7 +776,7 @@ export const Keuangan = () => {
                       </button>
                       <button
                         onClick={() => handleDeleteData(key, "pengeluaran")}
-                        className="md:ml-8 ml-4 md:mr-8 mr-4"
+                        className="lg:ml-8 ml-4 lg:mr-8 mr-4"
                       >
                         <FontAwesomeIcon
                           icon={faTrashAlt}
@@ -801,15 +803,15 @@ export const Keuangan = () => {
         <div className="rounded-md bg-white mt-8 shadow-lg">
           {/* Header */}
           <div className="rounded-md p-2.5 bg-yellow-400 flex flex-row">
-            <p className="font-semibold text-xl md:w-80 w-72">Tanggal</p>
+            <p className="font-semibold text-xl lg:w-80 w-1/3">Tanggal</p>
             <p className="font-semibold text-xl w-5/12 ">Nominal</p>
-            <p className="font-semibold text-xl text-center w-1/4 ">Aksi</p>
+            <p className="font-semibold text-xl text-right w-1/5">Aksi</p>
           </div>
 
           {/* Form Imput */}
           {loadFormSadaqah && (
             <form onSubmit={handleSubmit(onSubmitSadaqah)}>
-              <div className="p-3 flex">
+              <div className="p-3 lg:flex">
                 <div className="flex-grow text-left">
                   <InputDate
                     useHookRegister={register("tanggal", {
@@ -822,6 +824,7 @@ export const Keuangan = () => {
                 </div>
                 <div className="flex-grow text-center">
                   <InputNumber
+                    placeholder="Masukkan Nominal"
                     useHookRegister={register("nominal", {
                       required: "Besar nominal harus di isi",
                     })}
@@ -839,7 +842,7 @@ export const Keuangan = () => {
                   <Button
                     text="Batal"
                     onClick={handleBatal}
-                    additionalClassName="bg-red-500 hover:bg-red-700 rounded-lg md:ml-4"
+                    additionalClassName="bg-red-500 hover:bg-red-700 rounded-lg lg:ml-4"
                   />
                 </div>
               </div>
@@ -859,8 +862,8 @@ export const Keuangan = () => {
 
                 return (
                   <div key={index} className="p-3 flex">
-                    <p className="text-lg md:w-1/4 w-2/6">{value.tanggal}</p>
-                    <p className="text-lg md:w-5/12 w-1/3">
+                    <p className="text-lg lg:w-2/6 w-2/6">{value.tanggal}</p>
+                    <p className="text-lg lg:w-5/12 w-1/3">
                       Rp. {formatRupiah(value.nominal)}
                     </p>
                     <div className="flex-grow flex justify-end">
@@ -872,7 +875,7 @@ export const Keuangan = () => {
                       </button>
                       <button
                         onClick={() => handleDeleteData(key, "sadaqah")}
-                        className="md:ml-8 ml-4 md:mr-8 mr-4"
+                        className="lg:ml-8 ml-4 lg:mr-8 mr-4"
                       >
                         <FontAwesomeIcon
                           icon={faTrashAlt}
