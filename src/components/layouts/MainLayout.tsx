@@ -50,7 +50,7 @@ export const MainLayout: FC<Props> = ({ children, getRoleUser }) => {
           roleUser={getRoleUser}
         />
         {/* Content halaman di sebelah kanan */}
-        <div className="flex-grow m-8">{children}</div>
+        <div className="flex-grow m-4 lg:m-8">{children}</div>
       </div>
     </div>
   );

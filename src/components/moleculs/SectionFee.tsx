@@ -7,7 +7,7 @@ type Props = {
 
 export const SectionFee: FC<Props> = ({ heading, value }) => {
   return (
-    <div className="text-center md:px-80 px-20 mb-4">
+    <div className="text-center lg:px-80 px-20 mb-4">
       <h2 className="font-medium text-xl">{heading}</h2>
       <div>
         <div className="font-medium text-4xl">{value}</div>

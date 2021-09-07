@@ -8,7 +8,7 @@ type Props = {
 export const CardKeyValue: FC<Props> = ({ keyName, value }) => {
   return (
     <div className="flex flex-row my-3">
-      <p className="font-medium w-56">{keyName}</p>
+      <p className="font-medium md:w-3/12 w-6/12">{keyName}</p>
       <p className="flex flex-1">{value}</p>
     </div>
   );
