@@ -116,7 +116,7 @@ export const handleLoginEmail = async (email: string, password: string) => {
     const getData = await getFirebaseDataOnce(`user/${user.uid}/roles`);
     // console.log(getData);
     return { success: true, role: getData };
-  } catch (error) {
+  } catch (error: any) {
     var errorCode = error.code;
     var errorMessage = error.message;
     console.log(errorCode, errorMessage);
@@ -133,7 +133,7 @@ export const handleLoginGoogleFirebase = async () => {
     const getData = await getFirebaseDataOnce(`user/${user.uid}/roles`);
     // console.log(user);
     return { success: true, role: getData, dataUser: user };
-  } catch (error) {
+  } catch (error: any) {
     var errorCode = error.code;
     var errorMessage = error.message;
     console.log(errorCode, errorMessage);

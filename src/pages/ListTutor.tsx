@@ -15,7 +15,9 @@ export const ListTutor = () => {
 
   const [data, setData] = useState<undefined | object>(undefined);
 
-  const [filterNamaInput, setFilterNamaInput] = useState<string>("");
+  const [filterNamaInput, setFilterNamaInput] = useState<string | undefined>(
+    ""
+  );
 
   const [filterWilayahInput, setFilterWilayahInput] = useState<
     string | undefined
@@ -35,7 +37,10 @@ export const ListTutor = () => {
     }
   };
 
-  const getFilterResults = async (keyword: string, filterType: string) => {
+  const getFilterResults = async (
+    keyword: string | undefined,
+    filterType: string
+  ) => {
     try {
       const tutorQuery = await databaseRef("user")
         .orderByChild(filterType)
@@ -55,7 +60,13 @@ export const ListTutor = () => {
     } else {
       getDataFirebase();
     }
-    // console.log(filterWilayahInput);
+
+    return () => {
+      databaseRef("user").off();
+      databaseRef("kontak/id_desa").off();
+      setFilterNamaInput(undefined);
+      setFilterWilayahInput(undefined);
+    };
   }, [filterNamaInput, filterWilayahInput]);
 
   if (loading && !data) {

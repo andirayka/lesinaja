@@ -20,7 +20,7 @@ import {
   deleteFirebaseData,
   updateFirebaseData,
   databaseRef,
-  // exportToExcel,
+  handleExportExcel,
 } from "@utils";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -32,7 +32,6 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import dayjs from "dayjs";
-import { AnyMxRecord } from "dns";
 import { Link } from "react-router-dom";
 
 export const Keuangan = () => {
@@ -675,10 +674,8 @@ export const Keuangan = () => {
           <Button
             text="Export Excel"
             onClick={() => {
-              console.log(exportData);
               if (data) {
-                setExportData([{ ...data.pengeluaran["nominal"] }]);
-                // exportToExcel(exportData, "test");
+                handleExportExcel(data, "test");
               }
             }}
             additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium shadow-lg"
