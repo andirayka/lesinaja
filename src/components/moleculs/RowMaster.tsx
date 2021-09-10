@@ -1,10 +1,10 @@
-// @ts-nocheck
 import React, { FC, useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { MasterContext } from "@context";
-import { Swal, InputSelect, InputText } from "@components";
+import { Swal, InputSelect, InputText, InputSelectSec } from "@components";
 import { getFirebaseDataOnce } from "@utils";
+import { useForm } from "react-hook-form";
 
 type Props = {
   item?: any;
@@ -32,55 +32,16 @@ export const RowMaster: FC<Props> = ({
     getDropdownData,
   } = useContext(MasterContext);
 
-  // untuk tampilan prompt input select
-  // promptkey - menampung key dari dropdown data
-  // promptValue - menampung hasil query dari ref promptKey
-  const [promptKey, setPromptKey] = useState<Array<number>>([]);
-  const [promptValue, setPromptValue] = useState<any>([]);
-  const [rowQuery, setRowQuery] = useState<any>({
-    status: "loading",
-    data: [],
-  });
-
-  // query data prompt dropdown master wilyah
-  const getProvinsiPromptData = async () => {
-    // query data prompt saat input select dalam keadaan editing
-    if (inputValue.id_provinsi) {
-      const query = await Promise.all(
-        inputValue.id_provinsi.map(async (child: any) => {
-          const queryData = await getFirebaseDataOnce(
-            `wilayah_provinsi/${child}/nama`
-          );
-
-          return { value: queryData, key: child };
-        })
-      );
-
-      setPromptValue(query);
-    }
-  };
-
-  // query wilayah provinsi pada row master wilayah
-  const getProvinsiRowData = async () => {
-    if (item && item.id_provinsi) {
-      const query = await Promise.all(
-        item.id_provinsi.map(async (child: Array<string>) => {
-          const queryData = await getFirebaseDataOnce(
-            `wilayah_provinsi/${child}/nama`
-          );
-
-          return queryData;
-        })
-      );
-      setRowQuery({
-        ...rowQuery,
-        data: query,
-      });
-    }
-  };
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm();
 
   // data rowmaster
-  const conditionalRowRender = () => {
+  const rowRender = () => {
     if (formName == "master_paket") {
       return (
         <div className="w-3/4 ml-2.5 text-lg">{`${item?.nama} (${item?.jumlah_pertemuan} pertemuan)`}</div>
@@ -92,86 +53,12 @@ export const RowMaster: FC<Props> = ({
         <>
           <div className="w-3/4 ml-2.5 text-lg">{item.nama}</div>
           <div className="w-3/4 ml-2.5 text-lg">{item.biaya_daftar}</div>
-          <div className="w-3/4 ml-2.5 text-lg">
-            {rowQuery.status == "loading" && rowQuery.data.length <= 0 ? (
-              <div>Memuat...</div>
-            ) : (
-              rowQuery.data.length > 0 &&
-              rowQuery.data.map((item: string, index: number) => {
-                return (
-                  <p key={index} className="bg-gray-300 rounded-md m-1 p-1">
-                    {item}
-                  </p>
-                );
-              })
-            )}
-          </div>
         </>
       );
     }
   };
 
-  // data prompt input select
-  const conditionalPromptRender = () => {
-    // tampilan prompt saat updating
-    if (inputValue.id_provinsi.length !== 0 && promptValue.length !== 0) {
-      return Object.values(promptValue).map((item: any, index: number) => {
-        return (
-          <div
-            key={index}
-            className="inline-block bg-gray-300 rounded-md m-1 p-1"
-            onClick={() => {
-              setInputValue({
-                ...inputValue,
-                id_provinsi: inputValue.id_provinsi.filter(
-                  (i: number) => i !== item.key
-                ),
-              });
-            }}
-          >
-            {`${item.value} `}
-            &#10006;
-          </div>
-        );
-      });
-
-      // tampilan prompt saat adding
-    } else if (promptKey.length !== 0 && promptValue.length !== 0) {
-      return Object.values(promptValue).map((item: any, index) => {
-        return (
-          <div
-            key={index}
-            className="inline-block bg-gray-300 rounded-md m-1 p-1"
-            onClick={() => {
-              setPromptKey(promptKey.filter((i) => i !== item.key));
-            }}
-          >
-            {`${item.value} `}
-            &#10006;
-          </div>
-        );
-      });
-
-      // tampilan prompt saat tidak ada data yang dipilih
-    } else {
-      return <p>Pilih Provinsi</p>;
-    }
-  };
-
-  useEffect(() => {
-    if (formName == "master_wilayah") {
-      getDropdownData("wilayah_provinsi");
-      getProvinsiPromptData();
-      getProvinsiRowData();
-
-      if (rowQuery.data.length > 0 || formStatus == "viewing") {
-        setRowQuery({
-          ...rowQuery,
-          status: "loaded",
-        });
-      }
-    }
-  }, [rowQuery.status, inputValue.id_provinsi, promptKey]);
+  useEffect(() => {}, []);
 
   // tampilan form saat update data
   if (isEditing) {
@@ -194,6 +81,7 @@ export const RowMaster: FC<Props> = ({
                 placeholder="nama paket"
                 className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600 mb-2"
               />
+
               <input
                 value={inputValue.jumlah_pertemuan}
                 onChange={(e) => {
@@ -236,17 +124,6 @@ export const RowMaster: FC<Props> = ({
                 type="number"
                 placeholder="biaya daftar"
                 className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600 mb-2"
-              />
-
-              <InputSelect
-                data={dropdownData}
-                prompt={conditionalPromptRender()}
-                onChange={({ key }) => {
-                  setInputValue({
-                    ...inputValue,
-                    id_provinsi: [...inputValue.id_provinsi, parseInt(key)],
-                  });
-                }}
               />
             </>
           )}
@@ -376,7 +253,7 @@ export const RowMaster: FC<Props> = ({
       {formName == "master_jenjangkelas" || formName == "master_mapel" ? (
         <div className="w-3/4 ml-2.5 text-lg">{item.nama}</div>
       ) : (
-        conditionalRowRender()
+        rowRender()
       )}
 
       <div className="w-1/4 flex flex-row">

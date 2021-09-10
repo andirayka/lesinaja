@@ -67,7 +67,7 @@ export const AddListCourse = () => {
   };
 
   const dropdownRender = (type, label) => {
-    if (multipleDropdownData[type] === undefined) {
+    if (multipleDropdownData[type] === undefined && !prevData.prevValue) {
       return (
         <SkeletonLoading
           fullWidthLineCount={4}

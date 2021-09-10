@@ -20,7 +20,7 @@ import {
   deleteFirebaseData,
   updateFirebaseData,
   databaseRef,
-  // exportToExcel,
+  handleExportExcel,
 } from "@utils";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -32,7 +32,6 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import dayjs from "dayjs";
-import { AnyMxRecord } from "dns";
 import { Link } from "react-router-dom";
 
 export const Keuangan = () => {
