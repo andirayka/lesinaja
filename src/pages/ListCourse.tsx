@@ -100,6 +100,7 @@ export const ListCourse = () => {
                 <CardKeyValue keyName="Paket" value={value.paket} />
                 <CardKeyValue keyName="Wilayah" value={value.wilayah} />
                 <CardKeyValue keyName="Biaya" value={value.biaya} />
+                <CardKeyValue keyName="Gaji Tutor" value={value.gaji_tutor} />
                 <div className="flex flex-row mt-8 justify-end">
                   <Link
                     to={{

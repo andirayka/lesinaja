@@ -6,7 +6,12 @@ import {
   Route,
   Switch,
 } from "react-router-dom";
-import { enableFirebaseConfig, firebase, getFirebaseDataOnce } from "@utils";
+import {
+  enableFirebaseConfig,
+  firebase,
+  getFirebaseDataOnce,
+  handleMessagingFirebase,
+} from "@utils";
 import AppProvider, { AuthContext } from "@context";
 import {
   FormMaster,
@@ -171,6 +176,8 @@ const InitialChecker = () => {
 
   // Cek apakah user sudah login
   useEffect(() => {
+    handleMessagingFirebase();
+
     firebase.auth().onAuthStateChanged((user: any) => {
       if (user) {
         setIsLoggedIn(true);

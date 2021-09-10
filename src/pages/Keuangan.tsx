@@ -48,6 +48,8 @@ export const Keuangan = () => {
 
   const [loading, setLoading] = useState(true);
 
+  const [loadFormPenjualan, setLoadFormPenjualan] = useState(false);
+
   const [loadFormPengeluaran, setLoadFormPengeluaran] = useState(false);
 
   const [loadFormSadaqah, setLoadFormSadaqah] = useState(false);
@@ -57,6 +59,8 @@ export const Keuangan = () => {
   const [isId, setId] = useState();
 
   const [isPengeluaran, setIsPengeluaran] = useState<number>();
+
+  const [isPenjualan, setIsPenjualan] = useState<number>();
 
   const [isSadaqah, setIsSadaqah] = useState<number>();
 
@@ -355,6 +359,8 @@ export const Keuangan = () => {
       dataBulanTerpilih
     );
 
+    const penjualan = await handlePenjualan(dataBulanTerpilih);
+
     let pembayaran_tutor =
       dataBulanTerpilih && dataBulanTerpilih.pembayaran_tutor
         ? dataBulanTerpilih.pembayaran_tutor
@@ -362,6 +368,7 @@ export const Keuangan = () => {
 
     const getLabaBersih = await totalLabaBersih(
       pemasukan,
+      penjualan,
       pembayaran_tutor,
       pengeluaranAndSadaqah
     );
@@ -376,11 +383,30 @@ export const Keuangan = () => {
   // Perhitungan laba bersih dalam satu bulan
   const totalLabaBersih = async (
     dataPemasukan: number,
+    dataPenjualan: number,
     dataPembayaran: number,
     dataPengeluaranAndSadaqah: number
   ) => {
-    let labaNew = dataPemasukan - (dataPembayaran + dataPengeluaranAndSadaqah);
+    let labaNew =
+      dataPemasukan +
+      dataPenjualan -
+      (dataPembayaran + dataPengeluaranAndSadaqah);
     return labaNew;
+  };
+
+  // mengambil data pengeluaran dan sadaqah dalam firebase
+  const handlePenjualan = async (data: any) => {
+    let totalPenjualan = 0;
+    if (data && data.penjualan) {
+      const semuaNominal = Object.values(data.penjualan);
+      for (let i = 0; i < semuaNominal.length; i++) {
+        const element: any = semuaNominal[i];
+        totalPenjualan += element.nominal;
+      }
+    }
+    setIsPenjualan(totalPenjualan);
+
+    return totalPenjualan;
   };
 
   // mengambil data pengeluaran dan sadaqah dalam firebase
@@ -410,9 +436,10 @@ export const Keuangan = () => {
   // Menghapus data pengeluaran dan sadaqah
   const handleDeleteData = (id: any, type: string) => {
     const isDelete =
-      type == "pengeluaran"
-        ? data.pengeluaran[id].tanggal
-        : data.sadaqah[id].tanggal;
+      (type == "pengeluaran" && data.pengeluaran[id].tanggal) ||
+      (type == "sadaqah" && data.sadaqah[id].tanggal) ||
+      (type == "penjualan" && data.penjualan[id].tanggal);
+
     Swal.fire({
       text: `Apakah anda yakin ingin menghapus data transaksi pada tanggal ${isDelete}!`,
       icon: "warning",
@@ -429,6 +456,8 @@ export const Keuangan = () => {
         });
         if (type == "pengeluaran") {
           deleteFirebaseData(`keuangan/${dataFilter}/pengeluaran/${id}`);
+        } else if (type == "penjualan") {
+          deleteFirebaseData(`keuangan/${dataFilter}/penjualan/${id}`);
         } else {
           deleteFirebaseData(`keuangan/${dataFilter}/sadaqah/${id}`);
         }
@@ -448,6 +477,16 @@ export const Keuangan = () => {
 
       setId(id);
       setIsUpdate("pengeluaran");
+    } else if (type == "penjualan") {
+      setLoadFormPenjualan(true);
+      const oldData = data.penjualan[id];
+      setValue("tanggal", oldData.tanggal);
+      setValue("jumlah_item", oldData.jumlah);
+      setValue("transaksi", oldData.transaksi);
+      setValue("nominal", oldData.nominal);
+
+      setId(id);
+      setIsUpdate("penjualan");
     } else {
       setLoadFormSadaqah(true);
       const oldData = data.sadaqah[id];
@@ -485,6 +524,34 @@ export const Keuangan = () => {
     getDataFirebase(dataFilter, filterBulan);
   };
 
+  // Submit form pengeluaran
+  const onSubmitPenjualan = (event: any) => {
+    let nominalNew = parseInt(event.nominal);
+    if (isUpdate == "penjualan") {
+      updateFirebaseData(`keuangan/${dataFilter}/penjualan/${isId}`, {
+        tanggal: event.tanggal,
+        jumlah: event.jumlah_item,
+        transaksi: event.transaksi,
+        nominal: nominalNew,
+      });
+      setIsUpdate("");
+    } else {
+      addFirebaseData({
+        ref: `keuangan/${dataFilter}/penjualan`,
+        payload: {
+          tanggal: event.tanggal,
+          jumlah: event.jumlah_item,
+          transaksi: event.transaksi,
+          nominal: nominalNew,
+        },
+      });
+    }
+
+    reset({ nominal: "", tanggal: "", transaksi: "", jumlah_item: "" });
+    setLoadFormPenjualan(false);
+    getDataFirebase(dataFilter, filterBulan);
+  };
+
   // Submit form sadaqah
   const onSubmitSadaqah = (event: any) => {
     let nominalNew = parseInt(event.nominal);
@@ -510,10 +577,15 @@ export const Keuangan = () => {
   };
 
   // Batal membuat dan update data
-  const handleBatal = () => {
-    setLoadFormPengeluaran(false);
-    setLoadFormSadaqah(false);
-    reset({ nominal: "", tanggal: "", transaksi: "" });
+  const handleBatal = (type: string) => {
+    if (type == "penjualan") {
+      setLoadFormPenjualan(false);
+    } else if (type == "pengeluaran") {
+      setLoadFormPengeluaran(false);
+    } else {
+      setLoadFormSadaqah(false);
+    }
+    reset({ nominal: "", tanggal: "", transaksi: "", jumlah_item: "" });
   };
 
   // Menjadikan format rupiah
@@ -650,6 +722,11 @@ export const Keuangan = () => {
           />
 
           <CardKeyValue
+            keyName="Penjualan"
+            value={`Rp ${formatRupiah(isPenjualan)}`}
+          />
+
+          <CardKeyValue
             keyName="Sadaqah"
             value={`Rp ${formatRupiah(isSadaqah)}`}
           />
@@ -665,40 +742,162 @@ export const Keuangan = () => {
           />
         </CardItem>
 
-        {/* Button input pengeluaran dan export excel */}
-        <div className="flex flex-row mt-8">
+        {/* Button input penjualan */}
+        <div className="flex-row mt-8 relative">
           <Button
-            text="Input Pengeluaran"
-            onClick={() => setLoadFormPengeluaran(true)}
+            text="Input Penjualan"
+            onClick={() => setLoadFormPenjualan(true)}
             additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium mr-2 shadow-lg"
           />
-          <Button
-            text="Export Excel"
-            onClick={() => {
-              console.log(exportData);
-              if (data) {
-                setExportData([{ ...data.pengeluaran["nominal"] }]);
-                // exportToExcel(exportData, "test");
-              }
-            }}
-            additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium shadow-lg"
-          />
+
+          {/* Form Imput */}
+          {loadFormPenjualan && (
+            <form onSubmit={handleSubmit(onSubmitPenjualan)}>
+              <div className="p-3 absolute bg-white rounded-lg w-full mt-4 shadow-2xl z-10">
+                <div className="flex-grow text-left">
+                  <InputDate
+                    useHookRegister={register("tanggal", {
+                      required: "Tanggal harus di isi",
+                    })}
+                  />
+                  {errors.name && (
+                    <p className="text-red-500">{errors.tanggal.message}</p>
+                  )}
+                </div>
+                <div className="flex-grow text-center">
+                  <InputNumber
+                    placeholder="Masukkan Jumlah Item"
+                    useHookRegister={register("jumlah_item", {
+                      required: "Besar nominal harus di isi",
+                    })}
+                  />
+                  {errors.nominal && (
+                    <p className="text-red-500">{errors.nominal.message}</p>
+                  )}
+                </div>
+                <div className="flex-grow text-left ">
+                  <InputText
+                    placeholder="Masukkan Nama Transaksi"
+                    useHookRegister={register("transaksi", {
+                      required: "Nama transaksi harus di isi",
+                    })}
+                  />
+                  {errors.transaksi && (
+                    <p className="text-red-500">{errors.transaksi.message}</p>
+                  )}
+                </div>
+                <div className="flex-grow text-center">
+                  <InputNumber
+                    placeholder="Masukkan Nominal"
+                    useHookRegister={register("nominal", {
+                      required: "Besar nominal harus di isi",
+                    })}
+                  />
+                  {errors.nominal && (
+                    <p className="text-red-500">{errors.nominal.message}</p>
+                  )}
+                </div>
+                <div className="flex-grow flex py-3 justify-end">
+                  <Button
+                    text="Simpan"
+                    type="submit"
+                    additionalClassName="bg-green-500 hover:bg-green-700 rounded-lg"
+                  />
+                  <Button
+                    text="Batal"
+                    onClick={() => handleBatal("penjualan")}
+                    additionalClassName="bg-red-500 hover:bg-red-700 rounded-lg lg:ml-4"
+                  />
+                </div>
+              </div>
+            </form>
+          )}
         </div>
 
-        {/* Data pengeluaran */}
-        <div className="rounded-md bg-white mt-8 shadow-lg">
+        {/* Data penjualan */}
+        <div className="rounded-md bg-white mt-4 shadow-lg">
           {/* Header */}
           <div className="rounded-md p-2.5 bg-yellow-400 flex">
             <p className="font-semibold text-xl lg:w-80 w-2/5">Tanggal</p>
+            <p className="font-semibold text-xl w-5/12">Jumlah</p>
             <p className="font-semibold text-xl w-5/12">Nama</p>
             <p className="font-semibold text-xl w-5/12 ">Nominal</p>
             <p className="font-semibold text-xl text-center w-1/4 ">Aksi</p>
           </div>
 
+          {/* Isi */}
+          {data === undefined || data.penjualan === undefined ? (
+            <div className="py-8">
+              <EmptyIcon />
+            </div>
+          ) : (
+            Object.entries<any>(data.penjualan)
+              .reverse()
+              .map((item, index) => {
+                const [key, value] = item;
+
+                return (
+                  <div key={index} className="p-3 flex">
+                    <p className="text-lg md:w-1/4 w-2/6">{value.tanggal}</p>
+                    <p className="text-lg md:w-1/3 w-1/3 md:ml-4">
+                      {value.jumlah} item
+                    </p>
+                    <p className="text-lg md:w-1/3 w-1/3 md:ml-4">
+                      {value.transaksi}
+                    </p>
+                    <p className="text-lg md:w-5/12 w-1/3">
+                      Rp. {formatRupiah(value.nominal)}
+                    </p>
+                    <div className="flex-grow flex justify-end">
+                      <button
+                        onClick={() => handleUpdateData(key, "penjualan")}
+                      >
+                        <FontAwesomeIcon
+                          icon={faPencilAlt}
+                          className="text-2xl"
+                        />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteData(key, "penjualan")}
+                        className="lg:ml-8 ml-4 lg:mr-8 mr-4"
+                      >
+                        <FontAwesomeIcon
+                          icon={faTrashAlt}
+                          className="text-2xl"
+                        />
+                      </button>
+                    </div>
+                  </div>
+                );
+              })
+          )}
+        </div>
+
+        {/* Button input pengeluaran dan export excel */}
+        <div className="flex-row mt-8 relative">
+          <div className="flex">
+            <Button
+              text="Input Pengeluaran"
+              onClick={() => setLoadFormPengeluaran(true)}
+              additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium mr-2 shadow-lg"
+            />
+            <Button
+              text="Export Excel"
+              onClick={() => {
+                console.log(exportData);
+                if (data) {
+                  setExportData([{ ...data.pengeluaran["nominal"] }]);
+                  // exportToExcel(exportData, "test");
+                }
+              }}
+              additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium shadow-lg"
+            />
+          </div>
+
           {/* Form Imput */}
           {loadFormPengeluaran && (
             <form onSubmit={handleSubmit(onSubmitPengeluaran)}>
-              <div className="p-3 lg:flex">
+              <div className="p-3 absolute bg-white rounded-lg shadow-2xl mt-4 w-full z-10">
                 <div className="flex-grow text-left">
                   <InputDate
                     useHookRegister={register("tanggal", {
@@ -739,13 +938,26 @@ export const Keuangan = () => {
                   />
                   <Button
                     text="Batal"
-                    onClick={handleBatal}
+                    onClick={() => handleBatal("pengeluaran")}
                     additionalClassName="bg-red-500 hover:bg-red-700 rounded-lg lg:ml-4"
                   />
                 </div>
               </div>
             </form>
           )}
+        </div>
+
+        {/* Data pengeluaran */}
+        <div className="rounded-md bg-white mt-4 shadow-lg">
+          {/* Header */}
+          <div className="rounded-md p-2.5 bg-yellow-400 flex">
+            <p className="font-semibold text-xl lg:w-80 w-2/5">Tanggal</p>
+            <p className="font-semibold text-xl w-5/12">Nama</p>
+            <p className="font-semibold text-xl w-5/12 ">Nominal</p>
+            <p className="font-semibold text-xl text-right w-1/4 lg:mr-12">
+              Aksi
+            </p>
+          </div>
 
           {/* Isi */}
           {data === undefined || data.pengeluaran === undefined ? (
@@ -791,27 +1003,17 @@ export const Keuangan = () => {
         </div>
 
         {/* Button input Sadaqah */}
-        <div className="flex flex-row mt-8">
+        <div className="flex-row mt-8 relative">
           <Button
             text="Input Sadaqah"
             onClick={() => setLoadFormSadaqah(true)}
             additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium mr-2 shadow-lg"
           />
-        </div>
-
-        {/* Data Sadaqah */}
-        <div className="rounded-md bg-white mt-8 shadow-lg">
-          {/* Header */}
-          <div className="rounded-md p-2.5 bg-yellow-400 flex flex-row">
-            <p className="font-semibold text-xl lg:w-80 w-1/3">Tanggal</p>
-            <p className="font-semibold text-xl w-5/12 ">Nominal</p>
-            <p className="font-semibold text-xl text-right w-1/5">Aksi</p>
-          </div>
 
           {/* Form Imput */}
           {loadFormSadaqah && (
             <form onSubmit={handleSubmit(onSubmitSadaqah)}>
-              <div className="p-3 lg:flex">
+              <div className="p-3 absolute bg-white z-10 rounded-md shadow-2xl mt-4 w-full">
                 <div className="flex-grow text-left">
                   <InputDate
                     useHookRegister={register("tanggal", {
@@ -841,13 +1043,23 @@ export const Keuangan = () => {
                   />
                   <Button
                     text="Batal"
-                    onClick={handleBatal}
+                    onClick={() => handleBatal("sadaqah")}
                     additionalClassName="bg-red-500 hover:bg-red-700 rounded-lg lg:ml-4"
                   />
                 </div>
               </div>
             </form>
           )}
+        </div>
+
+        {/* Data Sadaqah */}
+        <div className="rounded-md bg-white mt-4 shadow-lg">
+          {/* Header */}
+          <div className="rounded-md p-2.5 bg-yellow-400 flex flex-row">
+            <p className="font-semibold text-xl lg:w-80 w-1/3">Tanggal</p>
+            <p className="font-semibold text-xl w-5/12 ">Nominal</p>
+            <p className="font-semibold text-xl text-right w-1/5">Aksi</p>
+          </div>
 
           {/* Isi */}
           {data === undefined || data.sadaqah === undefined ? (

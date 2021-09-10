@@ -56,7 +56,7 @@ export const ListMaster = () => {
         type="pageTitle"
       />
       {/* Row 1 */}
-      <div className="flex">
+      <div className="md:flex">
         {/* Jenjang Kelas */}
         <CardItem
           title="Jenjang Kelas"
@@ -122,7 +122,7 @@ export const ListMaster = () => {
       </div>
 
       {/* Row 2 */}
-      <div className="flex">
+      <div className="md:flex">
         {/* paket */}
         <CardItem
           title="Paket"

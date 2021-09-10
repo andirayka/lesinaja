@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/analytics";
 import "firebase/database";
+import "firebase/messaging";
 import "firebase/auth";
 import "firebase/storage";
 
@@ -116,7 +117,7 @@ export const handleLoginEmail = async (email: string, password: string) => {
     const getData = await getFirebaseDataOnce(`user/${user.uid}/roles`);
     // console.log(getData);
     return { success: true, role: getData };
-  } catch (error) {
+  } catch (error: any) {
     var errorCode = error.code;
     var errorMessage = error.message;
     console.log(errorCode, errorMessage);
@@ -133,7 +134,7 @@ export const handleLoginGoogleFirebase = async () => {
     const getData = await getFirebaseDataOnce(`user/${user.uid}/roles`);
     // console.log(user);
     return { success: true, role: getData, dataUser: user };
-  } catch (error) {
+  } catch (error: any) {
     var errorCode = error.code;
     var errorMessage = error.message;
     console.log(errorCode, errorMessage);
@@ -143,6 +144,31 @@ export const handleLoginGoogleFirebase = async () => {
 
 export const handleLogout = async () => {
   return firebase.auth().signOut();
+};
+
+export const handleMessagingFirebase = () => {
+  const messaging = firebase.messaging();
+  messaging
+    .getToken({
+      vapidKey:
+        "BPyB7KpUFXrVPyHVBw4MQchqHmeaAbVmIsNMwxnsg0U_kHKjiMkxwP0aJx8kzNuXDxVjgSsLHDnQ3loBtClLbNU",
+    })
+    .then((currentToken: any) => {
+      if (currentToken) {
+        console.log(currentToken);
+      } else {
+        console.log(
+          "No registration token available. Request permission to generate one."
+        );
+      }
+    })
+    .catch((err) => {
+      console.log("An error occurred while retrieving token. ", err);
+    });
+
+  messaging.onMessage((payload) => {
+    console.log("Message received. ", payload);
+  });
 };
 
 export { firebase };

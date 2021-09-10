@@ -14,7 +14,7 @@ export const Home = () => {
   const [loading, setLoading] = useState(true);
 
   const [persentase, setPersentase] = useState({
-    facebook: 0,
+    google: 0,
     instagram: 0,
     tiktok: 0,
     youtube: 0,
@@ -30,19 +30,19 @@ export const Home = () => {
     setDataSosmed(getDataSosmed);
 
     let total =
-      getDataSosmed.facebook +
+      getDataSosmed.google +
       getDataSosmed.instagram +
       getDataSosmed.tiktok +
       getDataSosmed.youtube +
       getDataSosmed.teman;
-    let persenFacebook = (getDataSosmed.facebook / total) * 100;
+    let persenGoogle = (getDataSosmed.google / total) * 100;
     let persenInstagram = (getDataSosmed.instagram / total) * 100;
     let persenTiktok = (getDataSosmed.tiktok / total) * 100;
     let persenYoutube = (getDataSosmed.youtube / total) * 100;
     let persenTeman = (getDataSosmed.teman / total) * 100;
 
     setPersentase({
-      facebook: Math.round(persenFacebook),
+      google: Math.round(persenGoogle),
       instagram: Math.round(persenInstagram),
       tiktok: Math.round(persenTiktok),
       youtube: Math.round(persenYoutube),
@@ -135,9 +135,9 @@ export const Home = () => {
             contentValues={[
               [
                 IconFb,
-                `Facebook`,
-                `${persentase.facebook ? persentase.facebook : 0}%`,
-                `${dataSosmed.facebook} wali murid tahu Lesin Aja dari Facebook`,
+                `Google`,
+                `${persentase.google ? persentase.google : 0}%`,
+                `${dataSosmed.google} wali murid tahu Lesin Aja dari Google`,
               ],
               [
                 IconTiktok,
