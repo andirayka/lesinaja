@@ -167,7 +167,7 @@ export const handleMessagingFirebase = () => {
     });
 
   messaging.onMessage((payload) => {
-    console.log("Message received. ", payload);
+    console.log("Pesan tersampaikan Om ", payload);
   });
 };
 
