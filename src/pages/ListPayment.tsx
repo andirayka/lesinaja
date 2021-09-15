@@ -53,7 +53,7 @@ export const ListPayment: FC = () => {
             );
 
             const idTutor = await getFirebaseDataOnce(
-              `les_siswa/${value.idlessiswa}/id_tutor`
+              `les_siswatutor/${value.id_lessiswatutor}/id_tutor`
             );
 
             const idSiswa = await getFirebaseDataOnce(
