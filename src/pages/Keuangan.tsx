@@ -332,7 +332,9 @@ export const Keuangan = () => {
     const getDataPembayaran = await getFirebaseDataOnce(`pembayaran`);
     let totalBiayaLes = 0;
     let totalBiayaDaftar = 0;
-    const semuaNominal: any = Object.values(getDataPembayaran);
+    const semuaNominal: any = Object.values(
+      getDataPembayaran ? getDataPembayaran : 0
+    );
     for (let i = 0; i < semuaNominal.length; i++) {
       const element: any = semuaNominal[i];
       const waktu = dayjs(element.waktu_transfer).format("MMMM YYYY");
