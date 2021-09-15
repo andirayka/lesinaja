@@ -137,7 +137,7 @@ export const ListPayment: FC = () => {
         id_lessiswa: data.id_lessiswa,
         id_tutor: idTutor,
         idlessiswa_idtutor: `${data.id_lessiswa}_${idTutor}`,
-        jumlah_presensi: jumlahPertemuan,
+        jumlah_presensi: parseInt(jumlahPertemuan),
         waktu_mulai: waktuMulai,
       },
     });
@@ -181,7 +181,7 @@ export const ListPayment: FC = () => {
         id_lessiswa: data.id_lessiswa,
         id_tutor: idTutor,
         idlessiswa_idtutor: `${data.id_lessiswa}_${idTutor}`,
-        jumlah_presensi: jumlahPertemuan,
+        jumlah_presensi: parseInt(jumlahPertemuan),
         waktu_mulai: waktuMulai,
       },
     });
