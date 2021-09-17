@@ -5,7 +5,6 @@ import {
   CardItem,
   CardKeyValue,
   Button,
-  PaginationButtons,
   LoadIcon,
 } from "@components";
 import {
@@ -15,7 +14,6 @@ import {
   updateFirebaseData,
 } from "@utils";
 import dayjs from "dayjs";
-import { timeStamp } from "console";
 import { parse } from "path/posix";
 import Swal from "sweetalert2";
 import { text } from "@fortawesome/fontawesome-svg-core";
@@ -39,6 +37,7 @@ export const ListPayment: FC = () => {
       }
 
       const dataPembayaran = await getFirebaseDataOnce("pembayaran");
+      // console.log(dataPembayaran);
 
       if (dataPembayaran) {
         // Membalik urutan data
@@ -97,6 +96,7 @@ export const ListPayment: FC = () => {
 
       setIsLoading(false);
       setIsLoadingButton(false);
+      // infinityLop();
     } catch (error) {
       console.error(error);
     }
@@ -278,7 +278,7 @@ export const ListPayment: FC = () => {
         console.log(key, timestamp);
         getData();
       }
-      getData();
+      setIsLoadingButton(false);
     });
   };
 
@@ -457,23 +457,12 @@ export const ListPayment: FC = () => {
             </CardItem>
           );
         })}
-
-        {allDataCount > dataCountPerPage && (
-          <PaginationButtons
-            onClick={(index) => {
-              // Ganti page sesuai index page yang dipilih
-              setCurrentPage(index + 1);
-            }}
-            dataCountPerPage={dataCountPerPage}
-            dataCount={allDataCount}
-          />
-        )}
       </>
     );
   };
 
   return (
-    <div>
+    <div className="mb-8">
       <Title
         title="Riwayat Pembayaran"
         subtitle="Daftar / Riwayat Pembayaran"

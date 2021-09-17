@@ -1,7 +1,12 @@
 import React, { FC, useEffect, useState } from "react";
 import { Sidebar, NavbarDesktop } from "@components";
 import { IconProfile } from "@assets";
-import { firebase, getFirebaseDataOnce, handleShowFile } from "@utils";
+import {
+  firebase,
+  getFirebaseDataOnce,
+  handleShowFile,
+  databaseRef,
+} from "@utils";
 
 // Pembungkus semua content di dalam halaman yang bisa login
 type Props = {
@@ -10,7 +15,7 @@ type Props = {
 };
 export const MainLayout: FC<Props> = ({ children, getRoleUser }) => {
   const [dataUser, setDataUser] = useState<any>({});
-
+  const [dataNotif, setDataNotif] = useState<any>();
   const [profileSrc, setProfileSrc] = useState("");
 
   const handleNavbarPage = async (uid: string) => {

@@ -67,6 +67,8 @@ export const Keuangan = () => {
 
   const [isPemasukan, setIsPemasukan] = useState<any>();
 
+  const [isPembayaranTutor, setIsPembayaranTutor] = useState<any>();
+
   const [exportData, setExportData] = useState<any>([]);
 
   const [dataFilter, setDataFilter] = useState<any>();
@@ -332,6 +334,7 @@ export const Keuangan = () => {
     const getDataPembayaran = await getFirebaseDataOnce(`pembayaran`);
     let totalBiayaLes = 0;
     let totalBiayaDaftar = 0;
+    let totalGajiTutor = 0;
     const semuaNominal: any = Object.values(
       getDataPembayaran ? getDataPembayaran : 0
     );
@@ -345,14 +348,31 @@ export const Keuangan = () => {
         if (element.biaya_les) {
           totalBiayaLes += element.biaya_les;
         }
+        if (element.gaji_tutor) {
+          totalGajiTutor += element.gaji_tutor;
+        }
       }
     }
     let pemasukan = totalBiayaLes + totalBiayaDaftar;
+    console.log(totalGajiTutor);
+
+    setIsPembayaranTutor(totalGajiTutor);
+    addFirebaseData({
+      ref: `keuangan/${namaBulan}/pembayaran_tutor`,
+      payload: totalGajiTutor,
+      isNoKey: true,
+    });
 
     setIsPemasukan(totalBiayaLes + totalBiayaDaftar);
     addFirebaseData({
       ref: `keuangan/${namaBulan}/pemasukan`,
       payload: totalBiayaLes + totalBiayaDaftar,
+      isNoKey: true,
+    });
+
+    addFirebaseData({
+      ref: `keuangan/${namaBulan}/laba_kotor`,
+      payload: totalBiayaDaftar + totalBiayaLes - totalGajiTutor,
       isNoKey: true,
     });
 
@@ -362,15 +382,10 @@ export const Keuangan = () => {
 
     const penjualan = await handlePenjualan(dataBulanTerpilih);
 
-    let pembayaran_tutor =
-      dataBulanTerpilih && dataBulanTerpilih.pembayaran_tutor
-        ? dataBulanTerpilih.pembayaran_tutor
-        : 0;
-
     const getLabaBersih = await totalLabaBersih(
       pemasukan,
       penjualan,
-      pembayaran_tutor,
+      totalGajiTutor,
       pengeluaranAndSadaqah
     );
     addFirebaseData({
@@ -710,7 +725,7 @@ export const Keuangan = () => {
             keyName="Pembayaran Tutor"
             value={`Rp ${
               data && data.pembayaran_tutor
-                ? formatRupiah(data.pembayaran_tutor)
+                ? formatRupiah(isPembayaranTutor)
                 : 0
             }`}
           />
