@@ -43,13 +43,15 @@ export const NavbarDesktop: FC<Props> = ({ imgSrc, name, roleUser }) => {
       .once("value", (snapshot) => snapshot);
 
     setDataNotif(dataQuery.val());
-    // infinityLop();
+    infinityLop();
   };
 
   //Ambil data berkali kali
   const infinityLop = () => {
-    console.log("Looping terus Om");
-    getDataNotifikasi();
+    setTimeout(function () {
+      console.log("Looping terus Om 20 detik");
+      getDataNotifikasi();
+    }, 20000);
   };
 
   useEffect(() => {
@@ -68,6 +70,7 @@ export const NavbarDesktop: FC<Props> = ({ imgSrc, name, roleUser }) => {
             <button
               className="py-1 ml-24 relative"
               onClick={() => {
+                getDataNotifikasi();
                 setOnNotif(true);
               }}
             >
