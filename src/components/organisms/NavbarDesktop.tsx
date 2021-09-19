@@ -49,7 +49,7 @@ export const NavbarDesktop: FC<Props> = ({ imgSrc, name, roleUser }) => {
   //Ambil data berkali kali
   const infinityLop = () => {
     setTimeout(function () {
-      console.log("Looping terus Om menunggu 20 detik");
+      console.log("Looping terus Om menunggu 20 detik dulu ya");
       getDataNotifikasi();
     }, 20000);
   };
