@@ -51,7 +51,7 @@ export const NavbarDesktop: FC<Props> = ({ imgSrc, name, roleUser }) => {
     setTimeout(function () {
       console.log("Looping terus Om menunggu 20 detik dulu ya");
       getDataNotifikasi();
-    }, 20000);
+    }, 30000);
   };
 
   useEffect(() => {

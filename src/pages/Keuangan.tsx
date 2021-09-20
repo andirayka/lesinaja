@@ -45,6 +45,8 @@ export const Keuangan = () => {
 
   const [data, setData] = useState<any>({});
 
+  const [fullData, setFullData] = useState<any>({});
+
   const [loading, setLoading] = useState(true);
 
   const [loadFormPenjualan, setLoadFormPenjualan] = useState(false);
@@ -325,6 +327,23 @@ export const Keuangan = () => {
 
   const getDataFirebase = async (id: any, time: any) => {
     const getData = await getFirebaseDataOnce(`keuangan`);
+
+    const reversedData: any = Object.entries(getData);
+    const finalData = await Promise.all(
+      reversedData.map(async (data: any, index: number) => {
+        const [key, value] = data;
+        const finalValue = {
+          Bulan: key,
+          laba_bersih: value.laba_bersih ? value.laba_bersih : 0,
+          laba_kotor: value.laba_kotor ? value.laba_kotor : 0,
+          pemasukan: value.pemasukan ? value.pemasukan : 0,
+          pembayaran_tutor: value.pembayaran_tutor ? value.pembayaran_tutor : 0,
+        };
+        return finalValue;
+      })
+    );
+    setFullData(finalData);
+
     const namaBulan = id;
     const dataBulanTerpilih = getData[namaBulan];
     setData(dataBulanTerpilih);
@@ -658,6 +677,17 @@ export const Keuangan = () => {
           </div>
         )}
 
+        <Button
+          text={`Export Excel Rangkuman`}
+          onClick={() => {
+            if (fullData) {
+              console.log(fullData);
+              handleExportExcel(fullData, "Rangkuman Laporan Beberapa Bulan");
+            }
+          }}
+          additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium mr-2 mb-4 shadow-lg"
+        />
+
         <div className="lg:flex">
           <div className="font-bold text-4xl mt-auto mb-auto flex-grow">
             {`Keuangan Bulan ${
@@ -760,11 +790,31 @@ export const Keuangan = () => {
 
         {/* Button input penjualan */}
         <div className="flex-row mt-8 relative">
-          <Button
-            text="Input Penjualan"
-            onClick={() => setLoadFormPenjualan(true)}
-            additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium mr-2 shadow-lg"
-          />
+          <div className="flex">
+            <Button
+              text="Input Penjualan"
+              onClick={() => setLoadFormPenjualan(true)}
+              additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium mr-2 shadow-lg"
+            />
+            <Button
+              text="Export Excel"
+              onClick={() => {
+                if (data.penjualan) {
+                  // setExportData([{ ...data.pengeluaran["nominal"] }]);
+                  const dataExport = Object.values(data.penjualan);
+                  handleExportExcel(
+                    dataExport,
+                    `Penjualan Bulan ${
+                      filterBulan
+                        ? filterBulan
+                        : dayjs(Date.now()).format("MMMM YYYY")
+                    }`
+                  );
+                }
+              }}
+              additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium shadow-lg"
+            />
+          </div>
 
           {/* Form Imput */}
           {loadFormPenjualan && (
@@ -900,10 +950,17 @@ export const Keuangan = () => {
             <Button
               text="Export Excel"
               onClick={() => {
-                console.log(exportData);
-                if (data) {
-                  setExportData([{ ...data.pengeluaran["nominal"] }]);
-                  // exportToExcel(exportData, "test");
+                if (data.pengeluaran) {
+                  // setExportData([{ ...data.pengeluaran["nominal"] }]);
+                  const dataExport = Object.values(data.pengeluaran);
+                  handleExportExcel(
+                    dataExport,
+                    `Pengeluaran Bulan ${
+                      filterBulan
+                        ? filterBulan
+                        : dayjs(Date.now()).format("MMMM YYYY")
+                    }`
+                  );
                 }
               }}
               additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium shadow-lg"
@@ -1020,11 +1077,31 @@ export const Keuangan = () => {
 
         {/* Button input Sadaqah */}
         <div className="flex-row mt-8 relative">
-          <Button
-            text="Input Sadaqah"
-            onClick={() => setLoadFormSadaqah(true)}
-            additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium mr-2 shadow-lg"
-          />
+          <div className="flex">
+            <Button
+              text="Input Sadaqah"
+              onClick={() => setLoadFormSadaqah(true)}
+              additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium mr-2 shadow-lg"
+            />
+            <Button
+              text="Export Excel"
+              onClick={() => {
+                if (data.sadaqah) {
+                  // setExportData([{ ...data.pengeluaran["nominal"] }]);
+                  const dataExport = Object.values(data.sadaqah);
+                  handleExportExcel(
+                    dataExport,
+                    `Sadaqah Bulan ${
+                      filterBulan
+                        ? filterBulan
+                        : dayjs(Date.now()).format("MMMM YYYY")
+                    }`
+                  );
+                }
+              }}
+              additionalClassName="bg-yellow-400 hover:bg-white rounded-lg font-medium shadow-lg"
+            />
+          </div>
 
           {/* Form Imput */}
           {loadFormSadaqah && (
