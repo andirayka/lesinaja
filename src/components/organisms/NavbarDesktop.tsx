@@ -43,7 +43,7 @@ export const NavbarDesktop: FC<Props> = ({ imgSrc, name, roleUser }) => {
       .once("value", (snapshot) => snapshot);
 
     setDataNotif(dataQuery.val());
-    infinityLop();
+    // infinityLop();
   };
 
   //Ambil data berkali kali

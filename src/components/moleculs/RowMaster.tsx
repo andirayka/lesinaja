@@ -5,6 +5,8 @@ import { MasterContext } from "@context";
 import { Swal, InputSelect, InputText, InputSelectSec } from "@components";
 import { getFirebaseDataOnce } from "@utils";
 import { useForm } from "react-hook-form";
+import { parse } from "path/posix";
+import { DropdownArrow } from "@assets";
 
 type Props = {
   item?: any;
@@ -40,6 +42,28 @@ export const RowMaster: FC<Props> = ({
     formState: { errors },
   } = useForm();
 
+  const [provinsi, setProvinsi] = useState<any>({});
+
+  const [idProvinsi, setIdProvinsi] = useState<any>([]);
+
+  const [onWilayah, setOnWilayah] = useState<Boolean>(false);
+
+  const getdataProvinsi = async () => {
+    const getData = await getFirebaseDataOnce("wilayah_provinsi");
+
+    setProvinsi(getData);
+  };
+
+  const handleOnChange = (e: any) => {
+    if (e.target.checked) {
+      setIdProvinsi((prev: any) => [...prev, parseInt(e.target.value)]);
+    } else {
+      setIdProvinsi((prev: any[]) =>
+        prev.filter((item) => item != e.target.value)
+      );
+    }
+  };
+
   // data rowmaster
   const rowRender = () => {
     if (formName == "master_paket") {
@@ -58,7 +82,11 @@ export const RowMaster: FC<Props> = ({
     }
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (formName == "master_wilayah") {
+      getdataProvinsi();
+    }
+  }, []);
 
   // tampilan form saat update data
   if (isEditing) {
@@ -125,6 +153,72 @@ export const RowMaster: FC<Props> = ({
                 placeholder="biaya daftar"
                 className="border-b-2 outline-none border-gray-300 w-4/5 focus:border-gray-600 mb-2"
               />
+              <div className="relative">
+                <button
+                  className="border-b-2 w-4/5 text-left flex"
+                  onClick={() => setOnWilayah(true)}
+                >
+                  <a>Pilih Wilayah</a>
+
+                  <a className="mt-auto mb-auto ml-auto">
+                    <DropdownArrow />
+                  </a>
+                </button>
+                {inputValue.id_provinsi && (
+                  <div className="border-b-2 w-4/5 text-left">
+                    {inputValue.id_provinsi.map(
+                      (keyValue: any, index: number) => {
+                        return <p key={index}>- {provinsi[keyValue].nama}</p>;
+                      }
+                    )}
+                  </div>
+                )}
+                {onWilayah && (
+                  <div className="absolute w-4/5">
+                    <div className="bg-gray-300 overflow-y-auto max-h-40 w-full">
+                      {Object.entries(provinsi).map((data: any, index: any) => {
+                        const [key, value] = data;
+                        return (
+                          <div className="w-full" key={index}>
+                            <input
+                              type="checkbox"
+                              value={key}
+                              onChange={(event) => {
+                                handleOnChange(event);
+                              }}
+                              className="ml-4"
+                            />
+                            <a className="ml-2">{value.nama}</a>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div className="w-full flex bg-gray-300 p-2">
+                      <button
+                        className="px-4 py-1 bg-yellow-400 hover:bg-yellow-600 rounded-lg ml-auto mt-2"
+                        onClick={() => {
+                          setInputValue({
+                            ...inputValue,
+                            id_provinsi: idProvinsi,
+                          });
+                          setIdProvinsi([]);
+                          setOnWilayah(false);
+                        }}
+                      >
+                        Simpan
+                      </button>
+                      <button
+                        className="px-4 py-1 bg-yellow-400 hover:bg-yellow-600 rounded-lg ml-2 mt-2"
+                        onClick={() => {
+                          setOnWilayah(false);
+                        }}
+                      >
+                        Batal
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </>
           )}
           {/* untuk form master jenjangkelas dan mapel */}

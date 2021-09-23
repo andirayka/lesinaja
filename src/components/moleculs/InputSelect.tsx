@@ -33,7 +33,7 @@ export const InputSelect: FC<Props> = ({
 
   return (
     <>
-      <div className={containerClassName}>
+      <div className={`relative ${containerClassName}`}>
         {heading && <p>{heading}</p>}
         {/* aksi ketika klik dropdown */}
         <div
@@ -50,47 +50,49 @@ export const InputSelect: FC<Props> = ({
             </div>
           )}
         </div>
-        <div className="max-h-40 full bg-gray-300 overflow-y-auto px-2 rounded-md">
-          {/* text input untuk filter */}
-          {open && (
-            <input
-              type="text"
-              className="w-full bg-gray-300 outline-none p-1"
-              placeholder="cari data"
-              autoFocus
-              onChange={(e) => {
-                setQuery(e.target.value);
-              }}
-              {...useHookRegister}
-            />
-          )}
+        <div className="absolute w-full z-30 pr-4">
+          <div className="shadow-xl max-h-40 bg-gray-300 overflow-y-auto px-2 rounded-md">
+            {/* text input untuk filter */}
+            {open && (
+              <input
+                type="text"
+                className="w-full bg-gray-300 outline-none p-1"
+                placeholder="cari data"
+                autoFocus
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                }}
+                {...useHookRegister}
+              />
+            )}
 
-          {/* data dropdown yang akan difilter */}
-          {open &&
-            data &&
-            Object.entries<any>(data)
-              .filter(([key, value]) => {
-                // i artinya tidak case sensitive
-                const matchKeyword = RegExp(query, "i");
+            {/* data dropdown yang akan difilter */}
+            {open &&
+              data &&
+              Object.entries<any>(data)
+                .filter(([key, value]) => {
+                  // i artinya tidak case sensitive
+                  const matchKeyword = RegExp(query, "i");
 
-                // return data yang sesuai dengan pencarian
-                return matchKeyword.test(value.nama);
-              })
-              .map(([key, value], index) => {
-                return (
-                  <div
-                    className="hover:bg-white hover:rounded-md p-1"
-                    key={index}
-                    onClick={() => {
-                      onChange({ key, value });
-                      setOpen(false);
-                      setQuery("");
-                    }}
-                  >
-                    {value.nama}
-                  </div>
-                );
-              })}
+                  // return data yang sesuai dengan pencarian
+                  return matchKeyword.test(value.nama);
+                })
+                .map(([key, value], index) => {
+                  return (
+                    <div
+                      className="hover:bg-white hover:rounded-md p-1"
+                      key={index}
+                      onClick={() => {
+                        onChange({ key, value });
+                        setOpen(false);
+                        setQuery("");
+                      }}
+                    >
+                      {value.nama}
+                    </div>
+                  );
+                })}
+          </div>
         </div>
       </div>
     </>
