@@ -4,6 +4,7 @@ import {
   deleteFirebaseData,
   databaseRef,
   DBKEY,
+  getFirebaseDataOnce,
 } from "@utils";
 import React, { FC, createContext, useReducer } from "react";
 
@@ -163,9 +164,32 @@ export const MasterProvider: FC = ({ children }) => {
       if (data.id) {
         // Update
         await updateFirebaseData(`${state.formName}/${data.id}`, payload);
+
+        const idProvinsi = data.id_provinsi;
+        for (let i = 0; i < idProvinsi.length; i++) {
+          const element = idProvinsi[i];
+          await updateFirebaseData(`wilayah_provinsi/${element}`, {
+            id_wilayah: data.id,
+          });
+        }
       } else {
         // Add new
         await addFirebaseData({ ref: `${state.formName}`, payload: payload });
+
+        const getData = await databaseRef("master_wilayah")
+          .orderByChild("nama")
+          .equalTo(data.nama)
+          .once("value", (snapshot) => snapshot);
+
+        const idMasterWilayah = Object.keys(getData.val())[0];
+        const idProvinsi = data.id_provinsi;
+        for (let i = 0; i < idProvinsi.length; i++) {
+          const element = idProvinsi[i];
+          console.log(element);
+          await updateFirebaseData(`wilayah_provinsi/${element}`, {
+            id_wilayah: idMasterWilayah,
+          });
+        }
       }
     } else if (state.formName == "master_les") {
       const payload = {
