@@ -1,19 +1,7 @@
+// @ts-nocheck
 import FileSaver from "file-saver";
 import { createLogger } from "vite";
 import XLSX from "xlsx";
-
-const data = [
-  {
-    nama: "muhammad",
-    umur: "20 tahun",
-    kota: "Gresik",
-  },
-  {
-    nama: "fiqri",
-    umur: "21 tahun",
-    kota: "Sidoarjo",
-  },
-];
 
 const fileType =
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
